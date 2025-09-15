@@ -1,0 +1,399 @@
+{% comment %}
+  Tabs Carousel – Section (Dawn / OS 2.0)
+  - Horizontal tabs (one row) -> click/keyboard to switch
+  - Each tab: bg / hover bg, auto-contrast text (or custom), font size
+  - Each slide: bg color or image, overlay, title, rich_text, button
+  - Smooth height transitions + indicator under active tab
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px !important;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px !important;
+  }
+
+{%- endstyle -%}
+
+<section id="tc-{{ section.id }}" class="tc section-{{ section.id }}-padding">
+  {% if section.settings.heading != blank %}
+    <h2 class="tc__heading page-width">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="tc__tabs page-width" role="tablist" aria-label="{{ section.settings.heading | default: 'Carousel tabs' | escape }}">
+    {% for block in section.blocks %}
+      {% assign b = block.settings %}
+      <button
+        id="tc-tab-{{ block.id }}"
+        class="tc-tab__btn{% if forloop.first %} is-active{% endif %}"
+        role="tab"
+        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+        aria-controls="tc-panel-{{ block.id }}"
+        tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+        style="
+          --tab-bg: {{ b.tab_bg }};
+          --tab-bg-h: {{ b.tab_bg_hover }};
+          --tab-fs: {{ b.tab_font_size }}px;
+          {% if b.tab_text_color != blank %}--tab-text: {{ b.tab_text_color }};{% endif %}
+          {% if b.tab_text_hover_color != blank %}--tab-text-h: {{ b.tab_text_hover_color }};{% endif %}
+        "
+        data-bg="{{ b.tab_bg | default: '#f2f2f2' }}"
+        data-bg-hover="{{ b.tab_bg_hover | default: '#111111' }}"
+        data-auto="{{ b.auto_contrast }}"
+      >
+        {{ b.tab_label | escape }}
+      </button>
+    {% endfor %}
+    <span class="tc__indicator" aria-hidden="true"></span>
+  </div>
+
+  <div class="tc__panels page-width">
+    {% for block in section.blocks %}
+      {% assign b = block.settings %}
+      <div
+        id="tc-panel-{{ block.id }}"
+        class="tc-panel{% if forloop.first %} is-active{% endif %}"
+        role="tabpanel"
+        aria-labelledby="tc-tab-{{ block.id }}"
+        tabindex="0"
+      >
+        <div class="tc-slide"
+          style="
+            {% if b.content_bg_enable and b.content_bg != blank %}--content-bg: {{ b.content_bg }};{% endif %}
+              --content-radius: {{ b.content_bg_radius }}px;
+            --min-h-desktop: {{ b.min_height_desktop }}px;
+            --min-h-mobile: {{ b.min_height_mobile }}px;
+            --content-w: {{ b.content_max_width }}px;
+            --overlay: {{ b.overlay_color }};
+            --overlay-op: {{ b.overlay_opacity | times: 0.01 }};
+            --content-x: {{ b.content_align }};
+            --content-y: {{ b.content_valign }};
+            {% if b.bg_type == 'image' and b.bg_image != blank %}
+              background: url({{ b.bg_image | image_url: width: 2000 }});
+              background-position: {{ b.bg_position }};
+            {% else %}
+              background-color: {{ b.bg_color }};
+            {% endif %}
+          "
+        >
+          <div class="tc-slide__bg" aria-hidden="true"></div>
+          <div class="tc-slide__overlay" aria-hidden="true"></div>
+
+          <div class="tc-slide__content tc-slide__content--{{ b.content_align }} tc-slide__content--{{ b.content_valign }}">
+            {% if b.title != blank %}
+              <h3 class="tc-title">{{ b.title }}</h3>
+            {% endif %}
+            {% if b.rich_text != blank %}
+              <div class="tc-richtext">{{ b.rich_text }}</div>
+            {% endif %}
+            {% if b.button_label != blank and b.button_link != blank %}
+              <a
+                class="tc-btn"
+                href="{{ b.button_link }}"
+                style="--btn-bg: {{ b.button_bg }}; --btn-text: {{ b.button_text }}; --btn-bg-h: {{ b.button_bg_hover }}; --btn-text-h: {{ b.button_text_hover }};"
+              >
+                {{ b.button_label }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <style>
+    .tc{ --tc-gap: 16px; }
+    .tc__heading{ margin-bottom: 10px; }
+
+    /* TABS */
+    .tc__tabs{
+      position: relative;
+      display: flex; gap: 20px; align-items: center;
+      overflow-x: auto; padding-bottom: 6px;
+      scrollbar-width: thin;
+    }
+    .tc-tab__btn{
+      --tab-bg: transparent; --tab-bg-h: #111; --tab-text: inherit; --tab-text-h: #fff;
+      display: inline-block; white-space: nowrap;
+      padding: .55rem 1rem; border-radius: 999px;
+      background: var(--tab-bg);
+      color: var(--tab-text);
+      font-size: var(--tab-fs, 16px);
+      line-height: 1.2; border: 1px solid rgba(0,0,0,.08);
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+      padding: 12px 20px;
+      cursor: pointer;
+    }
+    .tc-tab__btn:hover{ background: var(--tab-bg-h); color: var(--tab-text-h); }
+    .tc-tab__btn.is-active{ background: var(--tab-bg-h); color: var(--tab-text-h); }
+
+    .tc__indicator{
+      position: absolute; height: 2px; bottom: 0;
+      background: currentColor; border-radius: 2px;
+      left: 0; width: 0; transform: translateX(0);
+      transition: transform .22s ease, width .22s ease;
+    }
+
+    /* PANELS (altura suave) */
+    .tc__panels{ position: relative; transition: height .26s ease; margin-top: 20px;}
+    .tc-panel{ position: absolute; inset: 0; opacity: 0; visibility: hidden;
+      transform: translateY(6px); pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+    }
+    .tc-panel.is-active{ opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+
+    /* SLIDE */
+    .tc-slide{
+      position: relative; border-radius: 16px; overflow: hidden;
+      min-height: var(--min-h-desktop);
+      display: grid; place-items: stretch;
+    }
+    .tc-slide__bg{
+      position:absolute; inset:0;
+      background-color: var(background-color, transparent);
+      background-image: var(--slide-bg, none);
+      background-size: cover; background-position: var(background-position, center center);
+    }
+    .tc-slide__overlay{ position:absolute; inset:0; background: var(--overlay);
+      opacity: var(--overlay-op); pointer-events: none;
+    }
+   .tc-slide__content{
+    position: relative; z-index: 1; display: grid;
+    grid-template-columns: 1fr; grid-template-rows: 1fr;
+    padding: clamp(16px, 3vw, 32px);
+    max-width: var(--content-w); gap: 12px;
+    background: var(--content-bg, transparent);
+    border-radius: var(--content-radius, 12px);
+    }
+    .tc-slide__content--left{ justify-self: start; }
+    .tc-slide__content--center{ justify-self: center; text-align: center; }
+    .tc-slide__content--right{ justify-self: end; text-align: right; }
+    .tc-slide__content--top{ align-self: start; }
+    .tc-slide__content--center{ align-self: center; }
+    .tc-slide__content--bottom{ align-self: end; }
+
+    .tc-title{ margin: 0; font-size: clamp(20px, 3vw, 32px); line-height: 1.2; }
+    .tc-richtext :where(p){ margin: 8px 0 0 0; opacity: .9; }
+    .tc-btn{
+      display: inline-block; margin-top: 10px; text-decoration: none;
+      padding: .6rem 1rem; border-radius: 999px; font-weight: 600;
+      background: var(--btn-bg,#fff); color: var(--btn-text,#111);
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+    .tc-btn:hover{ background: var(--btn-bg-h,#111); color: var(--btn-text-h,#fff); transform: translateY(-1px); }
+
+    /* Responsive */
+    @media (max-width: 989px){
+      .tc-slide{ min-height: var(--min-h-mobile); border-radius: 12px; }
+      .tc__tabs{ gap: 12px; }
+      .tc-tab__btn{ padding: .5rem .85rem; }
+    }
+
+    @media (max-width: 989px){
+        .tc-slide__content{
+            max-width: 50%;
+            padding: 20px;
+            gap: 12px;        
+        }
+    }
+
+    @media (max-width: 480px){
+        .tc-richtext{
+            display: none;
+        }
+    }
+
+    .mega-menu__content{ transition: height .26s ease; max-height: calc(100vh - var(--header-height)); overflow-y: auto; }
+  </style>
+
+  <script>
+    (function(){
+      var root = document.getElementById('tc-{{ section.id }}');
+      if(!root) return;
+
+      var tabs   = root.querySelectorAll('.tc-tab__btn');
+      var panels = root.querySelectorAll('.tc-panel');
+      var wrap   = root.querySelector('.tc__panels');
+      var indicator = root.querySelector('.tc__indicator');
+
+      function hexToRGB(h){
+        if(!h) return [255,255,255];
+        h = h.replace('#','');
+        if(h.length === 3){ h = h.split('').map(function(c){ return c + c; }).join(''); }
+        var n = parseInt(h,16);
+        return [(n>>16)&255, (n>>8)&255, n&255];
+      }
+      function luminance(r,g,b){
+        var a = [r,g,b].map(function(v){ v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); });
+        return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2];
+      }
+      function contrastColor(hex){
+        try{
+          var rgb = hexToRGB(hex);
+          return luminance(rgb[0],rgb[1],rgb[2]) > 0.5 ? '#111111' : '#ffffff';
+        }catch(e){ return '#111111'; }
+      }
+      function applyAutoContrast(btn){
+        var auto = btn.getAttribute('data-auto') === 'true';
+        if(!auto) return;
+        var bg = (btn.getAttribute('data-bg') || '#f2f2f2').trim();
+        var bgh= (btn.getAttribute('data-bg-hover') || '#111111').trim();
+        btn.style.setProperty('--tab-text', contrastColor(bg));
+        btn.style.setProperty('--tab-text-h', contrastColor(bgh));
+      }
+      tabs.forEach(applyAutoContrast);
+
+      function setIndicator(btn){
+        if(!indicator || !btn) return;
+        var rect = btn.getBoundingClientRect();
+        var parentRect = btn.parentElement.getBoundingClientRect();
+        indicator.style.width = rect.width + 'px';
+        indicator.style.transform = 'translateX(' + (rect.left - parentRect.left + btn.parentElement.scrollLeft) + 'px)';
+      }
+
+      function setHeights(panel){
+        if(!wrap) return;
+        // altura del panel activo
+        wrap.style.height = (panel ? panel.scrollHeight : wrap.scrollHeight) + 'px';
+        // recalcula tras imágenes
+        panel.querySelectorAll('img').forEach(function(img){
+          img.addEventListener('load', function(){ wrap.style.height = panel.scrollHeight + 'px'; }, { once: true });
+        });
+      }
+
+      function activate(btn){
+        var id = btn.getAttribute('aria-controls');
+        tabs.forEach(function(t){ t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); t.setAttribute('tabindex','-1'); });
+        panels.forEach(function(p){ p.classList.remove('is-active'); });
+
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected','true');
+        btn.setAttribute('tabindex','0');
+
+        var panel = root.querySelector('#'+id);
+        if(panel){
+          panel.classList.add('is-active');
+          setHeights(panel);
+          setTimeout(function(){ setHeights(panel); }, 80);
+        }
+        setIndicator(btn);
+      }
+
+      // Click + teclado
+      tabs.forEach(function(btn, i){
+        btn.addEventListener('click', function(e){ e.preventDefault(); activate(btn); });
+        btn.addEventListener('keydown', function(e){
+          if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+            e.preventDefault();
+            var next = (e.key === 'ArrowRight') ? i+1 : i-1;
+            if(next < 0) next = tabs.length-1;
+            if(next >= tabs.length) next = 0;
+            tabs[next].focus(); activate(tabs[next]);
+          }
+        });
+      });
+
+      // Inicial
+      var initial = root.querySelector('.tc-tab__btn.is-active') || tabs[0];
+      if(initial){ setIndicator(initial); var p = root.querySelector('#'+initial.getAttribute('aria-controls')); setHeights(p); }
+
+      // Recalcular en resize/scroll de tabs
+      window.addEventListener('resize', function(){ var active = root.querySelector('.tc-tab__btn.is-active'); setIndicator(active); var actPanel = root.querySelector('.tc-panel.is-active'); setHeights(actPanel); });
+      root.querySelector('.tc__tabs').addEventListener('scroll', function(){ var active = root.querySelector('.tc-tab__btn.is-active'); setIndicator(active); }, { passive:true });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Tabs carousel",
+  "tag": "section",
+  "class": "section-tabs-carousel",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }    
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab / Diapositiva",
+      "settings": [
+        { "type": "text", "id": "tab_label", "label": "Texto del tab", "default": "Christmass" },
+        { "type": "checkbox", "id": "auto_contrast", "label": "Auto-contraste del texto en el tab", "default": true },
+        { "type": "color", "id": "tab_bg", "label": "Fondo del tab", "default": "#f2f2f2" },
+        { "type": "color", "id": "tab_bg_hover", "label": "Fondo del tab (hover/activo)", "default": "#111111" },
+        { "type": "color", "id": "tab_text_color", "label": "Color de texto del tab (opcional, deja vacío para auto)" },
+        { "type": "color", "id": "tab_text_hover_color", "label": "Color de texto (hover/activo) (opcional, deja vacío para auto)" },
+        { "type": "range", "id": "tab_font_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Tamaño de letra del tab", "default": 16 },
+
+        { "type": "select", "id": "bg_type", "label": "Fondo de la diapositiva", "options": [
+          { "value": "image", "label": "Imagen" },
+          { "value": "color", "label": "Color" }
+        ], "default": "image" },
+        { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo" },
+        { "type": "select", "id": "bg_position", "label": "Posición de la imagen", "options": [
+          { "value": "center center", "label": "Centro" },
+          { "value": "top center", "label": "Arriba" },
+          { "value": "bottom center", "label": "Abajo" }
+        ], "default": "center center" },
+        { "type": "color", "id": "bg_color", "label": "Color de fondo", "default": "#f7f7f7" },
+        { "type": "color", "id": "overlay_color", "label": "Overlay (color)", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "label": "Overlay (opacidad)", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 20 },
+
+        { "type": "range", "id": "min_height_desktop", "min": 300, "max": 800, "step": 10, "unit": "px", "label": "Alto mínimo (desktop)", "default": 480 },
+        { "type": "range", "id": "min_height_mobile", "min": 200, "max": 700, "step": 10, "unit": "px", "label": "Alto mínimo (mobile)", "default": 360 },
+
+        { "type": "select", "id": "content_align", "label": "Alineación horizontal del contenido", "options": [
+          { "value": "left", "label": "Izquierda" },
+          { "value": "center", "label": "Centro" },
+          { "value": "right", "label": "Derecha" }
+        ], "default": "left" },
+        { "type": "select", "id": "content_valign", "label": "Alineación vertical del contenido", "options": [
+          { "value": "top", "label": "Arriba" },
+          { "value": "center", "label": "Centro" },
+          { "value": "bottom", "label": "Abajo" }
+        ], "default": "center" },
+        { "type": "header", "content": "Fondo del contenido" },
+        { "type": "checkbox", "id": "content_bg_enable", "label": "Usar color de fondo en el contenido", "default": false },
+        { "type": "color", "id": "content_bg", "label": "Color de fondo del contenido", "default": "#ffffff" },
+        { "type": "range", "id": "content_bg_radius", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Borde redondeado del contenido", "default": 12 },
+
+        { "type": "range", "id": "content_max_width", "min": 300, "max": 900, "step": 10, "unit": "px", "label": "Ancho máximo del contenido", "default": 600 },
+
+        { "type": "text", "id": "title", "label": "Título", "default": "Christmass" },
+        { "type": "richtext", "id": "rich_text", "label": "Descripción (rich text)", "default": "<p>Texto descriptivo de la diapositiva.</p>" },
+        { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Read more" },
+        { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+        { "type": "color", "id": "button_bg", "label": "Botón: fondo", "default": "#ffffff" },
+        { "type": "color", "id": "button_text", "label": "Botón: texto", "default": "#111111" },
+        { "type": "color", "id": "button_bg_hover", "label": "Botón: fondo (hover)", "default": "#111111" },
+        { "type": "color", "id": "button_text_hover", "label": "Botón: texto (hover)", "default": "#ffffff" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    { 
+        "name": "Custom Tabs Carousel", 
+        "category": "Image" 
+    }
+  ]
+}
+{% endschema %}
