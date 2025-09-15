@@ -52,7 +52,7 @@
         "mega_config_XfyRDi": {
           "type": "mega_config",
           "settings": {
-            "trigger_label": "Shop",
+            "trigger_label": "Category",
             "side_menu": "season-menu",
             "side_menu_label": "Category",
             "collection_1": "brilliant",
@@ -63,7 +63,7 @@
         "mega_config_x9pKbN": {
           "type": "mega_config",
           "settings": {
-            "trigger_label": "Shop",
+            "trigger_label": "Brand",
             "side_menu": "season-menu",
             "side_menu_label": "Brand",
             "collection_1": "retro-brite",
@@ -74,7 +74,7 @@
         "mega_config_cYKUar": {
           "type": "mega_config",
           "settings": {
-            "trigger_label": "Shop",
+            "trigger_label": "Collection",
             "side_menu": "season-menu",
             "side_menu_label": "Collection",
             "collection_1": "king-pine-sparkle",
