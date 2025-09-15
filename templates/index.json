@@ -305,10 +305,144 @@
         "padding_top": 100,
         "padding_bottom": 100
       }
+    },
+    "custom_pinteres_grid_GgwNmP": {
+      "type": "custom-pinteres-grid",
+      "blocks": {
+        "card_AHknxc": {
+          "type": "card",
+          "settings": {
+            "kicker": "Lights",
+            "title": "White Sensation",
+            "text": "<p>Feel the christmas vibe</p>",
+            "image": "shopify://shop_images/lucyimg_2.jpg",
+            "bg_color": "#262626",
+            "overlay_color": "#000000",
+            "overlay_opacity": 50,
+            "title_color": "#FFE4A6",
+            "text_color": "#FFFFFF",
+            "content_align": "left",
+            "content_valign": "bottom",
+            "height_desktop": 360,
+            "height_mobile": 280,
+            "radius": 0,
+            "link_type": "custom",
+            "product_ref": "",
+            "link_url": "#",
+            "open_new": false
+          }
+        },
+        "card_hBgyQm": {
+          "type": "card",
+          "settings": {
+            "kicker": "Sharable",
+            "title": "New spirit",
+            "text": "<p>Feel the christmas vibe</p>",
+            "image": "shopify://shop_images/lucyimg_7.jpg",
+            "bg_color": "#262626",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "title_color": "#FFE4A6",
+            "text_color": "#FFFFFF",
+            "content_align": "left",
+            "content_valign": "bottom",
+            "height_desktop": 360,
+            "height_mobile": 280,
+            "radius": 0,
+            "link_type": "custom",
+            "product_ref": "",
+            "link_url": "#",
+            "open_new": false
+          }
+        },
+        "card_nn4dUn": {
+          "type": "card",
+          "settings": {
+            "kicker": "Tree",
+            "title": "Build your dream",
+            "text": "<p>Feel the christmas vibe</p>",
+            "image": "shopify://shop_images/lucyimg_15.jpg",
+            "bg_color": "#262626",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "title_color": "#FFE4A6",
+            "text_color": "#FFFFFF",
+            "content_align": "left",
+            "content_valign": "bottom",
+            "height_desktop": 360,
+            "height_mobile": 280,
+            "radius": 0,
+            "link_type": "custom",
+            "product_ref": "",
+            "link_url": "#",
+            "open_new": false
+          }
+        },
+        "card_mRx7Nr": {
+          "type": "card",
+          "settings": {
+            "kicker": "Confortable",
+            "title": "Just 4you",
+            "text": "<p>Feel like you are at home</p>",
+            "image": "shopify://shop_images/lucyimg_17.jpg",
+            "bg_color": "#262626",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "title_color": "#FFE4A6",
+            "text_color": "#FFFFFF",
+            "content_align": "left",
+            "content_valign": "bottom",
+            "height_desktop": 360,
+            "height_mobile": 280,
+            "radius": 0,
+            "link_type": "custom",
+            "product_ref": "",
+            "link_url": "#",
+            "open_new": false
+          }
+        },
+        "card_pdJE7n": {
+          "type": "card",
+          "settings": {
+            "kicker": "Lights",
+            "title": "White Sensation",
+            "text": "<p>Feel the christmas vibe</p>",
+            "bg_color": "#262626",
+            "overlay_color": "#000000",
+            "overlay_opacity": 50,
+            "title_color": "#FFE4A6",
+            "text_color": "#FFFFFF",
+            "content_align": "left",
+            "content_valign": "bottom",
+            "height_desktop": 360,
+            "height_mobile": 280,
+            "radius": 0,
+            "link_type": "custom",
+            "product_ref": "",
+            "link_url": "#",
+            "open_new": false
+          }
+        }
+      },
+      "block_order": [
+        "card_AHknxc",
+        "card_hBgyQm",
+        "card_nn4dUn",
+        "card_mRx7Nr",
+        "card_pdJE7n"
+      ],
+      "name": "Custom Pinterest Grid",
+      "settings": {
+        "heading": "Current specials",
+        "subtext": "<p>Shop our daily and monthly specials online or art Lights</p>",
+        "header_align": "center",
+        "gap": 16
+      }
     }
   },
   "order": [
     "slideshow_X7rV8j",
-    "custom_tabs_carousel_UfnFR6"
+    "custom_tabs_carousel_UfnFR6",
+    "custom_pinteres_grid_GgwNmP"
   ]
 }
