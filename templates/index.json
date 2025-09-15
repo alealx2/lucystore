@@ -1,75 +1,314 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "slideshow_X7rV8j": {
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_CC9RyP": {
+          "type": "slide",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "image": "shopify://shop_images/lucyimg_9.jpg",
+            "image_overlay_opacity": 20,
+            "heading": "Christmas exterior",
+            "heading_size": "h1",
+            "subheading": "Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family",
+            "button_label": "CHECK IT NOW",
+            "link": "#",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-left",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide_nxGFzq": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "image": "shopify://shop_images/lucyimg_17.jpg",
+            "image_overlay_opacity": 20,
+            "heading": "Christmas interior",
+            "heading_size": "h1",
+            "subheading": "Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family",
+            "button_label": "READ MORE",
+            "link": "#",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-left",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        },
+        "slide_83mM7t": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/lucyimg_10.jpg",
+            "image_overlay_opacity": 20,
+            "heading": "Lights",
+            "heading_size": "h1",
+            "subheading": "Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family",
+            "button_label": "BUY NOW",
+            "link": "#",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-left",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "slide_CC9RyP",
+        "slide_nxGFzq",
+        "slide_83mM7t"
       ],
+      "name": "t:sections.slideshow.presets.name",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": true,
+        "change_slides_speed": 3,
         "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "custom_tabs_carousel_UfnFR6": {
+      "type": "custom-tabs-carousel",
+      "blocks": {
+        "tab_3EAWxe": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Christmas",
+            "auto_contrast": true,
+            "tab_bg": "#f2f2f2",
+            "tab_bg_hover": "#111111",
+            "tab_text_color": "",
+            "tab_text_hover_color": "",
+            "tab_font_size": 16,
+            "bg_type": "image",
+            "bg_image": "shopify://shop_images/lucyimg_15.jpg",
+            "bg_position": "center center",
+            "bg_color": "#f7f7f7",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "min_height_desktop": 480,
+            "min_height_mobile": 360,
+            "content_align": "left",
+            "content_valign": "center",
+            "content_bg_enable": true,
+            "content_bg": "#ffffff",
+            "content_bg_radius": 0,
+            "content_max_width": 600,
+            "title": "Christmass Time!",
+            "rich_text": "<p>Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family</p>",
+            "button_label": "Read more",
+            "button_link": "#",
+            "button_bg": "#121212",
+            "button_text": "#ffffff",
+            "button_bg_hover": "#d5d5d5",
+            "button_text_hover": "#000000"
+          }
+        },
+        "tab_9z9z8F": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Halloween",
+            "auto_contrast": true,
+            "tab_bg": "#f2f2f2",
+            "tab_bg_hover": "#111111",
+            "tab_text_color": "",
+            "tab_text_hover_color": "",
+            "tab_font_size": 16,
+            "bg_type": "image",
+            "bg_image": "shopify://shop_images/lucyimg_13.jpg",
+            "bg_position": "center center",
+            "bg_color": "#f7f7f7",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "min_height_desktop": 480,
+            "min_height_mobile": 360,
+            "content_align": "left",
+            "content_valign": "center",
+            "content_bg_enable": true,
+            "content_bg": "#ffffff",
+            "content_bg_radius": 0,
+            "content_max_width": 600,
+            "title": "It's Scary Season!",
+            "rich_text": "<p>Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family</p>",
+            "button_label": "Read more",
+            "button_link": "#",
+            "button_bg": "#121212",
+            "button_text": "#ffffff",
+            "button_bg_hover": "#d5d5d5",
+            "button_text_hover": "#000000"
+          }
+        },
+        "tab_yjGttD": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Lights",
+            "auto_contrast": true,
+            "tab_bg": "#f2f2f2",
+            "tab_bg_hover": "#111111",
+            "tab_text_color": "",
+            "tab_text_hover_color": "",
+            "tab_font_size": 16,
+            "bg_type": "image",
+            "bg_image": "shopify://shop_images/lucyimg_10.jpg",
+            "bg_position": "center center",
+            "bg_color": "#f7f7f7",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "min_height_desktop": 480,
+            "min_height_mobile": 360,
+            "content_align": "left",
+            "content_valign": "center",
+            "content_bg_enable": true,
+            "content_bg": "#ffffff",
+            "content_bg_radius": 0,
+            "content_max_width": 600,
+            "title": "New era",
+            "rich_text": "<p>Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family</p>",
+            "button_label": "Read more",
+            "button_link": "#",
+            "button_bg": "#121212",
+            "button_text": "#ffffff",
+            "button_bg_hover": "#d5d5d5",
+            "button_text_hover": "#000000"
+          }
+        },
+        "tab_7z8J8m": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Discounts",
+            "auto_contrast": true,
+            "tab_bg": "#f2f2f2",
+            "tab_bg_hover": "#111111",
+            "tab_text_color": "",
+            "tab_text_hover_color": "",
+            "tab_font_size": 16,
+            "bg_type": "image",
+            "bg_image": "shopify://shop_images/lucyimg_15.jpg",
+            "bg_position": "center center",
+            "bg_color": "#f7f7f7",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "min_height_desktop": 480,
+            "min_height_mobile": 360,
+            "content_align": "left",
+            "content_valign": "center",
+            "content_bg_enable": true,
+            "content_bg": "#ffffff",
+            "content_bg_radius": 0,
+            "content_max_width": 600,
+            "title": "Special offer",
+            "rich_text": "<p>Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family</p>",
+            "button_label": "Read more",
+            "button_link": "#",
+            "button_bg": "#121212",
+            "button_text": "#ffffff",
+            "button_bg_hover": "#d5d5d5",
+            "button_text_hover": "#000000"
+          }
+        },
+        "tab_7fx9E7": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Comming Soon",
+            "auto_contrast": true,
+            "tab_bg": "#f2f2f2",
+            "tab_bg_hover": "#111111",
+            "tab_text_color": "",
+            "tab_text_hover_color": "",
+            "tab_font_size": 16,
+            "bg_type": "image",
+            "bg_image": "shopify://shop_images/lucyimg_15.jpg",
+            "bg_position": "center center",
+            "bg_color": "#f7f7f7",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "min_height_desktop": 480,
+            "min_height_mobile": 360,
+            "content_align": "left",
+            "content_valign": "center",
+            "content_bg_enable": true,
+            "content_bg": "#ffffff",
+            "content_bg_radius": 0,
+            "content_max_width": 600,
+            "title": "Stay up to date!",
+            "rich_text": "<p>Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family</p>",
+            "button_label": "Read more",
+            "button_link": "#",
+            "button_bg": "#121212",
+            "button_text": "#ffffff",
+            "button_bg_hover": "#d5d5d5",
+            "button_text_hover": "#000000"
+          }
+        },
+        "tab_6CRHbN": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Expirience",
+            "auto_contrast": true,
+            "tab_bg": "#f2f2f2",
+            "tab_bg_hover": "#111111",
+            "tab_text_color": "",
+            "tab_text_hover_color": "",
+            "tab_font_size": 16,
+            "bg_type": "image",
+            "bg_image": "shopify://shop_images/lucyimg_6.jpg",
+            "bg_position": "center center",
+            "bg_color": "#f7f7f7",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "min_height_desktop": 480,
+            "min_height_mobile": 360,
+            "content_align": "left",
+            "content_valign": "center",
+            "content_bg_enable": true,
+            "content_bg": "#ffffff",
+            "content_bg_radius": 0,
+            "content_max_width": 600,
+            "title": "Feel the vibe",
+            "rich_text": "<p>Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family Feel the best of the most excited season of the year and find the lights you need to highlight your days with your family</p>",
+            "button_label": "Read more",
+            "button_link": "#",
+            "button_bg": "#121212",
+            "button_text": "#ffffff",
+            "button_bg_hover": "#d5d5d5",
+            "button_text_hover": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "tab_3EAWxe",
+        "tab_9z9z8F",
+        "tab_yjGttD",
+        "tab_7z8J8m",
+        "tab_7fx9E7",
+        "tab_6CRHbN"
+      ],
+      "name": "Custom Tabs Carousel",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "padding_top": 100,
+        "padding_bottom": 100
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "slideshow_X7rV8j",
+    "custom_tabs_carousel_UfnFR6"
   ]
 }
