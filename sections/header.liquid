@@ -185,7 +185,7 @@
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
+          render 'custom-mega-menu'
         endif
       endif
     %}
@@ -470,7 +470,7 @@
 {
   "name": "t:sections.header.name",
   "class": "section-header",
-  "max_blocks": 3,
+  "max_blocks": 12,
   "settings": [
     {
       "type": "select",
@@ -652,7 +652,47 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "mega_config",
+      "name": "Mega menu config",
+      "settings": [
+        {
+          "type": "text",
+          "id": "trigger_label",
+          "label": "Ítem top-level que dispara el megamenú",
+          "info": "Debe coincidir EXACTO con el texto del menú (p. ej. “Shop”, “By Season”)."
+        },
+        {
+          "type": "link_list",
+          "id": "side_menu",
+          "label": "Menú lateral (texto)",
+          "info": "Opcional. Si no se define, se usan los sub-enlaces del ítem."
+        },
+        {
+          "type": "text",
+          "id": "side_menu_label",
+          "label": "Etiqueta accesible del menú lateral",
+          "default": "Shop by"
+        },
+        {
+          "type": "collection",
+          "id": "collection_1",
+          "label": "Featured Collection #1"
+        },
+        {
+          "type": "collection",
+          "id": "collection_2",
+          "label": "Featured Collection #2"
+        },
+        {
+          "type": "collection",
+          "id": "collection_3",
+          "label": "Featured Collection #3"
+        }
+      ]
     }
+    
   ]
 }
 {% endschema %}
