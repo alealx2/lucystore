@@ -50,7 +50,7 @@
                         <li class="optionB__tabs-item">
                           <a
                             href="{{ childlink.url }}"
-                            class="optionB__tabs-link{% if forloop.first %} is-active{% endif %}"
+                            class="optionB__tabs-link header__menu-item list-menu__item link link--text focus-inset{% if forloop.first %} is-active{% endif %}"
                             data-panel="{{ panel_id }}"
                             data-has-panel="{% if cfg %}true{% else %}false{% endif %}"
                           >
@@ -90,7 +90,7 @@
                                 <ul class="megamenu-pb__list" role="list">
                                   {%- for l in linklists[cfg.settings.side_menu].links -%}
                                     <li class="megamenu-pb__item">
-                                      <a class="megamenu-pb__link" href="{{ l.url }}">{{ l.title }}</a>
+                                      <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ l.url }}">{{ l.title }}</a>
                                     </li>
                                   {%- endfor -%}
                                 </ul>
@@ -99,12 +99,12 @@
                                   {%- if childlink.links != blank -%}
                                     {%- for gl in childlink.links -%}
                                       <li class="megamenu-pb__item">
-                                        <a class="megamenu-pb__link" href="{{ gl.url }}">{{ gl.title }}</a>
+                                        <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ gl.url }}">{{ gl.title }}</a>
                                       </li>
                                     {%- endfor -%}
                                   {%- else -%}
                                     <li class="megamenu-pb__item">
-                                      <a class="megamenu-pb__link" href="{{ childlink.url }}">{{ childlink.title }}</a>
+                                      <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ childlink.url }}">{{ childlink.title }}</a>
                                     </li>
                                   {%- endif -%}
                                 </ul>
