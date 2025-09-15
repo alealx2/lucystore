@@ -53,7 +53,7 @@
           "type": "mega_config",
           "settings": {
             "trigger_label": "Category",
-            "side_menu": "season-menu",
+            "side_menu": "category-menu",
             "side_menu_label": "Category",
             "collection_1": "brilliant",
             "collection_2": "indoor-decor",
@@ -64,7 +64,7 @@
           "type": "mega_config",
           "settings": {
             "trigger_label": "Brand",
-            "side_menu": "season-menu",
+            "side_menu": "brand-menu",
             "side_menu_label": "Brand",
             "collection_1": "retro-brite",
             "collection_2": "via-luci",
@@ -75,7 +75,7 @@
           "type": "mega_config",
           "settings": {
             "trigger_label": "Collection",
-            "side_menu": "season-menu",
+            "side_menu": "collection-menu",
             "side_menu_label": "Collection",
             "collection_1": "king-pine-sparkle",
             "collection_2": "casselton-fir-twinkle",
