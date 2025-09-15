@@ -12,6 +12,13 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px !important;
   }
 
+    @media (max-width: 989px){
+        .section-{{ section.id }}-padding {
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+        }
+    }
+
 {%- endstyle -%}
 
 <section id="tc-{{ section.id }}" class="tc section-{{ section.id }}-padding">
@@ -186,6 +193,9 @@
       .tc-slide{ min-height: var(--min-h-mobile); border-radius: 12px; }
       .tc__tabs{ gap: 12px; }
       .tc-tab__btn{ padding: .5rem .85rem; }
+        .tc-richtext{
+            font-size: 12px;
+        }      
     }
 
     @media (max-width: 989px){
@@ -392,7 +402,7 @@
   "presets": [
     { 
         "name": "Custom Tabs Carousel", 
-        "category": "Image" 
+        "category": "Custom" 
     }
   ]
 }

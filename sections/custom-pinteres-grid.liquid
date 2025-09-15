@@ -1,0 +1,206 @@
+{% comment %}
+  Pinterest Grid 3+2 – Sección OS 2.0 (Dawn compatible)
+  - Cabecera: título + texto
+  - Grid: 5 tarjetas (3 arriba + 2 abajo)
+  - Cada tarjeta: imagen o color de fondo, overlay, título, texto, enlace (producto o URL)
+  - Responsive: 1 col (mobile), 2 cols (tablet), layout 3+2 (desktop)
+{% endcomment %}
+
+<section id="pgrid-{{ section.id }}" class="pgrid" style="--gap: {{ section.settings.gap | default: 16 }}px;">
+  <div class="page-width">
+    {% if section.settings.heading != blank or section.settings.subtext != blank %}
+      <div class="pgrid__header pgrid__header--{{ section.settings.header_align }}">
+        {% if section.settings.heading != blank %}
+          <h2 class="pgrid__title">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.subtext != blank %}
+          <div class="pgrid__subtext">{{ section.settings.subtext }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="page-width">
+    <div class="pgrid__grid">
+      {% for block in section.blocks %}
+        {% assign b = block.settings %}
+        {% liquid
+          assign url = blank
+          if b.link_type == 'product' and b.product_ref != blank
+            assign url = b.product_ref.url
+          elsif b.link_type == 'custom' and b.link_url != blank
+            assign url = b.link_url
+          endif
+        %}
+
+        {%- capture card -%}
+          <div class="pgrid__card"
+               style="--h-desktop: {{ b.height_desktop }}px; --h-mobile: {{ b.height_mobile }}px; --overlay: {{ b.overlay_color }}; --overlay-op: {{ b.overlay_opacity | times: 0.01 }}; --radius: {{ b.radius }}px; --content-bg: {{ b.content_bg }};">
+            <div class="pgrid__media">
+              {% if b.image != blank %}
+                {{ b.image | image_url: width: 1800 | image_tag: loading: 'lazy', class: 'pgrid__img', sizes: '(min-width: 1200px) 600px, (min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1600', alt: b.title | escape }}
+              {% else %}
+                <div class="pgrid__color" style="background: {{ b.bg_color }}"></div>
+              {% endif %}
+              <div class="pgrid__overlay" aria-hidden="true"></div>
+
+              <div class="pgrid__content pgrid__content--{{ b.content_align }} pgrid__content--{{ b.content_valign }}"
+                   style="--title-color: {{ b.title_color }}; --text-color: {{ b.text_color }};">
+                {% if b.kicker != blank %}
+                  <p class="pgrid__kicker">{{ b.kicker }}</p>
+                {% endif %}
+                {% if b.title != blank %}
+                  <h3 class="pgrid__card-title">{{ b.title }}</h3>
+                {% endif %}
+                {% if b.text != blank %}
+                  <div class="pgrid__card-text">{{ b.text }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {%- endcapture -%}
+
+        {% if url != blank %}
+          <a {% if b.open_new %}target="_blank" rel="noopener"{% endif %}
+             href="{{ url }}"
+             class="pgrid__item pgrid__item--{{ forloop.index }}"
+             aria-label="{{ b.title | default: 'Open' }}">
+            {{ card }}
+          </a>
+        {% else %}
+          <div class="pgrid__item pgrid__item--{{ forloop.index }}">
+            {{ card }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    div:empty{display: block;}
+    .pgrid{ padding: clamp(20px, 4vw, 48px) 0; }
+    .pgrid__header{ margin-bottom: 18px; }
+    .pgrid__header--left{ text-align:left; }
+    .pgrid__header--center{ text-align:center; }
+    .pgrid__header--right{ text-align:right; }
+    .pgrid__title{ margin: 0 0 6px; font-size: clamp(22px, 3vw, 36px); line-height: 1.15; }
+    .pgrid__subtext :where(p){ margin: 0; opacity:.9; }
+
+    /* GRID base */
+    .pgrid__grid{ display:grid; gap: var(--gap); }
+    .pgrid__item{ display:block; text-decoration:none; color:inherit; border-radius: var(--radius, 0px); overflow:hidden; }
+    .pgrid__card{ height: var(--h-desktop); border-radius: var(--radius, 0px); overflow:hidden; position:relative; }
+    .pgrid__media{ position:relative; height:100%; }
+    .pgrid__img, .pgrid__color{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+    .pgrid__overlay{ position:absolute; inset:0; background: var(--overlay,#000); opacity: var(--overlay-op,.2); pointer-events:none; }
+    .pgrid__content{
+      position:relative; z-index:2; height:100%;
+      padding: clamp(12px, 2.8vw, 24px); display:grid;
+    }
+    .pgrid__content--left{ justify-items: start; }
+    .pgrid__content--center{ justify-items: center; text-align:center; }
+    .pgrid__content--right{ justify-items: end; text-align:right; }
+    .pgrid__content--top{ align-content: start; }
+    .pgrid__content--middle{ align-content: center; }
+    .pgrid__content--bottom{ align-content: end; }
+    .pgrid__kicker{ margin:0 0 4px; font-weight:600; color: var(--title-color); letter-spacing:.02em; }
+    .pgrid__card-title{ margin:0; font-size: clamp(18px, 2.4vw, 28px); line-height:1.2; color: var(--title-color, #fff); }
+    .pgrid__card-text{ margin-top: 6px; color: var(--text-color, #fff); opacity:.95; }
+
+    /* Hover */
+    .pgrid__item:hover .pgrid__img{ transform: scale(1.04); }
+    .pgrid__img{ transition: transform .35s ease; }
+
+    /* Layout 3+2 en desktop (>=1200px) – grid de 6 columnas */
+    @media (min-width: 1200px){
+      .pgrid__grid{ grid-template-columns: repeat(6, 1fr); }
+      .pgrid__item--1{ grid-column: 1 / span 2; }
+      .pgrid__item--2{ grid-column: 3 / span 2; }
+      .pgrid__item--3{ grid-column: 5 / span 2; }
+      .pgrid__item--4{ grid-column: 1 / span 3; }
+      .pgrid__item--5{ grid-column: 4 / span 3; }
+    }
+
+    /* Tablet (>=750px): 2 columnas */
+    @media (min-width: 750px) and (max-width: 1199px){
+      .pgrid__grid{ grid-template-columns: repeat(2, 1fr); }
+      .pgrid__card{ height: var(--h-desktop); }
+    }
+
+    /* Mobile: 1 columna */
+    @media (max-width: 749px){
+      .pgrid__grid{ grid-template-columns: 1fr; }
+      .pgrid__card{ height: var(--h-mobile); }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Pinterest Grid",
+  "tag": "section",
+  "class": "section-pinterest-grid",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título de la sección", "default": "Current specials" },
+    { "type": "richtext", "id": "subtext", "label": "Texto de la sección", "default": "<p>Shop our daily and monthly specials online or at the bakery</p>" },
+    { "type": "select", "id": "header_align", "label": "Alineación del título", "options": [
+      { "value": "left", "label": "Izquierda" },
+      { "value": "center", "label": "Centro" },
+      { "value": "right", "label": "Derecha" }
+    ], "default": "center" },
+    { "type": "range", "id": "gap", "label": "Separación entre tarjetas", "min": 8, "max": 32, "step": 1, "unit": "px", "default": 16 }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Tarjeta",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker (opcional)", "default": "Start" },
+        { "type": "text", "id": "title", "label": "Título", "default": "French Baguette $4" },
+        { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Craving a crusty French loaf?</p>" },
+
+        { "type": "image_picker", "id": "image", "label": "Imagen de fondo" },
+        { "type": "color", "id": "bg_color", "label": "Color de fondo (si no hay imagen)", "default": "#262626" },
+        { "type": "color", "id": "overlay_color", "label": "Overlay (color)", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "label": "Overlay (opacidad)", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 20 },
+
+        { "type": "color", "id": "title_color", "label": "Color del título", "default": "#FFE4A6" },
+        { "type": "color", "id": "text_color", "label": "Color del texto", "default": "#FFFFFF" },
+
+        { "type": "select", "id": "content_align", "label": "Alineación horizontal del contenido", "options": [
+          { "value": "left", "label": "Izquierda" },
+          { "value": "center", "label": "Centro" },
+          { "value": "right", "label": "Derecha" }
+        ], "default": "left" },
+        { "type": "select", "id": "content_valign", "label": "Alineación vertical del contenido", "options": [
+          { "value": "top", "label": "Arriba" },
+          { "value": "middle", "label": "Centro" },
+          { "value": "bottom", "label": "Abajo" }
+        ], "default": "bottom" },
+
+        { "type": "range", "id": "height_desktop", "label": "Alto (desktop)", "min": 220, "max": 700, "step": 10, "unit": "px", "default": 360 },
+        { "type": "range", "id": "height_mobile", "label": "Alto (mobile)", "min": 180, "max": 600, "step": 10, "unit": "px", "default": 280 },
+        { "type": "range", "id": "radius", "label": "Borde redondeado", "min": 0, "max": 28, "step": 1, "unit": "px", "default": 16 },
+
+        { "type": "header", "content": "Enlace" },
+        { "type": "select", "id": "link_type", "label": "Tipo de enlace", "options": [
+          { "value": "none", "label": "Sin enlace" },
+          { "value": "product", "label": "Producto" },
+          { "value": "custom", "label": "URL personalizada" }
+        ], "default": "custom" },
+        { "type": "product", "id": "product_ref", "label": "Producto" },
+        { "type": "url", "id": "link_url", "label": "URL personalizada" },
+        { "type": "checkbox", "id": "open_new", "label": "Abrir en nueva pestaña", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    { 
+        "name": "Custom Pinterest Grid",
+        "category": "Custom" 
+    }
+  ]
+}
+{% endschema %}

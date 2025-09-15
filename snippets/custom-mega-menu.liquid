@@ -164,7 +164,7 @@
                             {%- if childlink.links != blank -%}
                               <ul class="list-unstyled" role="list">
                                 {%- for gl in childlink.links -%}
-                                  <li><a href="{{ gl.url }}" class="mega-menu__link link">{{ gl.title }}</a></li>
+                                  <li><a href="{{ gl.url }}" class="mega-menu__link link menu-drawer__menu-item link link--text list-menu__item">{{ gl.title }}</a></li>
                                 {%- endfor -%}
                               </ul>
                             {%- endif -%}
@@ -205,11 +205,11 @@
             {% if b.settings.side_menu != blank and linklists[b.settings.side_menu] %}
               <ul>
                 {% for l in linklists[b.settings.side_menu].links %}
-                  <li><a href="{{ l.url }}">{{ l.title }}</a></li>
+                  <li><a href="{{ l.url }}" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">{{ l.title }}</a></li>
                 {% endfor %}
               </ul>
             {% else %}
-              <ul></ul> {# fallback: JS rellenará con los “nietos” del drawer si existen #}
+              <ul></ul> 
             {% endif %}
           </div>
           <div class="mobile-mega__featured">
@@ -457,6 +457,7 @@
             var a2 = document.createElement('a');
             a2.href = n.getAttribute('href');
             a2.textContent = n.textContent;
+            a2.classList.add("menu-drawer__menu-item");
             li2.appendChild(a2);
             listWrapper.appendChild(li2);
           });
