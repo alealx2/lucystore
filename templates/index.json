@@ -387,7 +387,7 @@
             "image": "shopify://shop_images/lucyimg_17.jpg",
             "bg_color": "#262626",
             "overlay_color": "#000000",
-            "overlay_opacity": 20,
+            "overlay_opacity": 0,
             "title_color": "#FFE4A6",
             "text_color": "#FFFFFF",
             "content_align": "left",
