@@ -41,7 +41,7 @@
         "mega_config_FgpmRr": {
           "type": "mega_config",
           "settings": {
-            "trigger_label": "Shop",
+            "trigger_label": "Season",
             "side_menu": "season-menu",
             "side_menu_label": "Season",
             "collection_1": "garland",
