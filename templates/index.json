@@ -376,6 +376,79 @@
         "padding_bottom": 100
       }
     },
+    "custom_hotspot_eWwTYR": {
+      "type": "custom-hotspot",
+      "blocks": {
+        "point_ReMatA": {
+          "type": "point",
+          "settings": {
+            "hotspot_label": "Ver producto",
+            "pulse": true,
+            "left_position": 40,
+            "top_position": 50,
+            "media_type": "video",
+            "video_file": "shopify://files/videos/5859020-uhd_2160_3840_24fps.mp4",
+            "external_video": "shopify://products/halloween-pumpkin",
+            "video_mp4_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "product_ref": "halloween-pumpkin",
+            "title_override": "",
+            "price_text": "",
+            "card_text": "",
+            "view_url": "",
+            "open_new": false,
+            "qty": 1,
+            "label_view": "Read more",
+            "label_add": "Add to cart"
+          }
+        },
+        "point_XwqFr6": {
+          "type": "point",
+          "settings": {
+            "hotspot_label": "Ver producto",
+            "pulse": true,
+            "left_position": 58,
+            "top_position": 66,
+            "media_type": "video",
+            "video_file": "shopify://files/videos/5678997-uhd_2160_4096_30fps.mp4",
+            "external_video": "shopify://products/halloween-pumpkin",
+            "video_mp4_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "product_ref": "halloween-pumpkin",
+            "title_override": "",
+            "price_text": "",
+            "card_text": "",
+            "view_url": "",
+            "open_new": false,
+            "qty": 1,
+            "label_view": "Read more",
+            "label_add": "Add to cart"
+          }
+        }
+      },
+      "block_order": [
+        "point_ReMatA",
+        "point_XwqFr6"
+      ],
+      "name": "Hotspots + Video carousel",
+      "settings": {
+        "sec_title": "",
+        "sec_text": "",
+        "main_image": "shopify://shop_images/pexels-charles-parker-5859587.jpg",
+        "alt_text": "",
+        "overlay_color": "#000000",
+        "overlay_opacity": 80,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 40
+      }
+    },
     "custom_pinteres_grid_GgwNmP": {
       "type": "custom-pinteres-grid",
       "blocks": {
@@ -506,7 +579,7 @@
             "video_controls": false,
             "bg_color": "#262626",
             "overlay_color": "#000000",
-            "overlay_opacity": 0,
+            "overlay_opacity": 35,
             "title_color": "#ffe4a6",
             "text_color": "#ffffff",
             "content_align": "left",
@@ -576,79 +649,6 @@
         "header_align": "center",
         "color_scheme": "",
         "gap": 16
-      }
-    },
-    "custom_hotspot_eWwTYR": {
-      "type": "custom-hotspot",
-      "blocks": {
-        "point_ReMatA": {
-          "type": "point",
-          "settings": {
-            "hotspot_label": "Ver producto",
-            "pulse": true,
-            "left_position": 40,
-            "top_position": 50,
-            "media_type": "video",
-            "video_file": "shopify://files/videos/5859020-uhd_2160_3840_24fps.mp4",
-            "external_video": "shopify://products/halloween-pumpkin",
-            "video_mp4_url": "",
-            "video_autoplay": true,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "product_ref": "halloween-pumpkin",
-            "title_override": "",
-            "price_text": "",
-            "card_text": "",
-            "view_url": "",
-            "open_new": false,
-            "qty": 1,
-            "label_view": "Read more",
-            "label_add": "Add to cart"
-          }
-        },
-        "point_XwqFr6": {
-          "type": "point",
-          "settings": {
-            "hotspot_label": "Ver producto",
-            "pulse": true,
-            "left_position": 58,
-            "top_position": 66,
-            "media_type": "video",
-            "video_file": "shopify://files/videos/5678997-uhd_2160_4096_30fps.mp4",
-            "external_video": "shopify://products/halloween-pumpkin",
-            "video_mp4_url": "",
-            "video_autoplay": true,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "product_ref": "halloween-pumpkin",
-            "title_override": "",
-            "price_text": "",
-            "card_text": "",
-            "view_url": "",
-            "open_new": false,
-            "qty": 1,
-            "label_view": "Read more",
-            "label_add": "Add to cart"
-          }
-        }
-      },
-      "block_order": [
-        "point_ReMatA",
-        "point_XwqFr6"
-      ],
-      "name": "Hotspots + Video carousel",
-      "settings": {
-        "sec_title": "",
-        "sec_text": "",
-        "main_image": "shopify://shop_images/pexels-charles-parker-5859587.jpg",
-        "alt_text": "",
-        "overlay_color": "#000000",
-        "overlay_opacity": 80,
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 40
       }
     }
   },
