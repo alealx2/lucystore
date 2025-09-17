@@ -1,9 +1,6 @@
 {% comment %}
   Pinterest Grid 3+2 – Sección OS 2.0 (Dawn compatible)
-  - Cabecera: título + texto
-  - Grid: 5 tarjetas (3 arriba + 2 abajo)
-  - Cada tarjeta: imagen o color de fondo, overlay, título, texto, enlace (producto o URL)
-  - Responsive: 1 col (mobile), 2 cols (tablet), layout 3+2 (desktop)
+  + Acciones opcionales por tarjeta (Ver más / Agregar al carrito)
 {% endcomment %}
 
 <section id="pgrid-{{ section.id }}" class="pgrid" style="--gap: {{ section.settings.gap | default: 16 }}px;">
@@ -24,24 +21,60 @@
     <div class="pgrid__grid">
       {% for block in section.blocks %}
         {% assign b = block.settings %}
-        {% liquid
-          assign url = blank
+
+        {%- liquid
+          assign link_url = blank
           if b.link_type == 'product' and b.product_ref != blank
-            assign url = b.product_ref.url
+            assign link_url = b.product_ref.url
           elsif b.link_type == 'custom' and b.link_url != blank
-            assign url = b.link_url
+            assign link_url = b.link_url
           endif
-        %}
+
+          assign show_actions = false
+          if b.actions_enable and b.action_view_enable or b.action_add_enable
+            assign show_actions = true
+          endif
+
+          assign p = b.product_ref
+          if p != blank
+            assign v = p.selected_or_first_available_variant
+            assign can_add = true
+            if v == blank or v.available == false
+              assign can_add = false
+            endif
+          endif
+        -%}
 
         {%- capture card -%}
-          <div class="pgrid__card"
+          <div class="pgrid__card color-{{ section.settings.color_scheme }}"
                style="--h-desktop: {{ b.height_desktop }}px; --h-mobile: {{ b.height_mobile }}px; --overlay: {{ b.overlay_color }}; --overlay-op: {{ b.overlay_opacity | times: 0.01 }}; --radius: {{ b.radius }}px; --content-bg: {{ b.content_bg }};">
             <div class="pgrid__media">
-              {% if b.image != blank %}
-                {{ b.image | image_url: width: 1800 | image_tag: loading: 'lazy', class: 'pgrid__img', sizes: '(min-width: 1200px) 600px, (min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1600', alt: b.title | escape }}
-              {% else %}
-                <div class="pgrid__color" style="background: {{ b.bg_color }}"></div>
-              {% endif %}
+
+              {%- if block.settings.media_type == 'video' -%}
+                {%- if block.settings.video_file != blank -%}
+                  {{ block.settings.video_file | video_tag:
+                      image_size: '800x',
+                      class: 'grid-video-bg',
+                      autoplay: true,
+                      loop: block.settings.video_loop,
+                      muted: block.settings.video_muted,
+                      controls: block.settings.video_controls,
+                      playsinline: true }}
+                {%- elsif block.settings.external_video != blank -%}
+                  {{ block.settings.external_video | external_video_tag: class: 'grid-video-bg', loading: 'lazy' }}
+                {%- elsif block.settings.video_mp4_url != blank -%}
+                  <video class="grid-video-bg" {% if block.settings.video_muted %}muted{% endif %} {% if block.settings.video_loop %}loop{% endif %} {% if block.settings.video_autoplay %}autoplay{% endif %} playsinline {% if block.settings.video_controls %}controls{% endif %}>
+                    <source src="{{ block.settings.video_mp4_url }}" type="video/mp4">
+                  </video>
+                {%- endif -%}
+              {%- else -%}
+                {% if b.image != blank %}
+                  {{ b.image | image_url: width: 1800 | image_tag: loading: 'lazy', class: 'pgrid__img', sizes: '(min-width: 1200px) 600px, (min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1600', alt: b.title | escape }}
+                {% else %}
+                  <div class="pgrid__color" style="background: {{ b.bg_color }}"></div>
+                {% endif %}
+              {%- endif -%}
+
               <div class="pgrid__overlay" aria-hidden="true"></div>
 
               <div class="pgrid__content pgrid__content--{{ b.content_align }} pgrid__content--{{ b.content_valign }}"
@@ -55,28 +88,57 @@
                 {% if b.text != blank %}
                   <div class="pgrid__card-text">{{ b.text }}</div>
                 {% endif %}
+
+                {%- if show_actions -%}
+                  <div class="pgrid__actions">
+                    {%- if b.action_view_enable and link_url != blank -%}
+                      <a class="pgrid__btn pgrid__btn--solid" href="{{ link_url }}" {% if b.open_new %}target="_blank" rel="noopener"{% endif %}>
+                        {{ b.action_view_label | default: 'Ver más' }}
+                      </a>
+                    {%- endif -%}
+
+                    {%- if b.action_add_enable and p != blank and v != blank -%}
+                      <button type="button"
+                              class="pgrid__btn pgrid__btn--solid js-pgrid-add"
+                              data-vid="{{ v.id }}"
+                              data-qty="{{ b.action_qty | default: 1 }}"
+                              {% unless can_add %}disabled{% endunless %}>
+                        {{ b.action_add_label | default: 'Agregar al carrito' }}
+                      </button>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
               </div>
             </div>
           </div>
         {%- endcapture -%}
 
-        {% if url != blank %}
-          <a {% if b.open_new %}target="_blank" rel="noopener"{% endif %}
-             href="{{ url }}"
-             class="pgrid__item pgrid__item--{{ forloop.index }}"
-             aria-label="{{ b.title | default: 'Open' }}">
-            {{ card }}
-          </a>
-        {% else %}
-          <div class="pgrid__item pgrid__item--{{ forloop.index }}">
+        {%- if show_actions -%}
+          <div class="pgrid__item pgrid__item--{{ forloop.index }}" {{ block.shopify_attributes }}>
             {{ card }}
           </div>
-        {% endif %}
+        {%- else -%}
+          {% if link_url != blank %}
+            <a {% if b.open_new %}target="_blank" rel="noopener"{% endif %}
+               href="{{ link_url }}"
+               class="pgrid__item pgrid__item--{{ forloop.index }}"
+               aria-label="{{ b.title | default: 'Open' }}"
+               {{ block.shopify_attributes }}>
+              {{ card }}
+            </a>
+          {% else %}
+            <div class="pgrid__item pgrid__item--{{ forloop.index }}" {{ block.shopify_attributes }}>
+              {{ card }}
+            </div>
+          {% endif %}
+        {%- endif -%}
       {% endfor %}
     </div>
   </div>
 
   <style>
+    .grid-video-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+
     div:empty{display: block;}
     .pgrid{ padding: clamp(20px, 4vw, 48px) 0; }
     .pgrid__header{ margin-bottom: 18px; }
@@ -86,17 +148,13 @@
     .pgrid__title{ margin: 0 0 6px; font-size: clamp(22px, 3vw, 36px); line-height: 1.15; }
     .pgrid__subtext :where(p){ margin: 0; opacity:.9; }
 
-    /* GRID base */
     .pgrid__grid{ display:grid; gap: var(--gap); }
     .pgrid__item{ display:block; text-decoration:none; color:inherit; border-radius: var(--radius, 0px); overflow:hidden; }
     .pgrid__card{ height: var(--h-desktop); border-radius: var(--radius, 0px); overflow:hidden; position:relative; }
     .pgrid__media{ position:relative; height:100%; }
     .pgrid__img, .pgrid__color{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
     .pgrid__overlay{ position:absolute; inset:0; background: var(--overlay,#000); opacity: var(--overlay-op,.2); pointer-events:none; }
-    .pgrid__content{
-      position:relative; z-index:2; height:100%;
-      padding: clamp(12px, 2.8vw, 24px); display:grid;
-    }
+    .pgrid__content{ position:relative; z-index:2; height:100%; padding: clamp(12px, 2.8vw, 24px); display:grid; gap:.75rem; }
     .pgrid__content--left{ justify-items: start; }
     .pgrid__content--center{ justify-items: center; text-align:center; }
     .pgrid__content--right{ justify-items: end; text-align:right; }
@@ -105,13 +163,26 @@
     .pgrid__content--bottom{ align-content: end; }
     .pgrid__kicker{ margin:0 0 4px; font-weight:600; color: var(--title-color); letter-spacing:.02em; }
     .pgrid__card-title{ margin:0; font-size: clamp(18px, 2.4vw, 28px); line-height:1.2; color: var(--title-color, #fff); }
-    .pgrid__card-text{ margin-top: 6px; color: var(--text-color, #fff); opacity:.95; }
+    .pgrid__card-text{ margin-top: 2px; color: var(--text-color, #fff); opacity:.95; }
+
+    /* Botones */
+    .pgrid__actions{ display:flex; gap:.5rem; flex-wrap:wrap; }
+    .pgrid__btn{
+        font-size: 16px;
+      cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+      padding:.6rem .9rem; font-weight:600; text-decoration:none; border-radius:0;
+      transition:transform .15s ease, background .15s ease, color .15s ease;
+      border:1px solid rgba(255,255,255,.9);
+      backdrop-filter: saturate(110%) blur(2px);
+    }
+    .pgrid__btn:hover{ transform: translateY(-1px); }
+    .pgrid__btn--solid{ background-color: rgba(var(--color-button),var(--alpha-button-background)); color: rgb(var(--color-button-text)); }
+    .pgrid__btn--ghost{ background-color: rgba(var(--color-button),var(--alpha-button-background)); color: rgb(var(--color-button-text)); }
 
     /* Hover */
     .pgrid__item:hover .pgrid__img{ transform: scale(1.04); }
     .pgrid__img{ transition: transform .35s ease; }
 
-    /* Layout 3+2 en desktop (>=1200px) – grid de 6 columnas */
     @media (min-width: 1200px){
       .pgrid__grid{ grid-template-columns: repeat(6, 1fr); }
       .pgrid__item--1{ grid-column: 1 / span 2; }
@@ -121,18 +192,66 @@
       .pgrid__item--5{ grid-column: 4 / span 3; }
     }
 
-    /* Tablet (>=750px): 2 columnas */
     @media (min-width: 750px) and (max-width: 1199px){
       .pgrid__grid{ grid-template-columns: repeat(2, 1fr); }
       .pgrid__card{ height: var(--h-desktop); }
     }
 
-    /* Mobile: 1 columna */
     @media (max-width: 749px){
       .pgrid__grid{ grid-template-columns: 1fr; }
       .pgrid__card{ height: var(--h-mobile); }
     }
   </style>
+
+  <script>
+    (function(){
+      const root = document.getElementById('pgrid-{{ section.id }}');
+      if(!root) return;
+
+      root.addEventListener('click', function(e){
+        const btn = e.target.closest('.js-pgrid-add');
+        if(!btn) return;
+
+        const vid = btn.getAttribute('data-vid');
+        const qty = parseInt(btn.getAttribute('data-qty') || '1', 10);
+        if(!vid) return;
+
+        const original = btn.textContent;
+        btn.disabled = true;
+
+        const sections = ['cart-notification-product', 'cart-notification-button', 'cart-icon-bubble'];
+        const fd = new FormData();
+        fd.append('id', vid);
+        fd.append('quantity', qty);
+        fd.append('sections', sections.join(','));
+        fd.append('sections_url', window.location.pathname);
+
+        const addUrl = (window.routes && window.routes.cart_add_url) ? window.routes.cart_add_url : '/cart/add';
+
+        fetch(addUrl, { method:'POST', headers:{'Accept':'application/json'}, body: fd })
+          .then(r => { if(!r.ok) return r.json().then(err=>{throw err}); return r.json(); })
+          .then(parsed => {
+            const cn = document.querySelector('cart-notification');
+            if (cn && typeof cn.renderContents === 'function') {
+              cn.renderContents(parsed);
+            } else if (parsed.sections && parsed.sections['cart-icon-bubble']) {
+              const tmp = document.createElement('div');
+              tmp.innerHTML = parsed.sections['cart-icon-bubble'];
+              const newBubble = tmp.querySelector('#cart-icon-bubble');
+              const curBubble = document.getElementById('cart-icon-bubble');
+              if (newBubble && curBubble) curBubble.innerHTML = newBubble.innerHTML;
+            }
+          })
+          .catch(err => {
+            console.error('Cart error:', err);
+            btn.textContent = (err && err.description) ? err.description : 'Error';
+          })
+          .finally(()=> {
+            setTimeout(()=>{ btn.disabled = false; btn.textContent = original; }, 1200);
+          });
+      });
+    })();
+  </script>
 </section>
 
 {% schema %}
@@ -148,6 +267,12 @@
       { "value": "center", "label": "Centro" },
       { "value": "right", "label": "Derecha" }
     ], "default": "center" },
+    {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+    },    
     { "type": "range", "id": "gap", "label": "Separación entre tarjetas", "min": 8, "max": 32, "step": 1, "unit": "px", "default": 16 }
   ],
   "blocks": [
@@ -160,7 +285,17 @@
         { "type": "text", "id": "title", "label": "Título", "default": "French Baguette $4" },
         { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Craving a crusty French loaf?</p>" },
 
+        { "type": "select", "id": "media_type", "label": "Tipo de medio", "default": "image",
+          "options": [ { "value": "image", "label": "Imagen" }, { "value": "video", "label": "Video" } ] },
         { "type": "image_picker", "id": "image", "label": "Imagen de fondo" },
+        { "type": "video", "id": "video_file", "label": "Video subido (MP4, mov)", "info": "Se prioriza sobre externo/URL." },
+        { "type": "url", "id": "external_video", "label": "Video externo (YouTube/Vimeo)" },
+        { "type": "url", "id": "video_mp4_url", "label": "URL MP4 directa (opcional)" },
+        { "type": "checkbox", "id": "video_autoplay", "label": "Autoplay", "default": true },
+        { "type": "checkbox", "id": "video_loop", "label": "Loop", "default": true },
+        { "type": "checkbox", "id": "video_muted", "label": "Muted", "default": true },
+        { "type": "checkbox", "id": "video_controls", "label": "Mostrar controles", "default": false },
+
         { "type": "color", "id": "bg_color", "label": "Color de fondo (si no hay imagen)", "default": "#262626" },
         { "type": "color", "id": "overlay_color", "label": "Overlay (color)", "default": "#000000" },
         { "type": "range", "id": "overlay_opacity", "label": "Overlay (opacidad)", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 20 },
@@ -191,16 +326,21 @@
         ], "default": "custom" },
         { "type": "product", "id": "product_ref", "label": "Producto" },
         { "type": "url", "id": "link_url", "label": "URL personalizada" },
-        { "type": "checkbox", "id": "open_new", "label": "Abrir en nueva pestaña", "default": false }
+        { "type": "checkbox", "id": "open_new", "label": "Abrir en nueva pestaña", "default": false },
+
+        { "type": "header", "content": "Acciones" },
+        { "type": "checkbox", "id": "actions_enable", "label": "Mostrar acciones (botones)", "default": false },
+        { "type": "checkbox", "id": "action_view_enable", "label": "— Mostrar botón “Ver más”", "default": true },
+        { "type": "text", "id": "action_view_label", "label": "Texto botón Ver más", "default": "Ver más" },
+        { "type": "checkbox", "id": "action_add_enable", "label": "— Mostrar botón “Agregar al carrito” (si hay producto)", "default": false },
+        { "type": "text", "id": "action_add_label", "label": "Texto botón Agregar", "default": "Agregar al carrito" },
+        { "type": "range", "id": "action_qty", "label": "Cantidad al agregar", "min": 1, "max": 10, "step": 1, "default": 1 }
       ]
     }
   ],
   "max_blocks": 5,
   "presets": [
-    { 
-        "name": "Custom Pinterest Grid",
-        "category": "Custom" 
-    }
+    { "name": "Custom Pinterest Grid", "category": "Custom" }
   ]
 }
 {% endschema %}

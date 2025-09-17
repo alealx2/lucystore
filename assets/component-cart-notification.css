@@ -4,6 +4,7 @@
 
 .cart-notification-wrapper .cart-notification {
   display: block;
+  z-index: 1000;
 }
 
 .cart-notification {
