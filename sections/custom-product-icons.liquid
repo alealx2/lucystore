@@ -36,6 +36,8 @@
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+        border-top: 1px solid {{section.settings.border_color}};
+        border-bottom: 1px solid {{section.settings.border_color}};        
     }
 
     .icons-row-{{ section.id }} .icons-row__title{
@@ -62,7 +64,7 @@
     .icons-row-{{ section.id }} .icons-row__circle{
       width: {{ section.settings.icon_size }}px;
       height: {{ section.settings.icon_size }}px;
-      border: {{ section.settings.border_width }} solid {{ section.settings.border_color }};
+      border: {{ section.settings.border_width }} solid {{ section.settings.circle_border_color }};
       background: {{ section.settings.bg_circle }};
       overflow: hidden;      
       border-radius: 999px;
@@ -91,9 +93,14 @@
     { "type": "range", "id": "icon_size", "min": 0, "max": 260, "step": 20, "unit": "px", "label": "Tamaño del icono", "default": 220 },
     { "type": "range", "id": "padding_inset", "min": 0, "max": 20, "step": 2, "unit": "px", "label": "Relleno icono", "default": 18 },
     { "type": "range", "id": "gap", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Espacio entre iconos", "default": 40 },
-
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color del borde de la seccion",
+      "default": "#000000"
+    }, 
     { "type": "color", "id": "bg_circle", "label": "Fondo del círculo", "default": "#ffffff" },
-    { "type": "color", "id": "border_color", "label": "Color del borde del círculo", "default": "#262626" },
+    { "type": "color", "id": "circle_border_color", "label": "Color del borde del círculo", "default": "#262626" },
     { "type": "text", "id": "border_width", "label": "Grosor del borde (ej. 1px)", "default": "1px" },
     { "type": "checkbox", "id": "monochrome", "label": "Forzar escala de grises", "default": false },
 
