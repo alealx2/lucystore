@@ -18,26 +18,34 @@
           "type": "image_text",
           "settings": {
             "heading": "",
-            "image": "shopify://shop_images/WHITELOGO.png",
+            "image": "shopify://shop_images/footer_logo.png",
             "image_width": 120,
             "alignment": "",
-            "caption": "<p>Lorem upsun aquec lorem lorem upsun aquec lorem lorem upsun aquec lorem<br/><br/></p>"
+            "caption": ""
+          }
+        },
+        "link_list_HBU88i": {
+          "type": "link_list",
+          "settings": {
+            "heading": "",
+            "menu": "footer-one"
           }
         },
         "link_list_4mnDgV": {
           "type": "link_list",
           "settings": {
             "heading": "",
-            "menu": "season-menu"
+            "menu": "footer-two"
           }
         }
       },
       "block_order": [
         "image_text_pHWQFD",
+        "link_list_HBU88i",
         "link_list_4mnDgV"
       ],
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-47cb6f05-b476-4827-9901-888923f39b05",
         "newsletter_enable": true,
         "newsletter_heading": "",
         "enable_follow_on_shop": true,

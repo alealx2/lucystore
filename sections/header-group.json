@@ -25,6 +25,7 @@
       "block_order": [
         "announcement-bar-0"
       ],
+      "disabled": true,
       "settings": {
         "auto_rotate": false,
         "change_slides_speed": 5,
@@ -43,10 +44,7 @@
           "settings": {
             "trigger_label": "Season",
             "side_menu": "season-menu",
-            "side_menu_label": "Season",
-            "collection_1": "garland",
-            "collection_2": "halloween",
-            "collection_3": "christmas-exterior"
+            "side_menu_label": "Season"
           }
         },
         "mega_config_XfyRDi": {
@@ -54,10 +52,7 @@
           "settings": {
             "trigger_label": "Category",
             "side_menu": "category-menu",
-            "side_menu_label": "Category",
-            "collection_1": "brilliant",
-            "collection_2": "indoor-decor",
-            "collection_3": "lights"
+            "side_menu_label": "Category"
           }
         },
         "mega_config_x9pKbN": {
@@ -65,10 +60,7 @@
           "settings": {
             "trigger_label": "Brand",
             "side_menu": "brand-menu",
-            "side_menu_label": "Brand",
-            "collection_1": "retro-brite",
-            "collection_2": "via-luci",
-            "collection_3": "trees"
+            "side_menu_label": "Brand"
           }
         },
         "mega_config_cYKUar": {
@@ -76,10 +68,7 @@
           "settings": {
             "trigger_label": "Collection",
             "side_menu": "collection-menu",
-            "side_menu_label": "Collection",
-            "collection_1": "king-pine-sparkle",
-            "collection_2": "casselton-fir-twinkle",
-            "collection_3": "shimmering-pine-sparkle"
+            "side_menu_label": "Collection"
           }
         }
       },
@@ -92,18 +81,20 @@
       "settings": {
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
+        "enable_transparent_header": false,
         "menu": "custom-menu",
         "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
+        "color_scheme": "scheme-68a82cc8-0ce5-4612-a54c-bf99f159cf35",
+        "menu_color_scheme": "scheme-68a82cc8-0ce5-4612-a54c-bf99f159cf35",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": true,
         "margin_bottom": 0,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "background_image": "shopify://shop_images/lucyimg_14.jpg"
       }
     }
   },
