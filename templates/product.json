@@ -26,30 +26,157 @@
         "show_rating": false
       }
     },
+    "product_spec_tabs_HK8yGY": {
+      "type": "product-spec-tabs",
+      "blocks": {
+        "tab_fhFegx": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Description",
+            "item_1_icon": "shopify://shop_images/icomulticolor.png",
+            "item_1_label": "Height",
+            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
+            "item_2_icon": "shopify://shop_images/icotree.png",
+            "item_2_label": "Shape",
+            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
+            "item_3_icon": "shopify://shop_images/icofugazstar.png",
+            "item_3_label": "Bulb",
+            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
+            "item_4_icon": "shopify://shop_images/icorows.png",
+            "item_4_label": "Type",
+            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
+            "item_5_icon": "shopify://shop_images/icolights.png",
+            "item_5_label": "Color",
+            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
+            "item_6_icon": "shopify://shop_images/icopallete.png",
+            "item_6_label": "Style",
+            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
+          }
+        },
+        "tab_te36Uh": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Description",
+            "item_1_icon": "shopify://shop_images/icomulticolor.png",
+            "item_1_label": "Height",
+            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
+            "item_2_icon": "shopify://shop_images/icotree.png",
+            "item_2_label": "Shape",
+            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
+            "item_3_icon": "shopify://shop_images/icofugazstar.png",
+            "item_3_label": "Bulb",
+            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
+            "item_4_icon": "shopify://shop_images/icorows.png",
+            "item_4_label": "Type",
+            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
+            "item_5_icon": "shopify://shop_images/icolights.png",
+            "item_5_label": "Color",
+            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
+            "item_6_icon": "shopify://shop_images/icopallete.png",
+            "item_6_label": "Style",
+            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
+          }
+        },
+        "tab_Lj33Ez": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Description",
+            "item_1_icon": "shopify://shop_images/icomulticolor.png",
+            "item_1_label": "Height",
+            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
+            "item_2_icon": "shopify://shop_images/icotree.png",
+            "item_2_label": "Shape",
+            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
+            "item_3_icon": "shopify://shop_images/icofugazstar.png",
+            "item_3_label": "Bulb",
+            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
+            "item_4_icon": "shopify://shop_images/icorows.png",
+            "item_4_label": "Type",
+            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
+            "item_5_icon": "shopify://shop_images/icolights.png",
+            "item_5_label": "Color",
+            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
+            "item_6_icon": "shopify://shop_images/icopallete.png",
+            "item_6_label": "Style",
+            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
+          }
+        },
+        "tab_VXGNpf": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Description",
+            "item_1_icon": "shopify://shop_images/icomulticolor.png",
+            "item_1_label": "Height",
+            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
+            "item_2_icon": "shopify://shop_images/icotree.png",
+            "item_2_label": "Shape",
+            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
+            "item_3_icon": "shopify://shop_images/icofugazstar.png",
+            "item_3_label": "Bulb",
+            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
+            "item_4_icon": "shopify://shop_images/icorows.png",
+            "item_4_label": "Type",
+            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
+            "item_5_icon": "shopify://shop_images/icolights.png",
+            "item_5_label": "Color",
+            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
+            "item_6_icon": "shopify://shop_images/icopallete.png",
+            "item_6_label": "Style",
+            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "tab_fhFegx",
+        "tab_te36Uh",
+        "tab_Lj33Ez",
+        "tab_VXGNpf"
+      ],
+      "name": "Product tabs (metafields)",
+      "settings": {
+        "max_width": 1200,
+        "bg_color": "#f6eee5",
+        "text_color": "#1e2430",
+        "border_color": "#d6c9b7",
+        "tabs_font_size": 16,
+        "tabs_color_active": "#1e2430",
+        "tabs_color_inactive": "#9b8f7f",
+        "item_label_size": 14,
+        "item_value_size": 14,
+        "item_label_color": "#1e2430",
+        "item_value_color": "#4b4b4b",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "custom_product_icons_NWKHPE": {
       "type": "custom-product-icons",
       "blocks": {
         "icon_TVDrzN": {
           "type": "icon",
           "settings": {
+            "icon_image": "shopify://shop_images/ic1_c0f858bf-f247-40a4-87c7-c90ef2ffb35f.png",
             "label": "Limited collections"
           }
         },
         "icon_f3M6Qz": {
           "type": "icon",
           "settings": {
+            "icon_image": "shopify://shop_images/ic1_c0f858bf-f247-40a4-87c7-c90ef2ffb35f.png",
             "label": "Limited collections"
           }
         },
         "icon_qN7Rde": {
           "type": "icon",
           "settings": {
+            "icon_image": "shopify://shop_images/ic3.png",
             "label": "Limited collections"
           }
         },
         "icon_iMVgdE": {
           "type": "icon",
           "settings": {
+            "icon_image": "shopify://shop_images/ic2_253d52e9-dc22-4b50-bb82-284af3618e2e.png",
             "label": "Limited collections"
           }
         }
@@ -63,13 +190,13 @@
       "name": "Product Icons",
       "settings": {
         "bg_color": "#f6eee5",
-        "heading": "Titulo",
+        "heading": "",
         "heading_align": "center",
-        "heading_size": 18,
+        "heading_size": 14,
         "icon_size": 200,
         "padding_inset": 16,
         "gap": 40,
-        "bg_circle": "#ffffff",
+        "bg_circle": "#f6eee5",
         "circle_border_color": "#262626",
         "border_width": "1px",
         "label_color": "#1e2430",
@@ -137,6 +264,7 @@
         "description",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -173,44 +301,6 @@
         "padding_bottom": 28
       }
     },
-    "custom_how_to_use_ziDpTi": {
-      "type": "custom_how_to_use",
-      "name": "How to Use (PDP)",
-      "settings": {
-        "media_type": "how",
-        "heading": "How to Use",
-        "heading_size": 36,
-        "text_size": 16,
-        "reverse_layout": false,
-        "border_color": "#000000",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 40,
-        "video_autoplay": true,
-        "video_loop": true,
-        "video_muted": true,
-        "video_controls": false
-      }
-    },
-    "custom_how_to_use_wQAzTh": {
-      "type": "custom_how_to_use",
-      "name": "How to Use (PDP)",
-      "settings": {
-        "media_type": "features",
-        "heading": "Special features",
-        "heading_size": 36,
-        "text_size": 16,
-        "reverse_layout": false,
-        "border_color": "#000000",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 40,
-        "video_autoplay": true,
-        "video_loop": true,
-        "video_muted": true,
-        "video_controls": false
-      }
-    },
     "1759168056636c5fe3": {
       "type": "apps",
       "blocks": {
@@ -233,11 +323,10 @@
   },
   "order": [
     "custom_main_product_hJXgq8",
+    "product_spec_tabs_HK8yGY",
     "custom_product_icons_NWKHPE",
     "main",
     "related-products",
-    "custom_how_to_use_ziDpTi",
-    "custom_how_to_use_wQAzTh",
     "1759168056636c5fe3"
   ]
 }
