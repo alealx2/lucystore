@@ -9,7 +9,8 @@
  */
 {
   "current": {
-    "logo_width": 90,
+    "logo": "shopify://shop_images/vialogo.png",
+    "logo_width": 180,
     "type_header_font": "assistant_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
@@ -203,6 +204,28 @@
           "button": "#ffffff",
           "button_label": "#334fb4",
           "secondary_button_label": "#ffffff",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-68a82cc8-0ce5-4612-a54c-bf99f159cf35": {
+        "settings": {
+          "background": "#000000",
+          "background_gradient": "",
+          "text": "#ffffff",
+          "button": "#ffffff",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#ffffff",
+          "shadow": "#000000"
+        }
+      },
+      "scheme-47cb6f05-b476-4827-9901-888923f39b05": {
+        "settings": {
+          "background": "#161f3a",
+          "background_gradient": "",
+          "text": "#ba745f",
+          "button": "#0e1528",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#ba745f",
           "shadow": "#121212"
         }
       }
