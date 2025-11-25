@@ -74,6 +74,8 @@
       padding-top: 0.5rem;
     }
   }
+
+  
 </style>
 
 {%- style -%}
@@ -85,6 +87,17 @@
     position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
   }
+
+  /* Header transparente en la parte superior (solo si está activado) */
+  .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent.header-wrapper--border-bottom {
+    border-bottom-color: transparent;
+  }
+
 
   @media screen and (min-width: 750px) {
     .section-header {
@@ -122,8 +135,10 @@
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
   {% endif %}
-  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
+  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.enable_transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %}"
 >
+
+
   {%- liquid
     assign social_links = false
     assign localization_forms = false
@@ -514,6 +529,12 @@
       "label": "t:sections.header.settings.mobile_logo_position.label"
     },
     {
+      "type": "checkbox",
+      "id": "enable_transparent_header",
+      "label": "Header transparente en carga inicial (solo home)",
+      "default": true
+    },
+    {
       "type": "link_list",
       "id": "menu",
       "default": "main-menu",
@@ -647,8 +668,13 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 20
-    }
-  ],
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Imagen de fondo mega menu"
+    }      
+],
   "blocks": [
     {
       "type": "@app"
@@ -674,22 +700,7 @@
           "id": "side_menu_label",
           "label": "Etiqueta accesible del menú lateral",
           "default": "Shop by"
-        },
-        {
-          "type": "collection",
-          "id": "collection_1",
-          "label": "Featured Collection #1"
-        },
-        {
-          "type": "collection",
-          "id": "collection_2",
-          "label": "Featured Collection #2"
-        },
-        {
-          "type": "collection",
-          "id": "collection_3",
-          "label": "Featured Collection #3"
-        }
+        }      
       ]
     }
     

@@ -1,10 +1,10 @@
 {% comment %}
   Mega menú 2 niveles con tabs horizontales (Opción B)
-  - Bajo el top-level (p.ej. "Shop") aparece una barra de tabs: Season | Category | Brand | Collection.
-  - Al pasar/click en cada tab se muestra el PANEL: lista lateral + 3 colecciones destacadas.
-  - Cada panel se configura con bloques "Mega menu config" cuyo "trigger_label"
-    coincide EXACTO con el texto del hijo (Season, Category, etc.).
+  - Tabs: Season | Category | Brand | Collection
+  - Season/Brand/Collection usan layout "accordion horizontal".
+  - Category usa layout especial: círculos a la izquierda + hero a la derecha.
 {% endcomment %}
+
 
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
@@ -27,9 +27,13 @@
                 id="MegaMenu-Content-{{ forloop.index }}"
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
+
               >
-                <div class="page-width optionB__container">
-                  {%- comment -%} ======= TABS HORIZONTALES (primer nivel) ======= {%- endcomment -%}
+                <div 
+                  class="optionB__container"                   
+                >
+
+                  {%- comment -%} ========= TABS de primer nivel (Season / Category / ...) ========= {%- endcomment -%}
                   <nav class="optionB__tabs" aria-label="{{ link.title | escape }}">
                     <ul class="optionB__tabs-list" role="list">
                       {%- for childlink in link.links -%}
@@ -50,7 +54,7 @@
                         <li class="optionB__tabs-item">
                           <a
                             href="{{ childlink.url }}"
-                            class="optionB__tabs-link header__menu-item list-menu__item link link--text focus-inset{% if forloop.first %} is-active{% endif %}"
+                            class="optionB__tabs-link header__menu-item list-menu__item link link--text focus-inset"
                             data-panel="{{ panel_id }}"
                             data-has-panel="{% if cfg %}true{% else %}false{% endif %}"
                           >
@@ -61,13 +65,21 @@
                     </ul>
                   </nav>
 
-                  {%- comment -%} ======= PANELES (contenido del mega) ======= {%- endcomment -%}
-                  <div class="optionB__panels">
+                  {%- comment -%} ========= CONTENEDOR DE PANELES ========= {%- endcomment -%}
+                  <div
+                    class="optionB__panels{% if section.settings.background_image != blank %} has-bg{% endif %}"
+                    {% if section.settings.background_image != blank %}
+                      style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"
+                    {% endif %}
+                  >
                     {%- assign rendered_any_panel = false -%}
+
                     {%- for childlink in link.links -%}
                       {%- liquid
                         assign cfg = nil
-                        assign child_title_down = childlink.title | strip | downcase
+                        assign child_title = childlink.title | strip
+                        assign child_title_down = child_title | downcase
+
                         for b in section.blocks
                           if b.type == 'mega_config'
                             assign b_down = b.settings.trigger_label | strip | downcase
@@ -77,86 +89,196 @@
                             endif
                           endif
                         endfor
+
                         assign panel_id = 'mm-panel-' | append: forloop.parentloop.index | append: '-' | append: forloop.index
                       -%}
 
                       {%- if cfg -%}
                         {%- assign rendered_any_panel = true -%}
-                        <div class="optionB__panel{% if forloop.first %} is-active{% endif %}" id="{{ panel_id }}" role="region" aria-label="{{ childlink.title | escape }}">
-                          <div class="megamenu-pb__grid">
-                            {%- comment -%} LADO IZQ: Menú lateral configurable o fallback a nietos {%- endcomment -%}
-                            <nav class="megamenu-pb__nav" aria-label="{{ cfg.settings.side_menu_label | default: childlink.title }}">
-                              {%- if cfg.settings.side_menu != blank and linklists[cfg.settings.side_menu] -%}
-                                <ul class="megamenu-pb__list" role="list">
-                                  {%- for l in linklists[cfg.settings.side_menu].links -%}
-                                    <li class="megamenu-pb__item">
-                                      <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ l.url }}">{{ l.title }}</a>
-                                    </li>
+
+                        {%- assign panel_classes = 'optionB__panel page-width ' -%}
+                        {%- if child_title_down == 'category' -%}
+                          {%- assign panel_classes = panel_classes | append: ' optionB__panel--category' -%}
+                        {%- else -%}
+                          {%- assign panel_classes = panel_classes | append: ' optionB__panel--expanding' -%}
+                        {%- endif -%}
+
+                        {%- comment -%}
+                          Si el bloque tiene imagen de fondo, añadimos:
+                          - chas-bg
+                          - variable CSS --optionb-panel-bg con la URL de la imagen
+                        {%- endcomment -%}
+                        <div
+                          class="{{ panel_classes }}"
+                          id="{{ panel_id }}"
+                          role="region"
+                          aria-label="{{ childlink.title | escape }}"
+                        >
+
+                          {%- comment -%}
+                            MODE CATEGORY → layout especial (círculos + hero)
+                          {%- endcomment -%}
+                          {%- if child_title_down == 'category' -%}
+                            {%- assign menu_source = nil -%}
+                            {%- if cfg.settings.side_menu != blank and linklists[cfg.settings.side_menu] -%}
+                              {%- assign menu_source = linklists[cfg.settings.side_menu].links -%}
+                            {%- elsif childlink.links != blank -%}
+                              {%- assign menu_source = childlink.links -%}
+                            {%- endif -%}
+
+                            <div class="megamenu-cat">
+                              <div class="megamenu-cat__thumbs">
+                                {%- if menu_source -%}
+                                  {%- for item in menu_source -%}
+                                    {%- liquid
+                                      assign hero_id = panel_id | append: '-hero-' | append: forloop.index
+                                      assign col_handle = item.url | split: '/collections/'| last| split: '/'| first
+                                      assign col = collections[col_handle]
+                                    -%}
+                                    <button
+                                      type="button"
+                                      class="megamenu-cat__thumb{% if forloop.first %} is-active{% endif %}"
+                                      data-hero="{{ hero_id }}"
+                                    >
+                                      <span class="megamenu-cat__thumb-image">
+                                        {%- if col and col.image -%}
+                                          {{ col.image | image_url: width: 320 | image_tag:
+                                            loading: 'lazy',
+                                            widths: '160,240,320',
+                                            sizes: '120px',
+                                            alt: col.title | escape }}
+                                        {%- else -%}
+                                          <span class="megamenu-cat__thumb-placeholder" aria-hidden="true"></span>
+                                        {%- endif -%}
+                                      </span>
+                                      <span class="megamenu-cat__thumb-label">
+                                        {{ item.title | upcase }}
+                                      </span>
+                                    </button>
                                   {%- endfor -%}
-                                </ul>
-                              {%- else -%}
+                                {%- endif -%}
+                              </div>
+
+                              <div class="megamenu-cat__hero-wrap">
+                                {%- if menu_source -%}
+                                  {%- for item in menu_source -%}
+                                    {%- liquid
+                                      assign hero_id = panel_id | append: '-hero-' | append: forloop.index
+                                      assign col_handle = item.url | split: '/collections/'| last| split: '/'| first
+                                      assign col = collections[col_handle]
+                                    -%}
+                                    {%- if col -%}
+                                      <a
+                                        id="{{ hero_id }}"
+                                        href="{{ col.url }}"
+                                        class="megamenu-cat__hero{% if forloop.first %} is-active{% endif %}"
+                                      >
+                                        <div class="megamenu-cat__hero-image">
+                                          {%- if col.image -%}
+                                            {{ col.image | image_url: width: 1200 | image_tag:
+                                              loading: 'lazy',
+                                              widths: '600,900,1200',
+                                              sizes: '(min-width: 1200px) 60vw, 100vw',
+                                              alt: col.title | escape }}
+                                          {%- endif -%}
+                                        </div>
+                                        <div class="megamenu-cat__hero-overlay">
+                                          <span class="megamenu-cat__hero-title">
+                                            {{ col.title }}
+                                          </span>
+                                        </div>
+                                      </a>
+                                    {%- endif -%}
+                                  {%- endfor -%}
+                                {%- endif -%}
+                              </div>
+                            </div>
+
+                          {%- else -%}
+
+                            {%- comment -%}
+                              MODE DEFAULT (Season / Brand / Collection)
+                              → menú lateral + fila de cards expandibles
+                            {%- endcomment -%}
+                            <div class="megamenu-pb__grid">
+                              <nav class="megamenu-pb__nav" aria-label="{{ cfg.settings.side_menu_label | default: childlink.title }}">
+                                {%- assign side_links = nil -%}
+                                {%- if cfg.settings.side_menu != blank and linklists[cfg.settings.side_menu] -%}
+                                  {%- assign side_links = linklists[cfg.settings.side_menu].links -%}
+                                {%- elsif childlink.links != blank -%}
+                                  {%- assign side_links = childlink.links -%}
+                                {%- endif -%}
+
                                 <ul class="megamenu-pb__list" role="list">
-                                  {%- if childlink.links != blank -%}
-                                    {%- for gl in childlink.links -%}
+                                  {%- if side_links -%}
+                                    {%- for item in side_links -%}
+                                      {%- assign card_id = panel_id | append: '-card-' | append: forloop.index -%}
                                       <li class="megamenu-pb__item">
-                                        <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ gl.url }}">{{ gl.title }}</a>
+                                        <a
+                                          class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset{% if forloop.first %} is-active{% endif %}"
+                                          href="{{ item.url }}"
+                                          data-card-index="{{ forloop.index0 }}"
+                                        >
+                                          {{ item.title }}
+                                        </a>
                                       </li>
                                     {%- endfor -%}
                                   {%- else -%}
                                     <li class="megamenu-pb__item">
-                                      <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ childlink.url }}">{{ childlink.title }}</a>
+                                      <a class="megamenu-pb__link header__menu-item list-menu__item link link--text focus-inset" href="{{ childlink.url }}">
+                                        {{ childlink.title }}
+                                      </a>
                                     </li>
                                   {%- endif -%}
                                 </ul>
-                              {%- endif -%}
-                            </nav>
+                              </nav>
 
-                            {%- comment -%} LADO DER: 3 colecciones destacadas (fix sin push) {%- endcomment -%}
-                            <div class="megamenu-pb__featured">
-                              {%- assign featured_handles = '' -%}
-                              {%- if cfg.settings.collection_1 != blank -%}{%- assign featured_handles = featured_handles | append: cfg.settings.collection_1 | append: ',' -%}{%- endif -%}
-                              {%- if cfg.settings.collection_2 != blank -%}{%- assign featured_handles = featured_handles | append: cfg.settings.collection_2 | append: ',' -%}{%- endif -%}
-                              {%- if cfg.settings.collection_3 != blank -%}{%- assign featured_handles = featured_handles | append: cfg.settings.collection_3 | append: ',' -%}{%- endif -%}
-                              {%- assign featured_array = featured_handles | split: ',' -%}
+                              <div class="megamenu-pb__featured megamenu-pb__featured--expanding">
+                                {%- if side_links -%}
+                                  {%- for item in side_links -%}
+                                    {%- liquid
+                                      assign card_id = panel_id | append: '-card-' | append: forloop.index
 
-                              {%- for handle in featured_array -%}
-                                {%- if handle != blank -%}
-                                  {%- assign c = collections[handle] -%}
-                                  {%- if c -%}
-                                    <a class="megamenu-pb__card" href="{{ c.url }}">
-                                      <div class="megamenu-pb__image-wrap">
-                                        {%- if c.image -%}
-                                          {{ c.image | image_url: width: 920 | image_tag:
-                                            loading: 'lazy',
-                                            sizes: '(min-width: 990px) 30vw, 90vw',
-                                            widths: '360,540,720,900',
-                                            alt: c.title | escape }}
-                                        {%- else -%}
-                                          {%- assign fp = c.products | first -%}
-                                          {%- if fp and fp.featured_image -%}
-                                            {{ fp.featured_image | image_url: width: 920 | image_tag:
+                                      assign col_handle = item.url | split: '/collections/'| last| split: '/'| first
+                                      assign col = collections[col_handle]
+
+                                      if col == nil and item.type == 'collection_link'
+                                        assign col = item.object
+                                      endif
+                                    -%}
+
+                                    {%- if col -%}
+                                      <a
+                                        id="{{ card_id }}"
+                                        href="{{ col.url }}"
+                                        class="megamenu-pb__card{% if forloop.first %} is-expanded is-active{% endif %}"
+                                        data-card-index="{{ forloop.index0 }}"
+                                      >
+
+                                        <div class="megamenu-pb__image-wrap">
+                                          {%- if col.image -%}
+                                            {{ col.image | image_url: width: 920 | image_tag:
                                               loading: 'lazy',
-                                              sizes: '(min-width: 990px) 30vw, 90vw',
-                                              widths: '360,540,720,900',
-                                              alt: c.title | escape }}
-                                          {%- else -%}
-                                            <div class="megamenu-pb__image-placeholder" aria-hidden="true"></div>
+                                              sizes: '(min-width: 1200px) 26vw, 70vw',
+                                              widths: '480,720,920',
+                                              alt: col.title | escape }}
                                           {%- endif -%}
-                                        {%- endif -%}
-                                      </div>
-                                      <span class="megamenu-pb__title">{{ c.title }}</span>
-                                    </a>
-                                  {%- endif -%}
+                                        </div>
+                                        <span class="megamenu-pb__title">{{ col.title }}</span>
+                                      </a>
+                                    {%- endif -%}
+                                  {%- endfor -%}
                                 {%- endif -%}
-                              {%- endfor -%}
+                              </div>
                             </div>
-                          </div>
+
+                          {%- endif -%}
                         </div>
                       {%- endif -%}
                     {%- endfor -%}
 
                     {%- unless rendered_any_panel -%}
-                      {%- comment -%} Si ningún hijo tiene bloque configurado, cae al layout Dawn por defecto {%- endcomment -%}
+                      {%- comment -%} Fallback Dawn por defecto {%- endcomment -%}
                       <ul class="mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}" role="list">
                         {%- for childlink in link.links -%}
                           <li>
@@ -194,7 +316,7 @@
   </ul>
 </nav>
 
-{% comment %} === MOBILE MEGA: templates generados desde los bloques === {% endcomment %}
+{%- comment -%} ========== MOBILE mega (igual que antes, puedes dejarlo tal cual) ========== {%- endcomment %}
 <div id="mobile-mega-templates" hidden>
   {% for b in section.blocks %}
     {% if b.type == 'mega_config' %}
@@ -209,37 +331,8 @@
                 {% endfor %}
               </ul>
             {% else %}
-              <ul></ul> 
+              <ul></ul>
             {% endif %}
-          </div>
-          <div class="mobile-mega__featured">
-            {% assign handles = '' %}
-            {% if b.settings.collection_1 != blank %}{% assign handles = handles | append: b.settings.collection_1 | append: ',' %}{% endif %}
-            {% if b.settings.collection_2 != blank %}{% assign handles = handles | append: b.settings.collection_2 | append: ',' %}{% endif %}
-            {% if b.settings.collection_3 != blank %}{% assign handles = handles | append: b.settings.collection_3 | append: ',' %}{% endif %}
-            {% assign arr = handles | split: ',' %}
-            {% for handle in arr %}
-              {% if handle != blank %}
-                {% assign c = collections[handle] %}
-                {% if c %}
-                  <a class="mobile-mega__card" href="{{ c.url }}">
-                    <div class="mobile-mega__image-wrap">
-                      {% if c.image %}
-                        {{ c.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360,540,720', sizes: '90vw', alt: c.title }}
-                      {% else %}
-                        {% assign fp = c.products | first %}
-                        {% if fp and fp.featured_image %}
-                          {{ fp.featured_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360,540,720', sizes: '90vw', alt: c.title }}
-                        {% else %}
-                          <div class="mobile-mega__image-placeholder"></div>
-                        {% endif %}
-                      {% endif %}
-                    </div>
-                    <span class="mobile-mega__title">{{ c.title }}</span>
-                  </a>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
           </div>
         </div>
       </template>
@@ -248,36 +341,24 @@
 </div>
 
 <style>
-    /*Estilos MOBILE*/
+  /* ====== MOBILE (sin cambios importantes) ====== */
   @media (max-width: 990px){
     .mobile-mega-host{ padding-left: 12px; overflow:hidden; transition:max-height .24s ease; }
     .mobile-mega{ padding: 10px 0 18px; border-top: 1px solid rgba(0,0,0,.06); }
     .mobile-mega__list ul{ list-style:none; margin:0 0 8px 0; padding:0; }
     .mobile-mega__list li{ margin:0; }
     .mobile-mega__list a{ display:block; padding:10px 4px; text-decoration:none; }
-    .mobile-mega__featured{ display:grid; grid-template-columns: 1fr; gap:14px; margin-top:6px; }
-    .mobile-mega__card{ display:flex; flex-direction:column; gap:8px; text-decoration:none; color:inherit; }
-    .mobile-mega__image-wrap{ aspect-ratio: 4/3; background:#f6f6f6; border-radius:0; overflow:hidden; }
-    .mobile-mega__image-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .mobile-mega__image-placeholder{ width:100%; height:100%; background:linear-gradient(0deg,#f3f3f3,#fafafa); }
-    .mobile-mega__title{ font-size:14px; }
   }
-</style>
 
-
-<style>
-
-
-  /* El wrapper del mega de Dawn debe animar su altura */
+  /* ====== Altura animada del wrapper Dawn ====== */
   @media (min-width: 990px){
     .mega-menu__content{
-      transition: height .26s ease;       
+      transition: height .26s ease;
       max-height: calc(100vh - var(--header-height));
-      overflow-y: auto;                   
+      overflow-y: auto;
     }
   }
 
-  /* Paneles con transición (mantén lo que pusimos antes) */
   .optionB__panels{ position: relative; transition: height .24s ease; }
   .optionB__panel{
     position:absolute; inset:0; opacity:0; visibility:hidden;
@@ -288,10 +369,17 @@
     opacity:1; visibility:visible; transform:translateY(0); pointer-events:auto;
     transition: opacity .22s ease, transform .22s ease;
   }
-  /* ===== Barra de tabs (primer nivel bajo el header) ===== */
-  {% comment %} .optionB__container{ padding:14px 0 22px; } {% endcomment %}
-  .optionB__tabs{ border-bottom:1px solid rgba(0,0,0,.08); margin-bottom:16px; }
-  .optionB__tabs-list{ list-style:none; margin:0; padding:0; display:flex; gap:28px; align-items:flex-end; }
+
+  /* ====== Fondo por bloque (imagen + overlay) ====== */
+  .has-bg{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+
+  .optionB__tabs{ border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:16px; }
+  .optionB__tabs-list{ list-style:none; margin:0; padding:0; display:flex; gap:28px; align-items:center; justify-content: center; }
   .optionB__tabs-item{ margin:0; }
   .optionB__tabs-link{
     display:inline-block; padding:10px 2px; text-decoration:none; position:relative; line-height:1.2;
@@ -300,171 +388,565 @@
     content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background: currentColor;
   }
 
-  /* ===== Panel (debajo de tabs) ===== */
-
-  .optionB__panel{
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(6px);
-    pointer-events: none;
-    transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
-  }  
-  .optionB__panel.is-active{
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-    transition: opacity .22s ease, transform .22s ease;
+  /* ====== GRID BASE PARA PANELES DEFAULT ====== */
+  .megamenu-pb__grid{
+    display:grid;
+    grid-template-columns: 260px minmax(0,1fr);
+    gap:24px;
   }
-
-  /* Grid PB dentro del panel */
-  .megamenu-pb__grid{ display:grid; grid-template-columns: 280px 1fr; gap:24px; }
-  .megamenu-pb__nav{ padding-right:24px; border-right:1px solid rgba(0,0,0,.08); max-height:54vh; overflow:auto; }
+  .megamenu-pb__nav{
+    padding-right:24px;
+    border-right:1px solid rgba(255,255,255,.08);
+    max-height:54vh;
+    overflow:auto;
+  }
   .megamenu-pb__list{ list-style:none; padding:0; margin:0; }
   .megamenu-pb__item{ margin:0; }
-  .megamenu-pb__link{ display:block; padding:10px 8px; text-decoration:none; font-size:15px; }
-  .megamenu-pb__link:hover, .megamenu-pb__link:focus{ text-decoration:underline; }
-  .megamenu-pb__featured{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:20px; }
-  .megamenu-pb__card{ display:flex; flex-direction:column; gap:10px; text-decoration:none; color:inherit; }
-  .megamenu-pb__image-wrap{ position:relative; aspect-ratio:16/20; overflow:hidden; border-radius:0; background:#f6f6f6; }
-  .megamenu-pb__image-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .megamenu-pb__image-placeholder{ width:100%; height:100%; background:linear-gradient(0deg,#f3f3f3,#fafafa); }
-  .megamenu-pb__title{ font-size:14px; line-height:1.3; }
+  .megamenu-pb__link{
+    display:block; padding:10px 8px;
+    text-decoration:none; font-size:15px;
+  }
+  .megamenu-pb__link.is-active{ font-weight:600; }
+
+  /* ====== LAYOUT EXPANDIBLE (Season / Brand / Collection) ====== */
+  .megamenu-pb__featured--expanding{
+    display:flex;
+    align-items:stretch;
+    gap:20px;
+  }
+  .megamenu-pb__card{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    text-decoration:none;
+    color:inherit;
+    flex:1 1 0;
+    min-width:0;
+    transition:
+      flex .35s ease,
+      transform .35s ease,
+      box-shadow .35s ease,
+      opacity .25s ease;
+  }
+  .megamenu-pb__image-wrap{
+    position:relative;
+    aspect-ratio: 12 / 16;
+    overflow:hidden;
+    border-radius:2.4rem;
+    background:#141414;
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .megamenu-pb__image-wrap img{
+    width:100%; height:100%;
+    object-fit:cover; display:block;
+  }
+  .megamenu-pb__title{
+    font-size:14px;
+    line-height:1.3;
+    margin-top:6px;
+  }
+
+  @media (min-width: 990px){
+    .megamenu-pb__featured--expanding.has-active .megamenu-pb__card{
+      flex:0.8;
+      opacity:0.6;
+    }
+    .megamenu-pb__featured--expanding.has-active .megamenu-pb__card.is-active{
+      flex:2.4;
+      opacity:1;
+    }
+    .megamenu-pb__card.is-active .megamenu-pb__image-wrap{
+      transform:translateY(-4px);
+      box-shadow:0 12px 30px rgba(0,0,0,0.45);
+    }
+  }
+
+  /* ====== CATEGORY: layout especial ====== */
+  .optionB__panel--category{
+    position:absolute;
+  }
+
+  .megamenu-cat{
+    display:grid;
+    grid-template-columns: minmax(0,430px) minmax(0,1fr);
+    gap:40px;
+    align-items:flex-start;
+  }
+
+  .megamenu-cat__thumbs{
+    display:grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap:18px 20px;
+  }
+  .megamenu-cat__thumb{
+    border:0;
+    background:none;
+    padding:0;
+    text-align:center;
+    cursor:pointer;
+    color:inherit;
+  }
+  .megamenu-cat__thumb-image{
+    display:block;
+    width:100%;
+    max-width:130px;
+    margin:0 auto 8px;
+    border-radius:999px;
+    overflow:hidden;
+    background:#141414;
+    aspect-ratio:1/1;
+  }
+  .megamenu-cat__thumb-image img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .megamenu-cat__thumb-placeholder{
+    width:100%; height:100%;
+    display:block;
+    background:linear-gradient(135deg,#333,#555);
+  }
+  .megamenu-cat__thumb-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .megamenu-cat__thumb.is-active .megamenu-cat__thumb-image{
+    box-shadow:
+      0 0 0 3px rgba(255,255,255,.75),
+      0 10px 24px rgba(0,0,0,.45);
+    transform:translateY(-2px);
+  }
+
+  .megamenu-cat__hero-wrap{
+    position:relative;
+    min-height:260px;
+  }
+  .megamenu-cat__hero{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    border-radius:2.4rem;
+    overflow:hidden;
+    text-decoration:none;
+    color:#fff;
+    transition: opacity .26s ease, visibility 0s linear .26s;
+  }
+  .megamenu-cat__hero.is-active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transition: opacity .26s ease;
+  }
+  .megamenu-cat__hero-image img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .megamenu-cat__hero-overlay{
+    position:absolute;
+    inset:auto 24px 24px;
+    font-size:16px;
+    font-weight:600;
+    text-shadow:0 0 20px rgba(0,0,0,.8);
+  }
+
+  @media (min-width: 990px) and (max-width: 1300px){
+    .megamenu-cat{
+      grid-template-columns: minmax(0,380px) minmax(0,1fr);
+      gap:26px;
+    }
+    .megamenu-cat__thumbs{
+      grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+  }
 
   @media (max-width: 990px){
     .megamenu-pb__grid{ grid-template-columns: 1fr; }
-    .megamenu-pb__featured{ grid-template-columns: 1fr; }
+    .megamenu-pb__featured--expanding{ display:grid; grid-template-columns: 1fr; }
+    .megamenu-cat{
+      grid-template-columns: 1fr;
+    }
+    .megamenu-cat__hero-wrap{ margin-top:20px; min-height:200px; }
+  }
+
+  @media (max-width: 990px){
     .optionB__tabs-list{ gap:16px; flex-wrap:wrap; }
   }
 </style>
 
+<style>
+  /* ================================
+     Layout avanzado Season / Brand / Collection
+     (no toca Category)
+  ================================ */
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__nav {
+    padding-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    max-height: 54vh;
+    overflow: auto;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__item {
+    margin: 0;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link {
+    display: block;
+    padding: 10px 8px;
+    text-decoration: none;
+    font-size: 15px;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link.is-active {
+    font-weight: 600;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link:hover,
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link:focus {
+    text-decoration: underline;
+  }
+
+  /* Contenedor de cards derecha */
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__featured {
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+    max-width: 950px;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    transition:
+      flex 0.4s ease,
+      transform 0.35s ease,
+      opacity 0.3s ease,
+      box-shadow 0.35s ease;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__image-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, #272727, #444);
+  }
+
+  /* Overlay para legibilidad del título */
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0,0,0,.85) 0%,
+      rgba(0,0,0,.35) 35%,
+      rgba(0,0,0,0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Título por defecto = vertical centrado */
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center;
+    z-index: 2;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-align: center;
+    padding: 0 10px;
+    transition:
+      transform 0.4s ease,
+      left 0.4s ease,
+      bottom 0.4s ease,
+      top 0.4s ease,
+      text-align 0.4s ease,
+      white-space 0.4s ease;
+  }
+
+  /* Título cuando la card está expandida (hero) */
+  .optionB__panel:not(.optionB__panel--category)
+  .megamenu-pb__card.is-expanded .megamenu-pb__title {
+    left: 24px;
+    bottom: 22px;
+    top: auto;
+    transform: none;
+    text-align: left;
+    white-space: normal;
+  }
+
+  /* Acordeón horizontal en desktop */
+  @media (min-width: 990px) {
+    .optionB__panel:not(.optionB__panel--category)
+    .megamenu-pb__featured.has-active .megamenu-pb__card {
+      flex: 0.7;
+      opacity: 0.65;
+    }
+
+    .optionB__panel:not(.optionB__panel--category)
+    .megamenu-pb__featured.has-active .megamenu-pb__card.is-expanded {
+      flex: 3;
+      opacity: 1;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    }
+
+    .optionB__panel:not(.optionB__panel--category)
+    .megamenu-pb__featured.has-active .megamenu-pb__card.is-expanded .megamenu-pb__image-wrap {
+      transform: translateY(-4px) scale(1.02);
+    }
+  }
+
+  /* Mobile: cards una debajo de otra sin efecto loco */
+  @media (max-width: 989px) {
+    .optionB__panel:not(.optionB__panel--category) .megamenu-pb__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .optionB__panel:not(.optionB__panel--category) .megamenu-pb__featured {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .optionB__panel:not(.optionB__panel--category) .megamenu-pb__card {
+      flex: none;
+      border-radius: 16px;
+    }
+
+    .optionB__panel:not(.optionB__panel--category) .megamenu-pb__title {
+      position: static;
+      transform: none;
+      white-space: normal;
+      text-align: left;
+      padding: 10px 0 0;
+    }
+  }
+</style>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('.mega-menu').forEach(function(mega){
+  document.addEventListener('DOMContentLoaded', function () {
+
+    /* ========== DESKTOP MEGA ========== */
+    document.querySelectorAll('.mega-menu').forEach(function (mega) {
       var tabs   = mega.querySelectorAll('.optionB__tabs-link');
       var panels = mega.querySelectorAll('.optionB__panel');
       var wrap   = mega.querySelector('.optionB__panels');
-      var content= mega.querySelector('.mega-menu__content');           // << nuevo
-      var inner  = mega.querySelector('.optionB__container');           // << nuevo
-      if(!tabs.length || !wrap || !content || !inner) return;
+      var content= mega.querySelector('.mega-menu__content');
+      var inner  = mega.querySelector('.optionB__container');
 
-      function setHeights(activePanel){
-        // Altura del bloque de paneles (para la animación interna)
-        wrap.style.height = (activePanel ? activePanel.scrollHeight : wrap.scrollHeight) + 'px';
-        // Altura total del mega (tabs + panel + paddings)
-        var padTop    = parseFloat(getComputedStyle(content).paddingTop)  || 0;
-        var padBottom = parseFloat(getComputedStyle(content).paddingBottom)|| 0;
-        content.style.height = (inner.scrollHeight + padTop + padBottom) + 'px';
+      if (!tabs.length || !wrap || !content || !inner) return;
+
+      function setHeights(activePanel) {
+        if (activePanel) {
+          wrap.style.height = activePanel.scrollHeight + 'px';
+        } else {
+          wrap.style.height = '0px';
+        }
       }
 
-      function activateTab(tab){
+      /* ------- Season/Brand/Collection: acordeón horizontal ------- */
+      function initExpanding(panel) {
+        var featured = panel.querySelector('.megamenu-pb__featured--expanding, .megamenu-pb__featured');
+        if (!featured) return;
+
+        var cards = featured.querySelectorAll('.megamenu-pb__card[data-card-index]');
+        if (!cards.length) return;
+
+        var links = panel.querySelectorAll('.megamenu-pb__nav .megamenu-pb__link[data-card-index]');
+        featured.classList.add('has-active');
+
+        function setActive(idx) {
+          idx = parseInt(idx, 10);
+          if (isNaN(idx)) return;
+
+          cards.forEach(function (card, i) {
+            var on = i === idx;
+            card.classList.toggle('is-expanded', on);
+            card.classList.toggle('is-active',  on);
+          });
+
+          links.forEach(function (link, i) {
+            link.classList.toggle('is-active', i === idx);
+          });
+        }
+
+        // Estado inicial
+        setActive(0);
+
+        // Hover/focus en links laterales
+        links.forEach(function (link) {
+          var idx = link.getAttribute('data-card-index');
+          link.addEventListener('mouseenter', function () { setActive(idx); });
+          link.addEventListener('focus',      function () { setActive(idx); });
+        });
+
+        // Hover/focus directamente en las cards (IMÁGENES)
+        cards.forEach(function (card) {
+          var idx = card.getAttribute('data-card-index');
+          card.addEventListener('mouseenter', function () { setActive(idx); });
+          card.addEventListener('focus',      function () { setActive(idx); });
+        });
+      }
+
+      /* ------- Category: círculos + hero ------- */
+      function initCategory(panel) {
+        var thumbs = panel.querySelectorAll('.megamenu-cat__thumb');
+        var heroes = panel.querySelectorAll('.megamenu-cat__hero');
+        if (!thumbs.length || !heroes.length) return;
+
+        function setActive(heroId) {
+          thumbs.forEach(function (t) {
+            t.classList.toggle('is-active', t.getAttribute('data-hero') === heroId);
+          });
+          heroes.forEach(function (h) {
+            h.classList.toggle('is-active', h.id === heroId);
+          });
+        }
+
+        var first = thumbs[0];
+        if (first) setActive(first.getAttribute('data-hero'));
+
+        thumbs.forEach(function (t) {
+          var id = t.getAttribute('data-hero');
+          t.addEventListener('mouseenter', function () { setActive(id); });
+          t.addEventListener('focus',      function () { setActive(id); });
+        });
+      }
+
+      /* ------- Activar tab ------- */
+      function activateTab(tab) {
         var target = tab.getAttribute('data-panel');
-        tabs.forEach(function(t){ t.classList.remove('is-active'); });
+
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
         tab.classList.add('is-active');
 
-        panels.forEach(function(p){ p.classList.remove('is-active'); });
-        var panel = mega.querySelector('#'+target);
-        if(panel){
-          panel.classList.add('is-active');
-          setHeights(panel);
+        var activePanel = null;
+        panels.forEach(function (p) {
+          if (p.id === target) {
+            p.classList.add('is-active');
+            activePanel = p;
+          } else {
+            p.classList.remove('is-active');
+          }
+        });
 
-          // Recalcular después de pintar y tras cargar imágenes
-          setTimeout(function(){ setHeights(panel); }, 50);
-          setTimeout(function(){ setHeights(panel); }, 250);
-          panel.querySelectorAll('img').forEach(function(img){
-            img.addEventListener('load', function(){ setHeights(panel); }, { once: true });
+        if (activePanel) {
+          // Inicializa lógica según tipo de panel
+          if (activePanel.classList.contains('optionB__panel--category')) {
+            initCategory(activePanel);
+          } else {
+            initExpanding(activePanel);
+          }
+
+          setHeights(activePanel);
+          setTimeout(function () { setHeights(activePanel); }, 50);
+          setTimeout(function () { setHeights(activePanel); }, 250);
+
+          activePanel.querySelectorAll('img').forEach(function (img) {
+            img.addEventListener('load', function () { setHeights(activePanel); }, { once: true });
           });
         }
       }
 
-      // Inicializa alturas al abrir y al cargar
-      var initial = mega.querySelector('.optionB__panel.is-active');
-      if(initial) setHeights(initial);
+      /* ------- Inicialización al cargar: colapsado hasta que se haga click en una tab ------- */
+      setHeights(null);
 
-      tabs.forEach(function(tab){
+      tabs.forEach(function (tab) {
         var hasPanel = tab.getAttribute('data-has-panel') === 'true';
-        if(hasPanel){
-          tab.addEventListener('click',     function(e){ e.preventDefault(); activateTab(tab); });
-          tab.addEventListener('mouseenter',function(){ activateTab(tab); });
-          tab.addEventListener('focus',     function(){ activateTab(tab); });
-        }
+        if (!hasPanel) return;
+
+        tab.addEventListener('click', function (e) {
+          e.preventDefault();
+          activateTab(tab);
+        });
       });
 
-      window.addEventListener('resize', function(){
+      window.addEventListener('resize', function () {
         var current = mega.querySelector('.optionB__panel.is-active');
         setHeights(current);
       });
 
-      mega.addEventListener('toggle', function(){
-        if(mega.open){
+      mega.addEventListener('toggle', function () {
+        if (mega.open) {
           var current = mega.querySelector('.optionB__panel.is-active');
           setHeights(current);
+        } else {
+          wrap.style.height = '0px';
         }
       });
     });
-  });
-</script>
 
-
-<script>
-  document.addEventListener('DOMContentLoaded', function(){
+    /* ========== MOBILE mega (igual que antes, simple) ========== */
     var tmplRoot = document.getElementById('mobile-mega-templates');
-    if(!tmplRoot) return;
+    if (!tmplRoot) return;
 
-    function normalize(s){ return (s||'').toString().trim().toLowerCase(); }
+    function normalize(s) { return (s || '').toString().trim().toLowerCase(); }
 
-    // Delegación sobre clicks en el drawer
-    document.body.addEventListener('click', function(e){
-      // En Dawn, los items del drawer tienen la clase .menu-drawer__menu-item (a o button)
+    document.body.addEventListener('click', function (e) {
       var a = e.target.closest('a.menu-drawer__menu-item, button.menu-drawer__menu-item');
-      if(!a) return;
+      if (!a) return;
 
       var label = normalize(a.textContent);
-      var t = Array.from(tmplRoot.querySelectorAll('template')).find(function(t){
+      var t = Array.from(tmplRoot.querySelectorAll('template')).find(function (t) {
         return normalize(t.dataset.trigger) === label;
       });
-      if(!t) return; // no hay mega config para este item → seguir navegación normal
+      if (!t) return;
 
-      // Evita navegación para abrir el panel
       e.preventDefault();
 
       var li = a.closest('li');
-      if(!li) return;
+      if (!li) return;
 
-      // Toggle si ya existe
       var host = li.nextElementSibling;
-      if(host && host.classList && host.classList.contains('mobile-mega-host')){
+      if (host && host.classList && host.classList.contains('mobile-mega-host')) {
         var open = host.classList.toggle('is-open');
         host.style.maxHeight = open ? (host.scrollHeight + 'px') : '0';
         return;
       }
 
-      // Crear host y clonar template
       host = document.createElement('div');
       host.className = 'mobile-mega-host is-open';
       li.parentNode.insertBefore(host, li.nextSibling);
       host.appendChild(t.content.cloneNode(true));
-
-      // Fallback: si el template no traía lista, intenta leer nietos del drawer
-      var listWrapper = host.querySelector('.mobile-mega__list ul');
-      if(listWrapper && !listWrapper.children.length){
-        var nestedList = li.querySelector('ul');
-        if(nestedList){
-          nestedList.querySelectorAll('a').forEach(function(n){
-            var li2 = document.createElement('li');
-            var a2 = document.createElement('a');
-            a2.href = n.getAttribute('href');
-            a2.textContent = n.textContent;
-            a2.classList.add("menu-drawer__menu-item");
-            li2.appendChild(a2);
-            listWrapper.appendChild(li2);
-          });
-        }
-      }
-
-      // Animación de apertura
       host.style.maxHeight = host.scrollHeight + 'px';
     }, true);
   });

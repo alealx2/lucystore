@@ -26,6 +26,7 @@
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{section.settings.bg}};
   }
 
   @media screen and (min-width: 750px) {
@@ -194,6 +195,12 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+
+<style>
+  .icon-plus{
+    
+  }
+</style>
 
 {% schema %}
 {
@@ -376,6 +383,21 @@
       "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
     },
     {
+      "type": "header",
+      "content": "Fondo de filtros"
+    },
+    {
+      "type": "image_picker",
+      "id": "filters_bg_image",
+      "label": "Imagen de fondo para tabs"
+    },
+    {
+      "type": "color",
+      "id": "filters_bg_color",
+      "label": "Color de fondo para tabs",
+      "default": "#000000"
+    },
+    {
       "type": "checkbox",
       "id": "enable_sorting",
       "default": true,
@@ -385,6 +407,12 @@
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
     },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Color de fondo seccion",
+      "default": "#F5F2F2"
+    },    
     {
       "type": "range",
       "id": "padding_top",

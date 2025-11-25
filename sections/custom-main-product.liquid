@@ -1,0 +1,1041 @@
+{% comment %}
+  Custom main product section
+  - Galería vertical de miniaturas + imagen principal grande
+  - Columna derecha con info básica de producto
+  - Fondo configurable con color e imagen
+
+  Para usarla:
+  - Crea un archivo en sections/ llamado product-main-custom.liquid
+  - Pega este código
+  - En el template de producto JSON, reemplaza la sección principal por esta.
+{% endcomment %}
+
+{%- assign gallery_media = product.media | where: 'media_type', 'image' -%}
+{%- if gallery_media.size == 0 -%}
+  {%- assign gallery_media = product.media -%}
+{%- endif -%}
+
+{%- capture section_background_style -%}
+  background-color: {{ section.settings.bg_color }};
+  {% if section.settings.bg_image != blank %}
+    background-image: url({{ section.settings.bg_image | image_url: width: 2400 }});
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  {% endif %}
+{%- endcapture -%}
+
+<section
+  id="CustomProductMain-{{ section.id }}"
+  class="via-pdp-main via-pdp-main--{{ section.id }}"
+  style="{{ section_background_style | strip_newlines }}"
+>
+  <div class="via-pdp-main__overlay"></div>
+
+  <div class="page-width">
+    <div class="via-pdp-main__inner">
+      {%- if gallery_media.size > 0 -%}
+        <div class="via-pdp-main__gallery" data-media-count="{{ gallery_media.size }}">
+          <!-- Columna de miniaturas -->
+          <div class="via-pdp-gallery-thumbs-wrap">
+            <button
+              type="button"
+              class="via-pdp-thumb-nav via-pdp-thumb-nav--prev"
+              aria-label="{{ 'general.slider.previous_slide' | t }}"
+            >
+              <span class="via-pdp-icon-caret via-pdp-icon-caret--up"></span>
+            </button>
+
+            <div class="via-pdp-gallery-thumbs" data-scroll-step="{{ section.settings.thumb_scroll_step }}">
+              {%- for media in gallery_media -%}
+                <button
+                  type="button"
+                  class="via-pdp-thumb{% if forloop.first %} is-active{% endif %}"
+                  data-index="{{ forloop.index0 }}"
+                  aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+                >
+                  <div class="via-pdp-thumb__inner">
+                    {{
+                      media.preview_image
+                      | image_url: width: 360
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: '120px',
+                        widths: '120, 180, 240, 360'
+                    }}
+                  </div>
+                </button>
+              {%- endfor -%}
+            </div>
+
+            <button
+              type="button"
+              class="via-pdp-thumb-nav via-pdp-thumb-nav--next"
+              aria-label="{{ 'general.slider.next_slide' | t }}"
+            >
+              <span class="via-pdp-icon-caret via-pdp-icon-caret--down"></span>
+            </button>
+          </div>
+
+          <!-- Imagen principal -->
+          <div class="via-pdp-gallery-main">
+            <button
+              type="button"
+              class="via-pdp-main-nav via-pdp-main-nav--prev"
+              aria-label="{{ 'general.slider.previous_slide' | t }}"
+            >
+              <span class="via-pdp-icon-caret via-pdp-icon-caret--left"></span>
+            </button>
+
+            <div class="via-pdp-main-frame">
+              {%- for media in gallery_media -%}
+                <div
+                  class="via-pdp-main-slide{% if forloop.first %} is-active{% endif %}"
+                  data-index="{{ forloop.index0 }}"
+                >
+                  {{
+                    media.preview_image
+                    | image_url: width: 1946
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
+                      widths: '600, 900, 1200, 1500, 1946',
+                      class: 'via-pdp-main-image'
+                  }}
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <button
+              type="button"
+              class="via-pdp-main-nav via-pdp-main-nav--next"
+              aria-label="{{ 'general.slider.next_slide' | t }}"
+            >
+              <span class="via-pdp-icon-caret via-pdp-icon-caret--right"></span>
+            </button>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <!-- Columna derecha: información de producto -->
+      <div class="via-pdp-main__info" id="ProductInfo-{{ section.id }}">
+        {% comment %} <div class="via-pdp-breadcrumb">
+          {{ 'products.product.vendor' | t }}
+        </div> {% endcomment %}
+
+        <h1 class="via-pdp-title">{{ product.title | escape }}</h1>
+
+        {%- if section.settings.show_rating and product.metafields.reviews.rating.value != blank -%}
+          <div class="via-pdp-rating">
+            {% assign rating = product.metafields.reviews.rating.value %}
+            {% for i in (1..5) %}
+              <span class="via-pdp-star{% if i <= rating %} via-pdp-star--filled{% endif %}">★</span>
+            {% endfor %}
+          </div>
+        {%- endif -%}
+
+        <div class="via-pdp-price">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="via-pdp-price__current">
+                {{ product.price | money }}
+            </span>            
+          {%- endif -%}
+            <span class="via-pdp-price__compare">
+              {{ product.compare_at_price | money }}
+            </span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="via-pdp-price__badge">
+              {{ 'products.product.on_sale' | t }}
+            </span>
+          {%- endif -%}
+        </div>
+
+        <product-form class="via-pdp-form" data-section-id="{{ section.id }}">
+            <div
+            id="Quantity-Form-{{ section.id }}"
+            class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
+            {{ block.shopify_attributes }}
+            >
+                {%- assign cart_qty = cart
+                    | item_count_for_variant: product.selected_or_first_available_variant.id
+                -%}
+                <span class="visually-hidden" id="quantity-label-{{ section.id }}">
+                    {%- if cart_qty > 0 -%}
+                    {{- 'products.product.quantity.in_cart_aria_label' | t: quantity: cart_qty -}}
+                    {%- else -%}
+                    {{- 'products.product.quantity.label' | t -}}
+                    {%- endif -%}
+                </span>
+                {% comment %} <label
+                    class="quantity__label form__label"
+                    for="Quantity-{{ section.id }}"
+                    aria-labelledby="quantity-label-{{ section.id }}"
+                >
+                    <span aria-hidden="true">{{ 'products.product.quantity.label' | t }}</span>
+                    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}" aria-hidden="true">
+                    {%- render 'loading-spinner' -%}
+                    <span
+                        >(
+                        {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+                        )</span
+                    >
+                    </span>
+                </label> {% endcomment %}
+                <div class="btn-wrapper">
+                    <div class="price-per-item__container">
+                        <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                            <button class="quantity__button" name="minus" type="button">
+                            <span class="visually-hidden">
+                                {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                            </span>
+                            <span class="svg-wrapper">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                            </span>
+                            </button>
+                            <input
+                            class="quantity__input"
+                            type="number"
+                            name="quantity"
+                            id="Quantity-{{ section.id }}"
+                            data-cart-quantity="{{ cart_qty }}"
+                            data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                            min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                            {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                                data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                                max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                            {% endif %}
+                            step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                            value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                            form="{{ product_form_id }}"
+                            >
+                            <button class="quantity__button" name="plus" type="button">
+                            <span class="visually-hidden">
+                                {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                            </span>
+                            <span class="svg-wrapper">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                            </span>
+                            </button>
+                        </quantity-input>
+                        {%- liquid
+                            assign volume_pricing_array = product.selected_or_first_available_variant.quantity_price_breaks | sort: 'quantity' | reverse
+                            assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.min
+                            if cart_qty > 0
+                            assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.increment
+                            endif
+                        -%}
+                        {%- if product.quantity_price_breaks_configured? -%}
+                            <price-per-item
+                            id="Price-Per-Item-{{ section.id }}"
+                            data-section-id="{{ section.id }}"
+                            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                            >
+                            {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                                {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+                                <div class="price-per-item">
+                                {%- if variant_price_compare -%}
+                                    <dl class="price-per-item--current">
+                                    <dt class="visually-hidden">
+                                        {{ 'products.product.price.regular_price' | t }}
+                                    </dt>
+                                    <dd>
+                                        <s class="variant-item__old-price">
+                                        {{ variant_price_compare | money_with_currency }}
+                                        </s>
+                                    </dd>
+                                    </dl>
+                                {%- endif -%}
+                                {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
+                                    {%- assign variant_price = product.selected_or_first_available_variant.price
+                                    | money_with_currency
+                                    -%}
+                                    <span class="price-per-item--current">
+                                    {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
+                                    </span>
+                                {%- else -%}
+                                    {%- for price_break in volume_pricing_array -%}
+                                    {%- if current_qty_for_volume_pricing >= price_break.minimum_quantity -%}
+                                        {%- assign price_break_price = price_break.price | money_with_currency -%}
+                                        <span class="price-per-item--current">
+                                        {{-
+                                            'products.product.volume_pricing.price_at_each_html'
+                                            | t: price: price_break_price
+                                        -}}
+                                        </span>
+                                        {%- break -%}
+                                    {%- endif -%}
+                                    {%- endfor -%}
+                                {%- endif -%}
+                                </div>
+                            {%- else -%}
+                                {%- assign variant_price = product.selected_or_first_available_variant.price
+                                | money_with_currency
+                                -%}
+                                {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+                                <div class="price-per-item">
+                                {%- if variant_price_compare -%}
+                                    <dl class="price-per-item--current">
+                                    <dt class="visually-hidden">
+                                        {{ 'products.product.price.regular_price' | t }}
+                                    </dt>
+                                    <dd>
+                                        <s class="variant-item__old-price">
+                                        {{ variant_price_compare | money_with_currency }}
+                                        </s>
+                                    </dd>
+                                    <dt class="visually-hidden">
+                                        {{ 'products.product.price.sale_price' | t }}
+                                    </dt>
+                                    <dd>
+                                        <span class="price-per-item--current">
+                                        {{-
+                                            'products.product.volume_pricing.price_at_each_html'
+                                            | t: price: variant_price
+                                        -}}
+                                        </span>
+                                    </dd>
+                                    </dl>
+                                {%- else -%}
+                                    <span class="price-per-item--current">
+                                    {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
+                                    </span>
+                                {%- endif -%}
+                                </div>
+                            {%- endif -%}
+                            </price-per-item>
+                        {%- endif -%}
+                    </div>
+                    <div class="quantity__rules caption" id="Quantity-Rules-{{ section.id }}">
+                        {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
+                            <span class="divider">
+                            {{-
+                                'products.product.quantity.multiples_of'
+                                | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment
+                            -}}
+                            </span>
+                        {%- endif -%}
+                        {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
+                            <span class="divider">
+                            {{-
+                                'products.product.quantity.minimum_of'
+                                | t: quantity: product.selected_or_first_available_variant.quantity_rule.min
+                            -}}
+                            </span>
+                        {%- endif -%}
+                        {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
+                            <span class="divider">
+                            {{-
+                                'products.product.quantity.maximum_of'
+                                | t: quantity: product.selected_or_first_available_variant.quantity_rule.max
+                            -}}
+                            </span>
+                        {%- endif -%}
+                    </div>
+                    {%- if product.quantity_price_breaks_configured? -%}
+                    <volume-pricing class="parent-display" id="Volume-{{ section.id }}">
+                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                        <span class="caption-large">{{ 'products.product.volume_pricing.title' | t }}</span>
+                        <ul class="list-unstyled">
+                            <li>
+                            <span>{{ product.selected_or_first_available_variant.quantity_rule.min }}+</span>
+                            {%- assign price = product.selected_or_first_available_variant.price
+                                | money_with_currency
+                            -%}
+                            <span data-text="{{ 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price }}">
+                                {{- 'sections.quick_order_list.each' | t: money: price -}}
+                            </span>
+                            </li>
+                            {%- for price_break in product.selected_or_first_available_variant.quantity_price_breaks -%}
+                            {%- assign price_break_price = price_break.price | money_with_currency -%}
+                            <li class="{%- if forloop.index >= 3 -%}show-more-item hidden{%- endif -%}">
+                                <span>
+                                {{- price_break.minimum_quantity -}}
+                                <span aria-hidden="true">+</span></span
+                                >
+                                <span data-text="{{ 'products.product.volume_pricing.price_at_each_html' | t: price: price_break_price }}">
+                                {{- 'sections.quick_order_list.each' | t: money: price_break_price -}}
+                                </span>
+                            </li>
+                            {%- endfor -%}
+                        </ul>
+                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size >= 3 -%}
+                            <show-more-button>
+                            <button
+                                class="button-show-more link underlined-link"
+                                id="Show-More-{{ section.id }}"
+                                type="button"
+                            >
+                                <span class="label-show-more label-text"
+                                ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t }}
+                                </span>
+                            </button>
+                            </show-more-button>
+                        {%- endif -%}
+                        {%- endif -%}
+                    </volume-pricing>
+                    {%- endif -%}
+                    <div class="add-to-cart">
+                        {%- render 'buy-buttons',
+                            block: block,
+                            product: product,
+                            product_form_id: product_form_id,
+                            section_id: section.id,
+                            show_pickup_availability: true
+                        -%}                
+                    </div>
+                    </div>
+                </div>
+        </product-form>
+
+        <div class="product-tabs">
+
+        </div>
+
+        {%- if product.description != blank and section.settings.show_description -%}
+          <div class="via-pdp-description rte">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .button--full-width, .button:after{
+        border-radius: 8px;
+    }
+    .quantity:before, .quantity:after{
+        background: transparent;
+        border-radius: 8px;
+    }
+    .btn-wrapper{
+        display: flex;
+        gap: 20px;
+    }
+    .via-pdp-main.via-pdp-main--{{ section.id }} {
+      position: relative;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media (min-width: 750px) {
+      .via-pdp-main.via-pdp-main--{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    .via-pdp-main__overlay {
+      position: absolute;
+      inset: 0;
+      background: {{ section.settings.bg_overlay_color }};
+      opacity: {{ section.settings.bg_overlay_opacity | divided_by: 100.0 }};
+      pointer-events: none;
+    }
+
+    .via-pdp-main__inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 60%) minmax(0, 40%);
+      column-gap: clamp(40px, 6vw, 80px);
+      align-items: flex-start;
+    }
+
+    @media (max-width: 989px) {
+      .via-pdp-main__inner {
+        grid-template-columns: 1fr;
+        row-gap: 40px;
+      }
+    }
+
+    /* Galería */
+    .via-pdp-main__gallery {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 20px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 749px) {
+      .via-pdp-main__gallery {
+        grid-template-columns: 1fr;
+        row-gap: 16px;
+      }
+    }
+
+    .via-pdp-gallery-thumbs-wrap {
+      position: relative;
+      width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .via-pdp-gallery-thumbs {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .via-pdp-thumb-nav {
+      border: none;
+      background: #fff;
+      border-radius: 999px;
+      width: 32px;
+      height: 32px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .via-pdp-thumb-nav:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      background: #f8f5ee;
+    }
+
+    .via-pdp-icon-caret {
+      display: inline-block;
+      border-style: solid;
+      border-width: 6px 5px 0 5px;
+      border-color: #1e2430 transparent transparent transparent;
+    }
+
+    .via-pdp-icon-caret--down {
+      transform: rotate(180deg);
+    }
+
+    .via-pdp-icon-caret--left,
+    .via-pdp-icon-caret--right {
+      border-width: 5px 0 5px 6px;
+      border-color: transparent transparent transparent #1e2430;
+    }
+
+    .via-pdp-icon-caret--right {
+      transform: rotate(180deg);
+    }
+
+    .via-pdp-thumb {
+      border: none;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .via-pdp-thumb__inner {
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      overflow: hidden;
+      padding: 4px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border 0.2s ease;
+    }
+
+    .via-pdp-thumb img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    .via-pdp-thumb.is-active .via-pdp-thumb__inner {
+      box-shadow: 0 0 0 2px #1e2430, 0 8px 20px rgba(0,0,0,0.10);
+      transform: translateY(-1px);
+    }
+
+    /* Imagen principal */
+    .via-pdp-gallery-main {
+      position: relative;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+      padding: clamp(24px, 4vw, 40px);
+      height: 100%;
+    }
+
+    .via-pdp-main-frame {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .via-pdp-main-slide {
+      display: none;
+      width: 100%;
+    }
+
+    .via-pdp-main-slide.is-active {
+      display: block;
+    }
+
+    .via-pdp-main-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      max-height: 640px;
+    }
+
+    .via-pdp-main-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.16);
+      transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      z-index: 3;
+    }
+
+    .via-pdp-main-nav--prev {
+      left: 16px;
+    }
+
+    .via-pdp-main-nav--next {
+      right: 16px;
+    }
+
+    .via-pdp-main-nav:hover {
+      background: #f8f5ee;
+      transform: translateY(-50%) translateX(1px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+    }
+
+    /* Columna derecha */
+    .via-pdp-main__info {
+      max-width: 480px;
+    }
+
+    .via-pdp-breadcrumb {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      color: #77716a;
+    }
+
+    .via-pdp-title {
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      color: #1e2430;
+    }
+
+    .via-pdp-rating {
+      margin-bottom: 16px;
+      color: #f1a545;
+      font-size: 16px;
+    }
+
+    .via-pdp-price {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      font-size: 20px;
+    }
+
+    .via-pdp-price__compare {
+      text-decoration: line-through;
+      color: #b9b0a6;
+      font-size: 16px;
+    }
+
+    .via-pdp-price__badge {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #000;
+      color: #fff;
+    }
+
+    .via-pdp-qty {
+      margin-bottom: 18px;
+    }
+
+    .via-pdp-qty__label {
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #7c756b;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .via-pdp-qty__controls {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid #d0c4b4;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .via-pdp-qty__button {
+      border: none;
+      background: transparent;
+      width: 42px;
+      height: 42px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .via-pdp-qty__input {
+      width: 52px;
+      text-align: center;
+      border: none;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .via-pdp-actions {
+      margin-bottom: 24px;
+    }
+
+    .via-pdp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    }
+
+    .via-pdp-btn--primary {
+      background: {{ section.settings.button_bg }};
+      color: {{ section.settings.button_text }};
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    }
+
+    .via-pdp-btn--primary:hover {
+      background: {{ section.settings.button_bg_hover }};
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+    }
+
+    .via-pdp-description {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #514a42;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 749px) {
+      .via-pdp-main__info {
+        max-width: 100%;
+      }
+
+      .via-pdp-gallery-main {
+        padding: 16px;
+      }
+
+      .via-pdp-main-frame {
+        min-height: 320px;
+      }
+    }
+
+    /* --- Tabs incrustadas en la columna derecha --- */
+    .via-pdp-main .product-tabs {
+      margin-top: 24px;
+    }
+
+    .via-pdp-main .product-tabs .product-spec-tabs {
+      padding-top: 16px;
+      padding-bottom: 0;
+      background-color: transparent;
+    }
+
+    .via-pdp-main .product-tabs .product-spec-tabs__inner {
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+
+  </style>
+
+  <script>
+    (function() {
+      var sectionId = '{{ section.id }}';
+      var root = document.getElementById('CustomProductMain-' + sectionId);
+      if (!root) return;
+
+      var gallery = root.querySelector('.via-pdp-main__gallery');
+      if (!gallery) return;
+
+      var slides = gallery.querySelectorAll('.via-pdp-main-slide');
+      var thumbs = gallery.querySelectorAll('.via-pdp-thumb');
+      if (!slides.length || !thumbs.length) return;
+
+      var currentIndex = 0;
+
+      function showSlide(index) {
+        var max = slides.length - 1;
+        if (index < 0) index = max;
+        if (index > max) index = 0;
+        currentIndex = index;
+
+        slides.forEach(function(slide) {
+          if (parseInt(slide.getAttribute('data-index'), 10) === index) {
+            slide.classList.add('is-active');
+          } else {
+            slide.classList.remove('is-active');
+          }
+        });
+
+        thumbs.forEach(function(thumb) {
+          if (parseInt(thumb.getAttribute('data-index'), 10) === index) {
+            thumb.classList.add('is-active');
+            scrollThumbIntoView(thumb);
+          } else {
+            thumb.classList.remove('is-active');
+          }
+        });
+      }
+
+      function scrollThumbIntoView(thumb) {
+        var container = root.querySelector('.via-pdp-gallery-thumbs');
+        if (!container) return;
+        var rect = thumb.getBoundingClientRect();
+        var cRect = container.getBoundingClientRect();
+
+        if (rect.top < cRect.top) {
+          container.scrollBy({ top: rect.top - cRect.top - 8, behavior: 'smooth' });
+        } else if (rect.bottom > cRect.bottom) {
+          container.scrollBy({ top: rect.bottom - cRect.bottom + 8, behavior: 'smooth' });
+        }
+      }
+
+      thumbs.forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+          var idx = parseInt(thumb.getAttribute('data-index'), 10);
+          showSlide(idx);
+        });
+      });
+
+      var mainPrev = gallery.querySelector('.via-pdp-main-nav--prev');
+      var mainNext = gallery.querySelector('.via-pdp-main-nav--next');
+
+      if (mainPrev) {
+        mainPrev.addEventListener('click', function() {
+          showSlide(currentIndex - 1);
+        });
+      }
+
+      if (mainNext) {
+        mainNext.addEventListener('click', function() {
+          showSlide(currentIndex + 1);
+        });
+      }
+
+      var thumbPrev = gallery.querySelector('.via-pdp-thumb-nav--prev');
+      var thumbNext = gallery.querySelector('.via-pdp-thumb-nav--next');
+      var thumbContainer = gallery.querySelector('.via-pdp-gallery-thumbs');
+      var scrollStep = parseInt(thumbContainer.getAttribute('data-scroll-step'), 10) || 160;
+
+      if (thumbPrev) {
+        thumbPrev.addEventListener('click', function() {
+          thumbContainer.scrollBy({ top: -scrollStep, behavior: 'smooth' });
+        });
+      }
+
+      if (thumbNext) {
+        thumbNext.addEventListener('click', function() {
+          thumbContainer.scrollBy({ top: scrollStep, behavior: 'smooth' });
+        });
+      }
+
+      // Qty controls (si algún día los usas con las clases via-pdp-qty__)
+      var qtyMinus = root.querySelector('.via-pdp-qty__button--minus');
+      var qtyPlus = root.querySelector('.via-pdp-qty__button--plus');
+      var qtyInput = root.querySelector('.via-pdp-qty__input');
+
+      if (qtyMinus && qtyPlus && qtyInput) {
+        qtyMinus.addEventListener('click', function() {
+          var value = parseInt(qtyInput.value || '1', 10);
+          if (value > 1) qtyInput.value = value - 1;
+        });
+
+        qtyPlus.addEventListener('click', function() {
+          var value = parseInt(qtyInput.value || '1', 10);
+          qtyInput.value = value + 1;
+        });
+      }
+
+      /**
+       * Mover sección "Product tabs (metafields)" dentro del contenedor .product-tabs
+       * de la columna derecha.
+       *
+       * Lo hacemos en window.load para asegurarnos de que el resto de secciones
+       * del template ya estén presentes en el DOM.
+       */
+      window.addEventListener('load', function() {
+        var tabsTarget = root.querySelector('.product-tabs');
+        if (!tabsTarget) return;
+
+        // Buscamos la sección de tabs en la página (sea cual sea su id dinámico)
+        var externalTabsSection =
+          document.querySelector('section.product-spec-tabs') ||
+          document.querySelector('section[id^="ProductTabs-template"]');
+
+        if (!externalTabsSection) return;
+
+        // Evitamos moverla más de una vez
+        if (tabsTarget.contains(externalTabsSection)) return;
+
+        tabsTarget.appendChild(externalTabsSection);
+      });
+    })();
+  </script>
+
+</section>
+
+{% schema %}
+{
+  "name": "Custom product main",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#f6eee5"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+      "type": "color",
+      "id": "bg_overlay_color",
+      "label": "Overlay color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "bg_overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "range",
+      "id": "thumb_scroll_step",
+      "label": "Thumbnail scroll step (px)",
+      "min": 80,
+      "max": 260,
+      "step": 10,
+      "default": 160
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Primary button background",
+      "default": "#13192b"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_hover",
+      "label": "Primary button background (hover)",
+      "default": "#060b18"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Primary button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show product description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating metafield (reviews.rating)",
+      "default": false
+    }
+  ],
+  "blocks": [
+
+  ],
+  "presets": [
+    {
+      "name": "Custom product main",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

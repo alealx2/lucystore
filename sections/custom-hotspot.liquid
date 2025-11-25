@@ -1,9 +1,5 @@
 {% comment %}
-  Hotspots Product Map + Overlay Carousel (Image/Video)
-  - Click en hotspot → overlay con carrusel de todos los productos.
-  - Overlay: color y opacidad configurables.
-  - Cada bloque/slide: imagen o video (archivo subido o externo).
-  - Botones Ver más y Add to cart (abre Cart Notification y actualiza burbuja).
+  Hotspots Product Map + Panel + Modal Product
 {% endcomment %}
 
 <section class="hs color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding" data-hs-root>
@@ -16,7 +12,7 @@
     {% endif %}
   </div>
 
-  <div class="page-width">
+  <div class="custom-width">
     <div class="hs__canvas">
       <div class="hs__media">
         {% if section.settings.main_image != blank %}
@@ -34,17 +30,41 @@
         {% endif %}
       </div>
 
-      {%- liquid
-        assign slide_index = 0
-      -%}
+      {%- comment -%} HOTSPOTS (cada punto lleva todos los datos del producto en data-*) {%- endcomment -%}
       {%- for block in section.blocks -%}
         {%- assign b = block.settings -%}
+        {%- assign p = b.product_ref -%}
+
+        {%- if p != blank -%}
+          {%- assign v       = p.selected_or_first_available_variant -%}
+          {%- assign price   = v.price | default: p.price -%}
+          {%- assign compare = v.compare_at_price | default: p.compare_at_price -%}
+          {%- assign url     = b.view_url | default: p.url -%}
+          {%- assign main_img = b.card_image | default: p.featured_image -%}
+          {%- assign thumb    = p.featured_image | default: b.card_image -%}
+        {%- else -%}
+          {%- assign v       = blank -%}
+          {%- assign price   = blank -%}
+          {%- assign compare = blank -%}
+          {%- assign url     = b.view_url -%}
+          {%- assign main_img = b.card_image -%}
+          {%- assign thumb    = b.card_image -%}
+        {%- endif -%}
+
         <button
           class="hs-point{% if b.pulse %} hs-point--pulse{% endif %}"
           type="button"
-          aria-label="{{ b.hotspot_label | default: 'Ver producto' }}"
+          aria-label="{{ b.hotspot_label | default: 'View product' }}"
           style="top:{{ b.top_position }}%; left:{{ b.left_position }}%;"
-          data-slide-index="{{ slide_index }}"
+          data-title="{{ b.title_override | default: p.title | default: 'Product' | escape }}"
+          data-price="{% if price != blank %}{{ price | money | strip_html | escape }}{% endif %}"
+          data-compare="{% if compare != blank and compare > price %}{{ compare | money | strip_html | escape }}{% endif %}"
+          data-url="{{ url }}"
+          data-thumb="{% if thumb != blank %}{{ thumb | image_url: width: 260 }}{% endif %}"
+          data-main="{% if main_img != blank %}{{ main_img | image_url: width: 1200 }}{% endif %}"
+          data-vid="{% if v != blank %}{{ v.id }}{% endif %}"
+          data-qty="{{ b.qty | default: 1 }}"
+          data-desc="{% if p.description != blank %}{{ p.description | strip_html | escape }}{% else %}{{ b.card_text | strip_html | escape }}{% endif %}"
         >
           {% if b.point_icon != blank %}
             {{ b.point_icon | image_url: width: 44 | image_tag: class: 'hs-point__icon', alt: '' }}
@@ -52,238 +72,863 @@
             <span class="hs-point__dot"></span>
           {% endif %}
         </button>
-        {%- assign slide_index = slide_index | plus: 1 -%}
       {%- endfor -%}
+
+      {%- comment -%} PANEL MINI (abajo izquierda) {%- endcomment -%}
+      <aside class="hs-panel" data-hs-panel aria-hidden="true">
+        <div class="hs-panel__inner">
+          <button class="hs-panel__close" type="button" aria-label="Close">×</button>
+
+          <div class="hs-panel__main">
+            <div class="hs-panel__thumb-wrap">
+              <img class="hs-panel__thumb" src="" alt="">
+            </div>
+
+            <div class="hs-panel__meta">
+              <h3 class="hs-panel__title" data-hs-panel-title>Product title</h3>
+              <div class="hs-panel__prices" data-hs-panel-prices>
+                <span class="hs-panel__price" data-hs-panel-price></span>
+                <span class="hs-panel__compare" data-hs-panel-compare></span>
+              </div>
+              <button
+                class="hs-btn hs-btn--ghost hs-panel__view view-product"
+                type="button"
+                data-hs-panel-view
+              >
+                VIEW PRODUCT
+              </button>
+              <button
+                class="hs-btn hs-btn--ghost hs-panel__add js-hs-add"
+                type="button"
+                data-hs-panel-add
+              >
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+
+          <div class="hs-panel__nav">
+            <button class="hs-panel__arrow hs-panel__arrow--prev" type="button" aria-label="Previous" data-hs-panel-prev>
+              <span></span>
+            </button>
+            <button class="hs-panel__arrow hs-panel__arrow--next" type="button" aria-label="Next" data-hs-panel-next>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 
-  {%- comment -%} OVERLAY + CAROUSEL {%- endcomment -%}
-  <div
-    class="hs-overlay"
-    data-hs-overlay
-    aria-hidden="true"
-  >
-    <div class="hs-overlay__inner">
-      <button class="hs-overlay__close" type="button" aria-label="Close" data-hs-close>×</button>
-      <button class="hs-overlay__nav hs-overlay__nav--prev" type="button" aria-label="Prev" data-hs-prev>‹</button>
-      <button class="hs-overlay__nav hs-overlay__nav--next" type="button" aria-label="Next" data-hs-next>›</button>
+{%- comment -%} MODAL GRANDE PRODUCTO {%- endcomment -%}
+<div class="hs-modal" data-hs-modal aria-hidden="true">
+  <div class="hs-modal__backdrop"></div>
 
-      <div class="hs-slider" data-hs-slider>
-        {%- for block in section.blocks -%}
-          {%- assign b = block.settings -%}
-          {%- assign p = b.product_ref -%}
-          {%- if p != blank -%}
-            {%- assign v = p.selected_or_first_available_variant -%}
-            {%- assign price = v.price | default: p.price -%}
-            {%- assign compare = v.compare_at_price | default: p.compare_at_price -%}
-            {%- assign url = b.view_url | default: p.url -%}
-          {%- else -%}
-            {%- assign url = b.view_url -%}
-          {%- endif -%}
+  <div class="hs-modal__dialog" role="dialog" aria-modal="true">
+    <div class="hs-modal__content">
+      <button class="hs-modal__close" type="button" aria-label="Close">×</button>
 
-          <article class="hs-slide" data-hs-slide>
-            <div class="hs-slide__media">
-              {%- if b.media_type == 'video' -%}
-                {%- if b.video_file != blank -%}
-                  {{ b.video_file | video_tag:
-                      image_size: '800x',
-                      class: 'hs-video',
-                      autoplay: true,
-                      loop: b.video_loop,
-                      muted: b.video_muted,
-                      controls: b.video_controls,
-                      playsinline: true }}
-                {%- elsif b.external_video != blank -%}
-                  {{ b.external_video | external_video_tag: class: 'hs-video hs-video--ext', loading: 'lazy' }}
-                {%- elsif b.video_mp4_url != blank -%}
-                  <video class="hs-video" {% if b.video_muted %}muted{% endif %} {% if b.video_loop %}loop{% endif %} {% if b.video_autoplay %}autoplay{% endif %} playsinline {% if b.video_controls %}controls{% endif %}>
-                    <source src="{{ b.video_mp4_url | video_tag }}" type="video/mp4">
-                  </video>
-                {%- elsif b.card_image != blank -%}
-                  {{ b.card_image | image_url: width: 1200 | image_tag: class: 'hs-slide__img', sizes: '80vw', widths: '600,900,1200', alt: b.title_override | default: p.title }}
-                {%- else -%}
-                  <div class="hs-slide__img--ph">{{ 'image' | placeholder_svg_tag }}</div>
-                {%- endif -%}
-              {%- else -%}
-                {%- assign img_to_use = b.card_image | default: p.featured_image -%}
-                {%- if img_to_use != blank -%}
-                  {{ img_to_use | image_url: width: 1200 | image_tag: class: 'hs-slide__img', sizes: '80vw', widths: '600,900,1200', alt: b.title_override | default: p.title }}
-                {%- else -%}
-                  <div class="hs-slide__img--ph">{{ 'image' | placeholder_svg_tag }}</div>
-                {%- endif -%}
-              {%- endif -%}
-            </div>
+      <div class="hs-modal__image">
+        <img class="hs-modal__img" src="" alt="">
+      </div>
+      <div class="hs-modal__info">
+        <h3 class="hs-modal__title" data-hs-modal-title>Product title…</h3>
 
-            <div class="hs-slide__card">
-              <div class="hs-slide__thumb">
-                {%- assign thumb = p.featured_image | default: b.card_image -%}
-                {% if thumb != blank %}
-                  {{ thumb | image_url: width: 120 | image_tag: class: 'hs-thumb', alt: '' }}
-                {% endif %}
-              </div>
-              <div class="hs-slide__meta">
-                <h3 class="hs-slide__title">{{ b.title_override | default: p.title | default: 'Producto' }}</h3>
-                {% if p != blank %}
-                  <div class="hs-slide__price">
-                    <span class="hs-price">{{ price | money }}</span>
-                    {% if compare > price and compare != blank %}
-                      <span class="hs-compare">{{ compare | money }}</span>
-                    {% endif %}
-                  </div>
-                {% elsif b.price_text != blank %}
-                  <div class="hs-slide__price"><span class="hs-price">{{ b.price_text }}</span></div>
-                {% endif %}
-              </div>
-              <div class="hs-slide__actions">
-                {% if url != blank %}
-                  <a class="hs-btn hs-btn--ghost" href="{{ url }}" {% if b.open_new %}target="_blank" rel="noopener"{% endif %}>{{ b.label_view | default: 'Ver más' }}</a>
-                {% endif %}
-                {% if p != blank and v != blank %}
-                  <button class="hs-btn hs-btn--solid js-hs-add" type="button" data-vid="{{ v.id }}" data-qty="{{ b.qty | default: 1 }}">
-                    {{ b.label_add | default: 'Add to cart' }}
-                  </button>
-                {% endif %}
-              </div>
-            </div>
-          </article>
-        {%- endfor -%}
+        <div class="hs-modal__prices" data-hs-modal-prices>
+          <span class="hs-modal__price" data-hs-modal-price></span>
+          <span class="hs-modal__compare" data-hs-modal-compare></span>
+        </div>
+
+        <div class="hs-modal__desc" data-hs-modal-desc></div>
+
+        <div class="hs-modal__actions">
+          <button
+            class="hs-btn hs-btn--solid hs-modal__add js-hs-add modal-atc-btn"
+            type="button"
+            data-hs-modal-add
+          >
+          <span class="svg-wrapper iconbag">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
+            ADD TO CART
+          </button>
+          <a
+            href="#"
+            class="hs-btn hs-btn--solid hs-modal__link learnmore"
+            data-hs-modal-link
+          >
+            LEARN MORE
+          </a>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+
 
   <style>
-    .section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top | times: 0.75 | round: 0 }}px;padding-bottom:{{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px}
-    @media(min-width:750px){.section-{{ section.id }}-padding{padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px}}
+    .section-{{ section.id }}-padding{
+      padding-top:{{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom:{{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px
+    }
+    @media(min-width:750px){
+      .section-{{ section.id }}-padding{
+        padding-top:{{ section.settings.padding_top }}px;
+        padding-bottom:{{ section.settings.padding_bottom }}px
+      }
+    }
 
-    .hs__title{margin:0 0 .3rem;font-size:clamp(22px,3vw,34px)}
-    .hs__text{margin:0 0 1rem;opacity:.9}
-    .hs__canvas{position:relative}
-    .hs__img{display:block;width:100%;height:auto}
-    .hs__placeholder{border-radius:12px;overflow:hidden}
+
+    
+    .hs__title{
+      margin:0 0 .35rem;
+      font-size:clamp(24px,3vw,38px);
+      text-align:center;
+    }
+    .hs__text{
+      margin:0 0 1.6rem;
+      opacity:.9;
+      text-align:center;
+    }
+
+    .hs__canvas{
+      position:relative;
+      overflow:hidden;
+    }
+    .hs__canvas::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at center, rgba(0,0,0,.1) 0%, rgba(0,0,0,.55) 75%);
+      opacity:0;
+      transition:opacity .25s ease;
+      pointer-events:none;
+    }
+    .hs--panel-open .hs__canvas::after{
+      opacity:1;
+    }
+
+    .hs__img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .hs__placeholder{
+      border-radius:18px;
+      overflow:hidden;
+    }
 
     /* Hotspots */
-    .hs-point{position:absolute;transform:translate(-50%,-50%);z-index:3;border:0;background:transparent;cursor:pointer}
-    .hs-point__dot{width:28px;height:28px;border-radius:999px;background:#111;box-shadow:0 0 0 3px rgb(255 255 255 / .85);display:block;position:relative}
-    .hs-point--pulse .hs-point__dot::after{content:"";position:absolute;inset:-6px;border-radius:999px;border:2px solid #111;opacity:.35;animation:hsPulse 1.2s ease-out infinite}
-    .hs-point__icon{width:44px;height:44px}
-    @keyframes hsPulse{0%{transform:scale(1);opacity:.35}100%{transform:scale(1.35);opacity:0}}
+    .hs-point{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      z-index:3;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+    }
+    .hs-point__dot{
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      background:#14151c;
+      box-shadow:
+        0 0 0 3px rgba(255,255,255,0.9),
+        0 0 14px rgba(0,0,0,0.9);
+      display:block;
+      position:relative;
+    }
+    .hs-point--pulse .hs-point__dot::after{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.9);
+      opacity:.4;
+      animation:hsPulse 1.3s ease-out infinite;
+    }
+    .hs-point__icon{
+      width:40px;
+      height:40px;
+    }
+    .hs-point.is-active .hs-point__dot{
+      background:#ffffff;
+      box-shadow:
+        0 0 0 2px rgba(0,0,0,.7),
+        0 0 18px rgba(255,255,255,.92);
+    }
+    @keyframes hsPulse{
+      0%{transform:scale(1);opacity:.4}
+      100%{transform:scale(1.4);opacity:0}
+    }
 
-    /* Overlay + Slider */
-    .hs-overlay{position:fixed;inset:0;background:var(--hs-ov-bg,rgba(0,0,0,.75));display:none;z-index:40}
-    .hs-overlay.is-open{display:block; z-index: 100;}
-    .hs-overlay__inner{position:relative;width:100%;height:100%}
-    .hs-overlay__close{position:absolute;top:16px;right:18px;z-index:3;border:0;background:transparent;color:#fff;font-size:34px;line-height:1;cursor:pointer}
-    .hs-overlay__nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;border:0;background:rgba(255,255,255,.12);backdrop-filter: blur(2px);color:#fff;font-size:48px;line-height:1;width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-    .hs-overlay__nav--prev{left:18px}
-    .hs-overlay__nav--next{right:18px}
+    /* PANEL FIJO EN LA ESQUINA INFERIOR — SIEMPRE VISIBLE */
+    .hs-panel{
+      position: fixed; 
+      left: 20px;
+      bottom: 20px;
+      max-width: 330px;
 
-    .hs-slider{position:absolute;inset:0;display:grid;place-items:center;padding:40px 72px}
-    .hs-slide{display:none;max-width:min(90vw,520px);max-width:300px}
-    .hs-slide.is-active{display:block}
+      background: rgba(5,5,10,0.90);
+      color:#fff;
+      border-radius:18px;
+      box-shadow:0 18px 40px rgba(0,0,0,0.85);
+      padding:10px 12px 12px;
+      z-index: 9999; 
 
-    .hs-slide__media{border-radius:0;overflow:hidden;background:#000}
-    .hs-slide__img{display:block;width:100%;height:auto}
-    .hs-slide__img--ph{width:100%;height:60vh;background:linear-gradient(90deg,#eee,#fafafa)}
-    .hs-video{width:100%;height:520px;display:block;max-height:72vh}
-    .hs-video--ext{aspect-ratio:9/16;width:100%;height:auto}
+      display: none;
+      backdrop-filter: blur(6px); 
+    }
 
-    .hs-slide__card{margin-top:-80px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:rgba(0,0,0,.7);color:#fff;padding:12px 14px;border-radius:0;position: relative;}
-    .hs-slide__thumb .hs-thumb{border-radius:10px;display:block;width:64px;height:64px;object-fit:contain}
-    .hs-slide__title{margin:0 0 2px;font-size:16px; color: wheat;}
-    .hs-slide__price{font-size:14px;display:flex;gap:8px;align-items:baseline}
-    .hs-price{font-weight:700}
-    .hs-compare{text-decoration:line-through;opacity:.7}
+    /* Responsive */
+    @media (max-width: 749px){
+      .hs-panel{
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        max-width: none;
+      }
+    }
 
-    .hs-slide__actions{display:flex;gap:8px;flex-direction:column;}
-    .hs-btn{cursor:pointer;border-radius:0;padding: 2px 5px;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;border:1px solid #fff;transition:transform .15s ease,background .15s ease,color .15s ease}
-    .hs-btn:hover{transform:translateY(-1px)}
-    .hs-btn--solid{background:#fff;color:#111;border-color:#fff}
-    .hs-btn--ghost{background:transparent;color:#fff;border-color:#fff}
-    @media(max-width: 740px){
-      .hs-slider{padding:28px 56px}
-      .hs-slide__card{grid-template-columns:auto 1fr;grid-template-areas:"thumb meta" "actions actions"}
-      .hs-slide__thumb{grid-area:thumb}
-      .hs-slide__meta{grid-area:meta}
-      .hs-slide__actions{grid-area:actions}
+    .hs-panel.is-open{
+      display:block;
+      opacity: .8;
+    }
+    .hs-panel__inner{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .hs-panel__close{
+      position:absolute;
+      top:6px;
+      right:8px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      opacity:.8;
+    }
+    .hs-panel__close:hover{opacity:1;}
+
+    .hs-panel__main{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px;
+      align-items:center;
+      padding-right:16px;
+      padding-top:20px;
+    }
+    .hs-panel__thumb-wrap{
+      width:64px;
+      height:64px;
+      border-radius:12px;
+      overflow:hidden;
+      background:#111;
+      flex-shrink:0;
+    }
+    .hs-panel__thumb{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#fff;
+    }
+
+    .hs-panel__meta{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .hs-panel__title{
+      color: #ffffff;
+      margin:0;
+      font-size:16px;
+      font-weight:600;
+    }
+    .hs-panel__prices{
+      display:flex;
+      gap:6px;
+      font-size:14px;
+      align-items:baseline;
+    }
+    .hs-panel__price{font-weight:700;}
+    .hs-panel__compare{
+      opacity:.7;
+      text-decoration:line-through;
+    }
+
+    .hs-btn{
+      cursor:pointer;
+      padding: 15px 22px;      
+      font-size:12px;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,0.94);
+      transition:transform .15s ease, background .15s ease,color .15s ease;
+      white-space:nowrap;
+    }
+    .hs-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 32px;
+      font-weight: 300;
+      background: transparent;
+      border: none;
+      color: #1a1a1a;
+      cursor: pointer;
+      z-index: 20;
+      transition: opacity .2s ease;
+    }
+
+    .hs-modal-close:hover {
+      opacity: .6;
+    }
+
+    .view-product {
+    padding: 5px 18px !important;
+    }
+    .learnmore{
+      background: transparent !important;
+    }
+    .hs-btn--solid{
+      background:#ffffff;
+      color:#111322;
+    }
+    .hs-btn--ghost{
+      background:transparent;
+      color:#ffffff;
+    }
+
+    /* GHOST → SOLID al hover */
+    .hs-btn--ghost:hover {
+      background: #ffffff !important;
+      color: #111322 !important;
+      border-color: #ffffff !important;
+    }
+
+    /* SOLID → GHOST al hover */
+    .hs-btn--solid:hover {
+      background: transparent !important;
+      color: #ffffff !important;
+      border-color: #ffffff !important;
+    }
+    
+    .hs-btn {
+      transition: 
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        transform .18s ease;
+    }
+
+    .hs-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* GHOST → SOLID al hover */
+    .hs-panel__arrow:hover {
+      background: #ffffff !important;
+      border-color: #ffffff !important;
+    }
+
+    .hs-panel__arrow:hover span {
+      border-color: #111322 !important;
+    }
+
+    /* ANIMACIÓN SUAVE */
+    .hs-panel__arrow {
+      transition: 
+        background .25s ease,
+        border-color .25s ease,
+        transform .18s ease;
+    }
+
+    .hs-panel__arrow:hover {
+      transform: translateY(-1px);
+    }
+
+    .hs-panel__view{
+      align-self:flex-start;
+    }
+    .hs-panel__add{
+      display: none;
+      align-self:flex-start;
+      margin-top:3px;
+    }
+
+    .hs-panel__nav{
+      display:flex;
+      gap:8px;
+      margin-top:6px;
+      justify-content: center;
+    }
+    .hs-panel__arrow{
+      width:30px;
+      height:24px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,0.7);
+      background:rgba(12,12,18,0.95);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      padding:0;
+    }
+    .hs-panel__arrow span{
+      width:10px;
+      height:10px;
+      border-top:2px solid #fff;
+      border-right:2px solid #fff;
+      display:block;
+    }
+    .hs-panel__arrow--next span{
+      transform:rotate(40deg);
+    }
+    .hs-panel__arrow--prev span{
+      transform:rotate(-140deg);
+    }
+    .hs-panel__arrow--prev[disabled],
+    .hs-panel__arrow--next[disabled]{opacity:.4;cursor:default;}
+
+    /* MODAL GRANDE */
+    html.hs-modal-open{
+      overflow:hidden;
+    }
+    .hs-modal{
+      position:fixed;
+      inset:0;
+      z-index:60;
+      display:none;
+    }
+    .hs-modal.is-open{
+      display:block;
+    }
+    .hs-modal__backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.78);
+    }
+    .hs-modal__dialog{
+      position:relative;
+      z-index:2;
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px 16px;
+    }
+    .hs-modal__dialog {
+      position: relative;
+    }
+
+.hs-modal__dialog{
+  position:relative;
+  z-index:2;
+  min-height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 16px;
+}
+
+.hs-modal__content{
+  max-width:980px;
+  width:100%;
+  background:#ffffff;
+  border-radius:24px;
+  box-shadow:0 26px 80px rgba(0,0,0,0.5);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1.1fr);
+  position: relative; 
+}
+  .iconbag{
+    width: 40px;
+    height: 40px;
+  }
+  .modal-atc-btn:hover{
+    background:#000000 !important;
+    color: #FFFFFF !important;
+  }
+  .hs-modal__actions button, .hs-modal__actions a{
+    flex-grow: 1;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 5px 30px;    
+  }
+    .hs-modal__close{
+      position:absolute;
+      top:18px;
+      right:22px;
+      z-index:3;
+      width:32px;
+      height:32px;
+      line-height:32px;
+      font-size:58px;
+      font-weight: 500;
+      background:transparent;
+      border:none;
+      color:#2c2c2c;
+      cursor:pointer;
+      transition:opacity .2s ease;
+    }
+    .hs-modal__close:hover{
+      opacity:.6;
+    }
+
+    .hs-modal__image{
+      background:#f4f4f6;
+      padding:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .hs-modal__img{
+      width:100%;
+      height:auto;
+      max-height:420px;
+      object-fit:contain;
+      display:block;
+    }
+    .hs-modal__info{
+      padding:32px 32px 30px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      background: #eaeaea;
+    }
+    .hs-modal__title{
+      margin:0;
+      font-size:46px;
+      line-height:1.2;
+      font-weight:700;
+    }
+    .hs-modal__prices{
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      font-size:32px;
+    }
+    .hs-modal__price{
+      font-weight:700;
+    }
+    .hs-modal__compare{
+      text-decoration:line-through;
+      opacity:.6;
+      font-size:32px;
+    }
+
+      .hs-modal__desc {
+        font-size: 18px;
+        line-height: 1.5;
+        color: #444;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;   /* cantidad de líneas visibles desc modal */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+    .hs-modal__actions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+    }
+    .hs-modal__link{
+      border-color:#e1c6b0;
+      color:#b15832;
+      background:#fff6f0;
+    }
+    .hs-modal__link:hover{
+      border-color:#b15832!important; 
+      color:#FFFFFF!important; 
+      background:#B9745F !important;    
+    }
+    .hs-modal__add{
+      background: transparent;
+      color:#000000;
+      border-color:#000000;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hs-modal__content{
+        grid-template-columns:1fr;
+      }
+      .hs-modal__image{
+        padding:24px;
+      }
+      .hs-modal__info{
+        padding:22px 20px 20px;
+      }
+    }
+    @media (max-width: 749px){
+      .hs-panel{
+        left:16px;
+        right:16px;
+        bottom:16px;
+        max-width:none;
+      }
+      .hs-panel__main{
+        grid-template-columns:auto 1fr;
+      }
+      .hs-modal__dialog{
+        padding:22px 10px;
+      }
     }
   </style>
 
   <script>
     (function(){
       function init(root){
-        if(!root || root.dataset.vhsInited==='1') return;
-        root.dataset.vhsInited='1';
+        if(!root || root.dataset.hsInited === '1') return;
+        root.dataset.hsInited = '1';
 
-        const overlay = root.querySelector('[data-hs-overlay]');
-        const slider  = overlay.querySelector('[data-hs-slider]');
-        const slides  = overlay.querySelectorAll('[data-hs-slide]');
-        const btnPrev = overlay.querySelector('[data-hs-prev]');
-        const btnNext = overlay.querySelector('[data-hs-next]');
-        const btnClose= overlay.querySelector('[data-hs-close]');
-        const points  = root.querySelectorAll('.hs-point');
+        const points = root.querySelectorAll('.hs-point');
+        if(!points.length) return;
 
-        let idx = 0;
+        const canvas = root.querySelector('.hs__canvas');
 
-        function playActive(){
-          slides.forEach((s,i)=>{
-            const video = s.querySelector('video');
-            if(video){
-              try { i===idx ? video.play() : video.pause(); } catch(_){}
-            }
-          });
+        /* Panel */
+        const panel        = root.querySelector('[data-hs-panel]');
+        const panelTitle   = panel.querySelector('[data-hs-panel-title]');
+        const panelPrice   = panel.querySelector('[data-hs-panel-price]');
+        const panelCompare = panel.querySelector('[data-hs-panel-compare]');
+        const panelPrices  = panel.querySelector('[data-hs-panel-prices]');
+        const panelThumb   = panel.querySelector('.hs-panel__thumb');
+        const panelViewBtn = panel.querySelector('[data-hs-panel-view]');
+        const panelAddBtn  = panel.querySelector('[data-hs-panel-add]');
+        const panelPrev    = panel.querySelector('[data-hs-panel-prev]');
+        const panelNext    = panel.querySelector('[data-hs-panel-next]');
+        const panelClose   = panel.querySelector('.hs-panel__close');
+
+        /* Modal */
+        const modal        = root.querySelector('[data-hs-modal]');
+        const modalBackdrop = modal.querySelector('.hs-modal__backdrop');
+        const modalClose   = modal.querySelector('.hs-modal__close');
+        const modalImg     = modal.querySelector('.hs-modal__img');
+        const modalTitle   = modal.querySelector('[data-hs-modal-title]');
+        const modalPrice   = modal.querySelector('[data-hs-modal-price]');
+        const modalCompare = modal.querySelector('[data-hs-modal-compare]');
+        const modalPrices  = modal.querySelector('[data-hs-modal-prices]');
+        const modalDesc    = modal.querySelector('[data-hs-modal-desc]');
+        const modalLink    = modal.querySelector('[data-hs-modal-link]');
+        const modalAddBtn  = modal.querySelector('[data-hs-modal-add]');
+
+        let currentIndex = -1;
+
+        function getDataFromPoint(point){
+          const d = point.dataset;
+          return {
+            title: d.title || '',
+            price: d.price || '',
+            compare: d.compare || '',
+            url: d.url || '',
+            thumb: d.thumb || '',
+            main: d.main || d.thumb || '',
+            vid: d.vid || '',
+            qty: d.qty || '1',
+            desc: d.desc || ''
+          };
         }
 
-        function show(i){
-          if(slides.length===0) return;
-          idx = (i + slides.length) % slides.length;
-          slides.forEach((s,k)=> s.classList.toggle('is-active', k===idx));
-          playActive();
+        function renderPanel(index){
+          if(!points.length) return;
+          currentIndex = (index + points.length) % points.length;
+          const point = points[currentIndex];
+          const data = getDataFromPoint(point);
+
+          points.forEach((p,i)=> p.classList.toggle('is-active', i === currentIndex));
+
+          if(data.thumb){
+            panelThumb.src = data.thumb;
+            panelThumb.style.display = '';
+          }else{
+            panelThumb.removeAttribute('src');
+            panelThumb.style.display = 'none';
+          }
+
+          panelTitle.textContent = data.title || '';
+
+          if(data.price){
+            panelPrice.textContent = data.price;
+            panelPrices.style.display = '';
+          }else{
+            panelPrices.style.display = 'none';
+          }
+          if(data.compare){
+            panelCompare.textContent = data.compare;
+            panelCompare.style.display = '';
+          }else{
+            panelCompare.textContent = '';
+            panelCompare.style.display = 'none';
+          }
+
+          if(data.url){
+            panelViewBtn.style.display = '';
+          }else{
+            panelViewBtn.style.display = 'none';
+          }
+
+          if(data.vid){
+            panelAddBtn.style.display = '';
+            panelAddBtn.dataset.vid = data.vid;
+            panelAddBtn.dataset.qty = data.qty || '1';
+          }else{
+            panelAddBtn.style.display = 'none';
+            delete panelAddBtn.dataset.vid;
+            delete panelAddBtn.dataset.qty;
+          }
+
+          panel.classList.add('is-open');
+          panel.setAttribute('aria-hidden','false');
+          root.classList.add('hs--panel-open');
         }
 
-        function open(i){
-          overlay.classList.add('is-open');
-          document.documentElement.style.overflow='hidden';
-          show(i|0);
-        }
-        function close(){
-          overlay.classList.remove('is-open');
-          document.documentElement.style.overflow='';
-          slides.forEach(s=>{
-            const v=s.querySelector('video');
-            if(v){ try{ v.pause(); }catch(_){} }
-          });
+        function closePanel(){
+          panel.classList.remove('is-open');
+          panel.setAttribute('aria-hidden','true');
+          root.classList.remove('hs--panel-open');
+          points.forEach(p => p.classList.remove('is-active'));
+          currentIndex = -1;
         }
 
-        points.forEach(p=>{
-          p.addEventListener('click', ()=>{
-            const i = parseInt(p.getAttribute('data-slide-index')||'0',10);
-            open(i);
+        function openModalFromCurrent(){
+          if(currentIndex < 0) return;
+          const point = points[currentIndex];
+          const data = getDataFromPoint(point);
+
+          if(data.main){
+            modalImg.src = data.main;
+            modalImg.style.display = '';
+          }else{
+            modalImg.removeAttribute('src');
+            modalImg.style.display = 'none';
+          }
+
+          modalTitle.textContent = data.title || '';
+
+          if(data.price){
+            modalPrice.textContent = data.price;
+            modalPrices.style.display = '';
+          }else{
+            modalPrices.style.display = 'none';
+          }
+          if(data.compare){
+            modalCompare.textContent = data.compare;
+            modalCompare.style.display = '';
+          }else{
+            modalCompare.textContent = '';
+            modalCompare.style.display = 'none';
+          }
+
+          if(data.desc){
+            modalDesc.innerHTML = data.desc.replace(/\n/g, '<br>');
+            modalDesc.style.display = '';
+          }else{
+            modalDesc.innerHTML = '';
+            modalDesc.style.display = 'none';
+          }
+
+
+          if(data.url){
+            modalLink.href = data.url;
+            modalLink.style.display = '';
+          }else{
+            modalLink.removeAttribute('href');
+            modalLink.style.display = 'none';
+          }
+
+          if(data.vid){
+            modalAddBtn.style.display = '';
+            modalAddBtn.dataset.vid = data.vid;
+            modalAddBtn.dataset.qty = data.qty || '1';
+          }else{
+            modalAddBtn.style.display = 'none';
+            delete modalAddBtn.dataset.vid;
+            delete modalAddBtn.dataset.qty;
+          }
+
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden','false');
+          document.documentElement.classList.add('hs-modal-open');
+        }
+
+        function closeModal(){
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden','true');
+          document.documentElement.classList.remove('hs-modal-open');
+        }
+
+        /* Eventos hotspots */
+        points.forEach((point, idx)=>{
+          point.addEventListener('click', function(e){
+            e.stopPropagation();
+            renderPanel(idx);
           });
         });
 
-        btnPrev.addEventListener('click', ()=> show(idx-1));
-        btnNext.addEventListener('click', ()=> show(idx+1));
-        btnClose.addEventListener('click', close);
-        overlay.addEventListener('click', (e)=>{
-          if(e.target === overlay) close();
+        /* Panel events */
+        function syncModalIfOpen(){
+          if (modal.classList.contains('is-open')) {
+            openModalFromCurrent();
+          }
+        }
+
+        panelPrev.addEventListener('click', function(){
+          if (!points.length) return;
+          renderPanel(currentIndex - 1);
+          syncModalIfOpen();
         });
-        document.addEventListener('keydown', (e)=>{
-          if(!overlay.classList.contains('is-open')) return;
-          if(e.key==='Escape') close();
-          if(e.key==='ArrowRight') show(idx+1);
-          if(e.key==='ArrowLeft')  show(idx-1);
+
+        panelNext.addEventListener('click', function(){
+          if (!points.length) return;
+          renderPanel(currentIndex + 1);
+          syncModalIfOpen();
         });
 
-        // Add to cart con Cart Notification + burbuja
-        overlay.addEventListener('click', function (e) {
-          const add = e.target.closest('.js-hs-add');
-          if (!add) return;
+        panelClose.addEventListener('click', function(){
+          closePanel();
+        });
+        panelViewBtn.addEventListener('click', function(){
+          openModalFromCurrent();
+        });
 
-          const vid = add.getAttribute('data-vid');
-          const qty = parseInt(add.getAttribute('data-qty') || '1', 10);
-          if (!vid) return;
+        canvas.addEventListener('click', function(e){
+          if(e.target.closest('.hs-point') || e.target.closest('.hs-panel')) return;
+          closePanel();
+        });
 
-          add.disabled = true;
+        /* Modal events */
+        modalClose.addEventListener('click', function(){
+          closeModal();
+        });
+        modalBackdrop.addEventListener('click', function(){
+          closeModal();
+        });
+        document.addEventListener('keydown', function(e){
+          if(e.key === 'Escape' && modal.classList.contains('is-open')){
+            closeModal();
+          }
+        });
+
+        /* ADD TO CART – panel + modal (delegado) */
+        root.addEventListener('click', function(e){
+          const addBtn = e.target.closest('.js-hs-add');
+          if(!addBtn) return;
+
+          const vid = addBtn.dataset.vid;
+          const qty = parseInt(addBtn.dataset.qty || '1', 10);
+          if(!vid) return;
+
+          addBtn.disabled = true;
 
           const sections = ['cart-notification-product', 'cart-notification-button', 'cart-icon-bubble'];
           const formData = new FormData();
@@ -295,30 +940,52 @@
           const addUrl = (window.routes && window.routes.cart_add_url) ? window.routes.cart_add_url : '/cart/add';
 
           fetch(addUrl, { method:'POST', headers:{ 'Accept':'application/json' }, body: formData })
-            .then(res=>{ if(!res.ok) return res.json().then(err=>{throw err}); return res.json(); })
-            .then(parsedState=>{
+            .then(function(res){
+              if(!res.ok) return res.json().then(function(err){ throw err; });
+              return res.json();
+            })
+            .then(function(parsed){
               const cn = document.querySelector('cart-notification');
-              if (cn && typeof cn.renderContents === 'function') cn.renderContents(parsedState);
-              else if (parsedState.sections && parsedState.sections['cart-icon-bubble']){
-                const tmp=document.createElement('div');
-                tmp.innerHTML = parsedState.sections['cart-icon-bubble'];
+              if(cn && typeof cn.renderContents === 'function'){
+                cn.renderContents(parsed);
+              }else if(parsed.sections && parsed.sections['cart-icon-bubble']){
+                const tmp = document.createElement('div');
+                tmp.innerHTML = parsed.sections['cart-icon-bubble'];
                 const newB = tmp.querySelector('#cart-icon-bubble');
                 const curB = document.getElementById('cart-icon-bubble');
                 if(newB && curB) curB.innerHTML = newB.innerHTML;
               }
             })
-            .catch(err=>{
+            .catch(function(err){
               console.error('Cart error:', err);
             })
-            .finally(()=>{ setTimeout(()=>{ add.disabled=false; }, 1000); });
+            .finally(function(){
+              setTimeout(function(){
+                addBtn.disabled = false;
+              }, 800);
+            });
         });
       }
 
       function boot(){
         document.querySelectorAll('[data-hs-root]').forEach(init);
       }
+
       document.addEventListener('DOMContentLoaded', boot);
       document.addEventListener('shopify:section:load', boot);
+
+      document.addEventListener('click', function(e){
+        const closeBtn = e.target.closest('.hs-modal-close');
+        if(!closeBtn) return;
+
+        const modal = document.querySelector('[data-hs-modal]');
+        if(modal){
+          modal.classList.remove('is-open');
+          document.documentElement.style.overflow = '';
+        }
+      });
+
+
     })();
   </script>
 </section>
@@ -391,3 +1058,4 @@
   "max_blocks": 20
 }
 {% endschema %}
+

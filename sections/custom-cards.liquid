@@ -1,0 +1,309 @@
+<div
+  class="custom-cards-section section-{{ section.id }}"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    {% if section.settings.bg_image != blank %}
+      background-image: url('{{ section.settings.bg_image | image_url: width: 2400 }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    {% endif %}
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="custom-cards-inner page-width">
+    {% if section.blocks.size > 0 %}
+      <div class="custom-cards-grid">
+        {% for block in section.blocks %}
+          {% assign card_img = block.settings.card_image %}
+          {% assign card_url = '' %}
+          {% if block.settings.card_collection != blank %}
+            {% assign card_url = block.settings.card_collection.url %}
+          {% endif %}
+
+          <div class="custom-card" {{ block.shopify_attributes }}>
+            {% if card_url != blank %}
+              <a href="{{ card_url }}" class="custom-card-link">
+            {% endif %}
+
+              <div
+                class="custom-card-bg"
+                style="
+                  {% if card_img != blank %}
+                    background-image: url('{{ card_img | image_url: width: 1000 }}');
+                  {% endif %}
+                "
+              >
+                <div
+                  class="custom-card-overlay"
+                  style="
+                    --card-overlay-color: {{ block.settings.card_overlay_color }};
+                    --card-overlay-opacity: {{ block.settings.card_overlay_opacity | divided_by: 100.0 }};
+                  "
+                ></div>
+
+                <div class="custom-card-content">
+                  {% if block.settings.card_title != blank %}
+                    <h3
+                      class="custom-card-title"
+                      style="
+                        color: {{ block.settings.card_title_color }};
+                        font-size: {{ block.settings.card_title_size }}px;
+                      "
+                    >
+                      {{ block.settings.card_title }}
+                    </h3>
+                  {% endif %}
+                </div>
+              </div>
+
+            {% if card_url != blank %}
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.bottom_text != blank %}
+      <div
+        class="custom-cards-bottom-text"
+        style="
+          color: {{ section.settings.bottom_text_color }};
+          font-size: {{ section.settings.bottom_text_size }}px;
+        "
+      >
+        {{ section.settings.bottom_text }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Cards Grid",
+  "tag": "section",
+  "class": "section custom-cards",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo de la sección",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Imagen de fondo de la sección (opcional)",
+      "info": "Si se define, se usará sobre el color de fondo."
+    },
+    {
+      "type": "header",
+      "content": "Padding de la sección"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding superior",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding inferior",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Texto final"
+    },
+    {
+      "type": "richtext",
+      "id": "bottom_text",
+      "label": "Texto al pie del grid",
+      "default": "<p>Via Luci brings that same commercial-grade quality to your home so every holiday, every gathering, every quiet evening glows with purpose and beauty.</p>"
+    },
+    {
+      "type": "color",
+      "id": "bottom_text_color",
+      "label": "Color del texto al pie",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "bottom_text_size",
+      "label": "Tamaño texto al pie (px)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card_item",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Imagen de fondo del card"
+        },
+        {
+          "type": "color",
+          "id": "card_overlay_color",
+          "label": "Color del overlay",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "card_overlay_opacity",
+          "label": "Opacidad del overlay",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 45
+        },
+        {
+          "type": "textarea",
+          "id": "card_title",
+          "label": "Título del card",
+          "default": "Rockefeller Center"
+        },
+        {
+          "type": "color",
+          "id": "card_title_color",
+          "label": "Color del título",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "card_title_size",
+          "label": "Tamaño título (px)",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "default": 22
+        },
+        {
+          "type": "collection",
+          "id": "card_collection",
+          "label": "Colección enlazada (opcional)",
+          "info": "Si se define, la card será clickeable y llevará a esta colección."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Custom Cards Grid",
+      "blocks": [
+        { "type": "card_item" },
+        { "type": "card_item" },
+        { "type": "card_item" },
+        { "type": "card_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.custom-cards-section {
+  position: relative;
+  width: 100%;
+}
+
+.custom-cards-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.custom-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+@media screen and (max-width: 1024px) {
+  .custom-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .custom-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.custom-card {
+  width: 100%;
+}
+
+.custom-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.custom-card-bg {
+  position: relative;
+  width: 100%;
+  padding-top: 120%; /* relación cuadrada aproximada */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 22px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.custom-card-link:hover .custom-card-bg {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.custom-card-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--card-overlay-color, #000000);
+  opacity: var(--card-overlay-opacity, 0.45);
+  pointer-events: none;
+  display: block;
+}
+
+.custom-card-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  z-index: 1;
+}
+
+.custom-card-title {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 700;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.65);
+}
+
+.custom-cards-bottom-text {
+  max-width: 800px;
+  margin: 40px auto 0;
+  text-align: center;
+}
+{% endstylesheet %}
