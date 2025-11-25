@@ -9,6 +9,77 @@
  */
 {
   "sections": {
+    "custom_main_product_hJXgq8": {
+      "type": "custom-main-product",
+      "name": "Custom product main",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "bg_color": "#f6eee5",
+        "bg_overlay_color": "#ffffff",
+        "bg_overlay_opacity": 40,
+        "thumb_scroll_step": 160,
+        "button_bg": "#13192b",
+        "button_bg_hover": "#060b18",
+        "button_text": "#ffffff",
+        "show_description": true,
+        "show_rating": false
+      }
+    },
+    "custom_product_icons_NWKHPE": {
+      "type": "custom-product-icons",
+      "blocks": {
+        "icon_TVDrzN": {
+          "type": "icon",
+          "settings": {
+            "label": "Limited collections"
+          }
+        },
+        "icon_f3M6Qz": {
+          "type": "icon",
+          "settings": {
+            "label": "Limited collections"
+          }
+        },
+        "icon_qN7Rde": {
+          "type": "icon",
+          "settings": {
+            "label": "Limited collections"
+          }
+        },
+        "icon_iMVgdE": {
+          "type": "icon",
+          "settings": {
+            "label": "Limited collections"
+          }
+        }
+      },
+      "block_order": [
+        "icon_TVDrzN",
+        "icon_f3M6Qz",
+        "icon_qN7Rde",
+        "icon_iMVgdE"
+      ],
+      "name": "Product Icons",
+      "settings": {
+        "bg_color": "#f6eee5",
+        "heading": "Titulo",
+        "heading_align": "center",
+        "heading_size": 18,
+        "icon_size": 200,
+        "padding_inset": 16,
+        "gap": 40,
+        "bg_circle": "#ffffff",
+        "circle_border_color": "#262626",
+        "border_width": "1px",
+        "label_color": "#1e2430",
+        "monochrome": false,
+        "color_scheme": "",
+        "border_color": "#d6c9b7",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -69,6 +140,7 @@
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
+        "bg_color": "#f9f3ea",
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "contain",
@@ -120,17 +192,6 @@
         "video_controls": false
       }
     },
-    "custom_product_specials_9fLTAc": {
-      "type": "custom-product-specials",
-      "name": "Product Specials",
-      "settings": {
-        "gap": 40,
-        "aspect_ratio": "4/5",
-        "color_scheme": "",
-        "padding_top": 24,
-        "padding_bottom": 24
-      }
-    },
     "custom_how_to_use_wQAzTh": {
       "type": "custom_how_to_use",
       "name": "How to Use (PDP)",
@@ -148,23 +209,6 @@
         "video_loop": true,
         "video_muted": true,
         "video_controls": false
-      }
-    },
-    "custom_product_icons_wX866q": {
-      "type": "custom-product-icons",
-      "name": "Product Icons",
-      "settings": {
-        "icon_size": 160,
-        "padding_inset": 8,
-        "gap": 40,
-        "border_color": "#262626",
-        "bg_circle": "#111111",
-        "circle_border_color": "#262626",
-        "border_width": "1px",
-        "monochrome": false,
-        "color_scheme": "",
-        "padding_top": 24,
-        "padding_bottom": 24
       }
     },
     "1759168056636c5fe3": {
@@ -188,12 +232,12 @@
     }
   },
   "order": [
+    "custom_main_product_hJXgq8",
+    "custom_product_icons_NWKHPE",
     "main",
     "related-products",
     "custom_how_to_use_ziDpTi",
-    "custom_product_specials_9fLTAc",
     "custom_how_to_use_wQAzTh",
-    "custom_product_icons_wX866q",
     "1759168056636c5fe3"
   ]
 }
