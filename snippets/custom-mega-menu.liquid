@@ -126,6 +126,7 @@
                               {%- assign menu_source = childlink.links -%}
                             {%- endif -%}
 
+                            <span class="shop-by"> Shop by {{ child_title_down }}</span>
                             <div class="megamenu-cat">
                               <div class="megamenu-cat__thumbs">
                                 {%- if menu_source -%}
@@ -183,8 +184,9 @@
                                           {%- endif -%}
                                         </div>
                                         <div class="megamenu-cat__hero-overlay">
-                                          <span class="megamenu-cat__hero-title">
-                                            {{ col.title }}
+                                          <span class="megamenu-cat__hero-title head-card-title">
+                                           <span> <span>{{ col.title  }} </span> {{- 'icon-caret.svg' | inline_asset_content -}}
+
                                           </span>
                                         </div>
                                       </a>
@@ -210,6 +212,7 @@
                                 {%- endif -%}
 
                                 <ul class="megamenu-pb__list" role="list">
+                                  <span class="shop-by"> Shop by {{ childlink.title }} </span>
                                   {%- if side_links -%}
                                     {%- for item in side_links -%}
                                       {%- assign card_id = panel_id | append: '-card-' | append: forloop.index -%}
@@ -264,7 +267,9 @@
                                               alt: col.title | escape }}
                                           {%- endif -%}
                                         </div>
-                                        <span class="megamenu-pb__title">{{ col.title }}</span>
+                                        <span class="megamenu-pb__title head-card-title"> 
+                                          <span>{{ col.title  }} </span> {{- 'icon-caret.svg' | inline_asset_content -}}
+                                        </span>
                                       </a>
                                     {%- endif -%}
                                   {%- endfor -%}
@@ -341,6 +346,20 @@
 </div>
 
 <style>
+  .shop-by{
+    padding: 10px 8px;
+    font-weight: bold;
+    color: #ffffff;    
+  }
+  .head-card-title{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;  
+  }
+  .head-card-title .icon{
+    width: 10px;
+    transform: rotate(-90deg);
+  }
   /* ====== MOBILE (sin cambios importantes) ====== */
   @media (max-width: 990px){
     .mobile-mega-host{ padding-left: 12px; overflow:hidden; transition:max-height .24s ease; }
@@ -373,7 +392,7 @@
   /* ====== Fondo por bloque (imagen + overlay) ====== */
   .has-bg{
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-repeat: no-repeat;
   }
 
@@ -464,6 +483,7 @@
   /* ====== CATEGORY: layout especial ====== */
   .optionB__panel--category{
     position:absolute;
+    padding-top: 40px;
   }
 
   .megamenu-cat{
@@ -471,6 +491,7 @@
     grid-template-columns: minmax(0,430px) minmax(0,1fr);
     gap:40px;
     align-items:flex-start;
+    margin-top: 20px;
   }
 
   .megamenu-cat__thumbs{
@@ -518,7 +539,8 @@
 
   .megamenu-cat__hero-wrap{
     position:relative;
-    min-height:260px;
+    min-height: fit-content;
+    min-height: 350px;  
   }
   .megamenu-cat__hero{
     position:absolute;
@@ -543,7 +565,7 @@
   }
   .megamenu-cat__hero-overlay{
     position:absolute;
-    inset:auto 24px 24px;
+    inset: 14px 24px;
     font-size:16px;
     font-weight:600;
     text-shadow:0 0 20px rgba(0,0,0,.8);
@@ -584,7 +606,10 @@
     grid-template-columns: 280px 1fr;
     gap: 24px;
   }
-
+  .optionB__panel .megamenu-pb__grid {
+    padding: 40px 0;
+  }
+  
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__nav {
     padding-right: 24px;
     border-right: 1px solid rgba(255,255,255,0.15);
@@ -606,7 +631,7 @@
     display: block;
     padding: 10px 8px;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 12px;
   }
 
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link.is-active {
@@ -708,8 +733,8 @@
   .optionB__panel:not(.optionB__panel--category)
   .megamenu-pb__card.is-expanded .megamenu-pb__title {
     left: 24px;
-    bottom: 22px;
-    top: auto;
+    bottom: auto;
+    top: 22px;
     transform: none;
     text-align: left;
     white-space: normal;

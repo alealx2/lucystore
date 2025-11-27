@@ -169,9 +169,7 @@
                     data-scroll-target="#MainContent"
                     aria-label="Scroll down"
                   >
-                    <span class="lucy-scroll__sparkles"></span>
-                    <span class="lucy-scroll__chevron lucy-scroll__chevron--top"></span>
-                    <span class="lucy-scroll__chevron lucy-scroll__chevron--bottom"></span>
+                    <img src="{{ 'double-arrow.png' | asset_url }}" alt="arrow" height="60" width="60" />
                   </a>
                 {%- else -%}
                   <a
@@ -384,7 +382,10 @@
     background: trasparent;
     overflow:hidden;
   }
-
+  .lucy-scroll img{
+    width: 100%;
+    object-fit: contain;
+  }
   .lucy-scroll__sparkles{
     position:absolute;
     inset:-40%;
