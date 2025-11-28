@@ -201,7 +201,7 @@
       aria-controls="Slider-{{ section.id }}"
     >
       <span class="svg-wrapper">
-        {{- 'icon-caret.svg' | inline_asset_content -}}
+        {{- 'single-left-arrow-icon.svg' | inline_asset_content -}}
       </span>
     </button>
 
@@ -213,7 +213,7 @@
       aria-controls="Slider-{{ section.id }}"
     >
       <span class="svg-wrapper">
-        {{- 'icon-caret.svg' | inline_asset_content -}}
+        {{- 'single-right-arrow-icon.svg' | inline_asset_content -}}
       </span>
     </button>
 
@@ -264,6 +264,15 @@
 {%- endif -%}
 
 <style>
+  .slider-button--next .svg-wrapper, .slider-button--prev .svg-wrapper{
+    width: 60px;
+    height: 60px;
+  }
+  .slider-button--next .icon, .slider-button--prev .icon{
+    transform: rotate(0);    
+    width: 60px;
+    height: 60px;  
+  }
   .banner-video-bg{
     position:absolute;
     inset:0;
@@ -466,18 +475,19 @@
     right:24px;
   }
 
+  {% comment %} 
   .slider-button--overlay:hover{
     transform:translateY(-50%) !important;
-  }
+  }.slider-button--overlay-right .svg-wrapper svg
 
   .slider-button--overlay .svg-wrapper svg{
     width:22px;
     height:22px;
     transform:rotate(90deg);
   }
-  .slider-button--overlay-right .svg-wrapper svg{
+   .slider-button--overlay-right .svg-wrapper svg{
     transform:rotate(-90deg);
-  }
+  } {% endcomment %}
 
   .slider-button--overlay svg *{
     stroke:#ffffff !important;

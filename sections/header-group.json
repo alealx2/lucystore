@@ -44,7 +44,7 @@
           "settings": {
             "trigger_label": "Season",
             "side_menu": "season-menu",
-            "side_menu_label": "Season"
+            "side_menu_label": "By Season"
           }
         },
         "mega_config_XfyRDi": {
@@ -52,15 +52,7 @@
           "settings": {
             "trigger_label": "Category",
             "side_menu": "category-menu",
-            "side_menu_label": "Category"
-          }
-        },
-        "mega_config_x9pKbN": {
-          "type": "mega_config",
-          "settings": {
-            "trigger_label": "Brand",
-            "side_menu": "brand-menu",
-            "side_menu_label": "Brand"
+            "side_menu_label": "By Category"
           }
         },
         "mega_config_cYKUar": {
@@ -68,14 +60,13 @@
           "settings": {
             "trigger_label": "Collection",
             "side_menu": "collection-menu",
-            "side_menu_label": "Collection"
+            "side_menu_label": "By Collection"
           }
         }
       },
       "block_order": [
         "mega_config_FgpmRr",
         "mega_config_XfyRDi",
-        "mega_config_x9pKbN",
         "mega_config_cYKUar"
       ],
       "settings": {
@@ -94,7 +85,7 @@
         "margin_bottom": 0,
         "padding_top": 20,
         "padding_bottom": 20,
-        "background_image": "shopify://shop_images/lucyimg_14.jpg"
+        "background_image": "shopify://shop_images/Sin_titulo_66d381a6-015a-4533-a739-44c27a37ef11.png"
       }
     }
   },

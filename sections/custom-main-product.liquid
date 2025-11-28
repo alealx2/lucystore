@@ -40,10 +40,10 @@
           <div class="via-pdp-gallery-thumbs-wrap">
             <button
               type="button"
-              class="via-pdp-thumb-nav via-pdp-thumb-nav--prev"
+              class="via-pdp-thumb-nav via-pdp-thumb-nav--prev vertical-nav nav-down"
               aria-label="{{ 'general.slider.previous_slide' | t }}"
             >
-              <span class="via-pdp-icon-caret via-pdp-icon-caret--up"></span>
+              {{ 'single-right-arrow-icon.svg' | inline_asset_content }}
             </button>
 
             <div class="via-pdp-gallery-thumbs" data-scroll-step="{{ section.settings.thumb_scroll_step }}">
@@ -70,10 +70,10 @@
 
             <button
               type="button"
-              class="via-pdp-thumb-nav via-pdp-thumb-nav--next"
+              class="via-pdp-thumb-nav via-pdp-thumb-nav--next vertical-nav nav-up"
               aria-label="{{ 'general.slider.next_slide' | t }}"
             >
-              <span class="via-pdp-icon-caret via-pdp-icon-caret--down"></span>
+              {{ 'single-left-arrow-icon.svg' | inline_asset_content }}
             </button>
           </div>
 
@@ -84,7 +84,7 @@
               class="via-pdp-main-nav via-pdp-main-nav--prev"
               aria-label="{{ 'general.slider.previous_slide' | t }}"
             >
-              <span class="via-pdp-icon-caret via-pdp-icon-caret--left"></span>
+              {{ 'single-left-arrow-icon.svg' | inline_asset_content }}
             </button>
 
             <div class="via-pdp-main-frame">
@@ -111,7 +111,7 @@
               class="via-pdp-main-nav via-pdp-main-nav--next"
               aria-label="{{ 'general.slider.next_slide' | t }}"
             >
-              <span class="via-pdp-icon-caret via-pdp-icon-caret--right"></span>
+              {{ 'single-right-arrow-icon.svg' | inline_asset_content }}
             </button>
           </div>
         </div>
@@ -401,6 +401,32 @@
   </div>
 
   <style>
+    .vertical-nav{
+      z-index: 1;
+      opacity: .8; 
+    }
+    .nav-down{
+        margin-bottom: -30px; 
+    }
+    .nav-up{
+      margin-top: -30px; 
+    }
+    .nav-down svg{
+      width: 30px;
+      transform: rotate(-90deg);    
+    }
+    .nav-up svg{
+      width: 30px;
+      transform: rotate(-90deg);    
+    }
+    
+    .via-pdp-main-nav--next, .via-pdp-main-nav--prev{
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    .via-pdp-main-nav--next svg, .via-pdp-main-nav--prev svg{
+      color: #161F3A;
+    }
     .button--full-width, .button:after{
         border-radius: 8px;
     }
@@ -485,8 +511,8 @@
     .via-pdp-thumb-nav {
       border: none;
       background: #fff;
-      border-radius: 999px;
-      width: 32px;
+      border-radius: 0;
+      width: 100%;
       height: 32px;
       margin-inline: auto;
       display: flex;
@@ -532,7 +558,7 @@
     }
 
     .via-pdp-thumb__inner {
-      border-radius: 14px;
+      border-radius: 4px;
       background: #ffffff;
       box-shadow: 0 6px 18px rgba(0,0,0,0.08);
       overflow: hidden;
@@ -548,16 +574,16 @@
     }
 
     .via-pdp-thumb.is-active .via-pdp-thumb__inner {
-      box-shadow: 0 0 0 2px #1e2430, 0 8px 20px rgba(0,0,0,0.10);
-      transform: translateY(-1px);
+      {% comment %} box-shadow: 0 0 0 2px #1e2430, 0 8px 20px rgba(0,0,0,0.10);
+      transform: translateY(-1px); {% endcomment %}
     }
 
     /* Imagen principal */
     .via-pdp-gallery-main {
       position: relative;
       background: #ffffff;
-      border-radius: 18px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+      border-radius: 4px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.12);
       padding: clamp(24px, 4vw, 40px);
       height: 100%;
     }
@@ -591,8 +617,8 @@
       top: 50%;
       transform: translateY(-50%);
       border-radius: 999px;
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
       border: none;
       background: rgba(255,255,255,0.9);
       display: flex;
@@ -605,11 +631,11 @@
     }
 
     .via-pdp-main-nav--prev {
-      left: 16px;
+      left: 0;
     }
 
     .via-pdp-main-nav--next {
-      right: 16px;
+      right: 0;
     }
 
     .via-pdp-main-nav:hover {
