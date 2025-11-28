@@ -18,7 +18,7 @@
           "type": "image_text",
           "settings": {
             "heading": "",
-            "image": "shopify://shop_images/footer_logo.png",
+            "image": "shopify://shop_images/footlogo.png",
             "image_width": 120,
             "alignment": "",
             "caption": ""
