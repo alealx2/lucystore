@@ -98,7 +98,7 @@
         "main_label_color": "#ffffff",
         "main_title_color": "#ffffff",
         "main_label_size": 18,
-        "main_title_size": 48,
+        "main_title_size": 60,
         "bottom_title_size": 48,
         "items_gap": 0
       }
@@ -111,13 +111,13 @@
           "settings": {
             "item_label": "",
             "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+            "item_desc": "The Martini family has always believed in the magic of gathering. As one of ten siblings growing up in a spirited Italian home on the west side of Chicago, the holidays weren’t just celebrated, they were felt. The kitchen glowed late into the night, filled with homemade pasta, holiday music, and stories passed between",
             "item_label_color": "#ffffff",
             "item_title_color": "#ffffff",
             "item_desc_color": "#ba745f",
             "item_label_size": 14,
             "item_title_size": 22,
-            "item_desc_size": 13
+            "item_desc_size": 14
           }
         },
         "info_item_3RMjKr": {
@@ -125,13 +125,13 @@
           "settings": {
             "item_label": "",
             "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+            "item_desc": "Their father ran a neighborhood store where customers were treated like guests. Their mother lit up every room she entered, often quite literally, with the warmth of her hospitality and the glow of lights carefully strung for every season.",
             "item_label_color": "#ffffff",
             "item_title_color": "#ffffff",
             "item_desc_color": "#ba745f",
             "item_label_size": 14,
             "item_title_size": 22,
-            "item_desc_size": 13
+            "item_desc_size": 14
           }
         },
         "info_item_7mmEkT": {
@@ -139,13 +139,13 @@
           "settings": {
             "item_label": "",
             "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+            "item_desc": "In the Martini household, light was never just decoration. It was emotion. It was the signal that something meaningful was happening. It meant family was gathering.",
             "item_label_color": "#ffffff",
             "item_title_color": "#ffffff",
             "item_desc_color": "#ba745f",
             "item_label_size": 14,
             "item_title_size": 22,
-            "item_desc_size": 13
+            "item_desc_size": 14
           }
         }
       },
@@ -161,14 +161,14 @@
         "overlay_opacity": 61,
         "padding_top": 55,
         "padding_bottom": 65,
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "<p><strong>\"Light is not only what you see, It's what you feel \"- Rich Martini.</strong></p>",
+        "main_label": "THE SPARK BEHIND THE BRAND",
+        "main_title": "<p>Our story began with family, food and the warmth of home.</p>",
+        "bottom_title": "<p><em><strong>\"Light is'nt just what you see, It's what you feel \"- Rich Martini.</strong></em></p>",
         "enable_blocks_border": false,
         "main_label_color": "#ba745f",
         "main_title_color": "#ba745f",
-        "main_label_size": 19,
-        "main_title_size": 54,
+        "main_label_size": 20,
+        "main_title_size": 80,
         "bottom_title_size": 34,
         "items_gap": 54
       }
@@ -177,20 +177,20 @@
       "type": "banner-with-text",
       "name": "Custom Banner Text",
       "settings": {
-        "bg_image": "shopify://shop_images/lucyimg_17.jpg",
+        "bg_image": "shopify://shop_images/Salon_navidad_in_detalle-min.png",
         "overlay_color": "#000000",
         "bg_color": "#161f3a",
         "overlay_opacity": 61,
         "padding_top": 100,
         "padding_bottom": 40,
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
+        "main_label": "",
+        "main_title": "<p><em>From Landmarks to Living Rooms</em></p><p>You've already seen our work. Now you can bring it home.</p>",
+        "bottom_title": "<p>What started as a family passion became a legacy of light.  Over the past 20+ years, the Martini family has helped iluminate some of the most iconic public spaces and celebrations in the country.</p>",
         "enable_blocks_border": true,
         "main_label_color": "#ffffff",
         "main_title_color": "#ffffff",
-        "main_label_size": 38,
-        "main_title_size": 40,
+        "main_label_size": 18,
+        "main_title_size": 28,
         "bottom_title_size": 32,
         "items_gap": 0
       }
@@ -201,7 +201,7 @@
         "card_item_jLPMM6": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
+            "card_image": "shopify://shop_images/SECTION_3__Image_004__Rockefeller_center.png",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 74,
             "card_title": "Rockefeller Center",
@@ -213,10 +213,10 @@
         "card_item_bk38qR": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_3.jpg",
+            "card_image": "shopify://shop_images/SECTION8__Image_003_photo_placeholder.png",
             "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_overlay_opacity": 46,
+            "card_title": "Radio city Music hall",
             "card_title_color": "#ffffff",
             "card_title_size": 31,
             "card_collection": ""
@@ -225,12 +225,12 @@
         "card_item_ftxyGq": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_13.jpg",
+            "card_image": "shopify://shop_images/SECTION8__Image_004_photo_placeholder.png",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_title": "The Magnificent Mile in Chicago",
             "card_title_color": "#ffffff",
-            "card_title_size": 31,
+            "card_title_size": 24,
             "card_collection": ""
           }
         },
@@ -240,19 +240,19 @@
             "card_image": "shopify://shop_images/lucyimg_12.jpg",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_title": "Marshall Field's Walnut Room",
             "card_title_color": "#ffffff",
-            "card_title_size": 31,
+            "card_title_size": 26,
             "card_collection": ""
           }
         },
         "card_item_Rnm7fU": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
+            "card_image": "shopify://shop_images/SECTION8__Image_006_photo_placeholder.png",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_title": "Brookfield Zoo",
             "card_title_color": "#ffffff",
             "card_title_size": 31,
             "card_collection": ""
@@ -261,34 +261,34 @@
         "card_item_n8EFDg": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
+            "card_image": "shopify://shop_images/SECTION8__Image_007_photo_placeholder.png",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_title": "The Jenning's Osborne Family Spectacle of Lights",
             "card_title_color": "#ffffff",
-            "card_title_size": 31,
+            "card_title_size": 24,
             "card_collection": ""
           }
         },
         "card_item_8fC3gR": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
+            "card_image": "shopify://shop_images/SECTION8__Image_008_photo_placeholder.png",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_title": "Garden Lights at Atlanta Botanical Garden",
             "card_title_color": "#ffffff",
-            "card_title_size": 31,
+            "card_title_size": 23,
             "card_collection": ""
           }
         },
         "card_item_ArFjiq": {
           "type": "card_item",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
+            "card_image": "shopify://shop_images/SECTION8__Image_009_photo_placeholder.png",
             "card_overlay_color": "#000000",
             "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
+            "card_title": "The World of Coca-Cola",
             "card_title_color": "#ffffff",
             "card_title_size": 31,
             "card_collection": ""
