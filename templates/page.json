@@ -17,406 +17,107 @@
         "padding_bottom": 28
       }
     },
-    "banner_with_text_cfNpan": {
-      "type": "banner-with-text",
+    "custom_hotspot_3nPGbe": {
+      "type": "custom-hotspot",
       "blocks": {
-        "info_item_XMkXtV": {
-          "type": "info_item",
+        "point_WR6KhF": {
+          "type": "point",
           "settings": {
-            "item_label": "20+ YEARS OF MAGIC",
-            "item_title": "HERITAGE",
-            "item_desc": "FROM BAGNI DI LUCCA TO CHICAGO",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
+            "hotspot_label": "Ver producto",
+            "pulse": true,
+            "left_position": 40,
+            "top_position": 50,
+            "media_type": "video",
+            "video_file": "shopify://files/videos/5859020-uhd_2160_3840_24fps.mp4",
+            "external_video": "shopify://products/halloween-pumpkin",
+            "video_mp4_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "product_ref": "halloween-pumpkin",
+            "title_override": "",
+            "price_text": "",
+            "card_text": "",
+            "view_url": "",
+            "open_new": false,
+            "qty": 1,
+            "label_view": "Read more",
+            "label_add": "Add to cart"
           }
         },
-        "info_item_Lp9gh3": {
-          "type": "info_item",
+        "point_cff8te": {
+          "type": "point",
           "settings": {
-            "item_label": "20+ YEARS OF MAGIC",
-            "item_title": "HERITAGE",
-            "item_desc": "FROM BAGNI DI LUCCA TO CHICAGO",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
+            "hotspot_label": "Ver producto",
+            "pulse": true,
+            "left_position": 58,
+            "top_position": 66,
+            "media_type": "video",
+            "external_video": "shopify://products/christmas-star",
+            "video_mp4_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "product_ref": "christmas-star",
+            "title_override": "",
+            "price_text": "",
+            "card_text": "",
+            "view_url": "",
+            "open_new": false,
+            "qty": 1,
+            "label_view": "Read more",
+            "label_add": "Add to cart"
           }
         },
-        "info_item_TdX6AG": {
-          "type": "info_item",
+        "point_DYA4aL": {
+          "type": "point",
           "settings": {
-            "item_label": "20+ YEARS OF MAGIC",
-            "item_title": "HERITAGE",
-            "item_desc": "FROM BAGNI DI LUCCA TO CHICAGO",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        },
-        "info_item_a8AGhy": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "20+ YEARS OF MAGIC",
-            "item_title": "HERITAGE",
-            "item_desc": "FROM BAGNI DI LUCCA TO CHICAGO",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
+            "hotspot_label": "Ver producto",
+            "pulse": true,
+            "left_position": 58,
+            "top_position": 21,
+            "media_type": "video",
+            "external_video": "shopify://products/santa-claus-cap",
+            "video_mp4_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "product_ref": "santa-claus-cap",
+            "title_override": "",
+            "price_text": "",
+            "card_text": "",
+            "view_url": "",
+            "open_new": false,
+            "qty": 1,
+            "label_view": "Read more",
+            "label_add": "Add to cart"
           }
         }
       },
       "block_order": [
-        "info_item_XMkXtV",
-        "info_item_Lp9gh3",
-        "info_item_TdX6AG",
-        "info_item_a8AGhy"
+        "point_WR6KhF",
+        "point_cff8te",
+        "point_DYA4aL"
       ],
-      "name": "Custom Banner Text",
+      "name": "Hotspots + Video carousel",
       "settings": {
-        "bg_image": "shopify://shop_images/lucyimg_15.jpg",
+        "sec_title": "",
+        "sec_text": "",
+        "main_image": "shopify://shop_images/SECTION1__Image_003_by_season_halloween.png",
+        "alt_text": "",
         "overlay_color": "#000000",
-        "bg_color": "#161f3a",
-        "overlay_opacity": 61,
-        "padding_top": 170,
-        "padding_bottom": 135,
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "",
-        "enable_blocks_border": true,
-        "main_label_color": "#ffffff",
-        "main_title_color": "#ffffff",
-        "main_label_size": 18,
-        "main_title_size": 48,
-        "bottom_title_size": 48,
-        "items_gap": 0
-      }
-    },
-    "banner_with_text_H7xYPQ": {
-      "type": "banner-with-text",
-      "blocks": {
-        "info_item_gJghkn": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        },
-        "info_item_3RMjKr": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        },
-        "info_item_7mmEkT": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        }
-      },
-      "block_order": [
-        "info_item_gJghkn",
-        "info_item_3RMjKr",
-        "info_item_7mmEkT"
-      ],
-      "name": "Custom Banner Text",
-      "settings": {
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#161f3a",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "<p><strong>\"Light is not only what you see, It's what you feel \"- Rich Martini.</strong></p>",
-        "enable_blocks_border": false,
-        "main_label_color": "#ba745f",
-        "main_title_color": "#ba745f",
-        "main_label_size": 19,
-        "main_title_size": 54,
-        "bottom_title_size": 34,
-        "items_gap": 54
-      }
-    },
-    "banner_with_text_KWDizd": {
-      "type": "banner-with-text",
-      "name": "Custom Banner Text",
-      "settings": {
-        "bg_image": "shopify://shop_images/lucyimg_17.jpg",
-        "overlay_color": "#000000",
-        "bg_color": "#161f3a",
-        "overlay_opacity": 61,
-        "padding_top": 100,
-        "padding_bottom": 40,
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "enable_blocks_border": true,
-        "main_label_color": "#ffffff",
-        "main_title_color": "#ffffff",
-        "main_label_size": 38,
-        "main_title_size": 40,
-        "bottom_title_size": 32,
-        "items_gap": 0
-      }
-    },
-    "custom_cards_X6fBRC": {
-      "type": "custom-cards",
-      "blocks": {
-        "card_item_jLPMM6": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 74,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": "brilliant"
-          }
-        },
-        "card_item_bk38qR": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_3.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        },
-        "card_item_ftxyGq": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_13.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        },
-        "card_item_PE3tjH": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_12.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        },
-        "card_item_Rnm7fU": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        },
-        "card_item_n8EFDg": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        },
-        "card_item_8fC3gR": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        },
-        "card_item_ArFjiq": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/lucyimg_2.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_item_jLPMM6",
-        "card_item_bk38qR",
-        "card_item_ftxyGq",
-        "card_item_PE3tjH",
-        "card_item_Rnm7fU",
-        "card_item_n8EFDg",
-        "card_item_8fC3gR",
-        "card_item_ArFjiq"
-      ],
-      "name": "Custom Cards Grid",
-      "settings": {
-        "bg_color": "#000000",
-        "bg_image": "shopify://shop_images/bgblack.png",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "bottom_text": "<p>Via Luci brings that same commercial-grade quality to your home so every holiday, every gathering, every quiet evening glows with purpose and beauty.</p>",
-        "bottom_text_color": "#ffffff",
-        "bottom_text_size": 16
-      }
-    },
-    "banner_with_text_HximhK": {
-      "type": "banner-with-text",
-      "blocks": {
-        "info_item_NrgPxp": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        },
-        "info_item_qPrBPg": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        },
-        "info_item_h9jVc7": {
-          "type": "info_item",
-          "settings": {
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13
-          }
-        }
-      },
-      "block_order": [
-        "info_item_NrgPxp",
-        "info_item_qPrBPg",
-        "info_item_h9jVc7"
-      ],
-      "name": "Custom Banner Text",
-      "settings": {
-        "bg_image": "shopify://shop_images/bgblack.png",
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#000000",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "",
-        "enable_blocks_border": false,
-        "main_label_color": "#ba745f",
-        "main_title_color": "#ba745f",
-        "main_label_size": 19,
-        "main_title_size": 54,
-        "bottom_title_size": 34,
-        "items_gap": 54
-      }
-    },
-    "banner_with_text_Yg4iTU": {
-      "type": "banner-with-text",
-      "name": "Custom Banner Text",
-      "settings": {
-        "bg_image": "shopify://shop_images/lightbg.png",
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#000000",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "main_label": "From Rockefeller Center to your front porch, Via Luci brings brilliance.",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "bottom_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
-        "enable_blocks_border": true,
-        "main_label_color": "#000000",
-        "main_title_color": "#000000",
-        "main_label_size": 19,
-        "main_title_size": 54,
-        "bottom_title_size": 34,
-        "items_gap": 20
+        "overlay_opacity": 80,
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },
   "order": [
     "main",
-    "banner_with_text_cfNpan",
-    "banner_with_text_H7xYPQ",
-    "banner_with_text_KWDizd",
-    "custom_cards_X6fBRC",
-    "banner_with_text_HximhK",
-    "banner_with_text_Yg4iTU"
+    "custom_hotspot_3nPGbe"
   ]
 }
