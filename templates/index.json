@@ -624,9 +624,11 @@
         "subtext_color": "#ffffff",
         "subtext_size": 16,
         "header_align": "center",
-        "section_bg_type": "image",
         "section_bg_color": "#000000",
         "section_bg_image": "shopify://shop_images/bgbgblack.png",
+        "section_bg_type": "image",
+        "section_overlay_color": "#000000",
+        "section_overlay_opacity": 75,
         "color_scheme": "",
         "gap": 16
       }
