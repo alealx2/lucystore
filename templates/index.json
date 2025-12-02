@@ -628,7 +628,7 @@
         "section_bg_image": "shopify://shop_images/bgbgblack.png",
         "section_bg_type": "image",
         "section_overlay_color": "#000000",
-        "section_overlay_opacity": 75,
+        "section_overlay_opacity": 65,
         "color_scheme": "",
         "gap": 16
       }
