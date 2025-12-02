@@ -1,3 +1,9 @@
+{% liquid
+  assign ov_color   = section.settings.section_overlay_color | default: '#000000'
+  assign ov_opacity = section.settings.section_overlay_opacity | default: 0 | divided_by: 100.0
+  assign ov_rgba    = ov_color | color_modify: 'alpha', ov_opacity
+%}
+
 {% comment %}  
   Pinterest Grid 3+2 – Sección OS 2.0 (Dawn compatible)
   + Acciones opcionales por tarjeta (Ver más / Agregar al carrito)
@@ -10,14 +16,18 @@
   style="
     --gap: {{ section.settings.gap | default: 16 }}px;
     {% if section.settings.section_bg_type == 'image' and section.settings.section_bg_image != blank %}
-      background-image: url({{ section.settings.section_bg_image | image_url: width: 2400 }});
+      background-image: linear-gradient({{ ov_rgba }}, {{ ov_rgba }}),
+                        url({{ section.settings.section_bg_image | image_url: width: 2400 }});
       background-size: cover;
       background-position: center center;
     {% else %}
       background-color: {{ section.settings.section_bg_color }};
+      background-image: linear-gradient({{ ov_rgba }}, {{ ov_rgba }});
     {% endif %}
   "
 >
+
+
   <div class="page-width">
     {% if section.settings.heading != blank or section.settings.subtext != blank %}
       <div class="pgrid__header pgrid__header--{{ section.settings.header_align }}">
@@ -260,6 +270,12 @@
       white-space:nowrap;
       border:0;
     }
+
+    .pgrid{
+      position: relative;
+      padding: clamp(32px, 6vw, 64px) 0;
+    }
+
 
     div:empty{display: block;}
     .pgrid{ padding: clamp(32px, 6vw, 64px) 0; }
@@ -789,6 +805,17 @@
       "default": "center"
     },
     {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Color de fondo de la sección",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "section_bg_image",
+      "label": "Imagen de fondo de la sección"
+    },
+    {
       "type": "select",
       "id": "section_bg_type",
       "label": "Fondo de la sección",
@@ -800,14 +827,19 @@
     },
     {
       "type": "color",
-      "id": "section_bg_color",
-      "label": "Color de fondo de la sección",
+      "id": "section_overlay_color",
+      "label": "Color overlay de la sección",
       "default": "#000000"
     },
     {
-      "type": "image_picker",
-      "id": "section_bg_image",
-      "label": "Imagen de fondo de la sección"
+      "type": "range",
+      "id": "section_overlay_opacity",
+      "label": "Opacidad overlay sección",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
     },
     {
       "type": "color_scheme",
