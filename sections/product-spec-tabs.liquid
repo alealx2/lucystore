@@ -3,6 +3,7 @@
   class="product-spec-tabs section-{{ section.id }}-padding"
 >
   {%- style -%}
+
     .product-spec-tabs.section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -79,6 +80,12 @@
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 1fr));
       gap: 20px 32px;
+    }
+
+    @media (max-width: 750px) {
+      .product-spec-tabs__items{
+        grid-template-columns: repeat(4, minmax(0, 1fr));      
+      }
     }
 
     @media (min-width: 750px) {

@@ -819,36 +819,69 @@
         min-height: var(--min-h-mobile);
         padding: 20px 0 28px;
       }
+
+      /* Track horizontal con scroll + snap */
       .tc-items{
-        gap:16px;
+        width: 90%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: flex;
+        justify-content: flex-start;
+        gap: 0;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
       }
+
+      /* 1 card por viewport (100% de ancho) */
       .tc-item{
-        flex:0 0 70%;
-        max-width:70%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        scroll-snap-align: center;
+        opacity: 1;               /* en mobile todas visibles */
+        pointer-events: auto;
+        transform: scale(.94);    /* ligera reducción */
       }
+
+      /* La activa se destaca un poco más */
+      .tc-item.is-active{
+        transform: scale(1);
+      }
+
       .tc__tabs{
-        gap:12px;
+        gap: 12px;
       }
       .tc-tab__btn{
-        padding:.5rem .9rem;
+        padding: .5rem .9rem;
       }
+
       .tc-item__text{
-        font-size: 0.85rem;
+        font-size: 0.9rem;
       }
-      .tc-modal__inner{
-        width:90vw;
+
+      /* Flechas más pegadas a los bordes en mobile */
+      .tc-arrow--prev{
+        left: 8px;
+        transform: translateY(-50%) rotate(-90deg);
+      }
+      .tc-arrow--next{
+        right: 8px;
+        transform: translateY(-50%) rotate(-90deg);
       }
     }
 
     @media (max-width: 480px){
-      .tc-item{
-        flex:0 0 85%;
-        max-width:85%;
+      .tc-item__content{
+        padding: 16px 14px;
       }
+
+      /* Opcional: ocultar texto largo en XS */
       .tc-item__text{
-        display:none;
+        display: none;
       }
     }
+
+
   </style>
 
   <script>
@@ -1074,8 +1107,9 @@
         var items = panel.querySelectorAll('.tc-item');
         if(!items.length) return;
 
-        var prev = panel.querySelector('.tc-arrow--prev');
-        var next = panel.querySelector('.tc-arrow--next');
+        var track = panel.querySelector('.tc-items');
+        var prev  = panel.querySelector('.tc-arrow--prev');
+        var next  = panel.querySelector('.tc-arrow--next');
         var index = 0;
 
         function pauseItemVideo(item){
@@ -1097,16 +1131,40 @@
             }
             item.classList.toggle('is-active', isActive);
           });
+
+          /* En mobile: centramos la card activa mediante scroll */
+          if (window.innerWidth <= 989 && items[index]) {
+            items[index].scrollIntoView({
+              behavior: 'smooth',
+              inline:   'center',
+              block:    'nearest'
+            });
+          }
         }
 
-        /* Click en cards: izquierda/derecha se comportan como prev/next */
+        /* Click en cards
+           - Desktop: izq/der actúan como prev/next (comportamiento original)
+           - Mobile: tocar una card la centra (va directo a ese índice)
+        */
         items.forEach(function(item, i){
           item.addEventListener('click', function(e){
-            if(e.target.closest('.tc-item__controls') || e.target.closest('.tc-item__btn')){
+            // No interferir con botones internos
+            if (
+              e.target.closest('.tc-arrow') ||
+              e.target.closest('.tc-item__controls') ||
+              e.target.closest('.tc-item__btn')
+            ){
               return;
             }
-            if(i === index) return;
 
+            if(window.innerWidth <= 989){
+              // Mobile: ir directo a esa card
+              setActive(i);
+              return;
+            }
+
+            // Desktop: lógica anterior
+            if(i === index) return;
             if(i < index){
               setActive(index - 1);
             } else {
@@ -1115,13 +1173,18 @@
           });
         });
 
+        /* Flechas prev/next */
         if(prev){
-          prev.addEventListener('click', function(){
+          prev.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
             setActive(index - 1);
           });
         }
         if(next){
-          next.addEventListener('click', function(){
+          next.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
             setActive(index + 1);
           });
         }
@@ -1147,6 +1210,7 @@
           if(playBtn){
             playBtn.addEventListener('click', function(e){
               e.preventDefault();
+              e.stopPropagation();
               setActive(i);
               playVideo();
             });
@@ -1154,12 +1218,14 @@
           if(pauseBtn){
             pauseBtn.addEventListener('click', function(e){
               e.preventDefault();
+              e.stopPropagation();
               pauseVideo();
             });
           }
           if(fullBtn){
             fullBtn.addEventListener('click', function(e){
               e.preventDefault();
+              e.stopPropagation();
               setActive(i);
               pauseVideo();
               openModalFromItem(item, video);
@@ -1172,6 +1238,7 @@
         // Estado inicial
         setActive(0);
       }
+
 
       panels.forEach(function(panel){
         initPanelCarousel(panel);

@@ -25,6 +25,10 @@
 }
 
 @media screen and (max-width: 989px) {
+  .mobile-facets__summary {
+    color: #FFFFFF;
+    margin-bottom: 10px;
+  }
   .facets-container {
     grid-template-columns: auto minmax(0, max-content);
     column-gap: 2rem;
