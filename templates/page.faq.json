@@ -41,20 +41,82 @@
         "padding_bottom": 52
       }
     },
-    "custom_liquid_83ULNU": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
+    "collapsible_content_WQKthj": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_wNTbtB": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What makes Via Lucitrees different from others?",
+            "icon": "none",
+            "row_content": "<p>Via Luci trees are crafted for the discerning customer who values refinement and longevity. Every tree is designed with densely woven SPARKLE Color Change Rice Lights, offering up to 4,000 LEDs, often double the industry standard, for a luminous, room-filling glow. With Insta-Shape branches for fast setup, Power Pole technology for clean, cord-free connections, and coordinated wreaths, garlands, and porch pots, each collection provides a complete décor solution for your home.<br/><br/><br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_MJcRMF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What types of branches do Via Luci trees use?",
+            "icon": "none",
+            "row_content": "<p>Our trees combine lifelike molded tips with lush fill branches for fullness and realism. This balance ensures natural beauty<br/>with a structure that lasts for years.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tACNG8": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I buy trees inboth pre-lit and unlit versions?",
+            "icon": "none",
+            "row_content": "<p>Yes. Most collections, such as King Pine and Shimmering Pine, are available in both ways. Pre-lit trees come with premium<br/>LED lighting already woven throughout, while unlit trees provide complete creative freedom for personal decorating.<br/><br/><br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tVy9wK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Via Luci trees safe for families and pets?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. All trees are constructed with<br/>flame-retardant, non-toxic materials and meet strict safety standards, making<br/>them a secure choice for households with children and pets.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_WM77pn": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do your trees comewith stands?",
+            "icon": "none",
+            "row_content": "<p>Each tree comes with a sturdy metal<br/>stand. </p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_wNTbtB",
+        "collapsible_row_MJcRMF",
+        "collapsible_row_tACNG8",
+        "collapsible_row_tVy9wK",
+        "collapsible_row_WM77pn"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
       "settings": {
-        "custom_liquid": "<embed src=\"https://cdn.shopify.com/s/files/1/0728/5083/3587/files/via_luci_faqs.pdf?v=1764798662\" width=\"800px\" height=\"2100px\" />",
+        "caption": "",
+        "heading": "<strong>Christmas Trees</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
         "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
   "order": [
     "main",
     "rich_text_wqGPFk",
-    "custom_liquid_83ULNU"
+    "collapsible_content_WQKthj"
   ]
 }
