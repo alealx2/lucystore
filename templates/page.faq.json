@@ -113,10 +113,10 @@
         "padding_bottom": 36
       }
     },
-    "collapsible_content_VQ6Bk3": {
+    "collapsible_content_dnAh3q": {
       "type": "collapsible-content",
       "blocks": {
-        "collapsible_row_G4eFwA": {
+        "collapsible_row_Cpgjjt": {
           "type": "collapsible_row",
           "settings": {
             "heading": "How bright are thelights on Via Luci trees?",
@@ -125,7 +125,7 @@
             "page": ""
           }
         },
-        "collapsible_row_rfRrx7": {
+        "collapsible_row_j3nhnY": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Are your lights LED, and are they energy-efficient?",
@@ -134,7 +134,7 @@
             "page": ""
           }
         },
-        "collapsible_row_Tx3TGd": {
+        "collapsible_row_CwjLxN": {
           "type": "collapsible_row",
           "settings": {
             "heading": "What lighting effectsdo you offer?",
@@ -143,7 +143,7 @@
             "page": ""
           }
         },
-        "collapsible_row_4bQg8H": {
+        "collapsible_row_tQy6jb": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Are the lights replaceable?",
@@ -152,7 +152,7 @@
             "page": ""
           }
         },
-        "collapsible_row_bk4VKX": {
+        "collapsible_row_Xpw7kW": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Can I use Via Lucilights outdoors?",
@@ -161,7 +161,7 @@
             "page": ""
           }
         },
-        "collapsible_row_zzrjyk": {
+        "collapsible_row_MfjBWh": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Doyour lights require power adapters?",
@@ -172,12 +172,12 @@
         }
       },
       "block_order": [
-        "collapsible_row_G4eFwA",
-        "collapsible_row_rfRrx7",
-        "collapsible_row_Tx3TGd",
-        "collapsible_row_4bQg8H",
-        "collapsible_row_bk4VKX",
-        "collapsible_row_zzrjyk"
+        "collapsible_row_Cpgjjt",
+        "collapsible_row_j3nhnY",
+        "collapsible_row_CwjLxN",
+        "collapsible_row_tQy6jb",
+        "collapsible_row_Xpw7kW",
+        "collapsible_row_MfjBWh"
       ],
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
@@ -402,16 +402,155 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "collapsible_content_xmb9rm": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_6g3Nnr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Via Luci treesdifficult to assemble?",
+            "icon": "none",
+            "row_content": "<p>Not at all. With Insta-Shape™ branches, Power Pole™ technology, and clear instructions, most trees can be assembled and fluffed in under 30 minutes.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_iBWcNP": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How do I fluff mytree to look full?",
+            "icon": "none",
+            "row_content": "<p>Begin at the base and gently angle each branch outward. Taking time with shaping ensures a lush, natural silhouette.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_f9eMix": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How should I store mytree and décor?",
+            "icon": "none",
+            "row_content": "<p>Store items in a cool, dry place in their<br/>original packaging. Avoid humid spaces such as basements or attics. </p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_YHPWgM": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What if a light isn’t working or goes out?",
+            "icon": "none",
+            "row_content": "<p>Our LEDs are designed to resist corrosion and weather damage—last for seasons. If<br/>an issue arises, our warranty covers eligible defects for up to three years,<br/>subject to our return policy.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_6g3Nnr",
+        "collapsible_row_iBWcNP",
+        "collapsible_row_f9eMix",
+        "collapsible_row_YHPWgM"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Setup, Care & Storage</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_N9TKxa": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_HEK6YA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What payment methods do you accept?",
+            "icon": "none",
+            "row_content": "<p>We accept Visa, Master Card, American Express, and Discover.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_j4VgyK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is checkout secure?",
+            "icon": "none",
+            "row_content": "<p>Yes. All transactions are protected with<br/>advanced encryption and PCI-compliant processing.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_HEK6YA",
+        "collapsible_row_j4VgyK"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Payment & Security</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_VQ6Bk3": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_G4eFwA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I share my decorated space?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. Tag us on social media or upload directly through our site.<br/>Select entries that may be featured in our community gallery. </p><p>·       Facebook| <a href=\"https://www.facebook.com/ViaLuciLights\"><strong>ViaLuciLights</strong></a></p><p>·       Instagram|<strong> @Via.Luci</strong></p><p>·       TikTok |<strong> @ViaLuci1</strong></p><p>·      Pinterest | <strong>@ViaLuci1</strong></p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_G4eFwA"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Support & Community</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "main",
     "rich_text_wqGPFk",
     "collapsible_content_WQKthj",
-    "collapsible_content_VQ6Bk3",
+    "collapsible_content_dnAh3q",
     "collapsible_content_ji9Cgw",
     "collapsible_content_cX6bQ6",
     "collapsible_content_4PpqKL",
-    "collapsible_content_MhBkz3"
+    "collapsible_content_MhBkz3",
+    "collapsible_content_xmb9rm",
+    "collapsible_content_N9TKxa",
+    "collapsible_content_VQ6Bk3"
   ]
 }
