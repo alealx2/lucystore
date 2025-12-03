@@ -194,12 +194,254 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "collapsible_content_ji9Cgw": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_hwAKGE": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do your collections include matching décor?",
+            "icon": "none",
+            "row_content": "<p>Yes. Each Via Luci collection is a complete<br/>suite of coordinated pieces — trees, wreaths, garlands, and porch pots,<br/>designed to bring harmony throughout your home.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_ae6AmF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are wreaths andgarlands suitable for outdoor use?",
+            "icon": "none",
+            "row_content": "<p>Yes, many of our wreaths and garlands are<br/>weather rated for covered outdoor use. For areas with direct exposure, we<br/>recommend selecting styles specifically labeled for outdoor placement.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_gGG8a3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you sell unlit wreaths and garlands?",
+            "icon": "none",
+            "row_content": "<p>Yes. Several collections include unlit options, so you can personalize them with your own lights, ribbons, or ornaments.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_hwAKGE",
+        "collapsible_row_ae6AmF",
+        "collapsible_row_gGG8a3"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Wreaths, Garlands & CoordinatedDécor</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_cX6bQ6": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_cJn8VU": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I shop bycollection to ensure everything matches?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. Our site allows you to browse each collection, so you can easily select coordinating pieces for a unified holiday<br/>design. Each item will come to you in its own box.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KVNGKX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you sellreplacement parts and accessories?",
+            "icon": "none",
+            "row_content": "<p>Yes. We offer replacement parts to give you peace of mind that you will be able to<br/>keep your décor in perfect condition year after year.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_cJn8VU",
+        "collapsible_row_KVNGKX"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Ordering & Customization</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_4PpqKL": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_tjHmrF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How much does shipping cost?",
+            "icon": "none",
+            "row_content": "<p>Shipping is calculated at checkout.</p><p>Receive free shipping on orders over $50.</p><p>Oversized items, such as full-size trees, may carry an additional<br/>handling fee.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_k48iiQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How are large trees shipped?",
+            "icon": "none",
+            "row_content": "<p>Trees 7.5’ and under are shipped in a single<br/>box. Trees 9’ and over are shipped in multiple cartons for easier handling.<br/>Each box is carefully packed to ensure the tree arrives safely.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_paRXjj": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you offerinternational shipping?",
+            "icon": "none",
+            "row_content": "<p>Currently, we ship throughout the United States and Canada. International expansion is planned.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tgy3CD": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I scheduledelivery for a specific date?",
+            "icon": "none",
+            "row_content": "<p>Yes. Premium shipping options allow you to<br/>select a delivery window at checkout.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_EkWqRH": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Where do you ship from?",
+            "icon": "none",
+            "row_content": "<p>We ship from Omaha, Nebraska </p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_tjHmrF",
+        "collapsible_row_k48iiQ",
+        "collapsible_row_paRXjj",
+        "collapsible_row_tgy3CD",
+        "collapsible_row_EkWqRH"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Shipping & Delivery</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_MhBkz3": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_td6baq": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How much does shipping cost?",
+            "icon": "none",
+            "row_content": "<p>Shipping is calculated at checkout.</p><p>Receive free shipping on orders over $50.</p><p>Oversized items, such as full-size trees, may carry an additional<br/>handling fee.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_7DTxgL": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How are large trees shipped?",
+            "icon": "none",
+            "row_content": "<p>Trees 7.5’ and under are shipped in a single<br/>box. Trees 9’ and over are shipped in multiple cartons for easier handling.<br/>Each box is carefully packed to ensure the tree arrives safely.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_xnWY6T": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you offerinternational shipping?",
+            "icon": "none",
+            "row_content": "<p>Currently, we ship throughout the United States and Canada. International expansion is planned.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_363URy": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I scheduledelivery for a specific date?",
+            "icon": "none",
+            "row_content": "<p>Yes. Premium shipping options allow you to<br/>select a delivery window at checkout.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_VjCnxA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Where do you ship from?",
+            "icon": "none",
+            "row_content": "<p>We ship from Omaha, Nebraska </p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_td6baq",
+        "collapsible_row_7DTxgL",
+        "collapsible_row_xnWY6T",
+        "collapsible_row_363URy",
+        "collapsible_row_VjCnxA"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Returns & Exchanges</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "main",
     "rich_text_wqGPFk",
     "collapsible_content_WQKthj",
-    "collapsible_content_VQ6Bk3"
+    "collapsible_content_VQ6Bk3",
+    "collapsible_content_ji9Cgw",
+    "collapsible_content_cX6bQ6",
+    "collapsible_content_4PpqKL",
+    "collapsible_content_MhBkz3"
   ]
 }
