@@ -367,55 +367,25 @@
         "collapsible_row_td6baq": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "How much does shipping cost?",
+            "heading": "What is your returnpolicy?",
             "icon": "none",
-            "row_content": "<p>Shipping is calculated at checkout.</p><p>Receive free shipping on orders over $50.</p><p>Oversized items, such as full-size trees, may carry an additional<br/>handling fee.</p>",
+            "row_content": "<p>Returns are accepted within 30-days of delivery for unused items in original packaging. You can contact us at 888-576-2880.</p>",
             "page": ""
           }
         },
         "collapsible_row_7DTxgL": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "How are large trees shipped?",
+            "heading": "What if my order arrives damaged?",
             "icon": "none",
-            "row_content": "<p>Trees 7.5’ and under are shipped in a single<br/>box. Trees 9’ and over are shipped in multiple cartons for easier handling.<br/>Each box is carefully packed to ensure the tree arrives safely.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_xnWY6T": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Do you offerinternational shipping?",
-            "icon": "none",
-            "row_content": "<p>Currently, we ship throughout the United States and Canada. International expansion is planned.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_363URy": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Can I scheduledelivery for a specific date?",
-            "icon": "none",
-            "row_content": "<p>Yes. Premium shipping options allow you to<br/>select a delivery window at checkout.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_VjCnxA": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Where do you ship from?",
-            "icon": "none",
-            "row_content": "<p>We ship from Omaha, Nebraska </p>",
+            "row_content": "<p>Please contact us immediately at 888-576-2880. We will arrange a replacement or refund at no additional cost.<br/></p>",
             "page": ""
           }
         }
       },
       "block_order": [
         "collapsible_row_td6baq",
-        "collapsible_row_7DTxgL",
-        "collapsible_row_xnWY6T",
-        "collapsible_row_363URy",
-        "collapsible_row_VjCnxA"
+        "collapsible_row_7DTxgL"
       ],
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
