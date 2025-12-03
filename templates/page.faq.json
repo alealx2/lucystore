@@ -17,35 +17,44 @@
         "padding_bottom": 28
       }
     },
-    "banner_with_text_Yg4iTU": {
-      "type": "banner-with-text",
-      "name": "Custom Banner Text",
+    "rich_text_wqGPFk": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_VKfB8R": {
+          "type": "heading",
+          "settings": {
+            "heading": "FAQ'S",
+            "heading_size": "hxxl"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VKfB8R"
+      ],
+      "name": "t:sections.rich-text.presets.name",
       "settings": {
-        "bg_image": "shopify://shop_images/lightbg.png",
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#000000",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "text_align": "left",
-        "main_label": "",
-        "main_title": "<p>Via Luci Warranty</p>",
-        "bottom_title": "<p>All of our products are warranted to be free from defects in material and<br/>workmanship for 90 days. Most of our product line has a limited warranty for the time periods listed below:<br/></p><p><strong>1 Year:</strong><br/>RGB, Incandescent Light Sets, Cherry Blossom Trees, Timers, Micro Lights, Light Bursts, Twig Lights, Shimmering Spheres, Radiant Blasts, Big Seed Connectables, B/O Big Seed, B/O Micro Lights, Novelty Trees, Resins, Patio Light Sets.</p><p><br/><strong>3 Years:</strong><br/>Bulbs (C7/C9/G50), Clips/Tabs, Cord, LED Light Sets (5mm/8M/C6/Rice Lights/Cluster Lights), Light Drops, Wire Décor, Foldable Spheres, Wreaths, Garlands and Foliage, Light Sets on Christmas Trees, LightLinks, Gumballs Lights, Orbs, Cluster & Compact Rice Lights, Cluster Lights, Weeping Willows, Curtain Lights, Starry Lights, Connect N Sync Cluster<br/></p><p><strong>Warranty is for non-permanent installation and for use no more than 90 days at a time.</strong></p><p><br/><strong>Additionally, the following product conditions are Not Covered Under Warranty:</strong></p><ul><li> Damage from improper installation or removal; including hanging product(s) from light cords rather than proper clips or wires.</li><li>Damage from electrical surges or lightning strikes.</li><li>Products that have been modified or changed in any way.</li><li>Damage from wind, floods or other extreme weather conditions.</li><li>Damage from insects and animals<br/></li></ul><p>All Returns Must Include a copy of the purchasing Sales Order, Paid<br/>Invoice or receipt.<br/></p><p>All Retail Returns within the first year, are to be taken back to the original Retail Store where purchased. </p><p>After 1 year, the warranty returns will be processed through Via Luci.<br/></p><p>All Retail Claims Must Include the Original Receipt and Retail Packaging UPC.<br/></p><p>Product returns within the warranty period must first be approved by Via Luci. Once the<br/>warranty return has been approved, the product should be shipped back to Via Luci, at<br/>the owner’s expense, and will then be inspected to determine if it falls under warranty<br/><br/>coverage. Upon approval of such return, the product will be replaced (or repaired) with the same, or similar product. In the event, that an item cannot be replaced (or repaired), a credit will be issued to be used on future purchases.<br/></p><p>If products are found to be defective upon delivery (and before use) please contact Via Luci by email at: CSR@Vialuci.com to obtain a Return Authorization Number. </p><p>No Refunds Will Be Given – Replacement product or merchandise credit will be offered.<br/></p><p>Via Luci Warehouse Address: 4433 S. 96th St, Omaha, NE 68127</p>",
-        "enable_blocks_border": true,
-        "main_label_color": "#000000",
-        "main_title_color": "#000000",
-        "main_label_size": 19,
-        "main_title_size": 36,
-        "bottom_title_size": 20,
-        "main_label_size_mobile": 14,
-        "main_title_size_mobile": 28,
-        "bottom_title_size_mobile": 18,
-        "items_gap": 20
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "custom_liquid_83ULNU": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<embed src=\"https://cdn.shopify.com/s/files/1/0728/5083/3587/files/via_luci_faqs.pdf?v=1764798662\" width=\"800px\" height=\"2100px\" />",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     }
   },
   "order": [
     "main",
-    "banner_with_text_Yg4iTU"
+    "rich_text_wqGPFk",
+    "custom_liquid_83ULNU"
   ]
 }
