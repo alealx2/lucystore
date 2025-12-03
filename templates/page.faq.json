@@ -112,11 +112,94 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "collapsible_content_VQ6Bk3": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_G4eFwA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How bright are thelights on Via Luci trees?",
+            "icon": "none",
+            "row_content": "<p>Our trees are distinguished by their higher<br/>light density and premium LED engineering. The result is a glow that is not<br/>only brighter, but also longer-lasting and more energy-efficient than standard<br/>holiday lights.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_rfRrx7": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are your lights LED, and are they energy-efficient?",
+            "icon": "none",
+            "row_content": "<p>Yes! We exclusively offer premium LED lighting—known for being up to 90% more<br/>efficient than traditional incandescent bulbs. You’ll enjoy brighter,<br/>longer-lasting illumination with significantly lower energy costs and minimal<br/>maintenance. <br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_Tx3TGd": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What lighting effectsdo you offer?",
+            "icon": "none",
+            "row_content": "<p>SPARKLE™ Color Change Rice Lights shift seamlessly from warm white to multi-color, with a 4:1 twinkle effect. Most pre-lit collections include an RF remote (and in<br/>some cases a foot pedal), giving you instant control over brightness, color,<br/>and effects.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_4bQg8H": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are the lights replaceable?",
+            "icon": "none",
+            "row_content": "<p>Yes. Each tree includes replacement bulbs and is designed with protection systems so that if one bulb fails, the rest remain<br/>illuminated.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_bk4VKX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I use Via Lucilights outdoors?",
+            "icon": "none",
+            "row_content": "<p>Yes. Lights included in outdoor-rated products (such as porch pots, pathway trees, and garlands) are fully weather-tested for seasonal use. Always check the product details for location suitability.<br/><br/><br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_zzrjyk": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Doyour lights require power adapters?",
+            "icon": "none",
+            "row_content": "<p>Most Via Luci strings plug directly into a standard 110 V outlet and don’t need<br/>extra adapters. Specialty styles (e.g., larger or custom-connected systems)<br/>will come with any needed adapters or power supplies.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_G4eFwA",
+        "collapsible_row_rfRrx7",
+        "collapsible_row_Tx3TGd",
+        "collapsible_row_4bQg8H",
+        "collapsible_row_bk4VKX",
+        "collapsible_row_zzrjyk"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Lights & Illumination</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "main",
     "rich_text_wqGPFk",
-    "collapsible_content_WQKthj"
+    "collapsible_content_WQKthj",
+    "collapsible_content_VQ6Bk3"
   ]
 }
