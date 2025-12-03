@@ -9,205 +9,6 @@
  */
 {
   "sections": {
-    "custom_main_product_hJXgq8": {
-      "type": "custom-main-product",
-      "name": "Custom product main",
-      "settings": {
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "bg_color": "#f6eee5",
-        "bg_image": "shopify://shop_images/SECTION_6__Image_015_background.png",
-        "bg_overlay_color": "#ffffff",
-        "bg_overlay_opacity": 40,
-        "thumb_scroll_step": 160,
-        "button_bg": "#13192b",
-        "button_bg_hover": "#060b18",
-        "button_text": "#ffffff",
-        "show_description": true,
-        "show_rating": false
-      }
-    },
-    "product_spec_tabs_HK8yGY": {
-      "type": "product-spec-tabs",
-      "blocks": {
-        "tab_fhFegx": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Description",
-            "item_1_icon": "shopify://shop_images/SECTION_6__Image_006_Slender_shape.png",
-            "item_1_label": "Height",
-            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
-            "item_2_icon": "shopify://shop_images/SECTION_6__Image_008_Multicolor_led_bulb.png",
-            "item_2_label": "Shape",
-            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
-            "item_3_icon": "shopify://shop_images/SECTION_6__Image_009_with_lights.png",
-            "item_3_label": "Bulb",
-            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
-            "item_4_icon": "shopify://shop_images/SECTION_6__Image_005_expand_icon_fce45d30-968c-4dd0-b448-1ce8602cabf2.png",
-            "item_4_label": "Type",
-            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
-            "item_5_icon": "shopify://shop_images/SECTION_6__Image_007_with_lights.png",
-            "item_5_label": "Color",
-            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
-            "item_6_icon": "shopify://shop_images/icopallete.png",
-            "item_6_label": "Style",
-            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
-          }
-        },
-        "tab_eKa3cy": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Tree",
-            "item_1_icon": "shopify://shop_images/SECTION_6__Image_006_Slender_shape.png",
-            "item_1_label": "Height",
-            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
-            "item_2_icon": "shopify://shop_images/SECTION_6__Image_008_Multicolor_led_bulb.png",
-            "item_2_label": "Shape",
-            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
-            "item_3_icon": "shopify://shop_images/SECTION_6__Image_009_with_lights.png",
-            "item_3_label": "Bulb",
-            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
-            "item_4_icon": "shopify://shop_images/SECTION_6__Image_005_expand_icon_fce45d30-968c-4dd0-b448-1ce8602cabf2.png",
-            "item_4_label": "Type",
-            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
-            "item_5_icon": "shopify://shop_images/SECTION_6__Image_007_with_lights.png",
-            "item_5_label": "Color",
-            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
-            "item_6_icon": "shopify://shop_images/icopallete.png",
-            "item_6_label": "Style",
-            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
-          }
-        },
-        "tab_VBec9R": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Bulb",
-            "item_1_icon": "shopify://shop_images/SECTION_6__Image_006_Slender_shape.png",
-            "item_1_label": "Height",
-            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
-            "item_2_icon": "shopify://shop_images/SECTION_6__Image_008_Multicolor_led_bulb.png",
-            "item_2_label": "Shape",
-            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
-            "item_3_icon": "shopify://shop_images/SECTION_6__Image_009_with_lights.png",
-            "item_3_label": "Bulb",
-            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
-            "item_4_icon": "shopify://shop_images/SECTION_6__Image_005_expand_icon_fce45d30-968c-4dd0-b448-1ce8602cabf2.png",
-            "item_4_label": "Type",
-            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
-            "item_5_icon": "shopify://shop_images/SECTION_6__Image_007_with_lights.png",
-            "item_5_label": "Color",
-            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
-            "item_6_icon": "shopify://shop_images/icopallete.png",
-            "item_6_label": "Style",
-            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
-          }
-        },
-        "tab_qyiYnU": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Light type",
-            "item_1_icon": "shopify://shop_images/SECTION_6__Image_006_Slender_shape.png",
-            "item_1_label": "Height",
-            "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
-            "item_2_icon": "shopify://shop_images/SECTION_6__Image_008_Multicolor_led_bulb.png",
-            "item_2_label": "Shape",
-            "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
-            "item_3_icon": "shopify://shop_images/SECTION_6__Image_009_with_lights.png",
-            "item_3_label": "Bulb",
-            "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
-            "item_4_icon": "shopify://shop_images/SECTION_6__Image_005_expand_icon_fce45d30-968c-4dd0-b448-1ce8602cabf2.png",
-            "item_4_label": "Type",
-            "item_4_value": "{{ product.metafields.custom.light_type.value }}",
-            "item_5_icon": "shopify://shop_images/SECTION_6__Image_007_with_lights.png",
-            "item_5_label": "Color",
-            "item_5_value": "{{ product.metafields.custom.light_color.value }}",
-            "item_6_icon": "shopify://shop_images/icopallete.png",
-            "item_6_label": "Style",
-            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
-          }
-        }
-      },
-      "block_order": [
-        "tab_fhFegx",
-        "tab_eKa3cy",
-        "tab_VBec9R",
-        "tab_qyiYnU"
-      ],
-      "name": "Product tabs (metafields)",
-      "settings": {
-        "max_width": 1200,
-        "bg_color": "#f6eee5",
-        "text_color": "#1e2430",
-        "border_color": "#d6c9b7",
-        "tabs_font_size": 16,
-        "tabs_color_active": "#1e2430",
-        "tabs_color_inactive": "#9b8f7f",
-        "item_label_size": 14,
-        "item_value_size": 14,
-        "item_label_color": "#1e2430",
-        "item_value_color": "#4b4b4b",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
-    "custom_product_icons_NWKHPE": {
-      "type": "custom-product-icons",
-      "blocks": {
-        "icon_TVDrzN": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/ic1_c0f858bf-f247-40a4-87c7-c90ef2ffb35f.png",
-            "label": "Limited collections"
-          }
-        },
-        "icon_f3M6Qz": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/ic1_c0f858bf-f247-40a4-87c7-c90ef2ffb35f.png",
-            "label": "Limited collections"
-          }
-        },
-        "icon_qN7Rde": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/ic3.png",
-            "label": "Limited collections"
-          }
-        },
-        "icon_iMVgdE": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/ic2_253d52e9-dc22-4b50-bb82-284af3618e2e.png",
-            "label": "Limited collections"
-          }
-        }
-      },
-      "block_order": [
-        "icon_TVDrzN",
-        "icon_f3M6Qz",
-        "icon_qN7Rde",
-        "icon_iMVgdE"
-      ],
-      "name": "Product Icons",
-      "settings": {
-        "bg_color": "#f6eee5",
-        "heading": "",
-        "heading_align": "center",
-        "heading_size": 14,
-        "icon_size": 200,
-        "padding_inset": 16,
-        "gap": 40,
-        "bg_circle": "#f6eee5",
-        "circle_border_color": "#262626",
-        "border_width": "1px",
-        "label_color": "#1e2430",
-        "monochrome": false,
-        "color_scheme": "",
-        "border_color": "#d6c9b7",
-        "padding_top": 24,
-        "padding_bottom": 24
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -265,11 +66,9 @@
         "description",
         "share"
       ],
-      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
-        "bg_color": "#f9f3ea",
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "contain",
@@ -285,7 +84,6 @@
     },
     "related-products": {
       "type": "related-products",
-      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -302,10 +100,10 @@
         "padding_bottom": 28
       }
     },
-    "1759168056636c5fe3": {
+    "17591679642022fe71": {
       "type": "apps",
       "blocks": {
-        "junip_junip_product_review_idTGb4": {
+        "junip_junip_product_review_WzYMYf": {
           "type": "shopify://apps/junip/blocks/junip-product-review/dc14f5a8-ed15-41b1-ad08-cfba23f9789b",
           "settings": {
             "product": "{{product}}",
@@ -315,7 +113,7 @@
         }
       },
       "block_order": [
-        "junip_junip_product_review_idTGb4"
+        "junip_junip_product_review_WzYMYf"
       ],
       "settings": {
         "include_margins": true
@@ -323,11 +121,8 @@
     }
   },
   "order": [
-    "custom_main_product_hJXgq8",
-    "product_spec_tabs_HK8yGY",
-    "custom_product_icons_NWKHPE",
     "main",
     "related-products",
-    "1759168056636c5fe3"
+    "17591679642022fe71"
   ]
 }
