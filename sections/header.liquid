@@ -75,8 +75,39 @@
     }
   }
 
-  .onload-logo{
+  .tohide{
     display: none;
+  }
+
+  /* ESTADO ESPECIAL SOLO CUANDO ESTÁ ACTIVO EL LOGO ONLOAD */
+  .header-wrapper.onload-header {
+    background: transparent;
+    margin-bottom: -130px;
+  }
+
+  .onload-logo {
+    width: 100px;
+    display: none;
+  }
+  .main-logo {
+    display: block;
+  }
+
+  .header-wrapper.onload-header .onload-logo {
+    display: block;
+    position: absolute;
+    top: 10px;
+  }
+  .header-wrapper.onload-header .main-logo {
+    display: none;
+  }
+  @media screen and (max-width: 480px) {
+    .header-wrapper.onload-header .onload-logo {
+      right: 0;
+      left: 0;      
+      width: 60px;
+      margin: 0 auto;
+    }
   }
 </style>
 
@@ -86,11 +117,10 @@
   }
 
   .section-header {
-    position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
+    position: sticky; 
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
   }
 
-  /* Header transparente en la parte superior (solo si está activado) */
   .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent {
     background: transparent;
     box-shadow: none;
@@ -131,13 +161,21 @@
   if section.settings.sticky_header_type != 'none'
     assign header_tag = 'sticky-header'
   endif
+
+  assign onload_logo = false
+
+  if section.settings.onload_logo != blank and request.page_type == 'index'
+    assign onload_logo = true
+  endif
+
+
 %}
 
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
   {% endif %}
-  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.enable_transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %}"
+  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.enable_transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %} {% if onload_logo %} onload-header {%  endif %} "
 >
 
 
@@ -177,7 +215,7 @@
             {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
             {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
            
-            {%- if section.settings.onload_logo != blank -%}
+            {%- if onload_logo -%}
             {{
                 section.settings.onload_logo
               | image_url: width: 600
@@ -196,7 +234,7 @@
               settings.logo
               | image_url: width: 600
               | image_tag:
-                class: 'header__heading-logo motion-reduce',
+                class: 'header__heading-logo motion-reduce main-logo',
                 widths: widths,
                 height: logo_height,
                 width: settings.logo_width,
@@ -371,6 +409,10 @@
       this.preventReveal = false;
       this.predictiveSearch = this.querySelector('predictive-search');
 
+      this.hasOnloadLogo = this.querySelector('.onload-logo') !== null;
+      this.onloadLogoEl = this.querySelector('.onload-logo');
+      this.mainLogoEl = this.querySelector('.main-logo');
+
       this.onScrollHandler = this.onScroll.bind(this);
       this.hideHeaderOnScrollUp = () => (this.preventReveal = true);
 
@@ -378,6 +420,9 @@
       window.addEventListener('scroll', this.onScrollHandler, false);
 
       this.createObserver();
+
+      const initialScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      this.toggleOnloadLogo(initialScrollTop);
     }
 
     setHeaderHeight() {
@@ -425,6 +470,8 @@
         requestAnimationFrame(this.reset.bind(this));
       }
 
+      this.toggleOnloadLogo(scrollTop);
+
       this.currentScrollTop = scrollTop;
     }
 
@@ -455,10 +502,22 @@
       this.searchModal = this.searchModal || this.header.querySelector('details-modal');
       this.searchModal.close(false);
     }
+
+    toggleOnloadLogo(scrollTop) {
+      if (!this.hasOnloadLogo) return;
+
+      if (scrollTop <= 1) {
+        this.classList.add('onload-header');
+      } else {
+        this.classList.remove('onload-header');
+      }
+    }
   }
 
   customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
+
+
 
 <script type="application/ld+json">
   {

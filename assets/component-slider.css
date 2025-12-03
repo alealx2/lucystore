@@ -133,6 +133,9 @@ slider-component.slider-component-full-width {
 }
 
 @media screen and (min-width: 990px) {
+  .slider.slider--everywhere .slider__slide {
+    height: 100vh;
+  }
   .slider-component-desktop.page-width {
     max-width: none;
   }
