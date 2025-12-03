@@ -289,10 +289,10 @@
         "padding_bottom": 36
       }
     },
-    "collapsible_content_4PpqKL": {
+    "collapsible_content_Ffc8De": {
       "type": "collapsible-content",
       "blocks": {
-        "collapsible_row_tjHmrF": {
+        "collapsible_row_HXtUJP": {
           "type": "collapsible_row",
           "settings": {
             "heading": "How much does shipping cost?",
@@ -301,7 +301,7 @@
             "page": ""
           }
         },
-        "collapsible_row_k48iiQ": {
+        "collapsible_row_TwdzAx": {
           "type": "collapsible_row",
           "settings": {
             "heading": "How are large trees shipped?",
@@ -310,7 +310,7 @@
             "page": ""
           }
         },
-        "collapsible_row_paRXjj": {
+        "collapsible_row_mnj8g9": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Do you offerinternational shipping?",
@@ -319,7 +319,7 @@
             "page": ""
           }
         },
-        "collapsible_row_tgy3CD": {
+        "collapsible_row_UM386D": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Can I scheduledelivery for a specific date?",
@@ -328,7 +328,7 @@
             "page": ""
           }
         },
-        "collapsible_row_EkWqRH": {
+        "collapsible_row_NA89Vr": {
           "type": "collapsible_row",
           "settings": {
             "heading": "Where do you ship from?",
@@ -339,11 +339,11 @@
         }
       },
       "block_order": [
-        "collapsible_row_tjHmrF",
-        "collapsible_row_k48iiQ",
-        "collapsible_row_paRXjj",
-        "collapsible_row_tgy3CD",
-        "collapsible_row_EkWqRH"
+        "collapsible_row_HXtUJP",
+        "collapsible_row_TwdzAx",
+        "collapsible_row_mnj8g9",
+        "collapsible_row_UM386D",
+        "collapsible_row_NA89Vr"
       ],
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
@@ -538,6 +538,48 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "collapsible_content_4PpqKL": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_tjHmrF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What makes Via Luci unique?",
+            "icon": "none",
+            "row_content": "<p>Via Luci is built around the belief that light<br/>creates lasting memories. From densely lit trees with brighter, longer-lasting<br/>LEDs to curated collections that coordinate across every space in your home, we<br/>craft décor for those who expect the very best.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_k48iiQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are your products sustainable?",
+            "icon": "none",
+            "row_content": "<p>Our décor is designed for multi-season use, reducing waste and frequent<br/>replacement. We use energy-efficient LEDs and recyclable packaging wherever<br/>possible.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_tjHmrF",
+        "collapsible_row_k48iiQ"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Brand Promise & Sustainability</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -547,10 +589,11 @@
     "collapsible_content_dnAh3q",
     "collapsible_content_ji9Cgw",
     "collapsible_content_cX6bQ6",
-    "collapsible_content_4PpqKL",
+    "collapsible_content_Ffc8De",
     "collapsible_content_MhBkz3",
     "collapsible_content_xmb9rm",
     "collapsible_content_N9TKxa",
-    "collapsible_content_VQ6Bk3"
+    "collapsible_content_VQ6Bk3",
+    "collapsible_content_4PpqKL"
   ]
 }
