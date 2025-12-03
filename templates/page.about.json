@@ -11,13 +11,472 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "banner_with_text_cfNpan": {
+      "type": "banner-with-text",
+      "blocks": {
+        "info_item_XMkXtV": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "left",
+            "item_label": "<p>20+ YEARS OF LIGHTED MAGIC</p>",
+            "item_title": "<p>HERITAGE</p>",
+            "item_desc": "<p>FROM BAGNI DI LUCCA TO CHICAGO</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#eaeaea",
+            "item_label_size": 12,
+            "item_title_size": 30,
+            "item_desc_size": 10,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_Lp9gh3": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "left",
+            "item_label": "<p>WHERE HOME & HEART ALIGN</p>",
+            "item_title": "<p>CONNECTION</p>",
+            "item_desc": "<p>ILUMINATING LIFE'S MOST MEANINGFUL MOMENTS</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#eaeaea",
+            "item_label_size": 12,
+            "item_title_size": 30,
+            "item_desc_size": 10,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_TdX6AG": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "left",
+            "item_label": "<p>CRAFTED TO DELIGHT & ENDURE</p>",
+            "item_title": "<p>CRAFTMANSHIP</p>",
+            "item_desc": "<p>ALWAYS EVOLVING, NEVER COMPROMISING QUALITY</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#eaeaea",
+            "item_label_size": 12,
+            "item_title_size": 30,
+            "item_desc_size": 10,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_a8AGhy": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "left",
+            "item_label": "<p>WHERE WONDER FINDS ITS FORM</p>",
+            "item_title": "<p>INSPIRTATION</p>",
+            "item_desc": "<p>FROM ROCKEFELLER TO YOUR ROOFTOP</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#eaeaea",
+            "item_label_size": 12,
+            "item_title_size": 30,
+            "item_desc_size": 10,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        }
+      },
+      "block_order": [
+        "info_item_XMkXtV",
+        "info_item_Lp9gh3",
+        "info_item_TdX6AG",
+        "info_item_a8AGhy"
+      ],
+      "name": "Custom Banner Text",
+      "settings": {
+        "bg_image": "shopify://shop_images/Casa_Exterior_luz_detalle-min.png",
+        "overlay_color": "#000000",
+        "bg_color": "#161f3a",
+        "overlay_opacity": 61,
+        "padding_top": 170,
+        "padding_bottom": 135,
+        "text_align": "center",
+        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
+        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings world-class brilliance to the moments that matters the most. </p>",
+        "bottom_title": "",
+        "enable_blocks_border": true,
+        "main_label_color": "#ffffff",
+        "main_title_color": "#ffffff",
+        "main_label_size": 18,
+        "main_title_size": 60,
+        "bottom_title_size": 48,
+        "main_label_size_mobile": 14,
+        "main_title_size_mobile": 28,
+        "bottom_title_size_mobile": 18,
+        "items_gap": 0
+      }
+    },
+    "banner_with_text_H7xYPQ": {
+      "type": "banner-with-text",
+      "blocks": {
+        "info_item_gJghkn": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "center",
+            "item_label": "",
+            "item_title": "",
+            "item_desc": "<p>The Martini family has always believed in the magic of gathering. As one of ten siblings growing up in a spirited Italian home on the west side of Chicago, the holidays weren’t just celebrated, they were felt. The kitchen glowed late into the night, filled with homemade pasta, holiday music, and stories passed between</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#ba745f",
+            "item_label_size": 14,
+            "item_title_size": 22,
+            "item_desc_size": 14,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_3RMjKr": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "center",
+            "item_label": "",
+            "item_title": "",
+            "item_desc": "<p>Their father ran a neighborhood store where customers were treated like guests. Their mother lit up every room she entered, often quite literally, with the warmth of her hospitality and the glow of lights carefully strung for every season.</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#ba745f",
+            "item_label_size": 14,
+            "item_title_size": 22,
+            "item_desc_size": 14,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_7mmEkT": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "center",
+            "item_label": "",
+            "item_title": "",
+            "item_desc": "<p>In the Martini household, light was never just decoration. It was emotion. It was the signal that something meaningful was happening. It meant family was gathering.</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#ba745f",
+            "item_label_size": 14,
+            "item_title_size": 22,
+            "item_desc_size": 14,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        }
+      },
+      "block_order": [
+        "info_item_gJghkn",
+        "info_item_3RMjKr",
+        "info_item_7mmEkT"
+      ],
+      "name": "Custom Banner Text",
+      "settings": {
+        "overlay_color": "rgba(0,0,0,0)",
+        "bg_color": "#161f3a",
+        "overlay_opacity": 61,
+        "padding_top": 55,
+        "padding_bottom": 65,
+        "text_align": "center",
+        "main_label": "THE SPARK BEHIND THE BRAND",
+        "main_title": "<p>Our story began with family, food and the warmth of home.</p>",
+        "bottom_title": "<p><em><strong>\"Light is'nt just what you see, It's what you feel \"- Rich Martini.</strong></em></p>",
+        "enable_blocks_border": false,
+        "main_label_color": "#ba745f",
+        "main_title_color": "#ba745f",
+        "main_label_size": 20,
+        "main_title_size": 80,
+        "bottom_title_size": 34,
+        "main_label_size_mobile": 14,
+        "main_title_size_mobile": 28,
+        "bottom_title_size_mobile": 18,
+        "items_gap": 54
+      }
+    },
+    "banner_with_text_KWDizd": {
+      "type": "banner-with-text",
+      "name": "Custom Banner Text",
+      "settings": {
+        "bg_image": "shopify://shop_images/Salon_navidad_in_detalle-min.png",
+        "overlay_color": "#000000",
+        "bg_color": "#161f3a",
+        "overlay_opacity": 61,
+        "padding_top": 100,
+        "padding_bottom": 40,
+        "text_align": "center",
+        "main_label": "",
+        "main_title": "<p><em>From Landmarks to Living Rooms</em></p><p>You've already seen our work. Now you can bring it home.</p>",
+        "bottom_title": "<p>What started as a family passion became a legacy of light.  Over the past 20+ years, the Martini family has helped iluminate some of the most iconic public spaces and celebrations in the country.</p>",
+        "enable_blocks_border": true,
+        "main_label_color": "#ffffff",
+        "main_title_color": "#ffffff",
+        "main_label_size": 18,
+        "main_title_size": 28,
+        "bottom_title_size": 32,
+        "main_label_size_mobile": 14,
+        "main_title_size_mobile": 28,
+        "bottom_title_size_mobile": 18,
+        "items_gap": 0
+      }
+    },
+    "custom_cards_X6fBRC": {
+      "type": "custom-cards",
+      "blocks": {
+        "card_item_jLPMM6": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION_3__Image_004__Rockefeller_center.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 74,
+            "card_title": "Rockefeller Center",
+            "card_title_color": "#ffffff",
+            "card_title_size": 31,
+            "card_collection": "brilliant"
+          }
+        },
+        "card_item_bk38qR": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION8__Image_003_photo_placeholder.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 46,
+            "card_title": "Radio city Music hall",
+            "card_title_color": "#ffffff",
+            "card_title_size": 31,
+            "card_collection": ""
+          }
+        },
+        "card_item_ftxyGq": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION8__Image_004_photo_placeholder.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 45,
+            "card_title": "The Magnificent Mile in Chicago",
+            "card_title_color": "#ffffff",
+            "card_title_size": 24,
+            "card_collection": ""
+          }
+        },
+        "card_item_PE3tjH": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/lucyimg_12.jpg",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 45,
+            "card_title": "Marshall Field's Walnut Room",
+            "card_title_color": "#ffffff",
+            "card_title_size": 26,
+            "card_collection": ""
+          }
+        },
+        "card_item_Rnm7fU": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION8__Image_006_photo_placeholder.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 45,
+            "card_title": "Brookfield Zoo",
+            "card_title_color": "#ffffff",
+            "card_title_size": 31,
+            "card_collection": ""
+          }
+        },
+        "card_item_n8EFDg": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION8__Image_007_photo_placeholder.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 45,
+            "card_title": "The Jenning's Osborne Family Spectacle of Lights",
+            "card_title_color": "#ffffff",
+            "card_title_size": 24,
+            "card_collection": ""
+          }
+        },
+        "card_item_8fC3gR": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION8__Image_008_photo_placeholder.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 45,
+            "card_title": "Garden Lights at Atlanta Botanical Garden",
+            "card_title_color": "#ffffff",
+            "card_title_size": 23,
+            "card_collection": ""
+          }
+        },
+        "card_item_ArFjiq": {
+          "type": "card_item",
+          "settings": {
+            "card_image": "shopify://shop_images/SECTION8__Image_009_photo_placeholder.png",
+            "card_overlay_color": "#000000",
+            "card_overlay_opacity": 45,
+            "card_title": "The World of Coca-Cola",
+            "card_title_color": "#ffffff",
+            "card_title_size": 31,
+            "card_collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_item_jLPMM6",
+        "card_item_bk38qR",
+        "card_item_ftxyGq",
+        "card_item_PE3tjH",
+        "card_item_Rnm7fU",
+        "card_item_n8EFDg",
+        "card_item_8fC3gR",
+        "card_item_ArFjiq"
+      ],
+      "name": "Custom Cards Grid",
+      "settings": {
+        "bg_color": "#000000",
+        "bg_image": "shopify://shop_images/bgblack.png",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "bottom_text": "<p>Via Luci brings that same commercial-grade quality to your home so every holiday, every gathering, every quiet evening glows with purpose and beauty.</p>",
+        "bottom_text_color": "#ffffff",
+        "bottom_text_size": 16
+      }
+    },
+    "banner_with_text_HximhK": {
+      "type": "banner-with-text",
+      "blocks": {
+        "info_item_NrgPxp": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "center",
+            "item_label": "",
+            "item_title": "",
+            "item_desc": "<p>The name is a tribute to the next generation, inspired by the family’s traditions, their Italian heritage in Bagni di Lucca, and yes, even their beloved matriarch Noelle, whose name fittingly means Christmas.</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#ba745f",
+            "item_label_size": 14,
+            "item_title_size": 22,
+            "item_desc_size": 13,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_qPrBPg": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "center",
+            "item_label": "",
+            "item_title": "",
+            "item_desc": "<p>The name is a tribute to the next generation, inspired by the family’s traditions, their Italian heritage in Bagni di Lucca, and yes, even their beloved matriarch Noelle, whose name fittingly means Christmas.</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#ba745f",
+            "item_label_size": 14,
+            "item_title_size": 22,
+            "item_desc_size": 13,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        },
+        "info_item_h9jVc7": {
+          "type": "info_item",
+          "settings": {
+            "item_text_align": "center",
+            "item_label": "",
+            "item_title": "",
+            "item_desc": "<p>Whether you choose our nostalgic lights that echo decades past or use modern features that sync with the music that moves you, everything we create is meant to enhance not just your home but the moments of your journey.</p>",
+            "item_label_color": "#ffffff",
+            "item_title_color": "#ffffff",
+            "item_desc_color": "#ba745f",
+            "item_label_size": 14,
+            "item_title_size": 22,
+            "item_desc_size": 13,
+            "item_label_size_mobile": 12,
+            "item_title_size_mobile": 18,
+            "item_desc_size_mobile": 12
+          }
+        }
+      },
+      "block_order": [
+        "info_item_NrgPxp",
+        "info_item_qPrBPg",
+        "info_item_h9jVc7"
+      ],
+      "name": "Custom Banner Text",
+      "settings": {
+        "bg_image": "shopify://shop_images/bgblack.png",
+        "overlay_color": "rgba(0,0,0,0)",
+        "bg_color": "#000000",
+        "overlay_opacity": 61,
+        "padding_top": 55,
+        "padding_bottom": 65,
+        "text_align": "center",
+        "main_label": "WHAT VIA LUCI MEANS. A NAME ROOTED IN FAMILY. A MISSION SHAPE BY TRADITION",
+        "main_title": "<p>Via Luci literally means \"Path of Lights\": a fitting reflection of the Martini family's journey.</p>",
+        "bottom_title": "",
+        "enable_blocks_border": false,
+        "main_label_color": "#ba745f",
+        "main_title_color": "#ba745f",
+        "main_label_size": 19,
+        "main_title_size": 54,
+        "bottom_title_size": 34,
+        "main_label_size_mobile": 14,
+        "main_title_size_mobile": 28,
+        "bottom_title_size_mobile": 18,
+        "items_gap": 54
+      }
+    },
+    "banner_with_text_Yg4iTU": {
+      "type": "banner-with-text",
+      "name": "Custom Banner Text",
+      "settings": {
+        "bg_image": "shopify://shop_images/lightbg.png",
+        "overlay_color": "rgba(0,0,0,0)",
+        "bg_color": "#000000",
+        "overlay_opacity": 61,
+        "padding_top": 55,
+        "padding_bottom": 65,
+        "text_align": "center",
+        "main_label": "A NEW KIND OF LIGHTING DESTINATION",
+        "main_title": "<p>Not Just a Store. <em><strong>A guide, A community. A spark.</strong></em></p><h2>This site isn’t just a place to shop. It’s a living canvas of ideas, stories, and inspiration to help you create spaces that feel alive and engraving everlasting memories.</h2><h2>Whether you’re wrapping a tree, transforming a patio, or creating something magical with your kids <em>we’re here to help you make it unforgettable</em>.</h2>",
+        "bottom_title": "<p><em><strong>Let's iluminate your next memory. Together.</strong></em></p>",
+        "enable_blocks_border": true,
+        "main_label_color": "#161f3a",
+        "main_title_color": "#161f3a",
+        "main_label_size": 19,
+        "main_title_size": 50,
+        "bottom_title_size": 34,
+        "main_label_size_mobile": 14,
+        "main_title_size_mobile": 28,
+        "bottom_title_size_mobile": 18,
+        "items_gap": 20
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "banner_with_text_cfNpan",
+    "banner_with_text_H7xYPQ",
+    "banner_with_text_KWDizd",
+    "custom_cards_X6fBRC",
+    "banner_with_text_HximhK",
+    "banner_with_text_Yg4iTU"
   ]
 }
