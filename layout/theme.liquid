@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}">
+  <html class="js{% if template.name == 'index' %} is-home{% endif %}" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -298,7 +298,7 @@
     </script>
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if template.name == 'index' %} is-home{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -364,6 +364,45 @@
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
     </script>
+
+    <!-- SANP TO SCROLL EFFECT-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!document.documentElement.classList.contains('is-home')) return;
+
+        var footer = document.querySelector('footer.footer');
+        if (!footer) return;
+
+        var root = document.documentElement;
+        var body = document.body;
+
+        function enableSnap() {
+          root.classList.remove('no-snap');
+          body.classList.remove('no-snap');
+        }
+
+        function disableSnap() {
+          root.classList.add('no-snap');
+          body.classList.add('no-snap');
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
+              disableSnap();
+            } else {
+              enableSnap();
+            }
+          });
+        }, {
+          root: null,
+          threshold: [0.0, 0.15, 0.3]
+        });
+
+        observer.observe(footer);
+      });
+    </script>
+    <!-- -->
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>

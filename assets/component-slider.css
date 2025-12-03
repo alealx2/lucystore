@@ -133,6 +133,9 @@ slider-component.slider-component-full-width {
 }
 
 @media screen and (min-width: 990px) {
+  .slider.slider--everywhere .slider__slide {
+    height: 100vh;
+  }
   .slider-component-desktop.page-width {
     max-width: none;
   }
@@ -368,10 +371,10 @@ slider-component.slider-component-full-width {
   transform: rotate(90deg);
 }
 
-.slider-button--next:not([disabled]):hover .icon {
+/* .slider-button--next:not([disabled]):hover .icon {
   transform: rotate(-90deg) scale(1.1);
 }
 
 .slider-button--prev:not([disabled]):hover .icon {
   transform: rotate(90deg) scale(1.1);
-}
+} */

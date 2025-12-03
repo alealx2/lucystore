@@ -1,0 +1,1085 @@
+{% comment %}
+  Hotspots Product Map + Panel + Modal Product
+{% endcomment %}
+
+<section class="hs color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding" data-hs-root>
+  <div class="page-width">
+    {% if section.settings.sec_title != blank %}
+      <h2 class="hs__title">{{ section.settings.sec_title }}</h2>
+    {% endif %}
+    {% if section.settings.sec_text != blank %}
+      <div class="hs__text">{{ section.settings.sec_text }}</div>
+    {% endif %}
+  </div>
+
+  <div class="custom-width">
+    <div class="hs__canvas">
+      <div class="hs__media">
+        {% if section.settings.main_image != blank %}
+          {{ section.settings.main_image
+            | image_url: width: 2400
+            | image_tag:
+              class: 'hs__img',
+              sizes: '100vw',
+              widths: '750,1100,1500,2000,2400',
+              alt: section.settings.alt_text | default: section.settings.sec_title | escape }}
+        {% else %}
+          <div class="hs__placeholder">
+            {{ 'hero-apparel-3' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {% endif %}
+      </div>
+
+      {%- comment -%} HOTSPOTS (cada punto lleva todos los datos del producto en data-*) {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        {%- assign p = b.product_ref -%}
+
+        {%- if p != blank -%}
+          {%- assign v       = p.selected_or_first_available_variant -%}
+          {%- assign price   = v.price | default: p.price -%}
+          {%- assign compare = v.compare_at_price | default: p.compare_at_price -%}
+          {%- assign url     = b.view_url | default: p.url -%}
+          {%- assign main_img = b.card_image | default: p.featured_image -%}
+          {%- assign thumb    = p.featured_image | default: b.card_image -%}
+        {%- else -%}
+          {%- assign v       = blank -%}
+          {%- assign price   = blank -%}
+          {%- assign compare = blank -%}
+          {%- assign url     = b.view_url -%}
+          {%- assign main_img = b.card_image -%}
+          {%- assign thumb    = b.card_image -%}
+        {%- endif -%}
+
+        <button
+          class="hs-point{% if b.pulse %} hs-point--pulse{% endif %}"
+          type="button"
+          aria-label="{{ b.hotspot_label | default: 'View product' }}"
+          style="top:{{ b.top_position }}%; left:{{ b.left_position }}%;"
+          data-title="{{ b.title_override | default: p.title | default: 'Product' | escape }}"
+          data-price="{% if price != blank %}{{ price | money | strip_html | escape }}{% endif %}"
+          data-compare="{% if compare != blank and compare > price %}{{ compare | money | strip_html | escape }}{% endif %}"
+          data-url="{{ url }}"
+          data-thumb="{% if thumb != blank %}{{ thumb | image_url: width: 260 }}{% endif %}"
+          data-main="{% if main_img != blank %}{{ main_img | image_url: width: 1200 }}{% endif %}"
+          data-vid="{% if v != blank %}{{ v.id }}{% endif %}"
+          data-qty="{{ b.qty | default: 1 }}"
+          data-desc="{% if p.description != blank %}{{ p.description | strip_html | escape }}{% else %}{{ b.card_text | strip_html | escape }}{% endif %}"
+        >
+          {% if b.point_icon != blank %}
+            {{ b.point_icon | image_url: width: 44 | image_tag: class: 'hs-point__icon', alt: '' }}
+          {% else %}
+            <span class="hs-point__dot"></span>
+          {% endif %}
+        </button>
+      {%- endfor -%}
+
+      {%- comment -%} PANEL MINI (abajo izquierda) {%- endcomment -%}
+      <aside class="hs-panel" data-hs-panel aria-hidden="true">
+        <div class="hs-panel__inner">
+          <button class="hs-panel__close" type="button" aria-label="Close">×</button>
+
+          <div class="hs-panel__main">
+            <div class="hs-panel__thumb-wrap">
+              <img class="hs-panel__thumb" src="" alt="">
+            </div>
+
+            <div class="hs-panel__meta">
+              <h3 class="hs-panel__title" data-hs-panel-title>Product title</h3>
+              <div class="hs-panel__prices" data-hs-panel-prices>
+                <span class="hs-panel__price" data-hs-panel-price></span>
+                <span class="hs-panel__compare" data-hs-panel-compare></span>
+              </div>
+              <button
+                class="hs-btn hs-btn--ghost hs-panel__view view-product"
+                type="button"
+                data-hs-panel-view
+              >
+                VIEW PRODUCT
+              </button>
+              <button
+                class="hs-btn hs-btn--ghost hs-panel__add js-hs-add"
+                type="button"
+                data-hs-panel-add
+              >
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+
+          <div class="hs-panel__nav">
+            <button class="hs-panel__arrow hs-panel__arrow--prev" type="button" aria-label="Previous" data-hs-panel-prev>
+              <span></span>
+            </button>
+            <button class="hs-panel__arrow hs-panel__arrow--next" type="button" aria-label="Next" data-hs-panel-next>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+{%- comment -%} MODAL GRANDE PRODUCTO {%- endcomment -%}
+<div class="hs-modal" data-hs-modal aria-hidden="true">
+  <div class="hs-modal__backdrop"></div>
+
+  <div class="hs-modal__dialog" role="dialog" aria-modal="true">
+    <div class="hs-modal__content">
+      <button class="hs-modal__close" type="button" aria-label="Close">×</button>
+
+      <div class="hs-modal__image">
+        <img class="hs-modal__img" src="" alt="">
+      </div>
+      <div class="hs-modal__info">
+        <h3 class="hs-modal__title" data-hs-modal-title>Product title…</h3>
+
+        <div class="hs-modal__prices" data-hs-modal-prices>
+          <span class="hs-modal__price" data-hs-modal-price></span>
+          <span class="hs-modal__compare" data-hs-modal-compare></span>
+        </div>
+
+        <div class="hs-modal__desc" data-hs-modal-desc></div>
+
+        <div class="hs-modal__actions">
+          <button
+            class="hs-btn hs-btn--solid hs-modal__add js-hs-add modal-atc-btn"
+            type="button"
+            data-hs-modal-add
+          >
+          <span class="svg-wrapper iconbag">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
+            ADD TO CART
+          </button>
+          <a
+            href="#"
+            class="hs-btn hs-btn--solid hs-modal__link learnmore"
+            data-hs-modal-link
+          >
+            LEARN MORE
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <style>
+    .section-{{ section.id }}-padding{
+      padding-top:{{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom:{{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px
+    }
+    @media(min-width:750px){
+      .section-{{ section.id }}-padding{
+        padding-top:{{ section.settings.padding_top }}px;
+        padding-bottom:{{ section.settings.padding_bottom }}px
+      }
+    }
+
+
+    
+    .hs__title{
+      margin:0 0 .35rem;
+      font-size:clamp(24px,3vw,38px);
+      text-align:center;
+    }
+    .hs__text{
+      margin:0 0 1.6rem;
+      opacity:.9;
+      text-align:center;
+    }
+
+    .hs__canvas{
+      position:relative;
+      overflow:hidden;
+    }
+    .hs__canvas::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at center, rgba(0,0,0,.1) 0%, rgba(0,0,0,.55) 75%);
+      opacity:0;
+      transition:opacity .25s ease;
+      pointer-events:none;
+    }
+    .hs--panel-open .hs__canvas::after{
+      opacity:1;
+    }
+
+    .hs__img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .hs__placeholder{
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    /* Hotspots */
+    .hs-point{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      z-index:3;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+    }
+    .hs-point__dot{
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      background:#14151c;
+      box-shadow:
+        0 0 0 3px rgba(255,255,255,0.9),
+        0 0 14px rgba(0,0,0,0.9);
+      display:block;
+      position:relative;
+    }
+    .hs-point--pulse .hs-point__dot::after{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.9);
+      opacity:.4;
+      animation:hsPulse 1.3s ease-out infinite;
+    }
+    .hs-point__icon{
+      width:40px;
+      height:40px;
+    }
+    .hs-point.is-active .hs-point__dot{
+      background:#ffffff;
+      box-shadow:
+        0 0 0 2px rgba(0,0,0,.7),
+        0 0 18px rgba(255,255,255,.92);
+    }
+    @keyframes hsPulse{
+      0%{transform:scale(1);opacity:.4}
+      100%{transform:scale(1.4);opacity:0}
+    }
+
+    /* PANEL FIJO EN LA ESQUINA INFERIOR — SIEMPRE VISIBLE */
+    .hs-panel{
+      position: fixed; 
+      left: 20px;
+      bottom: 20px;
+      max-width: 330px;
+
+      background: rgba(5,5,10,0.90);
+      color:#fff;
+      border-radius:18px;
+      box-shadow:0 18px 40px rgba(0,0,0,0.85);
+      padding:10px 12px 12px;
+      z-index: 9999; 
+
+      display: none;
+      backdrop-filter: blur(6px); 
+    }
+
+    /* Responsive */
+    @media (max-width: 749px){
+      .hs-panel{
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        max-width: none;
+      }
+    }
+
+    .hs-panel.is-open{
+      display:block;
+      opacity: .8;
+    }
+    .hs-panel__inner{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .hs-panel__close{
+      position:absolute;
+      top:6px;
+      right:8px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      opacity:.8;
+    }
+    .hs-panel__close:hover{opacity:1;}
+
+    .hs-panel__main{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px;
+      align-items:center;
+      padding-right:16px;
+      padding-top:20px;
+    }
+    .hs-panel__thumb-wrap{
+      width:64px;
+      height:64px;
+      border-radius:12px;
+      overflow:hidden;
+      background:#111;
+      flex-shrink:0;
+    }
+    .hs-panel__thumb{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#fff;
+    }
+
+    .hs-panel__meta{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .hs-panel__title{
+      color: #ffffff;
+      margin:0;
+      font-size:16px;
+      font-weight:600;
+    }
+    .hs-panel__prices{
+      display:flex;
+      gap:6px;
+      font-size:14px;
+      align-items:baseline;
+    }
+    .hs-panel__price{font-weight:700;}
+    .hs-panel__compare{
+      opacity:.7;
+      text-decoration:line-through;
+    }
+
+    .hs-btn{
+      cursor:pointer;
+      padding: 15px 22px;      
+      font-size:12px;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,0.94);
+      transition:transform .15s ease, background .15s ease,color .15s ease;
+      white-space:nowrap;
+    }
+    .hs-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 32px;
+      font-weight: 300;
+      background: transparent;
+      border: none;
+      color: #1a1a1a;
+      cursor: pointer;
+      z-index: 20;
+      transition: opacity .2s ease;
+    }
+
+    .hs-modal-close:hover {
+      opacity: .6;
+    }
+
+    .view-product {
+    padding: 5px 18px !important;
+    }
+    .learnmore{
+      background: transparent !important;
+    }
+    .hs-btn--solid{
+      background:#ffffff;
+      color:#111322;
+    }
+    .hs-btn--ghost{
+      background:transparent;
+      color:#ffffff;
+    }
+
+    /* GHOST → SOLID al hover */
+    .hs-btn--ghost:hover {
+      background: #ffffff !important;
+      color: #111322 !important;
+      border-color: #ffffff !important;
+    }
+
+    /* SOLID → GHOST al hover */
+    .hs-btn--solid:hover {
+      background: transparent !important;
+      color: #ffffff !important;
+      border-color: #ffffff !important;
+    }
+    
+    .hs-btn {
+      transition: 
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        transform .18s ease;
+    }
+
+    .hs-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* GHOST → SOLID al hover */
+    .hs-panel__arrow:hover {
+      background: #ffffff !important;
+      border-color: #ffffff !important;
+    }
+
+    .hs-panel__arrow:hover span {
+      border-color: #111322 !important;
+    }
+
+    /* ANIMACIÓN SUAVE */
+    .hs-panel__arrow {
+      transition: 
+        background .25s ease,
+        border-color .25s ease,
+        transform .18s ease;
+    }
+
+    .hs-panel__arrow:hover {
+      transform: translateY(-1px);
+    }
+
+    .hs-panel__view{
+      align-self:flex-start;
+    }
+    .hs-panel__add{
+      display: none;
+      align-self:flex-start;
+      margin-top:3px;
+    }
+
+    .hs-panel__nav{
+      display:flex;
+      gap:8px;
+      margin-top:6px;
+      justify-content: center;
+    }
+    .hs-panel__arrow{
+      width:30px;
+      height:24px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,0.7);
+      background:rgba(12,12,18,0.95);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      padding:0;
+    }
+    .hs-panel__arrow span{
+      width:10px;
+      height:10px;
+      border-top:2px solid #fff;
+      border-right:2px solid #fff;
+      display:block;
+    }
+    .hs-panel__arrow--next span{
+      transform:rotate(40deg);
+    }
+    .hs-panel__arrow--prev span{
+      transform:rotate(-140deg);
+    }
+    .hs-panel__arrow--prev[disabled],
+    .hs-panel__arrow--next[disabled]{opacity:.4;cursor:default;}
+
+    /* MODAL GRANDE */
+    html.hs-modal-open{
+      overflow:hidden;
+    }
+    .hs-modal{
+      position:fixed;
+      inset:0;
+      z-index:60;
+      display:none;
+    }
+    .hs-modal.is-open{
+      display:block;
+    }
+    .hs-modal__backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.78);
+    }
+    .hs-modal__dialog{
+      position:relative;
+      z-index:2;
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px 16px;
+    }
+    .hs-modal__dialog {
+      position: relative;
+    }
+
+.hs-modal__dialog{
+  position:relative;
+  z-index:2;
+  min-height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 16px;
+}
+
+.hs-modal__content{
+  max-width:980px;
+  width:100%;
+  background:#ffffff;
+  border-radius:24px;
+  box-shadow:0 26px 80px rgba(0,0,0,0.5);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1.1fr);
+  position: relative; 
+}
+  .iconbag{
+    width: 40px;
+    height: 40px;
+  }
+  .modal-atc-btn:hover{
+    background:#000000 !important;
+    color: #FFFFFF !important;
+  }
+  .hs-modal__actions button, .hs-modal__actions a{
+    flex-grow: 1;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 5px 30px;    
+  }
+    .hs-modal__close{
+      position:absolute;
+      top:18px;
+      right:22px;
+      z-index:3;
+      width:32px;
+      height:32px;
+      line-height:32px;
+      font-size:58px;
+      font-weight: 500;
+      background:transparent;
+      border:none;
+      color:#2c2c2c;
+      cursor:pointer;
+      transition:opacity .2s ease;
+    }
+    .hs-modal__close:hover{
+      opacity:.6;
+    }
+
+    .hs-modal__image{
+      background:#f4f4f6;
+      padding:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .hs-modal__img{
+      width:100%;
+      height:auto;
+      max-height:420px;
+      object-fit:contain;
+      display:block;
+    }
+    .hs-modal__info{
+      padding:32px 32px 30px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      background: #eaeaea;
+    }
+    .hs-modal__title{
+      margin:0;
+      font-size:46px;
+      line-height:1.2;
+      font-weight:700;
+    }
+    .hs-modal__prices{
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      font-size:32px;
+    }
+    .hs-modal__price{
+      font-weight:700;
+    }
+    .hs-modal__compare{
+      text-decoration:line-through;
+      opacity:.6;
+      font-size:32px;
+    }
+
+      .hs-modal__desc {
+        font-size: 18px;
+        line-height: 1.5;
+        color: #444;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;   /* cantidad de líneas visibles desc modal */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+    .hs-modal__actions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+    }
+    .hs-modal__link{
+      border-color:#e1c6b0;
+      color:#b15832;
+      background:#fff6f0;
+    }
+    .hs-modal__link:hover{
+      border-color:#b15832!important; 
+      color:#FFFFFF!important; 
+      background:#B9745F !important;    
+    }
+    .hs-modal__add{
+      background: transparent;
+      color:#000000;
+      border-color:#000000;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hs-modal__image{
+        padding: 0;
+        width: 30%;
+        margin: 0 auto;      
+      }
+      .hs-modal__title {
+        font-size: 26px;
+      }
+      .hs-modal__prices{
+        font-size: 22px;
+      }
+      .hs-modal__desc {
+        font-size: 14px;
+        max-width: 100%;
+      }
+      .hs-modal__compare {
+        font-size: 22px;
+      }
+      .hs-modal__actions button, .hs-modal__actions a {
+        flex-grow: 1;
+        font-size: 14px;
+        padding: 2px 20px;
+        margin-top: 20px;
+      }
+      .hs-modal__content{
+        grid-template-columns:1fr;
+      }
+      .hs-modal__image{
+        padding:24px;
+      }
+      .hs-modal__info{
+        padding:22px 20px 20px;
+      }
+    }
+    @media (max-width: 749px){
+      .hs-panel{
+        left:16px;
+        right:16px;
+        bottom:16px;
+        max-width:none;
+      }
+      .hs-panel__main{
+        grid-template-columns:auto 1fr;
+      }
+      .hs-modal__dialog{
+        padding:22px 10px;
+      }
+    }
+  </style>
+
+  <script>
+    (function(){
+      function init(root){
+        if(!root || root.dataset.hsInited === '1') return;
+        root.dataset.hsInited = '1';
+
+        const points = root.querySelectorAll('.hs-point');
+        if(!points.length) return;
+
+        const canvas = root.querySelector('.hs__canvas');
+
+        /* Panel */
+        const panel        = root.querySelector('[data-hs-panel]');
+        const panelTitle   = panel.querySelector('[data-hs-panel-title]');
+        const panelPrice   = panel.querySelector('[data-hs-panel-price]');
+        const panelCompare = panel.querySelector('[data-hs-panel-compare]');
+        const panelPrices  = panel.querySelector('[data-hs-panel-prices]');
+        const panelThumb   = panel.querySelector('.hs-panel__thumb');
+        const panelViewBtn = panel.querySelector('[data-hs-panel-view]');
+        const panelAddBtn  = panel.querySelector('[data-hs-panel-add]');
+        const panelPrev    = panel.querySelector('[data-hs-panel-prev]');
+        const panelNext    = panel.querySelector('[data-hs-panel-next]');
+        const panelClose   = panel.querySelector('.hs-panel__close');
+
+        /* Modal */
+        const modal        = root.querySelector('[data-hs-modal]');
+        const modalBackdrop = modal.querySelector('.hs-modal__backdrop');
+        const modalClose   = modal.querySelector('.hs-modal__close');
+        const modalImg     = modal.querySelector('.hs-modal__img');
+        const modalTitle   = modal.querySelector('[data-hs-modal-title]');
+        const modalPrice   = modal.querySelector('[data-hs-modal-price]');
+        const modalCompare = modal.querySelector('[data-hs-modal-compare]');
+        const modalPrices  = modal.querySelector('[data-hs-modal-prices]');
+        const modalDesc    = modal.querySelector('[data-hs-modal-desc]');
+        const modalLink    = modal.querySelector('[data-hs-modal-link]');
+        const modalAddBtn  = modal.querySelector('[data-hs-modal-add]');
+
+        let currentIndex = -1;
+
+        function getDataFromPoint(point){
+          const d = point.dataset;
+          return {
+            title: d.title || '',
+            price: d.price || '',
+            compare: d.compare || '',
+            url: d.url || '',
+            thumb: d.thumb || '',
+            main: d.main || d.thumb || '',
+            vid: d.vid || '',
+            qty: d.qty || '1',
+            desc: d.desc || ''
+          };
+        }
+
+        function renderPanel(index){
+          if(!points.length) return;
+          currentIndex = (index + points.length) % points.length;
+          const point = points[currentIndex];
+          const data = getDataFromPoint(point);
+
+          points.forEach((p,i)=> p.classList.toggle('is-active', i === currentIndex));
+
+          if(data.thumb){
+            panelThumb.src = data.thumb;
+            panelThumb.style.display = '';
+          }else{
+            panelThumb.removeAttribute('src');
+            panelThumb.style.display = 'none';
+          }
+
+          panelTitle.textContent = data.title || '';
+
+          if(data.price){
+            panelPrice.textContent = data.price;
+            panelPrices.style.display = '';
+          }else{
+            panelPrices.style.display = 'none';
+          }
+          if(data.compare){
+            panelCompare.textContent = data.compare;
+            panelCompare.style.display = '';
+          }else{
+            panelCompare.textContent = '';
+            panelCompare.style.display = 'none';
+          }
+
+          if(data.url){
+            panelViewBtn.style.display = '';
+          }else{
+            panelViewBtn.style.display = 'none';
+          }
+
+          if(data.vid){
+            panelAddBtn.style.display = '';
+            panelAddBtn.dataset.vid = data.vid;
+            panelAddBtn.dataset.qty = data.qty || '1';
+          }else{
+            panelAddBtn.style.display = 'none';
+            delete panelAddBtn.dataset.vid;
+            delete panelAddBtn.dataset.qty;
+          }
+
+          panel.classList.add('is-open');
+          panel.setAttribute('aria-hidden','false');
+          root.classList.add('hs--panel-open');
+        }
+
+        function closePanel(){
+          panel.classList.remove('is-open');
+          panel.setAttribute('aria-hidden','true');
+          root.classList.remove('hs--panel-open');
+          points.forEach(p => p.classList.remove('is-active'));
+          currentIndex = -1;
+        }
+
+        function openModalFromCurrent(){
+          if(currentIndex < 0) return;
+          const point = points[currentIndex];
+          const data = getDataFromPoint(point);
+
+          if(data.main){
+            modalImg.src = data.main;
+            modalImg.style.display = '';
+          }else{
+            modalImg.removeAttribute('src');
+            modalImg.style.display = 'none';
+          }
+
+          modalTitle.textContent = data.title || '';
+
+          if(data.price){
+            modalPrice.textContent = data.price;
+            modalPrices.style.display = '';
+          }else{
+            modalPrices.style.display = 'none';
+          }
+          if(data.compare){
+            modalCompare.textContent = data.compare;
+            modalCompare.style.display = '';
+          }else{
+            modalCompare.textContent = '';
+            modalCompare.style.display = 'none';
+          }
+
+          if(data.desc){
+            modalDesc.innerHTML = data.desc.replace(/\n/g, '<br>');
+            modalDesc.style.display = '';
+          }else{
+            modalDesc.innerHTML = '';
+            modalDesc.style.display = 'none';
+          }
+
+
+          if(data.url){
+            modalLink.href = data.url;
+            modalLink.style.display = '';
+          }else{
+            modalLink.removeAttribute('href');
+            modalLink.style.display = 'none';
+          }
+
+          if(data.vid){
+            modalAddBtn.style.display = '';
+            modalAddBtn.dataset.vid = data.vid;
+            modalAddBtn.dataset.qty = data.qty || '1';
+          }else{
+            modalAddBtn.style.display = 'none';
+            delete modalAddBtn.dataset.vid;
+            delete modalAddBtn.dataset.qty;
+          }
+
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden','false');
+          document.documentElement.classList.add('hs-modal-open');
+        }
+
+        function closeModal(){
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden','true');
+          document.documentElement.classList.remove('hs-modal-open');
+        }
+
+        /* Eventos hotspots */
+        points.forEach((point, idx)=>{
+          point.addEventListener('click', function(e){
+            e.stopPropagation();
+            renderPanel(idx);
+          });
+        });
+
+        /* Panel events */
+        function syncModalIfOpen(){
+          if (modal.classList.contains('is-open')) {
+            openModalFromCurrent();
+          }
+        }
+
+        panelPrev.addEventListener('click', function(){
+          if (!points.length) return;
+          renderPanel(currentIndex - 1);
+          syncModalIfOpen();
+        });
+
+        panelNext.addEventListener('click', function(){
+          if (!points.length) return;
+          renderPanel(currentIndex + 1);
+          syncModalIfOpen();
+        });
+
+        panelClose.addEventListener('click', function(){
+          closePanel();
+        });
+        panelViewBtn.addEventListener('click', function(){
+          openModalFromCurrent();
+        });
+
+        canvas.addEventListener('click', function(e){
+          if(e.target.closest('.hs-point') || e.target.closest('.hs-panel')) return;
+          closePanel();
+        });
+
+        /* Modal events */
+        modalClose.addEventListener('click', function(){
+          closeModal();
+        });
+        modalBackdrop.addEventListener('click', function(){
+          closeModal();
+        });
+        document.addEventListener('keydown', function(e){
+          if(e.key === 'Escape' && modal.classList.contains('is-open')){
+            closeModal();
+          }
+        });
+
+        /* ADD TO CART – panel + modal (delegado) */
+        root.addEventListener('click', function(e){
+          const addBtn = e.target.closest('.js-hs-add');
+          if(!addBtn) return;
+
+          const vid = addBtn.dataset.vid;
+          const qty = parseInt(addBtn.dataset.qty || '1', 10);
+          if(!vid) return;
+
+          addBtn.disabled = true;
+
+          const sections = ['cart-notification-product', 'cart-notification-button', 'cart-icon-bubble'];
+          const formData = new FormData();
+          formData.append('id', vid);
+          formData.append('quantity', qty);
+          formData.append('sections', sections.join(','));
+          formData.append('sections_url', window.location.pathname);
+
+          const addUrl = (window.routes && window.routes.cart_add_url) ? window.routes.cart_add_url : '/cart/add';
+
+          fetch(addUrl, { method:'POST', headers:{ 'Accept':'application/json' }, body: formData })
+            .then(function(res){
+              if(!res.ok) return res.json().then(function(err){ throw err; });
+              return res.json();
+            })
+            .then(function(parsed){
+              const cn = document.querySelector('cart-notification');
+              if(cn && typeof cn.renderContents === 'function'){
+                cn.renderContents(parsed);
+              }else if(parsed.sections && parsed.sections['cart-icon-bubble']){
+                const tmp = document.createElement('div');
+                tmp.innerHTML = parsed.sections['cart-icon-bubble'];
+                const newB = tmp.querySelector('#cart-icon-bubble');
+                const curB = document.getElementById('cart-icon-bubble');
+                if(newB && curB) curB.innerHTML = newB.innerHTML;
+              }
+            })
+            .catch(function(err){
+              console.error('Cart error:', err);
+            })
+            .finally(function(){
+              setTimeout(function(){
+                addBtn.disabled = false;
+              }, 800);
+            });
+        });
+      }
+
+      function boot(){
+        document.querySelectorAll('[data-hs-root]').forEach(init);
+      }
+
+      document.addEventListener('DOMContentLoaded', boot);
+      document.addEventListener('shopify:section:load', boot);
+
+      document.addEventListener('click', function(e){
+        const closeBtn = e.target.closest('.hs-modal-close');
+        if(!closeBtn) return;
+
+        const modal = document.querySelector('[data-hs-modal]');
+        if(modal){
+          modal.classList.remove('is-open');
+          document.documentElement.style.overflow = '';
+        }
+      });
+
+
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Hotspots + Video Carousel",
+  "class": "section-hotspots",
+  "settings": [
+    { "type": "text", "id": "sec_title", "label": "Título", "default": "Descubre la escena" },
+    { "type": "richtext", "id": "sec_text", "label": "Texto", "default": "<p>Toca los puntos para ver los productos.</p>" },
+    { "type": "image_picker", "id": "main_image", "label": "Imagen de fondo" },
+    { "type": "text", "id": "alt_text", "label": "Alt de la imagen" },
+
+    { "type": "header", "content": "Overlay" },
+    { "type": "color", "id": "overlay_color", "label": "Color de overlay", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Opacidad overlay", "min": 10, "max": 95, "step": 5, "unit": "%", "default": 80 },
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Punto / Slide",
+      "settings": [
+        { "type": "text", "id": "hotspot_label", "label": "Etiqueta accesible", "default": "Ver producto" },
+        { "type": "image_picker", "id": "point_icon", "label": "Ícono del punto (opcional)" },
+        { "type": "checkbox", "id": "pulse", "label": "Animar pulso del punto", "default": true },
+
+        { "type": "range", "id": "left_position", "label": "Posición izquierda (%)", "min": 0, "max": 100, "step": 1, "default": 50 },
+        { "type": "range", "id": "top_position", "label": "Posición superior (%)", "min": 0, "max": 100, "step": 1, "default": 50 },
+
+        { "type": "header", "content": "Medio del slide" },
+        { "type": "select", "id": "media_type", "label": "Tipo de medio", "default": "image", "options": [
+          { "value": "image", "label": "Imagen" },
+          { "value": "video", "label": "Video" }
+        ]},
+        { "type": "image_picker", "id": "card_image", "label": "Imagen del slide" },
+
+        { "type": "video", "id": "video_file", "label": "Video subido (MP4, mov)", "info": "Se prioriza sobre externo/URL." },
+        { "type": "url", "id": "external_video", "label": "Video externo (YouTube/Vimeo)" },
+        { "type": "url", "id": "video_mp4_url", "label": "URL MP4 directa (opcional)" },
+        { "type": "checkbox", "id": "video_autoplay", "label": "Autoplay", "default": true },
+        { "type": "checkbox", "id": "video_loop", "label": "Loop", "default": true },
+        { "type": "checkbox", "id": "video_muted", "label": "Muted", "default": true },
+        { "type": "checkbox", "id": "video_controls", "label": "Mostrar controles", "default": false },
+
+        { "type": "header", "content": "Producto / Contenido" },
+        { "type": "product", "id": "product_ref", "label": "Producto (recomendado)" },
+        { "type": "text", "id": "title_override", "label": "Título alternativo" },
+        { "type": "text", "id": "price_text", "label": "Precio (si no hay producto)" },
+        { "type": "richtext", "id": "card_text", "label": "Descripción (opcional)", "default": "<p>Texto adicional</p>" },
+
+        { "type": "url", "id": "view_url", "label": "URL Ver más (vacío: URL del producto)" },
+        { "type": "checkbox", "id": "open_new", "label": "Abrir Ver más en nueva pestaña", "default": false },
+
+        { "type": "header", "content": "Carrito" },
+        { "type": "range", "id": "qty", "label": "Cantidad al agregar", "min": 1, "max": 10, "step": 1, "default": 1 },
+        { "type": "text", "id": "label_view", "label": "Texto botón Ver más", "default": "Ver más" },
+        { "type": "text", "id": "label_add", "label": "Texto botón Agregar", "default": "Agregar al carrito" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Hotspots + Video carousel", "category": "Custom" }
+  ],
+  "max_blocks": 20
+}
+{% endschema %}
+

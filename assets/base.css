@@ -2076,7 +2076,8 @@ input[type='checkbox'] {
 .cart-count-bubble {
   position: absolute;
   background-color: rgb(var(--color-button));
-  color: rgb(var(--color-button-text));
+  /* color: rgb(var(--color-button-text)); */
+  color: #000000;
   height: 1.7rem;
   width: 1.7rem;
   border-radius: 100%;
@@ -2385,7 +2386,7 @@ input[type='checkbox'] {
 
   .header--middle-left {
     grid-template-areas: 'heading navigation icons';
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: 3;
     column-gap: 2rem;
   }
 
@@ -3594,4 +3595,41 @@ details-disclosure > details {
   100% {
     transform: translateX(100%) scaleX(0);
   }
+}
+
+/*SNAP TO SCROLL EFFECT */
+
+@media screen and (min-width: 750px) {
+
+  html.is-home {
+    scroll-behavior: smooth;
+    scrollbar-width: none;          
+    -ms-overflow-style: none;       
+  }
+  html.is-home::-webkit-scrollbar { 
+    display: none;
+  }
+
+  html.is-home,
+  body.is-home {
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: none;
+    scroll-padding-top: var(--header-height, 0px);
+  }
+
+  html.is-home body.is-home main#MainContent > .shopify-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  html.is-home.no-snap,
+  body.is-home.no-snap {
+    scroll-snap-type: none;
+  }
+
+  html.is-home.no-snap body.is-home main#MainContent > .shopify-section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
 }

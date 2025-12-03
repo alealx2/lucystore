@@ -1,0 +1,500 @@
+<section
+  id="ProductTabs-{{ section.id }}"
+  class="product-spec-tabs section-{{ section.id }}-padding"
+>
+  {%- style -%}
+
+    .product-spec-tabs.section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+    }
+
+    @media (min-width: 750px) {
+      .product-spec-tabs.section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    .product-spec-tabs__inner {
+      max-width: {{ section.settings.max_width }}px;
+      margin: 0 auto;
+    }
+
+    /* NAV TABS */
+    .product-spec-tabs__nav {
+      display: flex;
+      flex-wrap: wrap;
+      border-top: 1px solid {{ section.settings.border_color }};
+      border-bottom: 1px solid {{ section.settings.border_color }};
+      gap: 24px;
+      padding-top: 12px;
+    }
+
+    .product-spec-tabs__tab-button {
+      position: relative;
+      padding: 0 0 16px;
+      margin: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      font-size: {{ section.settings.tabs_font_size }}px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: {{ section.settings.tabs_color_inactive }};
+      opacity: 0.7;
+    }
+
+    .product-spec-tabs__tab-button[aria-selected="true"] {
+      color: {{ section.settings.tabs_color_active }};
+      opacity: 1;
+    }
+
+    .product-spec-tabs__tab-button[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: {{ section.settings.tabs_color_active }};
+    }
+
+    /* PANELS */
+    .product-spec-tabs__panels {
+      margin-top: 24px;
+    }
+
+    .product-spec-tabs__panel {
+      display: none;
+    }
+
+    .product-spec-tabs__panel.is-active {
+      display: block;
+    }
+
+    /* ITEMS GRID */
+    .product-spec-tabs__items {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 20px 32px;
+    }
+
+    @media (max-width: 750px) {
+      .product-spec-tabs__items{
+        grid-template-columns: repeat(4, minmax(0, 1fr));      
+      }
+    }
+
+    @media (min-width: 750px) {
+      .product-spec-tabs__items {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    /* ITEM CON ICONO */
+    .product-spec-tabs__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .product-spec-tabs__item-icon {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-spec-tabs__item-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .product-spec-tabs__item-content {
+      flex-grow: 1;
+    }
+
+    .product-spec-tabs__item-label {
+      font-size: {{ section.settings.item_label_size }}px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 3px;
+      color: {{ section.settings.item_label_color }};
+    }
+
+    .product-spec-tabs__item-value {
+      font-size: {{ section.settings.item_value_size }}px;
+      line-height: 1.5;
+      color: {{ section.settings.item_value_color }};
+    }
+  {%- endstyle -%}
+
+  <div class="product-spec-tabs__inner">
+    {%- if section.blocks.size > 0 -%}
+
+      <!-- NAV -->
+      <div class="product-spec-tabs__nav" role="tablist" aria-label="Product details">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'tab' -%}
+            <button
+              type="button"
+              class="product-spec-tabs__tab-button"
+              role="tab"
+              id="ProductTabs-Tab-{{ block.id }}"
+              aria-controls="ProductTabs-Panel-{{ block.id }}"
+              aria-selected="{{ forloop.first }}"
+              data-tab-trigger="{{ block.id }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.tab_title | escape }}
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <!-- PANELS -->
+      <div class="product-spec-tabs__panels">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'tab' -%}
+            <div
+              id="ProductTabs-Panel-{{ block.id }}"
+              class="product-spec-tabs__panel{% if forloop.first %} is-active{% endif %}"
+              role="tabpanel"
+              aria-labelledby="ProductTabs-Tab-{{ block.id }}"
+              data-tab-panel="{{ block.id }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="product-spec-tabs__items">
+                {%- for i in (1..6) -%}
+                  {%- capture key_label -%}item_{{ i }}_label{%- endcapture -%}
+                  {%- capture key_value -%}item_{{ i }}_value{%- endcapture -%}
+                  {%- capture key_icon  -%}item_{{ i }}_icon{%- endcapture -%}
+
+                  {%- assign label = block.settings[key_label] -%}
+                  {%- assign value = block.settings[key_value] -%}
+                  {%- assign icon  = block.settings[key_icon]  -%}
+
+                  {%- if label != blank or value != blank -%}
+                    <div class="product-spec-tabs__item">
+                      {%- if icon != blank -%}
+                        <div class="product-spec-tabs__item-icon">
+                          <img src="{{ icon | img_url: '50x50' }}" alt="">
+                        </div>
+                      {%- endif -%}
+
+                      <div class="product-spec-tabs__item-content">
+                        {%- if label != blank -%}
+                          <div class="product-spec-tabs__item-label">
+                            {{ label }}
+                          </div>
+                        {%- endif -%}
+                        {%- if value != blank -%}
+                          <div class="product-spec-tabs__item-value">
+                            {{ value }}
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+    {%- endif -%}
+  </div>
+
+  <script>
+    (function() {
+      var container = document.getElementById('ProductTabs-{{ section.id }}');
+      if (!container) return;
+
+      var tabButtons = container.querySelectorAll('[data-tab-trigger]');
+      var panels = container.querySelectorAll('[data-tab-panel]');
+
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = btn.getAttribute('data-tab-trigger');
+
+          tabButtons.forEach(function(other) {
+            other.setAttribute('aria-selected', String(other === btn));
+          });
+
+          panels.forEach(function(panel) {
+            if (panel.getAttribute('data-tab-panel') === targetId) {
+              panel.classList.add('is-active');
+            } else {
+              panel.classList.remove('is-active');
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width (px)",
+      "min": 800,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#f6eee5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Base text color",
+      "default": "#1e2430"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Tabs separator border",
+      "default": "#d6c9b7"
+    },
+
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "range",
+      "id": "tabs_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Tabs font size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "tabs_color_active",
+      "label": "Active tab color",
+      "default": "#1e2430"
+    },
+    {
+      "type": "color",
+      "id": "tabs_color_inactive",
+      "label": "Inactive tab color",
+      "default": "#9b8f7f"
+    },
+
+    {
+      "type": "header",
+      "content": "Items"
+    },
+    {
+      "type": "range",
+      "id": "item_label_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Item label font size",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "item_value_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Item value font size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "item_label_color",
+      "label": "Item label color",
+      "default": "#1e2430"
+    },
+    {
+      "type": "color",
+      "id": "item_value_color",
+      "label": "Item value color",
+      "default": "#4b4b4b"
+    },
+
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab title",
+          "default": "Description"
+        },
+
+        { "type": "header", "content": "Item 1" },
+        {
+          "type": "image_picker",
+          "id": "item_1_icon",
+          "label": "Item 1 icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_1_label",
+          "label": "Item 1 label",
+          "default": "Height"
+        },
+        {
+          "type": "text",
+          "id": "item_1_value",
+          "label": "Item 1 value (connect metafield via dynamic source)"
+        },
+
+        { "type": "header", "content": "Item 2" },
+        {
+          "type": "image_picker",
+          "id": "item_2_icon",
+          "label": "Item 2 icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_2_label",
+          "label": "Item 2 label"
+        },
+        {
+          "type": "text",
+          "id": "item_2_value",
+          "label": "Item 2 value (connect metafield via dynamic source)"
+        },
+
+        { "type": "header", "content": "Item 3" },
+        {
+          "type": "image_picker",
+          "id": "item_3_icon",
+          "label": "Item 3 icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_3_label",
+          "label": "Item 3 label"
+        },
+        {
+          "type": "text",
+          "id": "item_3_value",
+          "label": "Item 3 value (connect metafield via dynamic source)"
+        },
+
+        { "type": "header", "content": "Item 4" },
+        {
+          "type": "image_picker",
+          "id": "item_4_icon",
+          "label": "Item 4 icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_4_label",
+          "label": "Item 4 label"
+        },
+        {
+          "type": "text",
+          "id": "item_4_value",
+          "label": "Item 4 value (connect metafield via dynamic source)"
+        },
+
+        { "type": "header", "content": "Item 5" },
+        {
+          "type": "image_picker",
+          "id": "item_5_icon",
+          "label": "Item 5 icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_5_label",
+          "label": "Item 5 label"
+        },
+        {
+          "type": "text",
+          "id": "item_5_value",
+          "label": "Item 5 value (connect metafield via dynamic source)"
+        },
+
+        { "type": "header", "content": "Item 6" },
+        {
+          "type": "image_picker",
+          "id": "item_6_icon",
+          "label": "Item 6 icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_6_label",
+          "label": "Item 6 label"
+        },
+        {
+          "type": "text",
+          "id": "item_6_value",
+          "label": "Item 6 value (connect metafield via dynamic source)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product tabs (metafields)",
+      "blocks": [
+        { "type": "tab" },
+        { "type": "tab" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -10,7 +10,6 @@
   left: 0;
   overflow-y: auto;
   padding-bottom: 3rem;
-  padding-top: 3rem;
   position: absolute;
   right: 0;
   top: 100%;
@@ -32,6 +31,7 @@
 .mega-menu[open] .mega-menu__content {
   opacity: 1;
   transform: translateY(0);
+  overflow: hidden;
 }
 
 .mega-menu__list {

@@ -136,6 +136,7 @@
                     <summary
                       class="facets__summary caption-large focus-offset"
                       aria-label="{{ filter.label | escape }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
+                      style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"
                     >
                       <div>
                         <span class="facets__summary-label">
@@ -304,7 +305,10 @@
                       open
                     {% endif %}
                   >
-                    <summary class="facets__summary caption-large focus-offset">
+                    <summary 
+                      class="facets__summary caption-large focus-offset"
+                      style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"                    
+                    >
                       <div>
                         <span>{{ filter.label | escape }}</span>
                         {{- 'icon-caret.svg' | inline_asset_content -}}
@@ -525,7 +529,10 @@
                         class="mobile-facets__details js-filter"
                         data-index="mobile-{{ forloop.index }}"
                       >
-                        <summary class="mobile-facets__summary focus-inset">
+                        <summary 
+                          class="mobile-facets__summary focus-inset"
+                          style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"                        
+                        >
                           <div>
                             <span>{{ filter.label | escape }}</span>
                             <span class="mobile-facets__arrow">
@@ -667,7 +674,10 @@
                         class="mobile-facets__details js-filter"
                         data-index="mobile-{{ forloop.index }}"
                       >
-                        <summary class="mobile-facets__summary focus-inset">
+                        <summary 
+                          class="mobile-facets__summary focus-inset"
+                          style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"                        
+                        >
                           <div>
                             <span>{{ filter.label | escape }}</span>
                             <span class="mobile-facets__arrow">
@@ -722,7 +732,10 @@
                   class="mobile-facets__details js-filter{% if filter_type == 'drawer' %} medium-hide large-up-hide{% endif %}"
                   data-index="mobile-{{ forloop.index }}"
                 >
-                  <div class="mobile-facets__summary">
+                  <div 
+                    class="mobile-facets__summary"
+                    style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"
+                  >
                     <div class="mobile-facets__sort">
                       <label for="SortBy-mobile">{{ 'products.facets.sort_by_label' | t }}</label>
                       <div class="select">

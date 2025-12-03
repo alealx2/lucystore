@@ -1,0 +1,197 @@
+{% comment %}
+  Section: Product Specials Row
+  Muestra 1-3 tarjetas leyendo metacampos:
+    - custom.special_one_title   / _desc / _image
+    - custom.special_two_title   / _desc / _image
+    - custom.special_three_title / _desc / _image
+  Recomendado: _image = File (file_reference) imagen.
+  Si un item no tiene imagen, no se muestra.
+{% endcomment %}
+
+<section class="specials specials-{{ section.id }} color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
+  {% if section.settings.heading != blank %}
+    <div class="page-width">
+      <h2 class="specials__title" style="text-align: {{ section.settings.heading_align }}; font-size: {{ section.settings.heading_size }};">
+        {{ section.settings.heading }}
+      </h2>
+    </div>
+  {% endif %}
+
+  <div class="page-width">
+    <div class="specials__grid" style="--gap: {{ section.settings.gap }};">
+      {%- assign items = "one|two|three" | split: "|" -%}
+      {%- for t in items -%}
+        {%- assign key_img  = 'special_' | append: t | append: '_image' -%}
+        {%- assign key_tit  = 'special_' | append: t | append: '_title' -%}
+        {%- assign key_desc = 'special_' | append: t | append: '_desc' -%}
+
+        {%- assign mf_img  = product.metafields.custom[key_img] -%}
+        {%- assign mf_tit  = product.metafields.custom[key_tit] -%}
+        {%- assign mf_desc = product.metafields.custom[key_desc] -%}
+        {%- assign media = mf_img.value | default: mf_img -%}
+        {%- assign title = mf_tit.value | default: mf_tit -%}
+        {%- assign desc  = mf_desc.value | default: mf_desc -%}
+
+        {%- if media -%}
+          <article class="specials__card" style="--radius: {{ section.settings.radius }};">
+            <div class="specials__media">
+                <img
+                    class="specials__img"
+                    src="{{ media | image_url: width: 1600 }}"
+                    alt="{{ title | default: product.title | escape }}"
+                    loading="lazy"
+                    width="{{ media.width }}"
+                    height="{{ media.height }}"
+                > 
+              <div class="specials__overlay">
+                {% if desc != blank %}
+                  <p class="specials__desc">{{ desc }}</p>
+                {% endif %}
+                {% if title != blank %}
+                  <div class="specials__label">
+                    <span class="specials__label-line" aria-hidden="true"></span>
+                    <span class="specials__label-text">{{ title }}</span>
+                  </div>
+                {% endif %}
+              </div>
+              {% if title != blank %}
+                <button class="specials__badge" type="button" aria-hidden="true" tabindex="-1">
+                  <span class="specials__plus">+</span>
+                  <span class="specials__badge-text">{{ title }}</span>
+                </button>
+              {% endif %}
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <style>
+    .section-{{ section.id }}-padding{
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    .specials-{{ section.id }} .specials__title{
+      margin: 0 0 1rem 0;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+
+    .specials-{{ section.id }} .specials__grid{
+      display: grid;
+      gap: {{section.settings.gap}}px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .specials-{{ section.id }} .specials__card{
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+
+    .specials-{{ section.id }} .specials__media{
+      position: relative;
+      isolation: isolate;
+      aspect-ratio: {{ section.settings.aspect_ratio }};
+    }
+
+    .specials-{{ section.id }} .specials__img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .specials-{{ section.id }} .specials__badge{
+      position: absolute;
+      left: 16px; right: auto;
+      bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(0,0,0,.8);
+      background: rgba(255,255,255,.8);
+      backdrop-filter: blur(2px);
+      color: #111;
+      padding: 12px 18px;
+      font-size: clamp(12px, .7vw + 10px, 16px);
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+    .specials-{{ section.id }} .specials__plus{ font-size: 22px; line-height: 1; }
+
+    /* Overlay oculto por defecto */
+    .specials-{{ section.id }} .specials__overlay{
+      cursor: auto;
+      position: absolute;
+      inset: 0;
+      padding: clamp(16px, 2vw, 24px);
+      display: grid;
+      align-content: end;
+      gap: 18px;
+      color: #fff;
+      background: linear-gradient(0deg, rgba(0,0,0,.55) 80%, rgba(0,0,0,.35) 96%, rgba(0,0,0,0) 100%);
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .specials-{{ section.id }} .specials__desc{
+      font-size: clamp(14px, .8vw + 10px, 18px);
+      line-height: 1.5;
+      margin: 0 0 8px 0;
+      max-width: 38ch;
+    }
+    .specials-{{ section.id }} .specials__label{
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      font-weight: 600;
+      font-size: clamp(12px, .7vw + 10px, 16px);
+    }
+    .specials-{{ section.id }} .specials__label-line{
+      width: 26px; height: 2px; background: currentColor; display: inline-block;
+    }
+
+    /* Hover: aparece overlay (como tarjeta 1 de la referencia) y ocultamos badge */
+    @media (hover: hover){
+      .specials-{{ section.id }} .specials__card:hover .specials__overlay{ opacity: 1; }
+      .specials-{{ section.id }} .specials__card:hover .specials__badge{ opacity: 0; transform: translateY(4px); }
+    }
+
+    /* Mobile: overlay siempre accesible via tap visual suave */
+    @media (max-width: 749px){
+      .specials-{{ section.id }} .specials__overlay{ background: #000000; opacity: .6;  }
+      .specials-{{ section.id }} .specials__desc{
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;    
+        font-size: 22px;    
+    }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Product Specials",
+  "tag": "section",
+  "class": "section product-specials-row",
+  "settings": [
+
+    { "type": "range", "id": "gap", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Espacio entre items", "default": 40 },
+    { "type": "text", "id": "aspect_ratio", "label": "Aspecto del iyrm (ej. 4/3, 3/2, 16/9)", "default": "4/5" },
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "header", "content": "Espaciado sección" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding superior", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding inferior", "default": 24 }
+  ],
+  "presets": [
+    { "name": "Product Specials", "category": "Custom" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1604 @@
+{% comment %}
+  Tabs Carousel – Section (Dawn / OS 2.0)
+  - Tabs horizontales
+  - Cada tab: hasta 3 items tipo “card” con imagen o video de fondo, título y botón
+  - Flechas prev/next a los costados
+  - Configuración global de:
+    · Estilos de tabs
+    · Fondo y overlay de cards
+    · Contenedor de texto
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px !important;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px !important;
+  }
+
+  @media (max-width: 989px){
+    .section-{{ section.id }}-padding {
+      padding-top: 20px !important;
+      padding-bottom: 20px !important;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="tc-{{ section.id }}"
+  class="tc section-{{ section.id }}-padding"
+  style="
+    {% if section.settings.section_bg_type == 'image' and section.settings.section_bg_image != blank %}
+      background-image: url({{ section.settings.section_bg_image | image_url: width: 2400 }});
+      background-size: cover;
+      background-position: center center;
+    {% else %}
+      background-color: {{ section.settings.section_bg_color }};
+    {% endif %}
+  "
+>
+  {% if section.settings.heading != blank %}
+    <h2 class="tc__heading page-width">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <!-- TABS + flechas -->
+  <div class="tc__tabs-shell page-width">
+    <button
+      type="button"
+      class="tc-tabs-arrow tc-tabs-arrow--prev"
+      aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+    >
+      <span class="svg-wrapper">
+        {{ 'icon-caret.svg' | inline_asset_content }}
+      </span>
+    </button>
+
+    <div class="tc__tabs" role="tablist" aria-label="{{ section.settings.heading | default: 'Carousel tabs' | escape }}">
+      <span class="tc__indicator tc__indicator--top" aria-hidden="true"></span>
+      {% for block in section.blocks %}
+        {% assign b = block.settings %}
+        <button
+          id="tc-tab-{{ block.id }}"
+          class="tc-tab__btn{% if forloop.first %} is-active{% endif %}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-controls="tc-panel-{{ block.id }}"
+          tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+          style="
+            --tab-bg: {{ section.settings.tab_bg }};
+            --tab-bg-h: {{ section.settings.tab_bg_hover }};
+            --tab-fs: {{ section.settings.tab_font_size }}px;
+            {% if section.settings.tab_text_color != blank %}--tab-text: {{ section.settings.tab_text_color }};{% endif %}
+            {% if section.settings.tab_text_hover_color != blank %}--tab-text-h: {{ section.settings.tab_text_hover_color }};{% endif %}
+          "
+          data-bg="{{ section.settings.tab_bg | default: '#f2f2f2' }}"
+          data-bg-hover="{{ section.settings.tab_bg_hover | default: '#111111' }}"
+          data-auto="{{ b.auto_contrast }}"
+        >
+          {{ b.tab_label | escape }}
+        </button>
+      {% endfor %}
+      <span class="tc__indicator tc__indicator--bottom" aria-hidden="true"></span>
+    </div>
+
+    <button
+      type="button"
+      class="tc-tabs-arrow tc-tabs-arrow--next"
+      aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+    >
+      <span class="svg-wrapper">
+        {{ 'icon-caret.svg' | inline_asset_content }}
+      </span>
+    </button>
+  </div>
+
+  <!-- PANELS -->
+  <div class="tc__panels page-width">
+    {% for block in section.blocks %}
+      {% assign b = block.settings %}
+
+      {%- comment -%}
+        Calculamos cuántos items tiene este tab (1–3)
+      {%- endcomment -%}
+      {% assign cards_count = 0 %}
+
+      {%- assign has_card1 = false -%}
+      {% if b.title != blank or b.rich_text != blank or b.button_label != blank %}
+        {% assign has_card1 = true %}
+      {% endif %}
+      {% if b.bg_type == 'image' and b.bg_image != blank %}
+        {% assign has_card1 = true %}
+      {% endif %}
+      {% if b.media_type == 'video' and b.video_file != blank or b.external_video != blank or b.video_mp4_url != blank %}
+        {% assign has_card1 = true %}
+      {% endif %}
+      {% if has_card1 %}
+        {% assign cards_count = cards_count | plus: 1 %}
+      {% endif %}
+
+      {% for i in (2..3) %}
+        {% assign base = 'item_' | append: i | append: '_' %}
+        {% assign title_key = base | append: 'title' %}
+        {% assign image_key = base | append: 'image' %}
+        {% assign video_file_key = base | append: 'video_file' %}
+        {% assign external_video_key = base | append: 'external_video' %}
+        {% assign video_url_key = base | append: 'video_mp4_url' %}
+
+        {% assign item_title = b[title_key] %}
+        {% assign item_image = b[image_key] %}
+        {% assign item_video_file = b[video_file_key] %}
+        {% assign item_external_video = b[external_video_key] %}
+        {% assign item_video_url = b[video_url_key] %}
+
+        {% if item_title != blank or item_image != blank or item_video_file != blank or item_external_video != blank or item_video_url != blank %}
+          {% assign cards_count = cards_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      <div
+        id="tc-panel-{{ block.id }}"
+        class="tc-panel{% if forloop.first %} is-active{% endif %}"
+        role="tabpanel"
+        aria-labelledby="tc-tab-{{ block.id }}"
+        tabindex="0"
+      >
+        <div
+          class="tc-carousel"
+          data-items-count="{{ cards_count }}"
+          style="
+            --min-h-desktop: {{ section.settings.min_height_desktop }}px;
+            --min-h-mobile: {{ section.settings.min_height_mobile }}px;
+            --content-w: {{ section.settings.content_max_width }}px;
+            --content-bg: {% if section.settings.content_bg_enable and section.settings.content_bg != blank %}{{ section.settings.content_bg }}{% else %}transparent{% endif %};
+            --content-radius: {{ section.settings.content_bg_radius }}px;
+            --overlay: {{ section.settings.overlay_color }};
+            --overlay-op: {{ section.settings.overlay_opacity | times: 0.01 }};
+            --card-bg: {{ section.settings.card_bg_color }};
+          "
+        >
+          {% if cards_count > 1 %}
+            <button
+              type="button"
+              class="tc-arrow tc-arrow--prev"
+              aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+            >
+              <span class="svg-wrapper">
+                {{ 'icon-caret.svg' | inline_asset_content }}
+              </span>
+            </button>
+          {% endif %}
+
+          <div class="tc-items">
+            {%- comment -%}
+              ITEM 1 (central)
+            {%- endcomment -%}
+            {% if has_card1 %}
+              <article class="tc-item is-active" data-index="0">
+                {% if b.media_type == 'video' %}
+                  <div class="tc-item__media-wrapper">
+                    {% if b.video_file != blank %}
+                      {{ b.video_file | video_tag:
+                        image_size: '800x',
+                        class: 'tc-item__video',
+                        autoplay: false,
+                        loop: true,
+                        muted: true,
+                        controls: false,
+                        playsinline: true
+                      }}
+                    {% elsif b.video_mp4_url != blank %}
+                      <video class="tc-item__video" muted playsinline loop>
+                        <source src="{{ b.video_mp4_url }}" type="video/mp4">
+                      </video>
+                    {% elsif b.external_video != blank %}
+                      {{ b.external_video | external_video_tag: class: 'tc-item__video tc-item__video--external', loading: 'lazy' }}
+                    {% endif %}
+                  </div>
+                {% elsif b.bg_type == 'image' and b.bg_image != blank %}
+                  <div class="tc-item__media-wrapper">
+                    {{ b.bg_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'tc-item__media-img', style: 'object-position: ' | append: b.bg_position }}
+                  </div>
+                {% endif %}
+
+                <div class="tc-item__overlay" aria-hidden="true"></div>
+
+                <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{b.item_txt_color}};">
+                  {% if b.title != blank %}
+                    <h3 class="tc-item__title" style="color: {{b.item_txt_color}}; font-size :{{section.settings.item_title_size}};">{{ b.title }}</h3>
+                  {% endif %}
+                  {% if b.rich_text != blank %}
+                    <div class="tc-item__text" style="font-size :{{section.settings.item_desc_size}};">
+                      {{ b.rich_text }}
+                    </div>
+                  {% endif %}
+                  {% if b.button_label != blank and b.button_link != blank %}
+                    <a
+                      class="tc-item__btn"
+                      href="{{ b.button_link }}"
+                      style="--btn-bg: {{ section.settings.btn_bg }}; --btn-text: {{ section.settings.btn_text }}; --btn-bg-h: {{ section.settings.btn_bg_hover }}; --btn-text-h: {{ section.settings.btn_text_hover }};"
+                    >
+                      {{ b.button_label }}
+                    </a>
+                  {% endif %}
+
+                  {% if b.media_type == 'video' %}
+                    <div class="tc-item__controls">
+                      <button type="button" class="tc-vid-btn tc-vid-btn--play" aria-label="{{ 'sections.slideshow.play_slideshow' | t }}">
+                        <span class="svg-wrapper">
+                          {{ 'icon-play.svg' | inline_asset_content }}
+                        </span>
+                      </button>
+                      <button type="button" class="tc-vid-btn tc-vid-btn--pause" aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}">
+                        <span class="svg-wrapper">
+                          {{ 'icon-pause.svg' | inline_asset_content }}
+                        </span>
+                      </button>
+                      <button type="button" class="tc-vid-btn tc-vid-btn--fullscreen" aria-label="Ver en pantalla completa">
+                        <span class="svg-wrapper">
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M5 9V5h4V3H3v6zm0 6H3v6h6v-2H5zm14 4h-4v2h6v-6h-2zm-4-16v2h4v4h2V3z"></path>
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                  {% endif %}
+                </div>
+              </article>
+            {% endif %}
+
+            {%- comment -%}
+              ITEMS 2 y 3 (opcionales)
+            {%- endcomment -%}
+            {% assign current_index = 0 %}
+            {% if has_card1 %}
+              {% assign current_index = 1 %}
+            {% endif %}
+
+            {% for i in (2..3) %}
+              {% assign base = 'item_' | append: i | append: '_' %}
+              {% assign media_type_key = base | append: 'media_type' %}
+              {% assign image_key = base | append: 'image' %}
+              {% assign video_file_key = base | append: 'video_file' %}
+              {% assign external_video_key = base | append: 'external_video' %}
+              {% assign video_url_key = base | append: 'video_mp4_url' %}
+              {% assign title_key = base | append: 'title' %}
+              {% assign text_key = base | append: 'rich_text' %}
+              {% assign btn_label_key = base | append: 'button_label' %}
+              {% assign btn_link_key = base | append: 'button_link' %}
+
+              {% assign media_type = b[media_type_key] | default: 'image' %}
+              {% assign image = b[image_key] %}
+              {% assign video_file = b[video_file_key] %}
+              {% assign external_video = b[external_video_key] %}
+              {% assign video_url = b[video_url_key] %}
+              {% assign item_title = b[title_key] %}
+              {% assign item_text = b[text_key] %}
+              {% assign item_btn_label = b[btn_label_key] %}
+              {% assign item_btn_link = b[btn_link_key] %}
+
+              {% if item_title != blank or image != blank or video_file != blank or external_video != blank or video_url != blank %}
+                <article class="tc-item{% if cards_count == 1 and forloop.first %} is-active{% endif %}" data-index="{{ current_index }}">
+                  {% if media_type == 'video' %}
+                    <div class="tc-item__media-wrapper">
+                      {% if video_file != blank %}
+                        {{ video_file | video_tag:
+                          image_size: '800x',
+                          class: 'tc-item__video',
+                          autoplay: false,
+                          loop: true,
+                          muted: true,
+                          controls: false,
+                          playsinline: true
+                        }}
+                      {% elsif video_url != blank %}
+                        <video class="tc-item__video" muted playsinline loop>
+                          <source src="{{ video_url }}" type="video/mp4">
+                        </video>
+                      {% elsif external_video != blank %}
+                        {{ external_video | external_video_tag: class: 'tc-item__video tc-item__video--external', loading: 'lazy' }}
+                      {% endif %}
+                    </div>
+                  {% elsif image != blank %}
+                    <div class="tc-item__media-wrapper">
+                      {{ image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'tc-item__media-img' }}
+                    </div>
+                  {% endif %}
+
+                  <div class="tc-item__overlay" aria-hidden="true"></div>
+
+                  <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{b.item_txt_color}};">
+                    {% if item_title != blank %}
+                      <h3 class="tc-item__title" style="color: {{b.item_txt_color}}; font-size :{{section.settings.item_title_size}};">{{ item_title }}</h3>
+                    {% endif %}
+                    {% if item_text != blank %}
+                      <div class="tc-item__text" style="font-size :{{section.settings.item_desc_size}};">
+                        {{ item_text }}
+                      </div>
+                    {% endif %}
+                    {% if item_btn_label != blank and item_btn_link != blank %}
+                      <a
+                        class="tc-item__btn"
+                        href="{{ item_btn_link }}"
+                        style="--btn-bg: {{ b.button_bg }}; --btn-text: {{ b.button_text }}; --btn-bg-h: {{ b.button_bg_hover }}; --btn-text-h: {{ b.button_text_hover }};"
+                      >
+                        {{ item_btn_label }}
+                      </a>
+                    {% endif %}
+
+                    {% if media_type == 'video' %}
+                      <div class="tc-item__controls">
+                        <button type="button" class="tc-vid-btn tc-vid-btn--play" aria-label="{{ 'sections.slideshow.play_slideshow' | t }}">
+                          <span class="svg-wrapper">
+                            {{ 'icon-play.svg' | inline_asset_content }}
+                          </span>
+                        </button>
+                        <button type="button" class="tc-vid-btn tc-vid-btn--pause" aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}">
+                          <span class="svg-wrapper">
+                            {{ 'icon-pause.svg' | inline_asset_content }}
+                          </span>
+                        </button>
+                        <button type="button" class="tc-vid-btn tc-vid-btn--fullscreen" aria-label="Ver en pantalla completa">
+                          <span class="svg-wrapper">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                              <path d="M5 9V5h4V3H3v6zm0 6H3v6h6v-2H5zm14 4h-4v2h6v-6h-2zm-4-16v2h4v4h2V3z"></path>
+                            </svg>
+                          </span>
+                        </button>
+                      </div>
+                    {% endif %}
+                  </div>
+                </article>
+
+                {% assign current_index = current_index | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if cards_count > 1 %}
+            <button
+              type="button"
+              class="tc-arrow tc-arrow--next"
+              aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+            >
+              <span class="svg-wrapper">
+                {{ 'icon-caret.svg' | inline_asset_content }}
+              </span>
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- MODAL VIDEO FULLSCREEN -->
+  <div class="tc-modal" aria-hidden="true">
+    <div class="tc-modal__inner" role="dialog" aria-modal="true">
+      <button type="button" class="tc-modal__close" aria-label="Cerrar video">&times;</button>
+      <div class="tc-modal__content"></div>
+    </div>
+  </div>
+
+  <style>
+    .tc { --tc-gap: 16px; color: #fff; }
+    .tc__heading{ margin-bottom: 10px; color:#fff; }
+
+    /* Shell de tabs (máx ~4 visibles, navegación con flechas) */
+    .tc__tabs-shell{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      overflow:hidden;
+    }
+    .tc__tabs-shell.tc__tabs-shell--no-arrows .tc-tabs-arrow{
+      display:none;
+    }
+
+    .tc__tabs{
+      position: relative;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      overflow: hidden;
+      padding: 10px 0 10px;
+      scrollbar-width: thin;
+      scroll-behavior: smooth;
+      flex:1 1 auto;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* TABS */
+    .tc-tab__btn{
+      --tab-bg: transparent;
+      --tab-bg-h: transparent;
+      --tab-text: inherit;
+      --tab-text-h: #fff;
+      position:relative;
+      display: inline-block;
+      white-space: nowrap;
+      padding: 10px 28px;
+      border-radius: 0;
+      background: transparent;
+      color: var(--tab-text);
+      font-size: var(--tab-fs, 16px);
+      line-height: 1.2;
+      border: none;
+      transition: color .18s ease;
+      cursor: pointer;
+      overflow:visible;
+      z-index:1;
+    }
+    .tc-tab__btn:hover{
+      color: var(--tab-text-h);
+    }
+    .tc-tab__btn.is-active{
+      color: var(--tab-text-h);
+    }
+
+    /* Indicador glow superior + inferior */
+    .tc__indicator{
+      position: absolute;
+      left: 0;
+      width: 0;
+      height: 6px;
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 0;
+      background: linear-gradient(
+        to right,
+        rgba(255,190,150,0.0) 0%,
+        rgba(255,190,150,0.85) 40%,
+        rgba(255,190,150,1) 50%,
+        rgba(255,190,150,0.85) 60%,
+        rgba(255,190,150,0.0) 100%
+      );
+      transition: transform .22s ease, width .22s ease;
+    }
+    .tc__indicator--top{
+      top: -1px;
+    }
+    .tc__indicator--bottom{
+      bottom: -1px;
+    }
+
+    .tc-tabs-arrow{
+      flex:0 0 auto;
+      width:32px;
+      height:32px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.7);
+      background:rgba(0,0,0,0.45);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:box-shadow .2s ease, background .2s ease, transform .2s ease;
+    }
+    .tc-tabs-arrow .svg-wrapper svg{
+      width:13px;
+      height:13px;
+    }
+    .tc-tabs-arrow--prev .svg-wrapper svg{
+      transform:rotate(180deg);
+    }
+    .tc-tabs-arrow svg *{
+      fill:#ffffff !important;
+      stroke:#ffffff !important;
+    }
+    .tc-tabs-arrow:hover{
+      box-shadow:0 0 14px rgba(255,255,255,0.9);
+      background:rgba(0,0,0,0.7);
+      transform:translateY(-1px);
+    }
+
+    .tc-tab__btn::before{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius:inherit;
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,0.7) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255,160,130,0.75) 0, transparent 55%);
+      opacity:0;
+      filter:blur(6px);
+      pointer-events:none;
+      mix-blend-mode:screen;
+      transition:opacity .3s ease, filter .3s ease;
+    }
+
+    /* PANELS */
+    .tc__panels{
+      position: relative;
+      transition: height .26s ease;
+      margin-top: 20px;
+    }
+    .tc-panel{
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px);
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+    }
+    .tc-panel.is-active{
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* CARRUSEL INTERNO */
+    .tc-carousel{
+      position: relative;
+      min-height: var(--min-h-desktop);
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 24px 0 36px;
+    }
+
+    .tc-items{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      gap: clamp(12px, 3vw, 24px);
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .tc-item{
+      position: relative;
+      flex: 0 0 min(320px, 32%);
+      max-width: 360px;
+      border-radius: 12px;
+      overflow: hidden;
+      background:var(--card-bg,#15131a);
+      transform: scale(.9);
+      opacity:.55;
+      transition: transform .25s ease, opacity .25s ease, box-shadow .25s ease, border-color .25s ease;
+      border:1px solid rgba(255,255,255,0.1);
+      cursor:pointer;
+    }
+    .tc-item::before{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius:inherit;
+      background:
+        radial-gradient(circle at 10% 0, rgba(255,255,255,0.8) 0, transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(255,170,130,0.9) 0, transparent 55%),
+        radial-gradient(circle at 0 80%, rgba(255,230,200,0.8) 0, transparent 55%);
+      opacity:0;
+      filter:blur(12px);
+      pointer-events:none;
+      mix-blend-mode:screen;
+      transition:opacity .3s ease, filter .3s ease;
+    }
+    .tc-item.is-active{
+      transform: scale(1.02);
+      opacity:1;
+      box-shadow: 0 0 36px rgba(255, 180, 140, 0.7);
+      border-color: rgba(255, 210, 180, 0.9);
+    }
+    .tc-item.is-active::before{
+      opacity:1;
+      filter:blur(16px);
+    }
+
+    .tc-item__media-wrapper{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .tc-item__media-img,
+    .tc-item__video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .tc-item__overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.9) 65%);
+      z-index:1;
+      background-color: var(--overlay);
+      opacity: var(--overlay-op);
+      mix-blend-mode: normal;
+    }
+
+    .tc-item__content{
+      position:relative;
+      z-index:2;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:clamp(18px, 3vw, 26px);
+      max-width:var(--content-w);
+      margin-inline:auto;
+      background: var(--content-bg, transparent);
+      border-radius: var(--content-radius, 18px);
+      text-align:left;
+      justify-content:flex-end;
+    }
+    .tc-item__content--left{
+      margin-left:0;
+      margin-right:auto;
+      text-align:left;
+    }
+    .tc-item__content--center{
+      margin-left:auto;
+      margin-right:auto;
+      text-align:center;
+    }
+    .tc-item__content--right{
+      margin-left:auto;
+      margin-right:0;
+      text-align:right;
+    }
+    .tc-item__content--top{
+      justify-content:flex-start;
+    }
+    .tc-item__content--center{
+      justify-content:center;
+    }
+    .tc-item__content--bottom{
+      justify-content:flex-end;
+    }
+
+    .tc-item__title{
+      margin:0 0 0.5rem;
+      font-size: clamp(20px, 3vw, 28px);
+      line-height:1.25;
+    }
+    .tc-item__title p{
+      margin-bottom: 0 !important;
+    }
+    .tc-item__text p{ margin:0.25rem 0 0 0; }
+
+    .tc-item__btn{
+      display:inline-block;
+      margin-top:1.2rem;
+      align-self:center;
+      text-decoration:none;
+      padding:.65rem 1.4rem;
+      border-radius:999px;
+      font-weight:600;
+      background: var(--btn-bg, #ffffff);
+      color: var(--btn-text, #111111);
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+    .tc-item__btn:hover{
+      background: var(--btn-bg-h, #111111);
+      color: var(--btn-text-h, #ffffff);
+      transform: translateY(-1px);
+    }
+
+    /* Flechas laterales cards */
+    .tc-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.75);
+      background:rgba(0,0,0,0.45);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      z-index:3;
+      transition: box-shadow .2s ease, transform .2s ease, background .2s ease;
+    }
+    .tc-tabs-arrow--prev{
+      transform:rotate(-90deg);
+    }
+    .tc-tabs-arrow--prev:hover{
+      transform:rotate(-90deg) !important;
+    }
+    .tc-tabs-arrow--next{
+      transform:rotate(-90deg);
+    }
+    .tc-tabs-arrow--next:hover{
+      transform:rotate(-90deg) !important;
+    }
+    .tc-arrow--prev{
+      left:min(24px, 3vw);
+      transform:rotate(-90deg);
+    }
+    .tc-arrow--next{
+      right:min(24px, 3vw);
+      transform:rotate(-90deg);
+    }
+    .tc-arrow .svg-wrapper svg{
+      width:24px;
+      height:24px;
+    }
+    .tc-arrow--prev .svg-wrapper svg{
+      transform:rotate(180deg);
+    }
+    .tc-arrow svg *{
+      fill:#ffffff !important;
+      stroke:#ffffff !important;
+    }
+
+    /* Controles video dentro de la card */
+    .tc-item__controls{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:18px;
+    }
+    .tc-vid-btn{
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,0.9);
+      background:rgba(0,0,0,0.45);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:box-shadow .2s ease, transform .2s ease, background .2s ease;
+    }
+    .tc-vid-btn svg{
+      width:14px;
+      height:14px;
+    }
+    .tc-vid-btn svg *{
+      fill:#ffffff !important;
+      stroke:#ffffff !important;
+    }
+    .tc-vid-btn:hover{
+      box-shadow:0 0 14px rgba(255,255,255,0.9);
+      transform:translateY(-1px);
+      background:rgba(0,0,0,0.7);
+    }
+    .tc-item:not(.is-playing) .tc-vid-btn--pause{
+      opacity:.4;
+    }
+
+    /* Modal video fullscreen */
+    .tc-modal{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0.85);
+      opacity:0;
+      visibility:hidden;
+      transition:opacity .25s ease, visibility 0s linear .25s;
+      z-index:9999;
+    }
+    .tc-modal.is-open{
+      opacity:1;
+      visibility:visible;
+      transition-delay:0s;
+    }
+    .tc-modal__inner{
+      position:relative;
+      width:min(90vw, 520px);
+      max-height:90vh;
+    }
+    .tc-modal__content{
+      background:#000;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 0 40px rgba(0,0,0,0.9);
+    }
+    .tc-modal__content video,
+    .tc-modal__content iframe,
+    .tc-modal__content img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .tc-modal__close{
+      position:absolute;
+      top:-40px;
+      right:0;
+      background:none;
+      border:none;
+      color:#ffffff;
+      font-size:26px;
+      cursor:pointer;
+      padding:4px 8px;
+    }
+    body.tc-modal-open{
+      overflow:hidden;
+    }
+
+    /* Responsive */
+    @media (max-width: 989px){
+      .tc-carousel{
+        min-height: var(--min-h-mobile);
+        padding: 20px 0 28px;
+      }
+
+      /* Track horizontal con scroll + snap */
+      .tc-items{
+        width: 90%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: flex;
+        justify-content: flex-start;
+        gap: 0;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* 1 card por viewport (100% de ancho) */
+      .tc-item{
+        flex: 0 0 100%;
+        max-width: 100%;
+        scroll-snap-align: center;
+        opacity: 1;               /* en mobile todas visibles */
+        pointer-events: auto;
+        transform: scale(.94);    /* ligera reducción */
+      }
+
+      /* La activa se destaca un poco más */
+      .tc-item.is-active{
+        transform: scale(1);
+      }
+
+      .tc__tabs{
+        gap: 12px;
+      }
+      .tc-tab__btn{
+        padding: .5rem .9rem;
+      }
+
+      .tc-item__text{
+        font-size: 0.9rem;
+      }
+
+      /* Flechas más pegadas a los bordes en mobile */
+      .tc-arrow--prev{
+        left: 8px;
+        transform: translateY(-50%) rotate(-90deg);
+      }
+      .tc-arrow--next{
+        right: 8px;
+        transform: translateY(-50%) rotate(-90deg);
+      }
+    }
+
+    @media (max-width: 480px){
+      .tc-item__content{
+        padding: 16px 14px;
+      }
+
+      /* Opcional: ocultar texto largo en XS */
+      .tc-item__text{
+        display: none;
+      }
+    }
+
+
+  </style>
+
+  <script>
+    (function(){
+      var root = document.getElementById('tc-{{ section.id }}');
+      if(!root) return;
+
+      var tabs   = root.querySelectorAll('.tc-tab__btn');
+      var panels = root.querySelectorAll('.tc-panel');
+      var wrap   = root.querySelector('.tc__panels');
+      var tabsShell = root.querySelector('.tc__tabs-shell');
+      var tabsTrack = root.querySelector('.tc__tabs');
+      var tabsPrev  = root.querySelector('.tc-tabs-arrow--prev');
+      var tabsNext  = root.querySelector('.tc-tabs-arrow--next');
+
+      /* Modal */
+      var modal        = root.querySelector('.tc-modal');
+      var modalContent = modal && modal.querySelector('.tc-modal__content');
+      var modalClose   = modal && modal.querySelector('.tc-modal__close');
+
+      function openModalFromItem(item, mediaEl){
+        if(!modal || !modalContent) return;
+
+        modalContent.innerHTML = '';
+
+        var clone = null;
+
+        if(mediaEl){
+          clone = mediaEl.cloneNode(true);
+          if(clone.tagName === 'VIDEO'){
+            clone.controls = true;
+            clone.muted = false;
+            clone.removeAttribute('playsinline');
+          }
+        } else {
+          var iframe = item.querySelector('.tc-item__video--external, iframe');
+          if(iframe){
+            clone = iframe.cloneNode(true);
+          } else {
+            var img = item.querySelector('.tc-item__media-img');
+            if(img){
+              clone = img.cloneNode(true);
+            }
+          }
+        }
+
+        if(clone){
+          clone.classList.add('tc-modal__media');
+          modalContent.appendChild(clone);
+          if(clone.tagName === 'VIDEO'){
+            try { clone.play(); } catch(e){}
+          }
+        }
+
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden','false');
+        document.body.classList.add('tc-modal-open');
+      }
+
+      function closeModal(){
+        if(!modal) return;
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden','true');
+        if(modalContent){
+          modalContent.innerHTML = '';
+        }
+        document.body.classList.remove('tc-modal-open');
+      }
+
+      if(modalClose){
+        modalClose.addEventListener('click', function(e){
+          e.preventDefault();
+          closeModal();
+        });
+      }
+      if(modal){
+        modal.addEventListener('click', function(e){
+          if(e.target === modal){
+            closeModal();
+          }
+        });
+      }
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && modal && modal.classList.contains('is-open')){
+          closeModal();
+        }
+      });
+
+      if(tabsShell && tabs.length <= 4){
+        tabsShell.classList.add('tc__tabs-shell--no-arrows');
+      }
+
+      /* Navegación de tabs con flechas (máx 4 visibles aprox) */
+      if(tabsTrack){
+        if(tabsPrev){
+          tabsPrev.addEventListener('click', function(){
+            tabsTrack.scrollBy({ left: -tabsTrack.clientWidth * 0.7, behavior: 'smooth' });
+          });
+        }
+        if(tabsNext){
+          tabsNext.addEventListener('click', function(){
+            tabsTrack.scrollBy({ left: tabsTrack.clientWidth * 0.7, behavior: 'smooth' });
+          });
+        }
+      }
+
+      function hexToRGB(h){
+        if(!h) return [255,255,255];
+        h = h.replace('#','');
+        if(h.length === 3){ h = h.split('').map(function(c){ return c + c; }).join(''); }
+        var n = parseInt(h,16);
+        return [(n>>16)&255, (n>>8)&255, n&255];
+      }
+      function luminance(r,g,b){
+        var a = [r,g,b].map(function(v){ v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); });
+        return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2];
+      }
+      function contrastColor(hex){
+        try{
+          var rgb = hexToRGB(hex);
+          return luminance(rgb[0],rgb[1],rgb[2]) > 0.5 ? '#111111' : '#ffffff';
+        }catch(e){ return '#111111'; }
+      }
+      function applyAutoContrast(btn){
+        var auto = btn.getAttribute('data-auto') === 'true';
+        if(!auto) return;
+        var bg = (btn.getAttribute('data-bg') || '#f2f2f2').trim();
+        var bgh= (btn.getAttribute('data-bg-hover') || '#111111').trim();
+        btn.style.setProperty('--tab-text', contrastColor(bg));
+        btn.style.setProperty('--tab-text-h', contrastColor(bgh));
+      }
+      tabs.forEach(applyAutoContrast);
+
+      function setIndicator(btn){
+        if(!btn) return;
+
+        var rect = btn.getBoundingClientRect();
+        var parentRect = btn.parentElement.getBoundingClientRect();
+
+        var extra = 18;
+        var width = rect.width + extra;
+        var offsetX = (rect.left - parentRect.left + btn.parentElement.scrollLeft) - extra/2;
+
+        root.querySelectorAll('.tc__indicator').forEach(function(ind){
+          ind.style.width = width + 'px';
+          ind.style.transform = 'translateX(' + offsetX + 'px)';
+        });
+      }
+
+      function setHeights(panel){
+        if(!wrap || !panel) return;
+        wrap.style.height = panel.scrollHeight + 'px';
+        panel.querySelectorAll('img').forEach(function(img){
+          img.addEventListener('load', function(){
+            wrap.style.height = panel.scrollHeight + 'px';
+          }, { once: true });
+        });
+      }
+
+      function activate(btn){
+        var id = btn.getAttribute('aria-controls');
+        tabs.forEach(function(t){
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected','false');
+          t.setAttribute('tabindex','-1');
+        });
+        panels.forEach(function(p){ p.classList.remove('is-active'); });
+
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected','true');
+        btn.setAttribute('tabindex','0');
+
+        var panel = root.querySelector('#'+id);
+        if(panel){
+          panel.classList.add('is-active');
+          setHeights(panel);
+          setTimeout(function(){ setHeights(panel); }, 80);
+        }
+        setIndicator(btn);
+      }
+
+      tabs.forEach(function(btn, i){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          activate(btn);
+        });
+        btn.addEventListener('keydown', function(e){
+          if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+            e.preventDefault();
+            var next = (e.key === 'ArrowRight') ? i+1 : i-1;
+            if(next < 0) next = tabs.length-1;
+            if(next >= tabs.length) next = 0;
+            tabs[next].focus();
+            activate(tabs[next]);
+          }
+        });
+      });
+
+      var initial = root.querySelector('.tc-tab__btn.is-active') || tabs[0];
+      if(initial){
+        setIndicator(initial);
+        var p = root.querySelector('#'+initial.getAttribute('aria-controls'));
+        setHeights(p);
+      }
+
+      window.addEventListener('resize', function(){
+        var active = root.querySelector('.tc-tab__btn.is-active');
+        setIndicator(active);
+        var actPanel = root.querySelector('.tc-panel.is-active');
+        setHeights(actPanel);
+      });
+      if(tabsTrack){
+        tabsTrack.addEventListener('scroll', function(){
+          var active = root.querySelector('.tc-tab__btn.is-active');
+          setIndicator(active);
+        }, { passive:true });
+      }
+
+      /* ============================
+         Carruseles internos por tab
+         ============================ */
+      function initPanelCarousel(panel){
+        var items = panel.querySelectorAll('.tc-item');
+        if(!items.length) return;
+
+        var track = panel.querySelector('.tc-items');
+        var prev  = panel.querySelector('.tc-arrow--prev');
+        var next  = panel.querySelector('.tc-arrow--next');
+        var index = 0;
+
+        function pauseItemVideo(item){
+          if(item && typeof item._pauseVideo === 'function'){
+            item._pauseVideo();
+          }
+        }
+
+        function setActive(newIndex){
+          if(!items.length) return;
+          if(newIndex < 0) newIndex = items.length - 1;
+          if(newIndex >= items.length) newIndex = 0;
+          index = newIndex;
+
+          items.forEach(function(item, i){
+            var isActive = i === index;
+            if(!isActive){
+              pauseItemVideo(item);
+            }
+            item.classList.toggle('is-active', isActive);
+          });
+
+          /* En mobile: centramos la card activa mediante scroll */
+          if (window.innerWidth <= 989 && items[index]) {
+            items[index].scrollIntoView({
+              behavior: 'smooth',
+              inline:   'center',
+              block:    'nearest'
+            });
+          }
+        }
+
+        /* Click en cards
+           - Desktop: izq/der actúan como prev/next (comportamiento original)
+           - Mobile: tocar una card la centra (va directo a ese índice)
+        */
+        items.forEach(function(item, i){
+          item.addEventListener('click', function(e){
+            // No interferir con botones internos
+            if (
+              e.target.closest('.tc-arrow') ||
+              e.target.closest('.tc-item__controls') ||
+              e.target.closest('.tc-item__btn')
+            ){
+              return;
+            }
+
+            if(window.innerWidth <= 989){
+              // Mobile: ir directo a esa card
+              setActive(i);
+              return;
+            }
+
+            // Desktop: lógica anterior
+            if(i === index) return;
+            if(i < index){
+              setActive(index - 1);
+            } else {
+              setActive(index + 1);
+            }
+          });
+        });
+
+        /* Flechas prev/next */
+        if(prev){
+          prev.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            setActive(index - 1);
+          });
+        }
+        if(next){
+          next.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            setActive(index + 1);
+          });
+        }
+
+        // Controles de video por card
+        items.forEach(function(item, i){
+          var video = item.querySelector('video.tc-item__video');
+          if(!video) return;
+
+          var playBtn  = item.querySelector('.tc-vid-btn--play');
+          var pauseBtn = item.querySelector('.tc-vid-btn--pause');
+          var fullBtn  = item.querySelector('.tc-vid-btn--fullscreen');
+
+          function playVideo(){
+            try { video.play(); } catch(e){}
+            item.classList.add('is-playing');
+          }
+          function pauseVideo(){
+            try { video.pause(); } catch(e){}
+            item.classList.remove('is-playing');
+          }
+
+          if(playBtn){
+            playBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              e.stopPropagation();
+              setActive(i);
+              playVideo();
+            });
+          }
+          if(pauseBtn){
+            pauseBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              e.stopPropagation();
+              pauseVideo();
+            });
+          }
+          if(fullBtn){
+            fullBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              e.stopPropagation();
+              setActive(i);
+              pauseVideo();
+              openModalFromItem(item, video);
+            });
+          }
+
+          item._pauseVideo = pauseVideo;
+        });
+
+        // Estado inicial
+        setActive(0);
+      }
+
+
+      panels.forEach(function(panel){
+        initPanelCarousel(panel);
+      });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Tabs carousel",
+  "tag": "section",
+  "class": "section-tabs-carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título de la sección",
+      "default": "Decorating tips from VL"
+    },
+    {
+      "type": "select",
+      "id": "section_bg_type",
+      "label": "Fondo de la sección",
+      "options": [
+        { "value": "color", "label": "Color" },
+        { "value": "image", "label": "Imagen" }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Color de fondo de la sección",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "section_bg_image",
+      "label": "Imagen de fondo de la sección"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "color",
+      "id": "tab_bg",
+      "label": "Fondo del tab",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "tab_bg_hover",
+      "label": "Fondo del tab (hover/activo)",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Color de texto del tab (opcional, deja vacío para auto)"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_hover_color",
+      "label": "Color de texto (hover/activo) del tab (opcional, deja vacío para auto)"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Tamaño de letra de los tabs",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Cards – Tamaño letra, Fondo y overlay"
+    },
+    {
+      "type": "range",
+      "id": "item_title_size",
+      "min": 16,
+      "max": 46,
+      "step": 2,
+      "unit": "px",
+      "label": "Tamaño de letra titulo cards",
+      "default": 46
+    },         
+    {
+      "type": "range",
+      "id": "item_desc_size",
+      "min": 12,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Tamaño de letra texto cards",
+      "default": 12
+    },        
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Color de fondo de respaldo de las cards",
+      "default": "#15131a"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay (color)",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay (opacidad)",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Alto mínimo de las cards (desktop)",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 200,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "label": "Alto mínimo de las cards (mobile)",
+      "default": 420
+    },
+    {
+      "type": "header",
+      "content": "Contenedor de texto"
+    },
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Alineación horizontal del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_valign",
+      "label": "Alineación vertical del contenido",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "content_bg_enable",
+      "label": "Usar color de fondo bajo el texto",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "content_bg",
+      "label": "Color fondo contenido",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "content_bg_radius",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Borde redondeado contenido",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 200,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "label": "Ancho máximo contenido",
+      "default": 440
+    },
+    {
+      "type": "header",
+      "content": "Padding sección"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Estilos Botón items"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Botón: fondo",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Botón: texto",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_hover",
+      "label": "Botón: fondo (hover)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_hover",
+      "label": "Botón: texto (hover)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab / Diapositiva",
+      "settings": [
+        { "type": "text", "id": "tab_label", "label": "Texto del tab", "default": "Christmas" },
+        { "type": "checkbox", "id": "auto_contrast", "label": "Auto-contraste del texto en el tab", "default": true },
+
+        { "type": "select", "id": "bg_type", "label": "Fondo del item 1", "options": [
+          { "value": "image", "label": "Imagen" },
+          { "value": "color", "label": "Solo color (sin imagen)" }
+        ], "default": "image" },
+
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Tipo de medio item 1",
+          "default": "image",
+          "options": [
+            { "value": "image", "label": "Imagen" },
+            { "value": "video", "label": "Video" }
+          ]
+        },
+        { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo item 1" },
+        {
+          "type": "video",
+          "id": "video_file",
+          "label": "Video subido item 1 (MP4, mov)",
+          "info": "Se prioriza sobre externo/URL."
+        },
+        {
+          "type": "url",
+          "id": "external_video",
+          "label": "Video externo item 1 (YouTube/Vimeo)"
+        },
+        {
+          "type": "url",
+          "id": "video_mp4_url",
+          "label": "URL MP4 directa item 1 (opcional)"
+        },
+
+        { "type": "select", "id": "bg_position", "label": "Posición imagen item 1 (no aplica a video)", "options": [
+          { "value": "center center", "label": "Centro" },
+          { "value": "top center", "label": "Arriba" },
+          { "value": "bottom center", "label": "Abajo" }
+        ], "default": "center center" },
+
+        { "type": "header", "content": "Item 1 (central)" },
+        { "type": "richtext", "id": "title", "label": "Título item 1", "default": "<p>How to choose the perfect light intensity</p>" },
+        { "type": "richtext", "id": "rich_text", "label": "Descripción item 1", "default": "<p>Texto descriptivo de la diapositiva.</p>" },
+        { "type": "text", "id": "button_label", "label": "Texto del botón item 1", "default": "Read more" },
+        { "type": "url", "id": "button_link", "label": "Enlace del botón item 1" },
+        {
+          "type": "color",
+          "id": "item_txt_color",
+          "label": "Color texto item 1",
+          "default": "#ffffff"
+        },
+        { "type": "header", "content": "Item 2" },
+        {
+          "type": "select",
+          "id": "item_2_media_type",
+          "label": "Tipo de medio item 2",
+          "default": "image",
+          "options": [
+            { "value": "image", "label": "Imagen" },
+            { "value": "video", "label": "Video" }
+          ]
+        },
+        { "type": "image_picker", "id": "item_2_image", "label": "Imagen de fondo item 2" },
+        { "type": "video", "id": "item_2_video_file", "label": "Video subido item 2" },
+        { "type": "url", "id": "item_2_external_video", "label": "Video externo item 2" },
+        { "type": "url", "id": "item_2_video_mp4_url", "label": "URL MP4 directa item 2" },
+        { "type": "richtext", "id": "item_2_title", "label": "Título item 2" },
+        { "type": "richtext", "id": "item_2_rich_text", "label": "Descripción item 2" },
+        { "type": "text", "id": "item_2_button_label", "label": "Texto del botón item 2" },
+        { "type": "url", "id": "item_2_button_link", "label": "Enlace del botón item 2" },
+
+        { "type": "header", "content": "Item 3" },
+        {
+          "type": "select",
+          "id": "item_3_media_type",
+          "label": "Tipo de medio item 3",
+          "default": "image",
+          "options": [
+            { "value": "image", "label": "Imagen" },
+            { "value": "video", "label": "Video" }
+          ]
+        },
+        { "type": "image_picker", "id": "item_3_image", "label": "Imagen de fondo item 3" },
+        { "type": "video", "id": "item_3_video_file", "label": "Video subido item 3" },
+        { "type": "url", "id": "item_3_external_video", "label": "Video externo item 3" },
+        { "type": "url", "id": "item_3_video_mp4_url", "label": "URL MP4 directa item 3" },
+        { "type": "richtext", "id": "item_3_title", "label": "Título item 3" },
+        { "type": "richtext", "id": "item_3_rich_text", "label": "Descripción item 3" },
+        { "type": "text", "id": "item_3_button_label", "label": "Texto del botón item 3" },
+        { "type": "url", "id": "item_3_button_link", "label": "Enlace del botón item 3" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Custom Tabs Carousel",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
