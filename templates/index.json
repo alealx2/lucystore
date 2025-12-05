@@ -617,7 +617,7 @@
       ],
       "name": "Custom Pinterest Grid",
       "settings": {
-        "heading": "<p>The most beautiful memories are wrapped in <strong>warmth, wonder and light</strong></p>",
+        "heading": "<p>The most beautiful memories are wrapped in <strong>warmth, wonder and light.</strong></p>",
         "heading_color": "#ffffff",
         "heading_size": 40,
         "subtext": "",
