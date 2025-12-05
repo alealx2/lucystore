@@ -832,6 +832,9 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
 
+    // Media query para desktop (evitar interferir en mobile)
+    var desktopMQ = window.matchMedia('(min-width: 990px)');
+
     /* ========== DESKTOP MEGA ========== */
     document.querySelectorAll('.mega-menu').forEach(function (mega) {
       var tabs   = mega.querySelectorAll('.optionB__tabs-link');
@@ -852,6 +855,10 @@
 
       /* ------- Season/Brand/Collection: acordeón horizontal ------- */
       function initExpanding(panel) {
+        // evitar inicializar 2 veces
+        if (panel.dataset.expandingInit === 'true') return;
+        panel.dataset.expandingInit = 'true';
+
         var featured = panel.querySelector('.megamenu-pb__featured--expanding, .megamenu-pb__featured');
         if (!featured) return;
 
@@ -896,6 +903,10 @@
 
       /* ------- Category: círculos + hero ------- */
       function initCategory(panel) {
+        // evitar doble init
+        if (panel.dataset.categoryInit === 'true') return;
+        panel.dataset.categoryInit = 'true';
+
         var thumbs = panel.querySelectorAll('.megamenu-cat__thumb');
         var heroes = panel.querySelectorAll('.megamenu-cat__hero');
         if (!thumbs.length || !heroes.length) return;
@@ -919,7 +930,7 @@
         });
       }
 
-      /* ------- Activar tab ------- */
+      /* ------- Activar tab (Season / Category / Collection) ------- */
       function activateTab(tab) {
         var target = tab.getAttribute('data-panel');
 
@@ -954,15 +965,26 @@
         }
       }
 
-      /* ------- Inicialización al cargar: colapsado hasta que se haga click en una tab ------- */
+      /* ------- Inicialización al cargar: colapsado hasta que se abra ------- */
       setHeights(null);
 
       tabs.forEach(function (tab) {
         var hasPanel = tab.getAttribute('data-has-panel') === 'true';
         if (!hasPanel) return;
 
+        // CLICK → sigue funcionando como antes
         tab.addEventListener('click', function (e) {
           e.preventDefault();
+          activateTab(tab);
+        });
+
+        // HOVER en desktop → también cambia de panel
+        tab.addEventListener('mouseenter', function () {
+          if (!desktopMQ.matches) return;
+          activateTab(tab);
+        });
+        tab.addEventListener('focus', function () {
+          if (!desktopMQ.matches) return;
           activateTab(tab);
         });
       });
@@ -979,6 +1001,21 @@
         } else {
           wrap.style.height = '0px';
         }
+      });
+
+      /* ------- ABRIR / CERRAR MEGA POR HOVER (desktop) ------- */
+      var hoverTimeout;
+      mega.addEventListener('mouseenter', function () {
+        if (!desktopMQ.matches) return;
+        clearTimeout(hoverTimeout);
+        mega.open = true;
+      });
+
+      mega.addEventListener('mouseleave', function () {
+        if (!desktopMQ.matches) return;
+        hoverTimeout = setTimeout(function () {
+          mega.open = false;
+        }, 180);
       });
     });
 
