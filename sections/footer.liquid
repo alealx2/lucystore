@@ -185,14 +185,17 @@
                       {% endif %}
                       placeholder="Email Address"
                       required>
-                    <label class="field__label" for="NewsletterForm--{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+                    {% comment %} <label class="field__label" for="NewsletterForm--{{ section.id }}">{{ 'newsletter.label' | t }}</label> {% endcomment %}
+                    <label class="field__label" for="NewsletterForm--{{ section.id }}">Email Address</label>
                     <button
                       type="submit"
                       class="newsletter-form__button field__button"
                       name="commit"
                       id="Subscribe"
                       aria-label="{{ 'newsletter.button_label' | t }}">
-                      <span class="svg-wrapper">{{ 'icon-arrow.svg' | inline_asset_content }}</span>
+                      <span class="svg-wrapper">                       
+                        {{- 'icon-custom-send.svg' | inline_asset_content -}}
+                      </span>
                     </button>
                   </div>
 
@@ -290,7 +293,7 @@
           <ul class="policies list-unstyled">
             {%- for policy in shop.policies -%}
               {%- if policy != blank -%}
-                <li><small class="copyright__content"><a href="{{ policy.url }}">{{ policy.title | escape }}</a></small></li>
+                <li><small class="copyright__content"><a href="{{ policy.url }}"> | {{ policy.title | escape }}</a></small></li>
               {%- endif -%}
             {%- endfor -%}
           </ul>

@@ -2509,6 +2509,7 @@ input[type='checkbox'] {
   grid-area: icons;
   justify-self: end;
   padding-right: 0.8rem;
+  gap: 5px;
 }
 
 .header__icons .shopify-app-block {
@@ -2555,8 +2556,8 @@ input[type='checkbox'] {
 
 .header__icon,
 .header__icon--cart .icon {
-  height: 4.4rem;
-  width: 4.4rem;
+  height: 30px;
+  width: 30px;
   padding: 0;
 }
 
@@ -2793,6 +2794,7 @@ details[open] > .header__submenu {
 }
 
 .header__menu-item {
+  font-size: 16px;
   padding: 1.2rem;
   text-decoration: none;
   color: rgba(var(--color-foreground), 0.75);
@@ -3632,4 +3634,8 @@ details-disclosure > details {
     scroll-snap-stop: normal;
   }
 
+}
+
+shop-follow-button{
+  display: none;
 }

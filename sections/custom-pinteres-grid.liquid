@@ -144,7 +144,7 @@
                   target="_blank"
                   rel="noopener"
                 >
-                  <span class="svg-wrapper">{{ 'icon-pinterest.svg' | inline_asset_content }}</span>
+                  <span class="svg-wrapper">{{ 'icon-custom-pinterest.svg' | inline_asset_content }}</span>
                   <span class="pgrid__pin-text">Save</span>
                 </a>
               {%- endif -%}
@@ -168,7 +168,7 @@
                       class="pgrid__mini-btn pgrid__mini-btn--download"
                       download
                     >
-                    <span class="svg-wrapper share">{{ 'icon-share.svg' | inline_asset_content }}</span>
+                    <span class="svg-wrapper share">{{ 'icon-custom-download.svg' | inline_asset_content }}</span>
                       <span class="visually-hidden">Download</span>
                     </a>
                   {% endif %}
@@ -372,11 +372,11 @@
       display:inline-flex;
       align-items:center;
       gap:6px;
-      padding:4px 12px;
-      border-radius:999px;
+      padding: 2px 6px;
+      border-radius:2px;
       background:#E60023;
       color:#fff;
-      font-size:11px;
+      font-size:12px;
       font-weight:600;
       text-transform:none;
       text-decoration:none;
@@ -400,7 +400,10 @@
     .pgrid__pin:hover{
       background:#c0001d;
     }
-
+    .pgrid__pin .svg-wrapper{
+      width: 16px;
+      height: 16px;
+    }
     /* Share + Download (abajo izquierda) */
     .pgrid__mini{
       position:absolute;
@@ -436,6 +439,7 @@
     .pgrid__mini-btn--download{
       width:30px;
       padding-inline:0;
+      transform: rotate(-180deg);
     }
     {% comment %} .pgrid__mini-btn:hover{
       background:rgba(18,18,24,0.98);
@@ -589,7 +593,7 @@
       pointer-events:none;
     }
     .pgrid-modal__body{
-      max-width: min(960px, 100%);
+      max-width: min(350px, 100%);
       max-height: 100%;
       width:100%;
       pointer-events:auto;
