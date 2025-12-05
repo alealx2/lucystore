@@ -23,7 +23,7 @@
         </div>
       {% endif %}
 
-      <div class="main-title" style="font-size: {{ section.settings.main_title_size }}px; color: {{ section.settings.main_title_color }}; margin-top: 20px; font-weight: 400; line-height: 1.2; font-family: 'Playfair Display', serif;">
+      <div class="main-title" style="font-size: {{ section.settings.main_title_size }}px; color: {{ section.settings.main_title_color }}; font-weight: 400; line-height: 1; font-family: 'Playfair Display', serif;">
         {{ section.settings.main_title }}
       </div>
 
@@ -35,11 +35,11 @@
                 {{ block.settings.item_label }}
               </div>
 
-              <div class="item-title" style="font-size: {{ block.settings.item_title_size }}px; color: {{ block.settings.item_title_color }}; margin-top: 8px;">
+              <div class="item-title" style="font-size: {{ block.settings.item_title_size }}px; color: {{ block.settings.item_title_color }};">
                 {{ block.settings.item_title }}
               </div>
 
-              <div class="item-desc" style="font-size: {{ block.settings.item_desc_size }}px; color: {{ block.settings.item_desc_color }}; margin-top: 6px;">
+              <div class="item-desc" style="font-size: {{ block.settings.item_desc_size }}px; color: {{ block.settings.item_desc_color }}; ">
                 {{ block.settings.item_desc }}
               </div>
             </div>
@@ -49,7 +49,7 @@
       {% endif %}
 
       {% if section.settings.bottom_title != blank %}
-        <div class="bottom-text" style="font-size: {{ section.settings.bottom_title_size }}px; color: {{ section.settings.main_title_color }}; margin-top: 8px;">
+        <div class="bottom-text" style="font-size: {{ section.settings.bottom_title_size }}px; color: {{ section.settings.main_title_color }};">
           {{ section.settings.bottom_title }}
         </div>
       {% endif %}
@@ -100,10 +100,22 @@
     .banner-item {
     flex: 1 1 calc(25% - 20px);
     min-width: 200px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     }
-
+    .item-title{
+      line-height: 1.2;
+      font-weight: bold;
+    }
     .item-title p, .item-label p, .item-desc p{ margin: 0;}
+    .item-label p{
+      width: 52%;
+    }
+  .main-title p, .bottom-text p{
+    margin-top: 0px;
+    line-height: 1.1;
+  }
 
   .banner-text-inner--left .label-title,
   .banner-text-inner--left .main-title,
@@ -223,10 +235,10 @@
       "default": "center"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "main_label",
       "label": "Encabezado (label superior)",
-      "default": "ILLUMINATING THE MOMENTS THAT MATTER"
+      "default": "<p>ILLUMINATING THE MOMENTS THAT MATTER</p>"
     },
     {
       "type": "richtext",
@@ -263,7 +275,7 @@
       "id": "main_label_size",
       "label": "Tamaño encabezado (px)",
       "min": 10,
-      "max": 40,
+      "max": 80,
       "step": 1,
       "default": 18
     },

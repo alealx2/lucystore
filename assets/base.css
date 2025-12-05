@@ -2556,8 +2556,8 @@ input[type='checkbox'] {
 
 .header__icon,
 .header__icon--cart .icon {
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   padding: 0;
 }
 
@@ -3638,4 +3638,40 @@ details-disclosure > details {
 
 shop-follow-button{
   display: none;
+}
+
+/* SNAP TO SCROLL EFFECT – SOLO ABOUT */
+@media screen and (min-width: 750px) {
+
+  html.is-about {
+    scroll-behavior: smooth;
+    scrollbar-width: none;          /* Firefox */
+    -ms-overflow-style: none;       /* IE/Edge antiguo */
+  }
+
+  html.is-about::-webkit-scrollbar {
+    display: none;
+  }
+
+  html.is-about,
+  html.is-about body {
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: none;
+    scroll-padding-top: var(--header-height, 0px);
+  }
+
+  html.is-about body main#MainContent > .shopify-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  html.is-about.no-snap,
+  html.is-about.no-snap body {
+    scroll-snap-type: none;
+  }
+
+  html.is-about.no-snap body main#MainContent > .shopify-section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
 }
