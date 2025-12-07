@@ -104,7 +104,7 @@
         "bg_image": "shopify://shop_images/Casa_Exterior_luz_detalle-min.png",
         "overlay_color": "#000000",
         "bg_color": "#161f3a",
-        "overlay_opacity": 61,
+        "overlay_opacity": 74,
         "padding_top": 135,
         "padding_bottom": 135,
         "text_align": "center",
@@ -120,7 +120,7 @@
         "main_label_size_mobile": 14,
         "main_title_size_mobile": 28,
         "bottom_title_size_mobile": 18,
-        "items_gap": 0
+        "items_gap": 20
       }
     },
     "banner_with_text_H7xYPQ": {
