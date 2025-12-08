@@ -24,7 +24,7 @@
         "main_label": "Coming Soon",
         "main_title": "<p>A unique consumer-centric Via Luci website is on its way — a space designed for community, inspiration, decorating tips, and behind-the-scenes industry insights.</p>",
         "bottom_title": "<p>Until then, join us across social media for announcements and seasonal inspiration:<br/>Instagram @via.luci | TikTok @vialuci1  | Facebook @vialucilights<br/></p>",
-        "enable_blocks_border": false,
+        "enable_blocks_border": true,
         "main_label_color": "#ffffff",
         "main_title_color": "#ffffff",
         "main_label_size": 31,
