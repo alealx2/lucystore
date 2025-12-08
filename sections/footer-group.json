@@ -64,7 +64,6 @@
     },
     "footer": {
       "type": "footer",
-      "disabled": true,
       "settings": {
         "color_scheme": "scheme-3",
         "newsletter_enable": true,
