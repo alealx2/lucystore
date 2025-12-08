@@ -696,7 +696,7 @@
         "video": "shopify://files/videos/Via Luci Showcase_HiRes.mp4",
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
         "description": "",
-        "full_width": true,
+        "full_width": false,
         "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 40
