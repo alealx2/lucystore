@@ -105,6 +105,7 @@
         "slide_kFcM3D",
         "slide_UWBCqz"
       ],
+      "disabled": true,
       "name": "t:sections.slideshow.presets.name",
       "settings": {
         "layout": "full_bleed",
@@ -325,6 +326,7 @@
         "tab_7z8J8m",
         "tab_6CRHbN"
       ],
+      "disabled": true,
       "name": "Custom Tabs Carousel",
       "settings": {
         "heading": "",
@@ -615,6 +617,7 @@
         "card_mRx7Nr",
         "card_pdJE7n"
       ],
+      "disabled": true,
       "name": "Custom Pinterest Grid",
       "settings": {
         "heading": "<p>The most beautiful memories are wrapped in <strong>warmth, wonder and light</strong></p>",
