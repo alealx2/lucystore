@@ -695,6 +695,7 @@
         "enable_video_looping": true,
         "video": "shopify://files/videos/Via Luci Showcase_HiRes.mp4",
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "cover_image": "shopify://shop_images/logoo.png",
         "description": "",
         "full_width": false,
         "color_scheme": "",
