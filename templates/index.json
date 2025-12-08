@@ -648,7 +648,7 @@
             "video_mp4_url": "",
             "video_autoplay": true,
             "video_loop": true,
-            "video_muted": false,
+            "video_muted": true,
             "video_controls": false,
             "image_overlay_opacity": 0,
             "overlay_color": "#000000",
