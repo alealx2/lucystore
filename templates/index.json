@@ -635,11 +635,51 @@
         "color_scheme": "",
         "gap": 16
       }
+    },
+    "image_with_text_zRrHhK": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_mX3Pyh": {
+          "type": "heading",
+          "settings": {
+            "heading": "Welcome to the world of Via Luci",
+            "heading_size": "h1"
+          }
+        },
+        "text_Fbp6Ua": {
+          "type": "text",
+          "settings": {
+            "text": "<p>To celebrate our debut, the first three guests to enter below will receive a complimentary 7.5’ King Pine Christmas Tree from Via Luci.<br/>Be among the first to experience a new way to illuminate the season.<br/></p><p>If today’s gifts have already been claimed, you will still receive early access to our upcoming launch, seasonal inspirations, and special invitations.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_mX3Pyh",
+        "text_Fbp6Ua"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/primary_logo_-full_color.svg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "slideshow_X7rV8j",
     "custom_tabs_carousel_UfnFR6",
-    "custom_pinteres_grid_GgwNmP"
+    "custom_pinteres_grid_GgwNmP",
+    "image_with_text_zRrHhK"
   ]
 }
