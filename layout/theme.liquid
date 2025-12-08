@@ -366,7 +366,7 @@
     </script>
 
     <!-- SANP TO SCROLL EFFECT-->
-    <script>
+    {% comment %} <script>
       document.addEventListener('DOMContentLoaded', function () {
         if (!document.documentElement.classList.contains('is-home')) return;
 
@@ -401,7 +401,7 @@
 
         observer.observe(footer);
       });
-    </script>
+    </script> {% endcomment %}
     <!-- -->
 
     {%- if settings.predictive_search_enabled -%}
