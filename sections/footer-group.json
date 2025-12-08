@@ -27,12 +27,12 @@
         "enable_blocks_border": true,
         "main_label_color": "#ffffff",
         "main_title_color": "#ffffff",
-        "main_label_size": 31,
-        "main_title_size": 38,
+        "main_label_size": 24,
+        "main_title_size": 30,
         "bottom_title_size": 26,
         "main_label_size_mobile": 22,
-        "main_title_size_mobile": 25,
-        "bottom_title_size_mobile": 20,
+        "main_title_size_mobile": 22,
+        "bottom_title_size_mobile": 19,
         "items_gap": 44
       }
     },
