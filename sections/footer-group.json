@@ -17,7 +17,7 @@
       "name": "Custom Banner Text",
       "settings": {
         "overlay_color": "#000000",
-        "bg_color": "#161F3A",
+        "bg_color": "#161f3a",
         "overlay_opacity": 60,
         "padding_top": 100,
         "padding_bottom": 80,
@@ -26,8 +26,8 @@
         "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>",
         "bottom_title": "<p>Light is not only what you see, It's what you feel - Rich Martini.</p>",
         "enable_blocks_border": true,
-        "main_label_color": "#FFFFFF",
-        "main_title_color": "#FFFFFF",
+        "main_label_color": "#ffffff",
+        "main_title_color": "#ffffff",
         "main_label_size": 18,
         "main_title_size": 48,
         "bottom_title_size": 24,
@@ -64,9 +64,8 @@
     },
     "footer": {
       "type": "footer",
-      "disabled": true,
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
         "newsletter_enable": true,
         "newsletter_heading": "Subscribe to our emails",
         "enable_follow_on_shop": true,
