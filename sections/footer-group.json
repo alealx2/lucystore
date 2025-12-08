@@ -11,43 +11,38 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "banner_with_text_b3hgDj": {
+      "type": "banner-with-text",
+      "name": "Custom Banner Text",
+      "settings": {
+        "overlay_color": "#000000",
+        "bg_color": "#161F3A",
+        "overlay_opacity": 60,
+        "padding_top": 100,
+        "padding_bottom": 80,
+        "text_align": "center",
+        "main_label": "Coming Soon",
+        "main_title": "<p>A unique consumer-centric Via Luci website is on its way — a space designed for community, inspiration, decorating tips, and behind-the-scenes industry insights.</p>",
+        "bottom_title": "<p>Until then, join us across social media for announcements and seasonal inspiration:<br/>Instagram | TikTok | Facebook<br/></p>",
+        "enable_blocks_border": true,
+        "main_label_color": "#FFFFFF",
+        "main_title_color": "#FFFFFF",
+        "main_label_size": 18,
+        "main_title_size": 48,
+        "bottom_title_size": 24,
+        "main_label_size_mobile": 14,
+        "main_title_size_mobile": 28,
+        "bottom_title_size_mobile": 18,
+        "items_gap": 30
+      }
+    },
     "footer": {
       "type": "footer",
-      "blocks": {
-        "image_text_pHWQFD": {
-          "type": "image_text",
-          "settings": {
-            "heading": "",
-            "image": "shopify://shop_images/footlogo.png",
-            "image_width": 120,
-            "alignment": "",
-            "caption": ""
-          }
-        },
-        "link_list_HBU88i": {
-          "type": "link_list",
-          "settings": {
-            "heading": "",
-            "menu": "footer-one"
-          }
-        },
-        "link_list_4mnDgV": {
-          "type": "link_list",
-          "settings": {
-            "heading": "",
-            "menu": "footer-two"
-          }
-        }
-      },
-      "block_order": [
-        "image_text_pHWQFD",
-        "link_list_HBU88i",
-        "link_list_4mnDgV"
-      ],
+      "disabled": true,
       "settings": {
-        "color_scheme": "scheme-47cb6f05-b476-4827-9901-888923f39b05",
+        "color_scheme": "scheme-1",
         "newsletter_enable": true,
-        "newsletter_heading": "",
+        "newsletter_heading": "Subscribe to our emails",
         "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": true,
@@ -57,11 +52,12 @@
         "margin_top": 0,
         "padding_top": 36,
         "padding_bottom": 36,
-        "copyright_right_text": "<p>© 2025 Via Luci, Inc. All Rights Reserved</p>"
+        "copyright_right_text": "<p>copyright</p>"
       }
     }
   },
   "order": [
+    "banner_with_text_b3hgDj",
     "footer"
   ]
 }
