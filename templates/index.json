@@ -697,7 +697,7 @@
         "text_Fbp6Ua": {
           "type": "text",
           "settings": {
-            "text": "<p>We’re putting the final touches on the Via Luci™ online shopping experience.<br/>Until then, you can shop our 7.5' King Pine Sparkle Tree by Holiday Bright Lights(Via Luci's Parent Company) on Amazon</p>",
+            "text": "<p>We’re putting the final touches on the Via Luci™ online shopping experience.<br/>Until then, you can shop our <a href=\"https://www.amazon.com/dp/B0FXXZGNBS?th=1\" title=\"https://www.amazon.com/dp/B0FXXZGNBS?th=1\"><strong>7.5' King Pine Sparkle Tree</strong></a> by Holiday Bright Lights(Via Luci's Parent Company) on Amazon</p>",
             "text_style": "body"
           }
         }
