@@ -77,7 +77,7 @@
       {%- comment -%} PANEL MINI (abajo izquierda) {%- endcomment -%}
       <aside class="hs-panel" data-hs-panel aria-hidden="true">
         <div class="hs-panel__inner">
-          <button class="hs-panel__close" type="button" aria-label="Close">×</button>
+          <button class="hs-panel__close" type="button" aria-label="Close">X</button>
 
           <div class="hs-panel__main">
             <div class="hs-panel__thumb-wrap">
@@ -109,10 +109,14 @@
 
           <div class="hs-panel__nav">
             <button class="hs-panel__arrow hs-panel__arrow--prev" type="button" aria-label="Previous" data-hs-panel-prev>
-              <span></span>
+              <div class="hs-panel-icon">
+                {{- 'single-left-arrow-icon.svg' | inline_asset_content -}}
+              </div> 
             </button>
             <button class="hs-panel__arrow hs-panel__arrow--next" type="button" aria-label="Next" data-hs-panel-next>
-              <span></span>
+              <div class="hs-panel-icon">
+                {{- 'single-right-arrow-icon.svg' | inline_asset_content -}}
+              </div>            
             </button>
           </div>
         </div>
@@ -129,7 +133,8 @@
       <button class="hs-modal__close" type="button" aria-label="Close">×</button>
 
       <div class="hs-modal__image">
-        <img class="hs-modal__img" src="" alt="">
+        <img class="popup-logo" src="{{ 'popup-logo.png' | asset_url }}" alt="arrow" height="60" width="60" />
+        <img class="hs-modal__img" src="" alt="popup cover" height="100%" width="100%">
       </div>
       <div class="hs-modal__info">
         <h3 class="hs-modal__title" data-hs-modal-title>Product title…</h3>
@@ -147,7 +152,7 @@
             type="button"
             data-hs-modal-add
           >
-          <span class="svg-wrapper iconbag">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
+          <span class="svg-wrapper iconbag">{{ 'icon-shopping.bag.svg' | inline_asset_content }}</span>
             ADD TO CART
           </button>
           <a
@@ -177,12 +182,23 @@
       }
     }
 
+    .popup-logo{
+      position: absolute;
+      top: 20px;
+      left: 20px;      
+    }
 
-    
+    .hs-panel-icon{
+      padding-top: 5px;
+      width: 25px;
+      color: #ffffff;
+    }
     .hs__title{
       margin:0 0 .35rem;
       font-size:clamp(24px,3vw,38px);
       text-align:center;
+        -webkit-line-clamp: 2;   /* cantidad de líneas visibles desc modal */
+        -webkit-box-orient: vertical;      
     }
     .hs__text{
       margin:0 0 1.6rem;
@@ -230,7 +246,8 @@
       width:22px;
       height:22px;
       border-radius:999px;
-      background:#14151c;
+      background: #d5d5d5;
+      opacity: .7;
       box-shadow:
         0 0 0 3px rgba(255,255,255,0.9),
         0 0 14px rgba(0,0,0,0.9);
@@ -252,9 +269,9 @@
     }
     .hs-point.is-active .hs-point__dot{
       background:#ffffff;
-      box-shadow:
+      {% comment %} box-shadow:
         0 0 0 2px rgba(0,0,0,.7),
-        0 0 18px rgba(255,255,255,.92);
+        0 0 18px rgba(255,255,255,.92); {% endcomment %}
     }
     @keyframes hsPulse{
       0%{transform:scale(1);opacity:.4}
@@ -266,9 +283,8 @@
       position: fixed; 
       left: 20px;
       bottom: 20px;
-      max-width: 330px;
-
-      background: rgba(5,5,10,0.90);
+      width: 310px;
+      background: rgba(5,5,10,0.80);
       color:#fff;
       border-radius:18px;
       box-shadow:0 18px 40px rgba(0,0,0,0.85);
@@ -301,12 +317,12 @@
     }
     .hs-panel__close{
       position:absolute;
-      top:6px;
-      right:8px;
+      top:0;
+      right:-8px;
       border:0;
       background:transparent;
       color:#fff;
-      font-size:16px;
+      font-size:12px;
       cursor:pointer;
       opacity:.8;
     }
@@ -315,10 +331,8 @@
     .hs-panel__main{
       display:grid;
       grid-template-columns:auto 1fr;
-      gap:10px;
+      gap:30px;
       align-items:center;
-      padding-right:16px;
-      padding-top:20px;
     }
     .hs-panel__thumb-wrap{
       width:64px;
@@ -342,10 +356,13 @@
       gap:4px;
     }
     .hs-panel__title{
+      -webkit-line-clamp: 1;   /* cantidad de líneas visibles desc modal */
       color: #ffffff;
       margin:0;
-      font-size:16px;
-      font-weight:600;
+      font-size:18px;
+      font-weight:bold;
+      text-transform: capitalize;
+      padding-top: 15px;
     }
     .hs-panel__prices{
       display:flex;
@@ -353,13 +370,16 @@
       font-size:14px;
       align-items:baseline;
     }
-    .hs-panel__price{font-weight:700;}
+    .hs-panel__price{
+      font-weight:400;}
+
     .hs-panel__compare{
       opacity:.7;
       text-decoration:line-through;
     }
 
     .hs-btn{
+      border-radius: 4px;
       cursor:pointer;
       padding: 15px 22px;      
       font-size:12px;
@@ -433,12 +453,12 @@
 
     /* GHOST → SOLID al hover */
     .hs-panel__arrow:hover {
-      background: #ffffff !important;
+      background: rgba(255, 255, 255, 0.6) !important;
       border-color: #ffffff !important;
     }
 
     .hs-panel__arrow:hover span {
-      border-color: #111322 !important;
+      border-color: #FFFFFF !important;
     }
 
     /* ANIMACIÓN SUAVE */
@@ -469,16 +489,16 @@
       justify-content: center;
     }
     .hs-panel__arrow{
-      width:30px;
-      height:24px;
-      border-radius:6px;
+      width: auto;
+      height: 24px;
+      padding: 15px 10px;      
+      border-radius: 4px;
       border:1px solid rgba(255,255,255,0.7);
       background:rgba(12,12,18,0.95);
       display:inline-flex;
       align-items:center;
       justify-content:center;
       cursor:pointer;
-      padding:0;
     }
     .hs-panel__arrow span{
       width:10px;
@@ -490,6 +510,9 @@
     .hs-panel__arrow--next span{
       transform:rotate(40deg);
     }
+    {% comment %} .hs-panel__arrow--prev{
+      margin-left: 30px;
+    } {% endcomment %}
     .hs-panel__arrow--prev span{
       transform:rotate(-140deg);
     }
@@ -538,10 +561,10 @@
 }
 
 .hs-modal__content{
-  max-width:980px;
+  max-width:860px;
   width:100%;
   background:#ffffff;
-  border-radius:24px;
+  border-radius:12px;
   box-shadow:0 26px 80px rgba(0,0,0,0.5);
   overflow:hidden;
   display:grid;
@@ -549,8 +572,9 @@
   position: relative; 
 }
   .iconbag{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    padding-right: 5px;
   }
   .modal-atc-btn:hover{
     background:#000000 !important;
@@ -558,9 +582,9 @@
   }
   .hs-modal__actions button, .hs-modal__actions a{
     flex-grow: 1;
-    font-size: 20px;
-    font-weight: 500;
-    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
     padding: 5px 30px;    
   }
     .hs-modal__close{
@@ -575,7 +599,7 @@
       font-weight: 500;
       background:transparent;
       border:none;
-      color:#2c2c2c;
+      color:#161F3A;
       cursor:pointer;
       transition:opacity .2s ease;
     }
@@ -584,7 +608,7 @@
     }
 
     .hs-modal__image{
-      background:#f4f4f6;
+      background:#FFFFFF;
       padding:32px;
       display:flex;
       align-items:center;
@@ -593,7 +617,7 @@
     .hs-modal__img{
       width:100%;
       height:auto;
-      max-height:420px;
+      max-height:380px;
       object-fit:contain;
       display:block;
     }
@@ -602,19 +626,21 @@
       display:flex;
       flex-direction:column;
       gap:14px;
-      background: #eaeaea;
+      background: #F5F2F2;
     }
     .hs-modal__title{
       margin:0;
       font-size:46px;
-      line-height:1.2;
+      line-height:1;
       font-weight:700;
+      color:  #161F3A;
     }
     .hs-modal__prices{
       display:flex;
       gap:10px;
       align-items:baseline;
       font-size:32px;
+      color:  #161F3A;
     }
     .hs-modal__price{
       font-weight:700;
@@ -628,9 +654,9 @@
       .hs-modal__desc {
         font-size: 18px;
         line-height: 1.5;
-        color: #444;
+        color: #161F3A;
         display: -webkit-box;
-        -webkit-line-clamp: 6;   /* cantidad de líneas visibles desc modal */
+        -webkit-line-clamp: 3;   /* cantidad de líneas visibles desc modal */
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -653,10 +679,14 @@
     }
     .hs-modal__add{
       background: transparent;
-      color:#000000;
-      border-color:#000000;
+      color:#161F3A;
+      border-color:#161F3A;
     }
-
+    .hs-modal__add:hover{
+      background: #161F3A !important;
+      color:#FFFFFF;
+      border-color:#161F3A;
+    }
     /* Responsive */
     @media (max-width: 900px){
       .hs-modal__image{
@@ -687,7 +717,7 @@
         grid-template-columns:1fr;
       }
       .hs-modal__image{
-        padding:24px;
+        padding:0;
       }
       .hs-modal__info{
         padding:22px 20px 20px;

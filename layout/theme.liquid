@@ -28,6 +28,17 @@
 
     {% render 'meta-tags' %}
 
+    {% if template == 'page.about' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          document.documentElement.classList.add('is-about');
+          document.body.classList.add('is-about');
+        });
+      </script>
+    {% endif %}
+
+
+
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
@@ -365,44 +376,53 @@
       };
     </script>
 
-    <!-- SANP TO SCROLL EFFECT-->
-    {% comment %} <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (!document.documentElement.classList.contains('is-home')) return;
+<!-- SNAP TO SCROLL EFFECT (Home + About) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var root = document.documentElement;
+    var body = document.body;
 
-        var footer = document.querySelector('footer.footer');
-        if (!footer) return;
+    // Solo activar en home o about
+    if (
+      !root.classList.contains('is-home') &&
+      !root.classList.contains('is-about')
+    ) {
+      return;
+    }
 
-        var root = document.documentElement;
-        var body = document.body;
+    var footer = document.querySelector('footer.footer');
+    if (!footer) return;
 
-        function enableSnap() {
-          root.classList.remove('no-snap');
-          body.classList.remove('no-snap');
+    function enableSnap() {
+      root.classList.remove('no-snap');
+      body.classList.remove('no-snap');
+    }
+
+    function disableSnap() {
+      root.classList.add('no-snap');
+      body.classList.add('no-snap');
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
+          // Cuando el footer entra en vista → quitar snap
+          disableSnap();
+        } else {
+          // Cuando salimos del footer → volver a activar snap
+          enableSnap();
         }
-
-        function disableSnap() {
-          root.classList.add('no-snap');
-          body.classList.add('no-snap');
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-              disableSnap();
-            } else {
-              enableSnap();
-            }
-          });
-        }, {
-          root: null,
-          threshold: [0.0, 0.15, 0.3]
-        });
-
-        observer.observe(footer);
       });
-    </script> {% endcomment %}
-    <!-- -->
+    }, {
+      root: null,
+      threshold: [0.0, 0.15, 0.3]
+    });
+
+    observer.observe(footer);
+  });
+</script>
+<!-- /SNAP TO SCROLL EFFECT -->
+
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>

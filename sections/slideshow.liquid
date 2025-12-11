@@ -164,9 +164,9 @@
                   </a>
 
                   <a
-                    href="#MainContent"
+                    href="#"
                     class="lucy-scroll"
-                    data-scroll-target="#MainContent"
+                    data-scroll-target=".customtabs"
                     aria-label="Scroll down"
                   >
                     <img src="{{ 'double-arrow.png' | asset_url }}" alt="arrow" height="60" width="60" />
@@ -595,7 +595,7 @@
     var trigger = e.target.closest('.lucy-scroll');
     if (!trigger) return;
 
-    var selector = trigger.getAttribute('data-scroll-target') || '#MainContent';
+    var selector = trigger.getAttribute('data-scroll-target');
     var target = document.querySelector(selector);
     if (!target) return;
 

@@ -17,466 +17,583 @@
         "padding_bottom": 28
       }
     },
-    "banner_with_text_cfNpan": {
-      "type": "banner-with-text",
+    "rich_text_wqGPFk": {
+      "type": "rich-text",
       "blocks": {
-        "info_item_XMkXtV": {
-          "type": "info_item",
+        "heading_VKfB8R": {
+          "type": "heading",
           "settings": {
-            "item_text_align": "left",
-            "item_label": "<p>20+ YEARS OF LIGHTED MAGIC</p>",
-            "item_title": "<p>HERITAGE</p>",
-            "item_desc": "<p>FROM BAGNI DI LUCCA TO CHICAGO</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 12,
-            "item_title_size": 30,
-            "item_desc_size": 10,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
-          }
-        },
-        "info_item_Lp9gh3": {
-          "type": "info_item",
-          "settings": {
-            "item_text_align": "left",
-            "item_label": "<p>WHERE HOME & HEART ALIGN</p>",
-            "item_title": "<p>CONNECTION</p>",
-            "item_desc": "<p>ILUMINATING LIFE'S MOST MEANINGFUL MOMENTS</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 12,
-            "item_title_size": 30,
-            "item_desc_size": 10,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
-          }
-        },
-        "info_item_TdX6AG": {
-          "type": "info_item",
-          "settings": {
-            "item_text_align": "left",
-            "item_label": "<p>CRAFTED TO DELIGHT & ENDURE</p>",
-            "item_title": "<p>CRAFTMANSHIP</p>",
-            "item_desc": "<p>ALWAYS EVOLVING, NEVER COMPROMISING QUALITY</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 12,
-            "item_title_size": 30,
-            "item_desc_size": 10,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
-          }
-        },
-        "info_item_a8AGhy": {
-          "type": "info_item",
-          "settings": {
-            "item_text_align": "left",
-            "item_label": "<p>WHERE WONDER FINDS ITS FORM</p>",
-            "item_title": "<p>INSPIRTATION</p>",
-            "item_desc": "<p>FROM ROCKEFELLER TO YOUR ROOFTOP</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#eaeaea",
-            "item_label_size": 12,
-            "item_title_size": 30,
-            "item_desc_size": 10,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "FAQ'S",
+            "heading_size": "hxxl"
           }
         }
       },
       "block_order": [
-        "info_item_XMkXtV",
-        "info_item_Lp9gh3",
-        "info_item_TdX6AG",
-        "info_item_a8AGhy"
+        "heading_VKfB8R"
       ],
-      "name": "Custom Banner Text",
+      "name": "t:sections.rich-text.presets.name",
       "settings": {
-        "bg_image": "shopify://shop_images/Casa_Exterior_luz_detalle-min.png",
-        "overlay_color": "#000000",
-        "bg_color": "#161f3a",
-        "overlay_opacity": 61,
-        "padding_top": 170,
-        "padding_bottom": 135,
-        "text_align": "center",
-        "main_label": "ILLUMINATING THE MOMENTS THAT MATTER",
-        "main_title": "<p>From Rockefeller Center to your front porch, Via Luci brings world-class brilliance to the moments that matters the most. </p>",
-        "bottom_title": "",
-        "enable_blocks_border": true,
-        "main_label_color": "#ffffff",
-        "main_title_color": "#ffffff",
-        "main_label_size": 18,
-        "main_title_size": 60,
-        "bottom_title_size": 48,
-        "main_label_size_mobile": 14,
-        "main_title_size_mobile": 28,
-        "bottom_title_size_mobile": 18,
-        "items_gap": 0
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
-    "banner_with_text_H7xYPQ": {
-      "type": "banner-with-text",
+    "collapsible_content_WQKthj": {
+      "type": "collapsible-content",
       "blocks": {
-        "info_item_gJghkn": {
-          "type": "info_item",
+        "collapsible_row_wNTbtB": {
+          "type": "collapsible_row",
           "settings": {
-            "item_text_align": "center",
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "<p>The Martini family has always believed in the magic of gathering. As one of ten siblings growing up in a spirited Italian home on the west side of Chicago, the holidays weren’t just celebrated, they were felt. The kitchen glowed late into the night, filled with homemade pasta, holiday music, and stories passed between</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 14,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "What makes Via Lucitrees different from others?",
+            "icon": "none",
+            "row_content": "<p>Via Luci trees are crafted for the discerning customer who values refinement and longevity. Every tree is designed with densely woven SPARKLE Color Change Rice Lights, offering up to 4,000 LEDs, often double the industry standard, for a luminous, room-filling glow. With Insta-Shape branches for fast setup, Power Pole technology for clean, cord-free connections, and coordinated wreaths, garlands, and porch pots, each collection provides a complete décor solution for your home.<br/><br/><br/><br/></p>",
+            "page": ""
           }
         },
-        "info_item_3RMjKr": {
-          "type": "info_item",
+        "collapsible_row_MJcRMF": {
+          "type": "collapsible_row",
           "settings": {
-            "item_text_align": "center",
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "<p>Their father ran a neighborhood store where customers were treated like guests. Their mother lit up every room she entered, often quite literally, with the warmth of her hospitality and the glow of lights carefully strung for every season.</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 14,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "What types of branches do Via Luci trees use?",
+            "icon": "none",
+            "row_content": "<p>Our trees combine lifelike molded tips with lush fill branches for fullness and realism. This balance ensures natural beauty<br/>with a structure that lasts for years.</p>",
+            "page": ""
           }
         },
-        "info_item_7mmEkT": {
-          "type": "info_item",
+        "collapsible_row_tACNG8": {
+          "type": "collapsible_row",
           "settings": {
-            "item_text_align": "center",
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "<p>In the Martini household, light was never just decoration. It was emotion. It was the signal that something meaningful was happening. It meant family was gathering.</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 14,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "Can I buy trees inboth pre-lit and unlit versions?",
+            "icon": "none",
+            "row_content": "<p>Yes. Most collections, such as King Pine and Shimmering Pine, are available in both ways. Pre-lit trees come with premium<br/>LED lighting already woven throughout, while unlit trees provide complete creative freedom for personal decorating.<br/><br/><br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tVy9wK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Via Luci trees safe for families and pets?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. All trees are constructed with<br/>flame-retardant, non-toxic materials and meet strict safety standards, making<br/>them a secure choice for households with children and pets.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_WM77pn": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do your trees comewith stands?",
+            "icon": "none",
+            "row_content": "<p>Each tree comes with a sturdy metal<br/>stand. </p>",
+            "page": ""
           }
         }
       },
       "block_order": [
-        "info_item_gJghkn",
-        "info_item_3RMjKr",
-        "info_item_7mmEkT"
+        "collapsible_row_wNTbtB",
+        "collapsible_row_MJcRMF",
+        "collapsible_row_tACNG8",
+        "collapsible_row_tVy9wK",
+        "collapsible_row_WM77pn"
       ],
-      "name": "Custom Banner Text",
+      "name": "t:sections.collapsible_content.presets.name",
       "settings": {
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#161f3a",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "text_align": "center",
-        "main_label": "THE SPARK BEHIND THE BRAND",
-        "main_title": "<p>Our story began with family, food and the warmth of home.</p>",
-        "bottom_title": "<p><em><strong>\"Light is'nt just what you see, It's what you feel \"- Rich Martini.</strong></em></p>",
-        "enable_blocks_border": false,
-        "main_label_color": "#ba745f",
-        "main_title_color": "#ba745f",
-        "main_label_size": 20,
-        "main_title_size": 80,
-        "bottom_title_size": 34,
-        "main_label_size_mobile": 14,
-        "main_title_size_mobile": 28,
-        "bottom_title_size_mobile": 18,
-        "items_gap": 54
+        "caption": "",
+        "heading": "<strong>Christmas Trees</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
-    "banner_with_text_KWDizd": {
-      "type": "banner-with-text",
-      "name": "Custom Banner Text",
-      "settings": {
-        "bg_image": "shopify://shop_images/Salon_navidad_in_detalle-min.png",
-        "overlay_color": "#000000",
-        "bg_color": "#161f3a",
-        "overlay_opacity": 61,
-        "padding_top": 100,
-        "padding_bottom": 40,
-        "text_align": "center",
-        "main_label": "",
-        "main_title": "<p><em>From Landmarks to Living Rooms</em></p><p>You've already seen our work. Now you can bring it home.</p>",
-        "bottom_title": "<p>What started as a family passion became a legacy of light.  Over the past 20+ years, the Martini family has helped iluminate some of the most iconic public spaces and celebrations in the country.</p>",
-        "enable_blocks_border": true,
-        "main_label_color": "#ffffff",
-        "main_title_color": "#ffffff",
-        "main_label_size": 18,
-        "main_title_size": 28,
-        "bottom_title_size": 32,
-        "main_label_size_mobile": 14,
-        "main_title_size_mobile": 28,
-        "bottom_title_size_mobile": 18,
-        "items_gap": 0
-      }
-    },
-    "custom_cards_X6fBRC": {
-      "type": "custom-cards",
+    "collapsible_content_dnAh3q": {
+      "type": "collapsible-content",
       "blocks": {
-        "card_item_jLPMM6": {
-          "type": "card_item",
+        "collapsible_row_Cpgjjt": {
+          "type": "collapsible_row",
           "settings": {
-            "card_image": "shopify://shop_images/SECTION_3__Image_004__Rockefeller_center.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 74,
-            "card_title": "Rockefeller Center",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": "brilliant"
+            "heading": "How bright are thelights on Via Luci trees?",
+            "icon": "none",
+            "row_content": "<p>Our trees are distinguished by their higher<br/>light density and premium LED engineering. The result is a glow that is not<br/>only brighter, but also longer-lasting and more energy-efficient than standard<br/>holiday lights.</p>",
+            "page": ""
           }
         },
-        "card_item_bk38qR": {
-          "type": "card_item",
+        "collapsible_row_j3nhnY": {
+          "type": "collapsible_row",
           "settings": {
-            "card_image": "shopify://shop_images/SECTION8__Image_003_photo_placeholder.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 46,
-            "card_title": "Radio city Music hall",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
+            "heading": "Are your lights LED, and are they energy-efficient?",
+            "icon": "none",
+            "row_content": "<p>Yes! We exclusively offer premium LED lighting—known for being up to 90% more<br/>efficient than traditional incandescent bulbs. You’ll enjoy brighter,<br/>longer-lasting illumination with significantly lower energy costs and minimal<br/>maintenance. <br/></p>",
+            "page": ""
           }
         },
-        "card_item_ftxyGq": {
-          "type": "card_item",
+        "collapsible_row_CwjLxN": {
+          "type": "collapsible_row",
           "settings": {
-            "card_image": "shopify://shop_images/SECTION8__Image_004_photo_placeholder.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "The Magnificent Mile in Chicago",
-            "card_title_color": "#ffffff",
-            "card_title_size": 24,
-            "card_collection": ""
+            "heading": "What lighting effectsdo you offer?",
+            "icon": "none",
+            "row_content": "<p>SPARKLE™ Color Change Rice Lights shift seamlessly from warm white to multi-color, with a 4:1 twinkle effect. Most pre-lit collections include an RF remote (and in<br/>some cases a foot pedal), giving you instant control over brightness, color,<br/>and effects.</p>",
+            "page": ""
           }
         },
-        "card_item_PE3tjH": {
-          "type": "card_item",
+        "collapsible_row_tQy6jb": {
+          "type": "collapsible_row",
           "settings": {
-            "card_image": "shopify://shop_images/lucyimg_12.jpg",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Marshall Field's Walnut Room",
-            "card_title_color": "#ffffff",
-            "card_title_size": 26,
-            "card_collection": ""
+            "heading": "Are the lights replaceable?",
+            "icon": "none",
+            "row_content": "<p>Yes. Each tree includes replacement bulbs and is designed with protection systems so that if one bulb fails, the rest remain<br/>illuminated.</p>",
+            "page": ""
           }
         },
-        "card_item_Rnm7fU": {
-          "type": "card_item",
+        "collapsible_row_Xpw7kW": {
+          "type": "collapsible_row",
           "settings": {
-            "card_image": "shopify://shop_images/SECTION8__Image_006_photo_placeholder.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Brookfield Zoo",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
+            "heading": "Can I use Via Lucilights outdoors?",
+            "icon": "none",
+            "row_content": "<p>Yes. Lights included in outdoor-rated products (such as porch pots, pathway trees, and garlands) are fully weather-tested for seasonal use. Always check the product details for location suitability.<br/><br/><br/><br/></p>",
+            "page": ""
           }
         },
-        "card_item_n8EFDg": {
-          "type": "card_item",
+        "collapsible_row_MfjBWh": {
+          "type": "collapsible_row",
           "settings": {
-            "card_image": "shopify://shop_images/SECTION8__Image_007_photo_placeholder.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "The Jenning's Osborne Family Spectacle of Lights",
-            "card_title_color": "#ffffff",
-            "card_title_size": 24,
-            "card_collection": ""
-          }
-        },
-        "card_item_8fC3gR": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/SECTION8__Image_008_photo_placeholder.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "Garden Lights at Atlanta Botanical Garden",
-            "card_title_color": "#ffffff",
-            "card_title_size": 23,
-            "card_collection": ""
-          }
-        },
-        "card_item_ArFjiq": {
-          "type": "card_item",
-          "settings": {
-            "card_image": "shopify://shop_images/SECTION8__Image_009_photo_placeholder.png",
-            "card_overlay_color": "#000000",
-            "card_overlay_opacity": 45,
-            "card_title": "The World of Coca-Cola",
-            "card_title_color": "#ffffff",
-            "card_title_size": 31,
-            "card_collection": ""
+            "heading": "Doyour lights require power adapters?",
+            "icon": "none",
+            "row_content": "<p>Most Via Luci strings plug directly into a standard 110 V outlet and don’t need<br/>extra adapters. Specialty styles (e.g., larger or custom-connected systems)<br/>will come with any needed adapters or power supplies.</p>",
+            "page": ""
           }
         }
       },
       "block_order": [
-        "card_item_jLPMM6",
-        "card_item_bk38qR",
-        "card_item_ftxyGq",
-        "card_item_PE3tjH",
-        "card_item_Rnm7fU",
-        "card_item_n8EFDg",
-        "card_item_8fC3gR",
-        "card_item_ArFjiq"
+        "collapsible_row_Cpgjjt",
+        "collapsible_row_j3nhnY",
+        "collapsible_row_CwjLxN",
+        "collapsible_row_tQy6jb",
+        "collapsible_row_Xpw7kW",
+        "collapsible_row_MfjBWh"
       ],
-      "name": "Custom Cards Grid",
+      "name": "t:sections.collapsible_content.presets.name",
       "settings": {
-        "bg_color": "#000000",
-        "bg_image": "shopify://shop_images/bgblack.png",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "bottom_text": "<p>Via Luci brings that same commercial-grade quality to your home so every holiday, every gathering, every quiet evening glows with purpose and beauty.</p>",
-        "bottom_text_color": "#ffffff",
-        "bottom_text_size": 16
+        "caption": "",
+        "heading": "<strong>Lights & Illumination</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
-    "banner_with_text_HximhK": {
-      "type": "banner-with-text",
+    "collapsible_content_ji9Cgw": {
+      "type": "collapsible-content",
       "blocks": {
-        "info_item_NrgPxp": {
-          "type": "info_item",
+        "collapsible_row_hwAKGE": {
+          "type": "collapsible_row",
           "settings": {
-            "item_text_align": "center",
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "<p>The name is a tribute to the next generation, inspired by the family’s traditions, their Italian heritage in Bagni di Lucca, and yes, even their beloved matriarch Noelle, whose name fittingly means Christmas.</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "Do your collections include matching décor?",
+            "icon": "none",
+            "row_content": "<p>Yes. Each Via Luci collection is a complete<br/>suite of coordinated pieces — trees, wreaths, garlands, and porch pots,<br/>designed to bring harmony throughout your home.</p>",
+            "page": ""
           }
         },
-        "info_item_qPrBPg": {
-          "type": "info_item",
+        "collapsible_row_ae6AmF": {
+          "type": "collapsible_row",
           "settings": {
-            "item_text_align": "center",
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "<p>The name is a tribute to the next generation, inspired by the family’s traditions, their Italian heritage in Bagni di Lucca, and yes, even their beloved matriarch Noelle, whose name fittingly means Christmas.</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "Are wreaths andgarlands suitable for outdoor use?",
+            "icon": "none",
+            "row_content": "<p>Yes, many of our wreaths and garlands are<br/>weather rated for covered outdoor use. For areas with direct exposure, we<br/>recommend selecting styles specifically labeled for outdoor placement.</p>",
+            "page": ""
           }
         },
-        "info_item_h9jVc7": {
-          "type": "info_item",
+        "collapsible_row_gGG8a3": {
+          "type": "collapsible_row",
           "settings": {
-            "item_text_align": "center",
-            "item_label": "",
-            "item_title": "",
-            "item_desc": "<p>Whether you choose our nostalgic lights that echo decades past or use modern features that sync with the music that moves you, everything we create is meant to enhance not just your home but the moments of your journey.</p>",
-            "item_label_color": "#ffffff",
-            "item_title_color": "#ffffff",
-            "item_desc_color": "#ba745f",
-            "item_label_size": 14,
-            "item_title_size": 22,
-            "item_desc_size": 13,
-            "item_label_size_mobile": 12,
-            "item_title_size_mobile": 18,
-            "item_desc_size_mobile": 12
+            "heading": "Do you sell unlit wreaths and garlands?",
+            "icon": "none",
+            "row_content": "<p>Yes. Several collections include unlit options, so you can personalize them with your own lights, ribbons, or ornaments.</p>",
+            "page": ""
           }
         }
       },
       "block_order": [
-        "info_item_NrgPxp",
-        "info_item_qPrBPg",
-        "info_item_h9jVc7"
+        "collapsible_row_hwAKGE",
+        "collapsible_row_ae6AmF",
+        "collapsible_row_gGG8a3"
       ],
-      "name": "Custom Banner Text",
+      "name": "t:sections.collapsible_content.presets.name",
       "settings": {
-        "bg_image": "shopify://shop_images/bgblack.png",
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#000000",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "text_align": "center",
-        "main_label": "WHAT VIA LUCI MEANS. A NAME ROOTED IN FAMILY. A MISSION SHAPE BY TRADITION",
-        "main_title": "<p>Via Luci literally means \"Path of Lights\": a fitting reflection of the Martini family's journey.</p>",
-        "bottom_title": "",
-        "enable_blocks_border": false,
-        "main_label_color": "#ba745f",
-        "main_title_color": "#ba745f",
-        "main_label_size": 19,
-        "main_title_size": 54,
-        "bottom_title_size": 34,
-        "main_label_size_mobile": 14,
-        "main_title_size_mobile": 28,
-        "bottom_title_size_mobile": 18,
-        "items_gap": 54
+        "caption": "",
+        "heading": "<strong>Wreaths, Garlands & CoordinatedDécor</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
-    "banner_with_text_Yg4iTU": {
-      "type": "banner-with-text",
-      "name": "Custom Banner Text",
+    "collapsible_content_cX6bQ6": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_cJn8VU": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I shop bycollection to ensure everything matches?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. Our site allows you to browse each collection, so you can easily select coordinating pieces for a unified holiday<br/>design. Each item will come to you in its own box.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KVNGKX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you sellreplacement parts and accessories?",
+            "icon": "none",
+            "row_content": "<p>Yes. We offer replacement parts to give you peace of mind that you will be able to<br/>keep your décor in perfect condition year after year.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_cJn8VU",
+        "collapsible_row_KVNGKX"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
       "settings": {
-        "bg_image": "shopify://shop_images/lightbg.png",
-        "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#000000",
-        "overlay_opacity": 61,
-        "padding_top": 55,
-        "padding_bottom": 65,
-        "text_align": "center",
-        "main_label": "A NEW KIND OF LIGHTING DESTINATION",
-        "main_title": "<p>Not Just a Store. <em><strong>A guide, A community. A spark.</strong></em></p><h2>This site isn’t just a place to shop. It’s a living canvas of ideas, stories, and inspiration to help you create spaces that feel alive and engraving everlasting memories.</h2><h2>Whether you’re wrapping a tree, transforming a patio, or creating something magical with your kids <em>we’re here to help you make it unforgettable</em>.</h2>",
-        "bottom_title": "<p><em><strong>Let's iluminate your next memory. Together.</strong></em></p>",
-        "enable_blocks_border": true,
-        "main_label_color": "#161f3a",
-        "main_title_color": "#161f3a",
-        "main_label_size": 19,
-        "main_title_size": 50,
-        "bottom_title_size": 34,
-        "main_label_size_mobile": 14,
-        "main_title_size_mobile": 28,
-        "bottom_title_size_mobile": 18,
-        "items_gap": 20
+        "caption": "",
+        "heading": "<strong>Ordering & Customization</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_Ffc8De": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_HXtUJP": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How much does shipping cost?",
+            "icon": "none",
+            "row_content": "<p>Shipping is calculated at checkout.</p><p>Receive free shipping on orders over $50.</p><p>Oversized items, such as full-size trees, may carry an additional<br/>handling fee.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_TwdzAx": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How are large trees shipped?",
+            "icon": "none",
+            "row_content": "<p>Trees 7.5’ and under are shipped in a single<br/>box. Trees 9’ and over are shipped in multiple cartons for easier handling.<br/>Each box is carefully packed to ensure the tree arrives safely.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_mnj8g9": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you offerinternational shipping?",
+            "icon": "none",
+            "row_content": "<p>Currently, we ship throughout the United States and Canada. International expansion is planned.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_UM386D": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I scheduledelivery for a specific date?",
+            "icon": "none",
+            "row_content": "<p>Yes. Premium shipping options allow you to<br/>select a delivery window at checkout.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_NA89Vr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Where do you ship from?",
+            "icon": "none",
+            "row_content": "<p>We ship from Omaha, Nebraska </p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_HXtUJP",
+        "collapsible_row_TwdzAx",
+        "collapsible_row_mnj8g9",
+        "collapsible_row_UM386D",
+        "collapsible_row_NA89Vr"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Shipping & Delivery</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_MhBkz3": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_td6baq": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is your returnpolicy?",
+            "icon": "none",
+            "row_content": "<p>Returns are accepted within 30-days of delivery for unused items in original packaging. You can contact us at 888-576-2880.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_7DTxgL": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What if my order arrives damaged?",
+            "icon": "none",
+            "row_content": "<p>Please contact us immediately at 888-576-2880. We will arrange a replacement or refund at no additional cost.<br/></p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_td6baq",
+        "collapsible_row_7DTxgL"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Returns & Exchanges</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_xmb9rm": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_6g3Nnr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Via Luci treesdifficult to assemble?",
+            "icon": "none",
+            "row_content": "<p>Not at all. With Insta-Shape™ branches, Power Pole™ technology, and clear instructions, most trees can be assembled and fluffed in under 30 minutes.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_iBWcNP": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How do I fluff mytree to look full?",
+            "icon": "none",
+            "row_content": "<p>Begin at the base and gently angle each branch outward. Taking time with shaping ensures a lush, natural silhouette.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_f9eMix": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How should I store mytree and décor?",
+            "icon": "none",
+            "row_content": "<p>Store items in a cool, dry place in their<br/>original packaging. Avoid humid spaces such as basements or attics. </p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_YHPWgM": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What if a light isn’t working or goes out?",
+            "icon": "none",
+            "row_content": "<p>Our LEDs are designed to resist corrosion and weather damage—last for seasons. If<br/>an issue arises, our warranty covers eligible defects for up to three years,<br/>subject to our return policy.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_6g3Nnr",
+        "collapsible_row_iBWcNP",
+        "collapsible_row_f9eMix",
+        "collapsible_row_YHPWgM"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Setup, Care & Storage</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_N9TKxa": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_HEK6YA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What payment methods do you accept?",
+            "icon": "none",
+            "row_content": "<p>We accept Visa, Master Card, American Express, and Discover.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_j4VgyK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is checkout secure?",
+            "icon": "none",
+            "row_content": "<p>Yes. All transactions are protected with<br/>advanced encryption and PCI-compliant processing.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_HEK6YA",
+        "collapsible_row_j4VgyK"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Payment & Security</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_VQ6Bk3": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_G4eFwA": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I share my decorated space?",
+            "icon": "none",
+            "row_content": "<p>Absolutely. Tag us on social media or upload directly through our site.<br/>Select entries that may be featured in our community gallery. </p><p>·       Facebook| <a href=\"https://www.facebook.com/ViaLuciLights\"><strong>ViaLuciLights</strong></a></p><p>·       Instagram|<strong> @Via.Luci</strong></p><p>·       TikTok |<strong> @ViaLuci1</strong></p><p>·      Pinterest | <strong>@ViaLuci1</strong></p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_G4eFwA"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Support & Community</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collapsible_content_4PpqKL": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_tjHmrF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What makes Via Luci unique?",
+            "icon": "none",
+            "row_content": "<p>Via Luci is built around the belief that light<br/>creates lasting memories. From densely lit trees with brighter, longer-lasting<br/>LEDs to curated collections that coordinate across every space in your home, we<br/>craft décor for those who expect the very best.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_k48iiQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are your products sustainable?",
+            "icon": "none",
+            "row_content": "<p>Our décor is designed for multi-season use, reducing waste and frequent<br/>replacement. We use energy-efficient LEDs and recyclable packaging wherever<br/>possible.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_tjHmrF",
+        "collapsible_row_k48iiQ"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "<strong>Brand Promise & Sustainability</strong>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
   "order": [
     "main",
-    "banner_with_text_cfNpan",
-    "banner_with_text_H7xYPQ",
-    "banner_with_text_KWDizd",
-    "custom_cards_X6fBRC",
-    "banner_with_text_HximhK",
-    "banner_with_text_Yg4iTU"
+    "rich_text_wqGPFk",
+    "collapsible_content_WQKthj",
+    "collapsible_content_dnAh3q",
+    "collapsible_content_ji9Cgw",
+    "collapsible_content_cX6bQ6",
+    "collapsible_content_Ffc8De",
+    "collapsible_content_MhBkz3",
+    "collapsible_content_xmb9rm",
+    "collapsible_content_N9TKxa",
+    "collapsible_content_VQ6Bk3",
+    "collapsible_content_4PpqKL"
   ]
 }

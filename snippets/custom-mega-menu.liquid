@@ -58,7 +58,7 @@
                             data-panel="{{ panel_id }}"
                             data-has-panel="{% if cfg %}true{% else %}false{% endif %}"
                           >
-                            {{ childlink.title }}
+                            By {{ childlink.title }}
                           </a>
                         </li>
                       {%- endfor -%}
@@ -346,6 +346,7 @@
 </div>
 
 <style>
+
   .shop-by{
     padding: 10px 8px;
     font-weight: bold;
@@ -444,16 +445,15 @@
     transition:
       flex .35s ease,
       transform .35s ease,
-      box-shadow .35s ease,
       opacity .25s ease;
   }
   .megamenu-pb__image-wrap{
     position:relative;
     aspect-ratio: 12 / 16;
     overflow:hidden;
-    border-radius:2.4rem;
+    border-radius:8px;
     background:#141414;
-    transition: transform .35s ease, box-shadow .35s ease;
+    transition: transform .35s ease;
   }
   .megamenu-pb__image-wrap img{
     width:100%; height:100%;
@@ -468,7 +468,7 @@
   @media (min-width: 990px){
     .megamenu-pb__featured--expanding.has-active .megamenu-pb__card{
       flex:0.8;
-      opacity:0.6;
+      opacity:1;
     }
     .megamenu-pb__featured--expanding.has-active .megamenu-pb__card.is-active{
       flex:2.4;
@@ -476,7 +476,7 @@
     }
     .megamenu-pb__card.is-active .megamenu-pb__image-wrap{
       transform:translateY(-4px);
-      box-shadow:0 12px 30px rgba(0,0,0,0.45);
+      {% comment %} box-shadow:0 12px 30px rgba(0,0,0,0.45); {% endcomment %}
     }
   }
 
@@ -488,7 +488,7 @@
 
   .megamenu-cat{
     display:grid;
-    grid-template-columns: minmax(0,430px) minmax(0,1fr);
+    grid-template-columns: minmax(0,530px) minmax(0,1fr);
     gap:40px;
     align-items:flex-start;
     margin-top: 20px;
@@ -496,9 +496,10 @@
 
   .megamenu-cat__thumbs{
     display:grid;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(5,minmax(0,1fr));
     gap:18px 20px;
   }
+
   .megamenu-cat__thumb{
     border:0;
     background:none;
@@ -507,35 +508,61 @@
     cursor:pointer;
     color:inherit;
   }
+
+  /* Círculo base: borde fino + padding para separar imagen */
   .megamenu-cat__thumb-image{
     display:block;
     width:100%;
     max-width:130px;
     margin:0 auto 8px;
     border-radius:999px;
-    overflow:hidden;
-    background:#141414;
     aspect-ratio:1/1;
+    padding:4px;                       /* espacio entre imagen y borde */
+    border:1px solid rgba(255,255,255,.35); /* borde fino siempre visible */
+    overflow:hidden;
+    transition:
+      border-color .25s ease,
+      box-shadow .25s ease,
+      transform .25s ease;
   }
+
   .megamenu-cat__thumb-image img{
-    width:100%; height:100%; object-fit:cover; display:block;
-  }
-  .megamenu-cat__thumb-placeholder{
-    width:100%; height:100%;
+    width:100%;
+    height:100%;
+    object-fit:cover;
     display:block;
+    border-radius:999px;                /* asegura círculo perfecto */
+  }
+
+  .megamenu-cat__thumb-placeholder{
+    width:100%;
+    height:100%;
+    display:block;
+    border-radius:999px;
     background:linear-gradient(135deg,#333,#555);
   }
+
   .megamenu-cat__thumb-label{
     font-size:11px;
-    text-transform:uppercase;
+    text-transform:capitalize;
     letter-spacing:.08em;
   }
-  .megamenu-cat__thumb.is-active .megamenu-cat__thumb-image{
-    box-shadow:
-      0 0 0 3px rgba(255,255,255,.75),
-      0 10px 24px rgba(0,0,0,.45);
-    transform:translateY(-2px);
+
+.megamenu-cat__thumb:hover .megamenu-cat__thumb-image,
+.megamenu-cat__thumb:focus-visible .megamenu-cat__thumb-image,
+.megamenu-cat__thumb.is-active .megamenu-cat__thumb-image{
+  border-color:#ffffff;
+  transform:translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.95),   /* anillo extra muy fino */
+    0 0 22px rgba(255,255,255,.45),    /* glow cercano */
+    0 0 60px rgba(255,255,255,.35);    /* halo más extendido */
+}
+
+  .megamenu-cat__thumb:focus-visible{
+    outline:none;
   }
+
 
   .megamenu-cat__hero-wrap{
     position:relative;
@@ -548,7 +575,7 @@
     opacity:0;
     visibility:hidden;
     pointer-events:none;
-    border-radius:2.4rem;
+    border-radius:14px;
     overflow:hidden;
     text-decoration:none;
     color:#fff;
@@ -600,10 +627,14 @@
      Layout avanzado Season / Brand / Collection
      (no toca Category)
   ================================ */
+  .optionB__panel .megamenu-pb__list > li.megamenu-pb__item:first-of-type > a.megamenu-pb__link {
+    margin-top: 20px !important;
+  }
+
 
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__grid {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 180px 1fr;
     gap: 24px;
   }
   .optionB__panel .megamenu-pb__grid {
@@ -611,8 +642,8 @@
   }
   
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__nav {
-    padding-right: 24px;
-    border-right: 1px solid rgba(255,255,255,0.15);
+    padding-right: 0;
+    border-right: 0;
     max-height: 54vh;
     overflow: auto;
   }
@@ -629,9 +660,10 @@
 
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link {
     display: block;
-    padding: 10px 8px;
+    padding: 4px 8px;
     text-decoration: none;
     font-size: 12px;
+    color: #FFFFFF;
   }
 
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__link.is-active {
@@ -658,13 +690,12 @@
     color: inherit;
     flex: 1 1 0;
     min-width: 0;
-    border-radius: 24px;
+    border-radius: 8px;
     overflow: hidden;
     transition:
       flex 0.4s ease,
       transform 0.35s ease,
-      opacity 0.3s ease,
-      box-shadow 0.35s ease;
+      opacity 0.3s ease;
   }
 
   .optionB__panel:not(.optionB__panel--category) .megamenu-pb__image-wrap {
@@ -691,16 +722,11 @@
   }
 
   /* Overlay para legibilidad del título */
-  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__card::after {
+  .optionB__panel:not(.optionB__panel--category) .is-active::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      90deg,
-      rgba(0,0,0,.85) 0%,
-      rgba(0,0,0,.35) 35%,
-      rgba(0,0,0,0) 100%
-    );
+    background: linear-gradient(174deg,rgba(1, 5, 8, 1) 0%, rgba(7, 8, 7, 1) 0%, rgba(8, 8, 4, 0.03) 20%);
     pointer-events: none;
   }
 
@@ -716,7 +742,7 @@
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
+    text-transform: capitalize;
     white-space: nowrap;
     text-align: center;
     padding: 0 10px;
@@ -732,9 +758,9 @@
   /* Título cuando la card está expandida (hero) */
   .optionB__panel:not(.optionB__panel--category)
   .megamenu-pb__card.is-expanded .megamenu-pb__title {
-    left: 24px;
+    left: 14px;
     bottom: auto;
-    top: 22px;
+    top: 12px;
     transform: none;
     text-align: left;
     white-space: normal;
@@ -745,14 +771,14 @@
     .optionB__panel:not(.optionB__panel--category)
     .megamenu-pb__featured.has-active .megamenu-pb__card {
       flex: 0.7;
-      opacity: 0.65;
+      opacity: 1;
     }
 
     .optionB__panel:not(.optionB__panel--category)
     .megamenu-pb__featured.has-active .megamenu-pb__card.is-expanded {
       flex: 3;
       opacity: 1;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+      {% comment %} box-shadow: 0 18px 40px rgba(0,0,0,0.55); {% endcomment %}
     }
 
     .optionB__panel:not(.optionB__panel--category)
@@ -785,10 +811,29 @@
       padding: 10px 0 0;
     }
   }
+
+  .header__inline-menu .mega-menu > summary .icon {
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+
+  .header__inline-menu .mega-menu:hover > summary .icon,
+  .header__inline-menu .mega-menu[open] > summary .icon,
+  .header__inline-menu .mega-menu > summary:focus-visible .icon {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+
+
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+
+    // Media query para desktop (evitar interferir en mobile)
+    var desktopMQ = window.matchMedia('(min-width: 990px)');
 
     /* ========== DESKTOP MEGA ========== */
     document.querySelectorAll('.mega-menu').forEach(function (mega) {
@@ -810,6 +855,10 @@
 
       /* ------- Season/Brand/Collection: acordeón horizontal ------- */
       function initExpanding(panel) {
+        // evitar inicializar 2 veces
+        if (panel.dataset.expandingInit === 'true') return;
+        panel.dataset.expandingInit = 'true';
+
         var featured = panel.querySelector('.megamenu-pb__featured--expanding, .megamenu-pb__featured');
         if (!featured) return;
 
@@ -854,6 +903,10 @@
 
       /* ------- Category: círculos + hero ------- */
       function initCategory(panel) {
+        // evitar doble init
+        if (panel.dataset.categoryInit === 'true') return;
+        panel.dataset.categoryInit = 'true';
+
         var thumbs = panel.querySelectorAll('.megamenu-cat__thumb');
         var heroes = panel.querySelectorAll('.megamenu-cat__hero');
         if (!thumbs.length || !heroes.length) return;
@@ -877,7 +930,7 @@
         });
       }
 
-      /* ------- Activar tab ------- */
+      /* ------- Activar tab (Season / Category / Collection) ------- */
       function activateTab(tab) {
         var target = tab.getAttribute('data-panel');
 
@@ -912,15 +965,26 @@
         }
       }
 
-      /* ------- Inicialización al cargar: colapsado hasta que se haga click en una tab ------- */
+      /* ------- Inicialización al cargar: colapsado hasta que se abra ------- */
       setHeights(null);
 
       tabs.forEach(function (tab) {
         var hasPanel = tab.getAttribute('data-has-panel') === 'true';
         if (!hasPanel) return;
 
+        // CLICK → sigue funcionando como antes
         tab.addEventListener('click', function (e) {
           e.preventDefault();
+          activateTab(tab);
+        });
+
+        // HOVER en desktop → también cambia de panel
+        tab.addEventListener('mouseenter', function () {
+          if (!desktopMQ.matches) return;
+          activateTab(tab);
+        });
+        tab.addEventListener('focus', function () {
+          if (!desktopMQ.matches) return;
           activateTab(tab);
         });
       });
@@ -937,6 +1001,21 @@
         } else {
           wrap.style.height = '0px';
         }
+      });
+
+      /* ------- ABRIR / CERRAR MEGA POR HOVER (desktop) ------- */
+      var hoverTimeout;
+      mega.addEventListener('mouseenter', function () {
+        if (!desktopMQ.matches) return;
+        clearTimeout(hoverTimeout);
+        mega.open = true;
+      });
+
+      mega.addEventListener('mouseleave', function () {
+        if (!desktopMQ.matches) return;
+        hoverTimeout = setTimeout(function () {
+          mega.open = false;
+        }, 180);
       });
     });
 
