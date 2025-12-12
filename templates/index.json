@@ -105,6 +105,7 @@
         "slide_kFcM3D",
         "slide_UWBCqz"
       ],
+      "disabled": true,
       "name": "t:sections.slideshow.presets.name",
       "settings": {
         "layout": "full_bleed",
@@ -472,6 +473,7 @@
         "tab_PfPUTJ",
         "tab_GGU467"
       ],
+      "disabled": true,
       "name": "Custom Tabs Carousel",
       "settings": {
         "heading": "",
@@ -762,6 +764,7 @@
         "card_mRx7Nr",
         "card_pdJE7n"
       ],
+      "disabled": true,
       "name": "Custom Pinterest Grid",
       "settings": {
         "heading": "<p>The most beautiful memories are wrapped in <strong>warmth, wonder and light.</strong></p>",
@@ -779,11 +782,112 @@
         "color_scheme": "",
         "gap": 16
       }
+    },
+    "slideshow_gccedE": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_pTNXFn": {
+          "type": "slide",
+          "settings": {
+            "media_type": "video",
+            "video_file": "shopify://files/videos/vl.mp4",
+            "external_video": "",
+            "video_mp4_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "image_overlay_opacity": 0,
+            "overlay_color": "#000000",
+            "heading": "",
+            "bold_text_color": "#ba745f",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "lucy_style_enabled": false,
+            "show_text_box": false,
+            "box_opacity": 0,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
+          }
+        }
+      },
+      "block_order": [
+        "slide_pTNXFn"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "image_with_text_zRrHhK": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_mX3Pyh": {
+          "type": "heading",
+          "settings": {
+            "heading": "Welcome to the world of Via Luci",
+            "heading_size": "h1"
+          }
+        },
+        "text_Fbp6Ua": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We’re putting the final touches on the Via Luci™ online shopping experience.<br/>Until then, you can shop our <a href=\"https://www.amazon.com/dp/B0FXXZGNBS?th=1\" title=\"https://www.amazon.com/dp/B0FXXZGNBS?th=1\"><strong>7.5' King Pine Sparkle Tree</strong></a> by Holiday Bright Lights(Via Luci's Parent Company) on Amazon</p><p>In the meantime, we would love to hear what you love about the holidays! Complete the form below and we will be sure to inform you when our Via Luci site is live! </p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_mX3Pyh",
+        "text_Fbp6Ua"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/primary_logo_-full_color.svg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "contact_form_japrmK": {
+      "type": "contact-form",
+      "name": "t:sections.contact-form.presets.name",
+      "settings": {
+        "heading": "Join the celebration",
+        "heading_size": "h1",
+        "color_scheme": "",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
     "slideshow_X7rV8j",
     "custom_tabs_carousel_UfnFR6",
-    "custom_pinteres_grid_GgwNmP"
+    "custom_pinteres_grid_GgwNmP",
+    "slideshow_gccedE",
+    "image_with_text_zRrHhK",
+    "contact_form_japrmK"
   ]
 }
