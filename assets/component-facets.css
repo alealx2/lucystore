@@ -1221,10 +1221,12 @@ summary .icon-caret{
   .facets-vertical .facet-checkbox input[type='checkbox'] {
     z-index: 0;
     background: #F5F2F2;
-    border: 1px solid #262626;
-    border-radius: 2px;    
+    border: 1px solid #161F3A;
+    border-radius: 4px;    
   }
-
+  .facet-checkbox>svg{
+    border-radius: 4px;    
+  }
   .facets-vertical .active-facets facet-remove:last-of-type {
     margin-bottom: 1rem;
   }

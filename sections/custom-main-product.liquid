@@ -401,6 +401,28 @@
   </div>
 
   <style>
+    .button{
+        border-radius: 8px;
+        color: #FFFFFF;  
+        font-family: Lato, sans-serif;
+        text-transform: uppercase;
+        background-color: #161F3A;
+        border: none;
+    }
+    .via-pdp-price__badge{
+        font-size:12px;
+        padding: 5px 10px;
+        border-radius: 8px;
+        color: #FFFFFF;  
+        font-family: Lato, sans-serif;
+        text-transform: uppercase;
+        background-color: #161F3A;
+        border: none;
+    }    
+    .button:after, .button:before, .button:hover{
+      border: none !important;
+      box-shadow: none !important;
+    }    
     .vertical-nav{
       z-index: 1;
       opacity: .8; 
@@ -427,9 +449,7 @@
     .via-pdp-main-nav--next svg, .via-pdp-main-nav--prev svg{
       color: #161F3A;
     }
-    .button--full-width, .button:after{
-        border-radius: 8px;
-    }
+
     .quantity:before, .quantity:after{
         background: transparent;
         border-radius: 8px;
@@ -655,7 +675,8 @@
       font-size: clamp(28px, 3vw, 40px);
       line-height: 1.1;
       margin: 0 0 12px;
-      color: #1e2430;
+      color: #161F3A;
+      font-weight: bold;
     }
 
     .via-pdp-rating {
@@ -669,23 +690,16 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 24px;
-      font-size: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #161F3A;
     }
 
     .via-pdp-price__compare {
       text-decoration: line-through;
-      color: #b9b0a6;
-      font-size: 16px;
-    }
-
-    .via-pdp-price__badge {
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #000;
-      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      color: rgba(149, 147, 147, 1)
     }
 
     .via-pdp-qty {

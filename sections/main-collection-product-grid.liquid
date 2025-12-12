@@ -26,7 +26,28 @@
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    background-color: {{section.settings.bg}};
+
+    {% if section.settings.bg_image != blank %}
+      /* Imagen de fondo de la sección */
+      background-image: url({{ section.settings.bg_image | image_url: width: 2000 }});
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: {{ section.settings.bg }};
+    {% else %}
+      /* Solo color de fondo */
+      background-color: {{ section.settings.bg }};
+    {% endif %}
+  }
+
+  /* CONTROL DEL ESPACIADO ENTRE PRODUCTOS
+     Usamos las variables que ya usa Dawn para calcular los márgenes,
+     en vez de usar gap (que rompe el layout flex). */
+  .section-{{ section.id }}-padding .product-grid {
+    --grid-desktop-horizontal-spacing: {{ section.settings.grid_gap | divided_by: 2 | round: 0 }}px;
+    --grid-desktop-vertical-spacing: {{ section.settings.grid_gap | divided_by: 2 | round: 0 }}px;
+    --grid-mobile-horizontal-spacing: {{ section.settings.grid_gap | divided_by: 2 | round: 0 }}px;
+    --grid-mobile-vertical-spacing: {{ section.settings.grid_gap | divided_by: 2 | round: 0 }}px;
   }
 
   @media screen and (min-width: 750px) {
@@ -37,11 +58,14 @@
   }
 {%- endstyle -%}
 
+
+
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
-      <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
+    {% comment %} Insertar buscador aqui  {% endcomment %}
+      {% comment %} <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
         <form class="facets-vertical-form" id="FacetSortForm">
           <div class="facet-filters sorting caption">
             <div class="facet-filters__field">
@@ -95,7 +119,7 @@
             {%- render 'loading-spinner' -%}
           </div>
         </form>
-      </facet-filters-form>
+      </facet-filters-form> {% endcomment %}
     {%- endif -%}
 
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
@@ -197,8 +221,24 @@
 </div>
 
 <style>
-  .icon-plus{
-    
+  .card__media .media img{
+    object-fit: contain;
+  }
+  .card--card, .card--standard .card__inner{
+    background: #ffffff;
+    border-radius: 8px;    
+  }
+  .card__heading{
+    color: #161F3A;  
+    font-family: Lato, sans-serif;
+    text-transform: capitalize;
+    font-size: 14px;
+  }
+  .card-information>*:not(.visually-hidden:first-child)+*:not(.rating):not(.card__information-volume-pricing-note), .price__sale span{
+    font-size: 14px;
+    font-weight: bold;
+    color: #161F3A;
+    font-family: Lato, sans-serif;
   }
 </style>
 
@@ -408,11 +448,26 @@
       "content": "t:sections.all.padding.section_padding_heading"
     },
     {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Imagen de fondo sección (product grid)"
+    },
+    {
       "type": "color",
       "id": "bg",
-      "label": "Color de fondo seccion",
+      "label": "Color de fondo sección",
       "default": "#F5F2F2"
-    },    
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacio entre productos (gap)",
+      "default": 24
+    },
     {
       "type": "range",
       "id": "padding_top",
