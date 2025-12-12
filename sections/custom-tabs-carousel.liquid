@@ -1157,10 +1157,21 @@
         fullBtn.addEventListener('click', function(e){
           e.preventDefault();
           e.stopPropagation();
+
           pauseVideo();
-          openModalFromItem(item, video);
+
+          if(video.requestFullscreen){
+            video.requestFullscreen();
+          } else if(video.webkitRequestFullscreen){
+            video.webkitRequestFullscreen(); 
+          } else if(video.msRequestFullscreen){
+            video.msRequestFullscreen(); 
+          } else {
+            openModalFromItem(item, video);
+          }
         });
       }
+
 
       item._pauseVideo = pauseVideo;
       item.dataset.videoBound = '1';

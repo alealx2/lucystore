@@ -1,0 +1,676 @@
+{% comment %}
+  Custom Login – replica layout (card centered + 2 columns + socials)
+  - Usa form 'customer_login' + recover
+  - Soporta login con Shop (si está disponible) y botones sociales custom
+{% endcomment %}
+
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<section id="custom-login-{{ section.id }}" class="custom-login custom-login-{{ section.id }}">
+  {%- comment -%} Background (image + overlay) {%- endcomment -%}
+  <div class="custom-login__bg">
+    {% if section.settings.bg_image != blank %}
+      {{ section.settings.bg_image | image_url: width: 2400 | image_tag: loading: 'lazy', class: 'custom-login__bg-img' }}
+    {% endif %}
+    <div class="custom-login__bg-overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="custom-login__inner">
+    <div class="custom-login__card">
+      <div class="custom-login__card-inner">
+
+        {%- comment -%} LEFT – Login / Recover {%- endcomment -%}
+        <div class="custom-login__col custom-login__col--left">
+
+          {% if section.settings.left_small_label != blank %}
+            <p class="custom-login__small">{{ section.settings.left_small_label }}</p>
+          {% endif %}
+
+          <h2 class="custom-login__title">
+            {{ section.settings.left_heading | default: 'Log in to your account' }}
+          </h2>
+
+          {%- comment -%} RECOVER (hidden until hash #recover) {%- endcomment -%}
+          <div id="recover" class="custom-login__recover" tabindex="-1">
+            <p class="custom-login__hint">
+              {{ section.settings.recover_text | default: 'We will send you an email to reset your password.' }}
+            </p>
+
+            {%- form 'recover_customer_password' -%}
+              {% assign recover_success = form.posted_successfully? %}
+
+              <div class="custom-login__field">
+                <label class="custom-login__label" for="RecoverEmail">{{ 'customer.login_page.email' | t }}</label>
+                <input
+                  class="custom-login__input"
+                  type="email"
+                  value=""
+                  name="email"
+                  id="RecoverEmail"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  placeholder="{{ 'customer.login_page.email' | t }}"
+                  {% if form.errors %}
+                    aria-invalid="true"
+                    aria-describedby="RecoverEmail-email-error"
+                    autofocus
+                  {% endif %}
+                >
+              </div>
+
+              {%- if form.errors -%}
+                <small id="RecoverEmail-email-error" class="custom-login__message custom-login__message--error">
+                  <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+                  {{ form.errors.messages.form }}
+                </small>
+              {%- endif -%}
+
+              <button type="submit" class="custom-login__btn custom-login__btn--primary">
+                {{ section.settings.recover_btn_label | default: 'Submit' }}
+              </button>
+
+              <a class="custom-login__link" href="#login">
+                {{ section.settings.recover_cancel_label | default: 'Cancel' }}
+              </a>
+            {%- endform -%}
+          </div>
+
+          {%- comment -%} LOGIN {%- endcomment -%}
+          <div id="login" class="custom-login__login" tabindex="-1">
+            {%- if recover_success == true -%}
+              <div class="custom-login__message custom-login__message--success" tabindex="-1" autofocus>
+                <span class="svg-wrapper">{{- 'icon-success.svg' | inline_asset_content -}}</span>
+                {{ 'customer.recover_password.success' | t }}
+              </div>
+            {%- endif -%}
+
+            {%- form 'customer_login', novalidate: 'novalidate' -%}
+              {%- if form.errors -%}
+                <div class="custom-login__message custom-login__message--error" tabindex="-1" autofocus>
+                  <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+                  {{ 'templates.contact.form.error_heading' | t }}
+                </div>
+                <div class="custom-login__errors">
+                  {{ form.errors | default_errors }}
+                </div>
+              {%- endif -%}
+
+              <div class="custom-login__field">
+                <label class="custom-login__label" for="CustomerEmail">{{ 'customer.login_page.email' | t }}</label>
+                <input
+                  class="custom-login__input"
+                  type="email"
+                  name="customer[email]"
+                  id="CustomerEmail"
+                  autocomplete="email"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  placeholder="{{ 'customer.login_page.email' | t }}"
+                  {% if form.errors contains 'form' %} aria-invalid="true" {% endif %}
+                >
+              </div>
+
+              {%- if form.password_needed -%}
+                <div class="custom-login__field">
+                  <label class="custom-login__label" for="CustomerPassword">{{ 'customer.login_page.password' | t }}</label>
+                  <div class="custom-login__password">
+                    <input
+                      class="custom-login__input custom-login__input--password"
+                      type="password"
+                      value=""
+                      name="customer[password]"
+                      id="CustomerPassword"
+                      autocomplete="current-password"
+                      placeholder="{{ 'customer.login_page.password' | t }}"
+                      {% if form.errors contains 'form' %} aria-invalid="true" {% endif %}
+                    >
+                    <button type="button" class="custom-login__pw-toggle" data-pw-toggle aria-label="Show password">
+                      {{ section.settings.show_label | default: 'Show' }}
+                    </button>
+                  </div>
+                </div>
+
+                <a class="custom-login__link custom-login__link--small" href="#recover">
+                  {{ 'customer.login_page.forgot_password' | t }}
+                </a>
+              {%- endif -%}
+
+              <button type="submit" class="custom-login__btn custom-login__btn--primary">
+                {{ section.settings.login_btn_label | default: 'Login' }}
+              </button>
+
+              <p class="custom-login__footer">
+                {{ section.settings.no_account_text | default: "Don't have any account?" }}
+                <a class="custom-login__link custom-login__link--inline" href="{{ routes.account_register_url }}">
+                  {{ section.settings.signup_label | default: 'Sign up' }}
+                </a>
+              </p>
+            {%- endform -%}
+          </div>
+        </div>
+
+        {%- comment -%} Divider (desktop) {%- endcomment -%}
+        <div class="custom-login__divider" aria-hidden="true"></div>
+
+        {%- comment -%} RIGHT – Socials / Shop login {%- endcomment -%}
+        <div class="custom-login__col custom-login__col--right">
+          {% if section.settings.right_small_label != blank %}
+            <p class="custom-login__small">{{ section.settings.right_small_label }}</p>
+          {% endif %}
+
+          <h3 class="custom-login__title custom-login__title--right">
+            {{ section.settings.right_heading | default: 'Log in with' }}
+          </h3>
+
+          {% if section.settings.enable_shop_login_button %}
+            {%- if shop.features.login_with_shop_classic_customer_accounts? -%}
+              <div class="custom-login__shop">
+                {{ shop | login_button }}
+              </div>
+              <div class="custom-login__or">{{ section.settings.or_label | default: 'or' }}</div>
+            {%- endif -%}
+          {% endif %}
+
+          <div class="custom-login__socials">
+            {% if section.settings.enable_google %}
+              <a class="custom-login__social custom-login__social--google" href="{{ section.settings.google_url | default: '#' }}">
+                <span class="custom-login__social-icon">G</span>
+                <span>{{ section.settings.google_label | default: 'Continue with Google' }}</span>
+              </a>
+            {% endif %}
+
+            {% if section.settings.enable_apple %}
+              <a class="custom-login__social custom-login__social--apple" href="{{ section.settings.apple_url | default: '#' }}">
+                <span class="custom-login__social-icon"></span>
+                <span>{{ section.settings.apple_label | default: 'Continue with Apple' }}</span>
+              </a>
+            {% endif %}
+
+            {% if section.settings.enable_microsoft %}
+              <a class="custom-login__social custom-login__social--microsoft" href="{{ section.settings.microsoft_url | default: '#' }}">
+                <span class="custom-login__social-icon">□</span>
+                <span>{{ section.settings.microsoft_label | default: 'Continue with Microsoft' }}</span>
+              </a>
+            {% endif %}
+
+            {% if section.settings.enable_facebook %}
+              <a class="custom-login__social custom-login__social--facebook" href="{{ section.settings.facebook_url | default: '#' }}">
+                <span class="custom-login__social-icon">f</span>
+                <span>{{ section.settings.facebook_label | default: 'Continue with Facebook' }}</span>
+              </a>
+            {% endif %}
+
+            {% if section.settings.enable_instagram %}
+              <a class="custom-login__social custom-login__social--instagram" href="{{ section.settings.instagram_url | default: '#' }}">
+                <span class="custom-login__social-icon">◎</span>
+                <span>{{ section.settings.instagram_label | default: 'Continue with Instagram' }}</span>
+              </a>
+            {% endif %}
+
+            {% if section.settings.enable_pinterest %}
+              <a class="custom-login__social custom-login__social--pinterest" href="{{ section.settings.pinterest_url | default: '#' }}">
+                <span class="custom-login__social-icon">P</span>
+                <span>{{ section.settings.pinterest_label | default: 'Continue with Pinterest' }}</span>
+              </a>
+            {% endif %}
+
+            {% if section.settings.enable_amazon %}
+              <a class="custom-login__social custom-login__social--amazon" href="{{ section.settings.amazon_url | default: '#' }}">
+                <span class="custom-login__social-icon">a</span>
+                <span>{{ section.settings.amazon_label | default: 'Continue with Amazon' }}</span>
+              </a>
+            {% endif %}
+          </div>
+
+          {%- if shop.checkout.guest_login and section.settings.enable_guest -%}
+            <div class="custom-login__guest">
+              <div class="custom-login__hr"></div>
+              <h4 class="custom-login__guest-title">{{ section.settings.guest_title | default: 'Continue as guest' }}</h4>
+              {%- form 'guest_login' -%}
+                <button type="submit" class="custom-login__btn custom-login__btn--secondary">
+                  {{ section.settings.guest_btn_label | default: 'Continue' }}
+                </button>
+              {%- endform -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .custom-login-{{ section.id }}{
+      position:relative;
+      overflow:hidden;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__bg{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .custom-login-{{ section.id }} .custom-login__bg-img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .custom-login-{{ section.id }} .custom-login__bg-overlay{
+      position:absolute;
+      inset:0;
+      background: {{ section.settings.overlay_color }};
+      opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    }
+
+    .custom-login-{{ section.id }} .custom-login__inner{
+      position:relative;
+      z-index:1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-inline: 16px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__card{
+      max-width: {{ section.settings.card_max_width }}px;
+      margin: 0 auto;
+      background: {{ section.settings.card_bg }};
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(0,0,0,.45);
+      padding: 44px 28px;
+    }
+
+    @media (min-width: 900px){
+      .custom-login-{{ section.id }} .custom-login__card{
+        padding: 54px 64px;
+      }
+    }
+
+    .custom-login-{{ section.id }} .custom-login__card-inner{
+      display:flex;
+      flex-direction:column;
+      gap:28px;
+    }
+    @media (min-width: 900px){
+      .custom-login-{{ section.id }} .custom-login__card-inner{
+        flex-direction:row;
+        gap:44px;
+        align-items:stretch;
+      }
+    }
+
+    .custom-login-{{ section.id }} .custom-login__col{
+      flex: 1 1 0;
+      color:#111;
+    }
+    .custom-login-{{ section.id }} .custom-login__col--left{
+      max-width: 520px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__divider{
+      display:none;
+    }
+    @media (min-width: 900px){
+      .custom-login-{{ section.id }} .custom-login__divider{
+        display:block;
+        width:1px;
+        background: rgba(20,20,30,0.18);
+        flex:0 0 1px;
+      }
+    }
+
+    .custom-login-{{ section.id }} .custom-login__small{
+      margin:0 0 8px;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: {{ section.settings.accent }};
+    }
+
+    .custom-login-{{ section.id }} .custom-login__title{
+      margin:0 0 18px;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height:1.15;
+      font-weight: 700;
+      font-style: italic;
+      color: {{ section.settings.heading_color }};
+    }
+
+    .custom-login-{{ section.id }} .custom-login__title--right{
+      margin-bottom: 14px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__hint{
+      margin: 0 0 14px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__field{
+      margin-bottom: 14px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__label{
+      display:block;
+      margin:0 0 6px;
+      font-size: 14px;
+      color: {{ section.settings.label_color }};
+      font-weight: 500;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__input{
+      width:100%;
+      border-radius: 8px;
+      border: 1px solid {{ section.settings.input_border }};
+      background: {{ section.settings.input_bg }};
+      padding: 12px 14px;
+      font-size: 14px;
+      box-shadow:none;
+      outline:none;
+      color:#111;
+    }
+    .custom-login-{{ section.id }} .custom-login__input:focus{
+      border-color: {{ section.settings.input_border_focus }};
+      box-shadow: 0 0 0 1px {{ section.settings.input_border_focus }};
+      background:#fff;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__password{
+      position:relative;
+    }
+    .custom-login-{{ section.id }} .custom-login__pw-toggle{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform: translateY(-50%);
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      font-size:12px;
+      color:#6b6b78;
+      padding:4px 6px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__btn{
+      width:100%;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor:pointer;
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .custom-login-{{ section.id }} .custom-login__btn:active{
+      transform: translateY(0);
+    }
+
+    .custom-login-{{ section.id }} .custom-login__btn--primary{
+      background: {{ section.settings.primary_btn_bg }};
+      color: {{ section.settings.primary_btn_text }};
+      border-color: {{ section.settings.primary_btn_bg }};
+    }
+
+    .custom-login-{{ section.id }} .custom-login__btn--secondary{
+      background: transparent;
+      color: {{ section.settings.primary_btn_bg }};
+      border-color: {{ section.settings.primary_btn_bg }};
+    }
+
+    .custom-login-{{ section.id }} .custom-login__link{
+      display:inline-block;
+      margin-top: 10px;
+      color: {{ section.settings.link_color }};
+      text-decoration: underline;
+      font-size: 13px;
+    }
+    .custom-login-{{ section.id }} .custom-login__link--small{
+      margin-top: 2px;
+      font-size: 12px;
+    }
+    .custom-login-{{ section.id }} .custom-login__footer{
+      margin: 14px 0 0;
+      font-size: 12px;
+      color:#444;
+      text-align:center;
+    }
+    .custom-login-{{ section.id }} .custom-login__link--inline{
+      margin-top:0;
+      margin-left:4px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__message{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size: 13px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin: 0 0 12px;
+    }
+    .custom-login-{{ section.id }} .custom-login__message svg{ width:14px; height:14px; }
+    .custom-login-{{ section.id }} .custom-login__message--success{
+      background:#e6f7ec;
+      color:#1b7b41;
+    }
+    .custom-login-{{ section.id }} .custom-login__message--error{
+      background:#fdecec;
+      color:#b3261e;
+    }
+    .custom-login-{{ section.id }} .custom-login__errors{
+      margin-bottom: 12px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__shop{
+      margin-bottom: 12px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__or{
+      font-size: 12px;
+      color: #777;
+      margin: 12px 0;
+      text-align:center;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__socials{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 4px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__social{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width:100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      text-decoration:none;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid rgba(0,0,0,0.08);
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .custom-login-{{ section.id }} .custom-login__social:active{ transform: translateY(0); }
+    .custom-login-{{ section.id }} .custom-login__social-icon{
+      width: 20px;
+      height: 20px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 14px;
+      font-weight: 700;
+      line-height:1;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.22);
+    }
+
+    /* Social styles (match screenshot vibe) */
+    .custom-login-{{ section.id }} .custom-login__social--google{ background:#f2f2f2; color:#111; }
+    .custom-login-{{ section.id }} .custom-login__social--apple{ background:#111; color:#fff; }
+    .custom-login-{{ section.id }} .custom-login__social--microsoft{ background:#1e90ff; color:#fff; }
+    .custom-login-{{ section.id }} .custom-login__social--facebook{ background:#2f5aa8; color:#fff; }
+    .custom-login-{{ section.id }} .custom-login__social--instagram{ background:#f2f2f2; color:#111; }
+    .custom-login-{{ section.id }} .custom-login__social--pinterest{ background:#b30012; color:#fff; }
+    .custom-login-{{ section.id }} .custom-login__social--amazon{ background:#f5a623; color:#111; }
+
+    .custom-login-{{ section.id }} .custom-login__guest{
+      margin-top: 18px;
+    }
+    .custom-login-{{ section.id }} .custom-login__hr{
+      height:1px;
+      background: rgba(20,20,30,0.12);
+      margin: 16px 0;
+    }
+    .custom-login-{{ section.id }} .custom-login__guest-title{
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+    }
+
+    /* Mobile stacking */
+    @media (max-width: 899px){
+      .custom-login-{{ section.id }} .custom-login__col--right{
+        border-top: 1px solid rgba(20,20,30,0.12);
+        padding-top: 18px;
+      }
+    }
+
+    /* Make sure Dawn button shadows don't override */
+    .custom-login-{{ section.id }} .field:after,
+    .custom-login-{{ section.id }} .button:after,
+    .custom-login-{{ section.id }} .custom-login__btn:after{
+      box-shadow:none !important;
+    }
+  </style>
+
+  <script>
+    (function(){
+      var root = document.getElementById('custom-login-{{ section.id }}');
+      if(!root) return;
+
+      // Password show/hide
+      var toggle = root.querySelector('[data-pw-toggle]');
+      var pw = root.querySelector('#CustomerPassword');
+      if(toggle && pw){
+        toggle.addEventListener('click', function(e){
+          e.preventDefault();
+          var isPw = pw.getAttribute('type') === 'password';
+          pw.setAttribute('type', isPw ? 'text' : 'password');
+          toggle.textContent = isPw ? '{{ section.settings.hide_label | default: "Hide" }}' : '{{ section.settings.show_label | default: "Show" }}';
+        });
+      }
+
+      // Hash switching (recover/login)
+      function syncHash(){
+        var hash = window.location.hash || '#login';
+        var recover = root.querySelector('#recover');
+        var login = root.querySelector('#login');
+        if(!recover || !login) return;
+
+        if(hash === '#recover'){
+          recover.style.display = 'block';
+          login.style.display = 'none';
+        } else {
+          login.style.display = 'block';
+          recover.style.display = 'none';
+        }
+      }
+      syncHash();
+      window.addEventListener('hashchange', syncHash);
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Custom login",
+  "tag": "section",
+  "class": "section section-custom-login",
+  "settings": [
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 55 },
+
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#ffffff" },
+    { "type": "range", "id": "card_max_width", "label": "Card max width", "min": 720, "max": 1400, "step": 20, "unit": "px", "default": 1120 },
+
+    { "type": "color", "id": "accent", "label": "Accent color", "default": "#6b7280" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0f172a" },
+    { "type": "color", "id": "label_color", "label": "Label color", "default": "#111827" },
+    { "type": "color", "id": "link_color", "label": "Link color", "default": "#0f172a" },
+
+    { "type": "color", "id": "input_bg", "label": "Input background", "default": "#ffffff" },
+    { "type": "color", "id": "input_border", "label": "Input border", "default": "#0f172a" },
+    { "type": "color", "id": "input_border_focus", "label": "Input border focus", "default": "#0f172a" },
+
+    { "type": "color", "id": "primary_btn_bg", "label": "Primary button background", "default": "#0f1b33" },
+    { "type": "color", "id": "primary_btn_text", "label": "Primary button text", "default": "#ffffff" },
+
+    { "type": "text", "id": "left_small_label", "label": "Left small label", "default": "Welcome back" },
+    { "type": "inline_richtext", "id": "left_heading", "label": "Left heading", "default": "Log in to your account" },
+
+    { "type": "text", "id": "right_small_label", "label": "Right small label", "default": "Or you can" },
+    { "type": "inline_richtext", "id": "right_heading", "label": "Right heading", "default": "Log in with" },
+
+    { "type": "textarea", "id": "recover_text", "label": "Recover text", "default": "We will send you an email to reset your password." },
+    { "type": "text", "id": "recover_btn_label", "label": "Recover button label", "default": "Submit" },
+    { "type": "text", "id": "recover_cancel_label", "label": "Recover cancel label", "default": "Cancel" },
+
+    { "type": "text", "id": "login_btn_label", "label": "Login button label", "default": "Login" },
+    { "type": "text", "id": "no_account_text", "label": "No account text", "default": "Don't have any account?" },
+    { "type": "text", "id": "signup_label", "label": "Signup label", "default": "Sign up" },
+
+    { "type": "text", "id": "show_label", "label": "Show password label", "default": "Show" },
+    { "type": "text", "id": "hide_label", "label": "Hide password label", "default": "Hide" },
+
+    { "type": "checkbox", "id": "enable_shop_login_button", "label": "Enable Shop login button", "default": true },
+    { "type": "text", "id": "or_label", "label": "Or label", "default": "or" },
+
+    { "type": "header", "content": "Social buttons (links are placeholders)" },
+    { "type": "checkbox", "id": "enable_google", "label": "Enable Google", "default": true },
+    { "type": "url", "id": "google_url", "label": "Google URL" },
+    { "type": "text", "id": "google_label", "label": "Google label", "default": "Continue with Google" },
+
+    { "type": "checkbox", "id": "enable_apple", "label": "Enable Apple", "default": true },
+    { "type": "url", "id": "apple_url", "label": "Apple URL" },
+    { "type": "text", "id": "apple_label", "label": "Apple label", "default": "Continue with Apple" },
+
+    { "type": "checkbox", "id": "enable_microsoft", "label": "Enable Microsoft", "default": true },
+    { "type": "url", "id": "microsoft_url", "label": "Microsoft URL" },
+    { "type": "text", "id": "microsoft_label", "label": "Microsoft label", "default": "Continue with Microsoft" },
+
+    { "type": "checkbox", "id": "enable_facebook", "label": "Enable Facebook", "default": true },
+    { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
+    { "type": "text", "id": "facebook_label", "label": "Facebook label", "default": "Continue with Facebook" },
+
+    { "type": "checkbox", "id": "enable_instagram", "label": "Enable Instagram", "default": true },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "text", "id": "instagram_label", "label": "Instagram label", "default": "Continue with Instagram" },
+
+    { "type": "checkbox", "id": "enable_pinterest", "label": "Enable Pinterest", "default": true },
+    { "type": "url", "id": "pinterest_url", "label": "Pinterest URL" },
+    { "type": "text", "id": "pinterest_label", "label": "Pinterest label", "default": "Continue with Pinterest" },
+
+    { "type": "checkbox", "id": "enable_amazon", "label": "Enable Amazon", "default": true },
+    { "type": "url", "id": "amazon_url", "label": "Amazon URL" },
+    { "type": "text", "id": "amazon_label", "label": "Amazon label", "default": "Continue with Amazon" },
+
+    { "type": "checkbox", "id": "enable_guest", "label": "Enable guest login block", "default": true },
+    { "type": "text", "id": "guest_title", "label": "Guest title", "default": "Continue as guest" },
+    { "type": "text", "id": "guest_btn_label", "label": "Guest button label", "default": "Continue" },
+
+    { "type": "header", "content": "Section padding" },
+    { "type": "range", "id": "padding_top", "min": 20, "max": 200, "step": 4, "unit": "px", "label": "Padding top", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 20, "max": 200, "step": 4, "unit": "px", "label": "Padding bottom", "default": 80 }
+  ],
+  "presets": [
+    { "name": "Custom login" }
+  ]
+}
+{% endschema %}

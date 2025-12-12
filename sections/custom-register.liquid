@@ -1,0 +1,417 @@
+{% comment %}
+  Custom Register – replica el diseño del custom-login
+  - Fondo con imagen + overlay
+  - Card centrada
+  - Form create_customer con estilos aislados
+{% endcomment %}
+
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<section id="custom-register-{{ section.id }}" class="custom-register custom-register-{{ section.id }}">
+  <!-- Background -->
+  <div class="custom-register__bg">
+    {% if section.settings.bg_image != blank %}
+      {{ section.settings.bg_image | image_url: width: 2400 | image_tag: loading: 'lazy', class: 'custom-register__bg-img' }}
+    {% endif %}
+    <div class="custom-register__bg-overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="custom-register__inner">
+    <div class="custom-register__card">
+      <div class="custom-register__card-inner">
+
+        {% if section.settings.small_label != blank %}
+          <p class="custom-register__small">{{ section.settings.small_label }}</p>
+        {% endif %}
+
+        <h2 class="custom-register__title">
+          {{ section.settings.heading | default: 'Create your account' }}
+        </h2>
+
+        {%- form 'create_customer', novalidate: 'novalidate' -%}
+          {%- if form.errors -%}
+            <div class="custom-register__message custom-register__message--error" tabindex="-1" autofocus>
+              <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+              {{ 'templates.contact.form.error_heading' | t }}
+            </div>
+
+            <ul class="custom-register__errors">
+              {%- for field in form.errors -%}
+                <li>
+                  {%- if field == 'form' -%}
+                    {{ form.errors.messages[field] }}
+                  {%- else -%}
+                    <a href="#RegisterForm-{{ field }}">
+                      {{ form.errors.translated_fields[field] | capitalize }}
+                      {{ form.errors.messages[field] }}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          <div class="custom-register__grid">
+            <div class="custom-register__field">
+              <label class="custom-register__label" for="RegisterForm-FirstName">{{ 'customer.register.first_name' | t }}</label>
+              <input
+                class="custom-register__input"
+                type="text"
+                name="customer[first_name]"
+                id="RegisterForm-FirstName"
+                {% if form.first_name %} value="{{ form.first_name }}"{% endif %}
+                autocomplete="given-name"
+                placeholder="{{ 'customer.register.first_name' | t }}"
+              >
+            </div>
+
+            <div class="custom-register__field">
+              <label class="custom-register__label" for="RegisterForm-LastName">{{ 'customer.register.last_name' | t }}</label>
+              <input
+                class="custom-register__input"
+                type="text"
+                name="customer[last_name]"
+                id="RegisterForm-LastName"
+                {% if form.last_name %} value="{{ form.last_name }}"{% endif %}
+                autocomplete="family-name"
+                placeholder="{{ 'customer.register.last_name' | t }}"
+              >
+            </div>
+
+            <div class="custom-register__field custom-register__field--full">
+              <label class="custom-register__label" for="RegisterForm-email">{{ 'customer.register.email' | t }}</label>
+              <input
+                class="custom-register__input"
+                type="email"
+                name="customer[email]"
+                id="RegisterForm-email"
+                {% if form.email %} value="{{ form.email }}"{% endif %}
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="email"
+                aria-required="true"
+                {% if form.errors contains 'email' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-email-error"
+                {% endif %}
+                placeholder="{{ 'customer.register.email' | t }}"
+              >
+              {%- if form.errors contains 'email' -%}
+                <small id="RegisterForm-email-error" class="custom-register__field-error">
+                  <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+                  {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}.
+                </small>
+              {%- endif -%}
+            </div>
+
+            <div class="custom-register__field custom-register__field--full">
+              <label class="custom-register__label" for="RegisterForm-password">{{ 'customer.register.password' | t }}</label>
+
+              <div class="custom-register__password">
+                <input
+                  class="custom-register__input custom-register__input--password"
+                  type="password"
+                  name="customer[password]"
+                  id="RegisterForm-password"
+                  aria-required="true"
+                  {% if form.errors contains 'password' %}
+                    aria-invalid="true"
+                    aria-describedby="RegisterForm-password-error"
+                  {% endif %}
+                  placeholder="{{ 'customer.register.password' | t }}"
+                >
+                <button type="button" class="custom-register__pw-toggle" data-pw-toggle aria-label="Show password">
+                  {{ section.settings.show_label | default: 'Show' }}
+                </button>
+              </div>
+
+              {%- if form.errors contains 'password' -%}
+                <small id="RegisterForm-password-error" class="custom-register__field-error">
+                  <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+                  {{ form.errors.translated_fields.password | capitalize }} {{ form.errors.messages.password }}.
+                </small>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <button type="submit" class="custom-register__btn custom-register__btn--primary">
+            {{ section.settings.submit_label | default: 'Create account' }}
+          </button>
+
+          <p class="custom-register__footer">
+            {{ section.settings.have_account_text | default: 'Already have an account?' }}
+            <a class="custom-register__link" href="{{ routes.account_login_url }}">
+              {{ section.settings.login_label | default: 'Log in' }}
+            </a>
+          </p>
+        {%- endform -%}
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .custom-register-{{ section.id }}{
+      position:relative;
+      overflow:hidden;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__bg{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .custom-register-{{ section.id }} .custom-register__bg-img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .custom-register-{{ section.id }} .custom-register__bg-overlay{
+      position:absolute;
+      inset:0;
+      background: {{ section.settings.overlay_color }};
+      opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    }
+
+    .custom-register-{{ section.id }} .custom-register__inner{
+      position:relative;
+      z-index:1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-inline: 16px;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__card{
+      max-width: {{ section.settings.card_max_width }}px;
+      margin: 0 auto;
+      background: {{ section.settings.card_bg }};
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(0,0,0,.45);
+      padding: 44px 28px;
+    }
+
+    @media (min-width: 900px){
+      .custom-register-{{ section.id }} .custom-register__card{
+        padding: 54px 64px;
+      }
+    }
+
+    .custom-register-{{ section.id }} .custom-register__card-inner{
+      max-width: 720px;
+      margin: 0 auto;
+      color:#111;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__small{
+      margin:0 0 8px;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: {{ section.settings.accent }};
+    }
+
+    .custom-register-{{ section.id }} .custom-register__title{
+      margin:0 0 18px;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height:1.15;
+      font-weight: 700;
+      font-style: italic;
+      color: {{ section.settings.heading_color }};
+    }
+
+    .custom-register-{{ section.id }} .custom-register__grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px 16px;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 680px){
+      .custom-register-{{ section.id }} .custom-register__grid{
+        grid-template-columns: 1fr 1fr;
+      }
+      .custom-register-{{ section.id }} .custom-register__field--full{
+        grid-column: 1 / -1;
+      }
+    }
+
+    .custom-register-{{ section.id }} .custom-register__field{
+      margin-bottom: 0;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__label{
+      display:block;
+      margin:0 0 6px;
+      font-size: 14px;
+      color: {{ section.settings.label_color }};
+      font-weight: 500;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__input{
+      width:100%;
+      border-radius: 8px;
+      border: 1px solid {{ section.settings.input_border }};
+      background: {{ section.settings.input_bg }};
+      padding: 12px 14px;
+      font-size: 14px;
+      box-shadow:none;
+      outline:none;
+      color:#111;
+    }
+    .custom-register-{{ section.id }} .custom-register__input:focus{
+      border-color: {{ section.settings.input_border_focus }};
+      box-shadow: 0 0 0 1px {{ section.settings.input_border_focus }};
+      background:#fff;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__password{
+      position:relative;
+    }
+    .custom-register-{{ section.id }} .custom-register__pw-toggle{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform: translateY(-50%);
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      font-size:12px;
+      color:#6b6b78;
+      padding:4px 6px;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__btn{
+      width:100%;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor:pointer;
+    }
+    .custom-register-{{ section.id }} .custom-register__btn--primary{
+      margin-top: 14px;
+      background: {{ section.settings.primary_btn_bg }};
+      color: {{ section.settings.primary_btn_text }};
+      border-color: {{ section.settings.primary_btn_bg }};
+    }
+
+    .custom-register-{{ section.id }} .custom-register__footer{
+      margin: 14px 0 0;
+      font-size: 12px;
+      color:#444;
+      text-align:center;
+    }
+    .custom-register-{{ section.id }} .custom-register__link{
+      margin-left: 4px;
+      color: {{ section.settings.link_color }};
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__message{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size: 13px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin: 0 0 12px;
+    }
+    .custom-register-{{ section.id }} .custom-register__message svg{ width:14px; height:14px; }
+    .custom-register-{{ section.id }} .custom-register__message--error{
+      background:#fdecec;
+      color:#b3261e;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__errors{
+      margin: 0 0 14px;
+      padding-left: 18px;
+      color:#b3261e;
+      font-size: 13px;
+    }
+    .custom-register-{{ section.id }} .custom-register__errors a{
+      color:#b3261e;
+      text-decoration: underline;
+    }
+
+    .custom-register-{{ section.id }} .custom-register__field-error{
+      display:block;
+      margin-top: 6px;
+      font-size: 12px;
+      color:#b3261e;
+    }
+
+    /* Evitar sombras/after de Dawn */
+    .custom-register-{{ section.id }} .field:after,
+    .custom-register-{{ section.id }} .button:after,
+    .custom-register-{{ section.id }} .custom-register__btn:after{
+      box-shadow:none !important;
+    }
+  </style>
+
+  <script>
+    (function(){
+      var root = document.getElementById('custom-register-{{ section.id }}');
+      if(!root) return;
+
+      var toggle = root.querySelector('[data-pw-toggle]');
+      var pw = root.querySelector('#RegisterForm-password');
+      if(toggle && pw){
+        toggle.addEventListener('click', function(e){
+          e.preventDefault();
+          var isPw = pw.getAttribute('type') === 'password';
+          pw.setAttribute('type', isPw ? 'text' : 'password');
+          toggle.textContent = isPw ? '{{ section.settings.hide_label | default: "Hide" }}' : '{{ section.settings.show_label | default: "Show" }}';
+        });
+      }
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Custom register",
+  "tag": "section",
+  "class": "section section-custom-register",
+  "settings": [
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 55 },
+
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#ffffff" },
+    { "type": "range", "id": "card_max_width", "label": "Card max width", "min": 620, "max": 1200, "step": 20, "unit": "px", "default": 980 },
+
+    { "type": "color", "id": "accent", "label": "Accent color", "default": "#6b7280" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0f172a" },
+    { "type": "color", "id": "label_color", "label": "Label color", "default": "#111827" },
+    { "type": "color", "id": "link_color", "label": "Link color", "default": "#0f172a" },
+
+    { "type": "color", "id": "input_bg", "label": "Input background", "default": "#ffffff" },
+    { "type": "color", "id": "input_border", "label": "Input border", "default": "#0f172a" },
+    { "type": "color", "id": "input_border_focus", "label": "Input border focus", "default": "#0f172a" },
+
+    { "type": "color", "id": "primary_btn_bg", "label": "Primary button background", "default": "#0f1b33" },
+    { "type": "color", "id": "primary_btn_text", "label": "Primary button text", "default": "#ffffff" },
+
+    { "type": "text", "id": "small_label", "label": "Small label", "default": "Welcome" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Create your account" },
+
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Create account" },
+    { "type": "text", "id": "have_account_text", "label": "Footer text", "default": "Already have an account?" },
+    { "type": "text", "id": "login_label", "label": "Login link label", "default": "Log in" },
+
+    { "type": "text", "id": "show_label", "label": "Show password label", "default": "Show" },
+    { "type": "text", "id": "hide_label", "label": "Hide password label", "default": "Hide" },
+
+    { "type": "header", "content": "Section padding" },
+    { "type": "range", "id": "padding_top", "min": 20, "max": 200, "step": 4, "unit": "px", "label": "Padding top", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 20, "max": 200, "step": 4, "unit": "px", "label": "Padding bottom", "default": 80 }
+  ],
+  "presets": [
+    { "name": "Custom register" }
+  ]
+}
+{% endschema %}
