@@ -1,14 +1,54 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-register",
+      "disabled": true,
       "settings": {
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "custom_register_rA9RUm": {
+      "type": "custom-register",
+      "name": "Custom register",
+      "settings": {
+        "bg_image": "shopify://shop_images/bgbgblack.png",
+        "overlay_color": "#000000",
+        "overlay_opacity": 55,
+        "card_bg": "#ffffff",
+        "card_max_width": 980,
+        "accent": "#6b7280",
+        "heading_color": "#0f172a",
+        "label_color": "#111827",
+        "link_color": "#0f172a",
+        "input_bg": "#ffffff",
+        "input_border": "#0f172a",
+        "input_border_focus": "#0f172a",
+        "primary_btn_bg": "#0f1b33",
+        "primary_btn_text": "#ffffff",
+        "small_label": "Welcome",
+        "heading": "Create your account",
+        "submit_label": "Create account",
+        "have_account_text": "Already have an account?",
+        "login_label": "Log in",
+        "show_label": "Show",
+        "hide_label": "Hide",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "custom_register_rA9RUm"
   ]
 }

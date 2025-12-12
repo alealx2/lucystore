@@ -20,11 +20,11 @@
         "bg_overlay_color": "#ffffff",
         "bg_overlay_opacity": 40,
         "thumb_scroll_step": 160,
-        "button_bg": "#13192b",
-        "button_bg_hover": "#060b18",
+        "button_bg": "#e91818",
+        "button_bg_hover": "#e91818",
         "button_text": "#ffffff",
         "show_description": true,
-        "show_rating": false
+        "show_rating": true
       }
     },
     "product_spec_tabs_HK8yGY": {

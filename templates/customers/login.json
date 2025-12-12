@@ -1,15 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-login",
+      "disabled": true,
       "settings": {
-        "enable_shop_login_button": "true",
+        "enable_shop_login_button": false,
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "custom_main_login_yJQmbY": {
+      "type": "custom-main-login",
+      "name": "Custom login",
+      "settings": {
+        "bg_image": "shopify://shop_images/bgbgblack.png",
+        "overlay_color": "#000000",
+        "overlay_opacity": 55,
+        "card_bg": "#ffffff",
+        "card_max_width": 1120,
+        "accent": "#6b7280",
+        "heading_color": "#0f172a",
+        "label_color": "#111827",
+        "link_color": "#0f172a",
+        "input_bg": "#ffffff",
+        "input_border": "#0f172a",
+        "input_border_focus": "#0f172a",
+        "primary_btn_bg": "#0f1b33",
+        "primary_btn_text": "#ffffff",
+        "left_small_label": "Welcome back",
+        "left_heading": "Log in to your account",
+        "right_small_label": "Or you can",
+        "right_heading": "Log in with",
+        "recover_text": "We will send you an email to reset your password.",
+        "recover_btn_label": "Submit",
+        "recover_cancel_label": "Cancel",
+        "login_btn_label": "Login",
+        "no_account_text": "Don't have any account?",
+        "signup_label": "Sign up",
+        "show_label": "Show",
+        "hide_label": "Hide",
+        "enable_shop_login_button": true,
+        "or_label": "or",
+        "enable_google": true,
+        "google_url": "",
+        "google_label": "Continue with Google",
+        "enable_apple": true,
+        "apple_url": "",
+        "apple_label": "Continue with Apple",
+        "enable_microsoft": true,
+        "microsoft_url": "",
+        "microsoft_label": "Continue with Microsoft",
+        "enable_facebook": true,
+        "facebook_url": "",
+        "facebook_label": "Continue with Facebook",
+        "enable_instagram": true,
+        "instagram_url": "",
+        "instagram_label": "Continue with Instagram",
+        "enable_pinterest": true,
+        "pinterest_url": "",
+        "pinterest_label": "Continue with Pinterest",
+        "enable_amazon": true,
+        "amazon_url": "",
+        "amazon_label": "Continue with Amazon",
+        "enable_guest": true,
+        "guest_title": "Continue as guest",
+        "guest_btn_label": "Continue",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "custom_main_login_yJQmbY"
   ]
 }
