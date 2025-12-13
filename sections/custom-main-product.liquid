@@ -402,6 +402,37 @@
 
   {{ 'custom-main-product.css' | asset_url | stylesheet_tag }}
 
+  <style>
+    .via-pdp-main.via-pdp-main--{{ section.id }} {
+    position: relative;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    .via-pdp-main__overlay {
+        position: absolute;
+        inset: 0;
+        background: {{ section.settings.bg_overlay_color }};
+        opacity: {{ section.settings.bg_overlay_opacity | divided_by: 100.0 }};
+        pointer-events: none;
+    }
+    .via-pdp-btn--primary {
+      background: {{ section.settings.button_bg }};
+      color: {{ section.settings.button_text }};
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    }
+
+    .via-pdp-btn--primary:hover {
+      background: {{ section.settings.button_bg_hover }};
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+    }
+    @media (min-width: 750px) {
+    .via-pdp-main.via-pdp-main--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    }
+  </style>
 
   <script>
     (function() {

@@ -102,7 +102,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
               --h-mobile: {{ b.height_mobile }}px;
               --overlay: {{ b.overlay_color }};
               --overlay-op: {{ b.overlay_opacity | times: 0.01 }};
-              --radius: 8px;
+              --radius: {{ b.radius }}px;
               --content-bg: {{ b.content_bg }};
             "
           >
@@ -788,7 +788,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
 
         { "type": "range", "id": "height_desktop", "label": "Alto base (solo mobile usa valor exacto)", "min": 220, "max": 700, "step": 10, "unit": "px", "default": 360 },
         { "type": "range", "id": "height_mobile", "label": "Alto (mobile)", "min": 180, "max": 600, "step": 10, "unit": "px", "default": 280 },
-        { "type": "range", "id": "radius", "label": "Borde redondeado", "min": 0, "max": 28, "step": 1, "unit": "px", "default": 16 },
+        { "type": "range", "id": "radius", "label": "Borde redondeado", "min": 0, "max": 28, "step": 1, "unit": "px", "default": 8 },
 
         { "type": "header", "content": "Enlace principal" },
         {
