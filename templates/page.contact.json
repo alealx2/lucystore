@@ -17,7 +17,7 @@
         "padding_bottom": 36
       }
     },
-    "custom_contact_form_AjJJXf": {
+    "custom_contact_form_TQVL9y": {
       "type": "custom-contact-form",
       "name": "Custom contact form",
       "settings": {
@@ -26,10 +26,10 @@
         "bg_overlay_opacity": 60,
         "card_bg_color": "#ffffff",
         "small_label": "Get in touch",
-        "heading": "Let’s talk about your light dream",
-        "subheading": "",
+        "heading": "Let’s talk about your project",
+        "subheading": "Send us a message and we’ll get back to you as soon as possible.",
         "button_label": "Send message",
-        "footer_text": "Send us a message and we’ll get back to you as soon as possible.",
+        "footer_text": "Button",
         "side_heading": "Or reach us via",
         "side_text": "We are available Monday to Friday and usually respond within 24 hours.",
         "side_item_1_label": "Email",
@@ -37,14 +37,14 @@
         "side_item_2_label": "Phone",
         "side_item_2_value": "+56 9 1234 5678",
         "side_item_3_label": "Location",
-        "side_item_3_value": "USA. Miami, FL",
-        "padding_top": 124,
-        "padding_bottom": 124
+        "side_item_3_value": "Santiago, Chile",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
     "main",
-    "custom_contact_form_AjJJXf"
+    "custom_contact_form_TQVL9y"
   ]
 }
