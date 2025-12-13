@@ -109,13 +109,13 @@
                 {{
                   block.settings.image
                   | image_url: width: 3840
-                  | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+                  | image_tag: alt: block.settings.image_alt | default: 'image', height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
                 }}
               {%- else -%}
                 {{
                   block.settings.image
                   | image_url: width: 3840
-                  | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+                  | image_tag: alt: block.settings.image_alt | default: 'image', loading: 'lazy', height: height, sizes: sizes, widths: widths
                 }}
               {%- endif -%}
             {%- else -%}
@@ -136,9 +136,15 @@
             style="--box-opacity: {{ block.settings.box_opacity | divided_by: 100.0 }};"
           >
             {%- if block.settings.heading != blank -%}
-              <h2 class="banner__heading inline-richtext {{ block.settings.heading_size }}">
+              {%- liquid
+                assign heading_tag = 'h2'
+                if template.name == 'index' and section.index == 1 and forloop.first
+                  assign heading_tag = 'h1'
+                endif
+              -%}
+              <{{ heading_tag }} class="banner__heading inline-richtext {{ block.settings.heading_size }}">
                 {{ block.settings.heading }}
-              </h2>
+              </{{ heading_tag }}>
             {%- endif -%}
 
             {%- if block.settings.subheading != blank -%}
@@ -169,7 +175,12 @@
                     data-scroll-target=".customtabs"
                     aria-label="Scroll down"
                   >
-                    <img src="{{ 'double-arrow.png' | asset_url }}" alt="arrow" height="60" width="60" />
+                    <img
+                      src="{{ 'double-arrow.png' | asset_url }}"
+                      alt="{{ block.settings.scroll_arrow_alt | default: 'image' | escape }}"
+                      height="60"
+                      width="60"
+                    />
                   </a>
                 {%- else -%}
                   <a
@@ -263,334 +274,9 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<style>
-  .slider-button{
-    z-index: 1 !important;
-  }
-  .slider-button--next .svg-wrapper, .slider-button--prev .svg-wrapper{
-    width: 60px;
-    height: 60px;
-  }
-  .slider-button--next .icon, .slider-button--prev .icon{
-    transform: rotate(0);    
-    width: 60px;
-    height: 60px;  
-  }
-  .banner-video-bg{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    z-index:0;
-    pointer-events:none;
-  }
 
-  .slideshow__text.has-opacity{
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    background-color: rgba(var(--color-background), var(--box-opacity, 0)) !important;
-  }
-  .slideshow__text.has-opacity::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius: inherit;
-    background-color: rgba(var(--color-background), var(--box-opacity, 0)) !important;
-    pointer-events: none;
-  }
-  .slideshow__text>*{
-    z-index: 1;
-  }
-
-  /* === Lucy button navideño (glow + polvo mágico) === */
-
-  .banner__buttons--lucy{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:1.75rem;
-    margin-top:2.5rem;
-  }
-
-  .lucy-btn{
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 2.75rem;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    overflow: hidden;
-    border: 1px solid rgba(255, 196, 160, 0.9);
-    background: transparent;
-    box-shadow: 0;
-    color: #fff;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 2rem;
-    transition: box-shadow .25s ease, transform .25s ease;
-  }
-
-  .lucy-btn__inner{
-    position:relative;
-    z-index:2;
-  }
-
-  .lucy-btn::before,
-  .lucy-btn::after{
-    content:"";
-    position:absolute;
-    inset:-40%;
-    background:
-      radial-gradient(circle at 0 0, rgba(255,255,255,0.65) 0, transparent 55%),
-      radial-gradient(circle at 100% 100%, rgba(255,150,120,0.7) 0, transparent 60%),
-      radial-gradient(circle at 0 100%, rgba(255,220,190,0.65) 0, transparent 55%);
-    opacity:.0;
-    transform:translate3d(-10%, 10%, 0);
-    transition:opacity .35s ease, transform .45s ease;
-    z-index:1;
-    mix-blend-mode:screen;
-  }
-
-  .lucy-btn::after{
-    background:
-      radial-gradient(circle at 20% -10%, rgba(255,255,255,0.9) 0, transparent 55%),
-      radial-gradient(circle at 80% 120%, rgba(255,180,140,0.8) 0, transparent 55%),
-      radial-gradient(circle at -10% 60%, rgba(255,220,200,0.75) 0, transparent 52%);
-    filter:blur(1px);
-  }
-
-  .lucy-btn:hover::before,
-  .lucy-btn:hover::after{
-    opacity:1;
-    transform:translate3d(0,0,0);
-  }
-
-  .lucy-btn:hover{
-    box-shadow:
-      0 0 26px rgba(255, 184, 138, 0.75),
-      0 0 70px rgba(255, 120, 190, 0.55);
-    transform:translateY(-1px);
-  }
-
-  /* === Scroll-down Lucy (flecha + polvo mágico) === */
-
-  .lucy-scroll{
-    position: absolute;
-    top: 110%;
-    width:44px;
-    height:44px;
-    border-radius:0;
-    border: 0;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    cursor:pointer;
-    background: trasparent;
-    overflow:hidden;
-  }
-  .lucy-scroll img{
-    width: 100%;
-    object-fit: contain;
-  }
-  .lucy-scroll__sparkles{
-    position:absolute;
-    inset:-40%;
-    background:
-      radial-gradient(circle at 10% 0%, rgba(255,255,255,0.9) 0, transparent 55%),
-      radial-gradient(circle at 80% 120%, rgba(255,184,150,0.85) 0, transparent 55%),
-      radial-gradient(circle at -10% 70%, rgba(255,235,210,0.85) 0, transparent 55%);
-    opacity:0;
-    transform:translate3d(0,10%,0);
-    filter:blur(0.5px);
-    transition:opacity .35s ease, transform .45s ease;
-    mix-blend-mode:screen;
-    pointer-events:none;
-  }
-
-  .lucy-scroll__chevron{
-    position:absolute;
-    width:22px;
-    height:22px;
-    border-bottom:2px solid rgba(255, 230, 210, 0.95);
-    border-right:2px solid rgba(255, 230, 210, 0.95);
-    transform:rotate(45deg);
-    opacity:.75;
-  }
-
-  .lucy-scroll__chevron--top{
-    transform:translateY(-4px) rotate(45deg);
-  }
-  .lucy-scroll__chevron--bottom{
-    transform:translateY(4px) rotate(45deg);
-  }
-
-  {% comment %} .lucy-scroll:hover .lucy-scroll__sparkles{
-    opacity:1;
-    transform:translate3d(0,0,0);
-  } {% endcomment %}
-
-  .lucy-scroll:hover{
-    {% comment %} box-shadow:
-      0 0 24px rgba(255, 184, 138, 0.8),
-      0 0 55px rgba(255, 130, 195, 0.6); {% endcomment %}
-    {% comment %} transform:translateY(-1px); {% endcomment %}
-  }
-
-  @keyframes lucy-scroll-breathe{
-    0%,100%{ transform:translateY(0); opacity:1; }
-    50%{ transform:translateY(3px); opacity:0.8; }
-  }
-  .lucy-scroll{
-    animation: lucy-scroll-breathe 2.8s ease-in-out infinite;
-  }
-
-  /* === Flechas prev/next laterales === */
-
-  .slider-button--overlay{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%) !important;
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background: transparent;
-    {% comment %} border:1px solid rgba(255,255,255,0.8);
-    background:rgba(0,0,0,0.25);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px); {% endcomment %}
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    z-index:4;
-  }
-
-  .slider-button--overlay-left{
-    left:24px;
-  }
-  .slider-button--overlay-right{
-    right:24px;
-  }
-
-  {% comment %} 
-  .slider-button--overlay:hover{
-    transform:translateY(-50%) !important;
-  }.slider-button--overlay-right .svg-wrapper svg
-
-  .slider-button--overlay .svg-wrapper svg{
-    width:22px;
-    height:22px;
-    transform:rotate(90deg);
-  }
-   .slider-button--overlay-right .svg-wrapper svg{
-    transform:rotate(-90deg);
-  } {% endcomment %}
-
-  .slider-button--overlay svg *{
-    stroke:#ffffff !important;
-    fill:#ffffff !important;
-  }
-
-  @media screen and (max-width: 749px){
-    .slider-button--overlay{
-      width:32px;
-      height:32px;
-    }
-    .slider-button--overlay-left{
-      left:14px;
-    }
-    .slider-button--overlay-right{
-      right:14px;
-    }
-  }
-
-  /* === Controles inferior derecha estilo Lucy === */
-
-  .slideshow{
-    position:relative;
-  }
-
-  .slideshow__controls--bottom.slider-buttons {
-    position: absolute !important;
-    bottom: 32px;
-    right: 32px;
-    z-index: 20;
-    display:flex;
-    align-items:center;
-    padding:6px 12px;
-    border-radius:999px;
-    background:transparent;
-    gap:10px;
-  }
-
-  .slideshow__controls--bottom .slider-button{
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  .slideshow__controls--bottom .slider-counter__link .dot {
-    background-color: rgba(255,255,255,.7) !important;
-  }
-
-  .slideshow__controls--bottom .slider-counter__link--dots.is-active .dot {
-    background-color: #ffffff !important;
-  }
-
-  .slideshow__play-pause{
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .slider-circle-btn{
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,0.9);
-    background:rgba(0,0,0,0.25);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    transition:box-shadow .2s ease, transform .2s ease, background .2s ease;
-  }
-
-  .slider-circle-btn:hover{
-    box-shadow:0 0 14px rgba(255,255,255,0.85);
-    transform:translateY(-1px);
-    background:rgba(0,0,0,0.4);
-  }
-
-  .slider-circle-btn .svg-wrapper svg{
-    width:14px;
-    height:14px;
-  }
-
-  .slider-circle-btn svg *{
-    fill:#ffffff !important;
-    stroke:#ffffff !important;
-  }
-
-  @media screen and (max-width: 749px){
-    .slideshow__controls--bottom.slider-buttons {
-      bottom:18px;
-      right:18px;
-      padding:4px 10px;
-      gap:8px;
-    }
-  }
-
-</style>
 
 <script>
-  // Scroll suave Lucy
   document.addEventListener('click', function (e) {
     var trigger = e.target.closest('.lucy-scroll');
     if (!trigger) return;
@@ -607,7 +293,6 @@
     }
   }, true);
 
-  // Controles personalizados play / pause solo para slides con video
   document.addEventListener('DOMContentLoaded', function () {
     var slider = document.querySelector('#Slider-{{ section.id }}');
     if (!slider) return;
@@ -635,7 +320,6 @@
     });
 
     if (!hasAnyVideo) {
-      // No hay videos en este slideshow: ocultar controles play/pause
       playPauseWrapper.style.display = 'none';
       return;
     }
@@ -681,14 +365,12 @@
       });
     }
 
-    // Escuchar clicks en flechas y bullets para actualizar visibilidad
     root.addEventListener('click', function (evt) {
       var el = evt.target.closest('.slider-button, .slider-counter__link');
       if (!el) return;
       setTimeout(refreshControlsVisibility, 150);
     });
 
-    // Observer para cambios de aria-hidden (auto-rotate, swipe, etc.)
     var observer = new MutationObserver(function () {
       refreshControlsVisibility();
     });
@@ -849,6 +531,12 @@
           "label": "t:sections.slideshow.blocks.slide.settings.image.label"
         },
         {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text (imagen)",
+          "default": "Image"
+        },
+        {
           "type": "video",
           "id": "video_file",
           "label": "Video subido (MP4, mov)",
@@ -981,6 +669,12 @@
           "id": "lucy_style_enabled",
           "label": "Usar botón Lucy navideño ",
           "default": false
+        },
+        {
+          "type": "text",
+          "id": "scroll_arrow_alt",
+          "label": "Alt text (flecha scroll)",
+          "default": "Scroll down"
         },
         {
           "type": "header",

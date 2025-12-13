@@ -1,13 +1,16 @@
 {% comment %}
-  Tabs Carousel – Section (Dawn / OS 2.0)
-  - Tabs horizontales
-  - Cada tab: hasta 3+ items tipo “card” con imagen o video de fondo, título y botón
-  - Flechas prev/next a los costados
-  - Configuración global de:
-    · Estilos de tabs
-    · Fondo y overlay de cards
-    · Contenedor de texto
+Carousel Tabs – Section (Dawn / OS 2.0)
+- Horizontal tabs
+- Each tab: up to 3+ card-type items with a background image or video, title, and button
+- Previous/next arrows on the sides
+- Global settings for:
+· Tab styles
+· Card background and overlay
+· Text container
 {% endcomment %}
+
+{{ 'custom-tabs-carousel.css' | asset_url | stylesheet_tag }}
+
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -50,7 +53,7 @@
         aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
       >
         <span class="svg-wrapper">
-          {{- 'single-left-arrow-icon.svg' | inline_asset_content -}}      
+          {{- 'single-left-arrow-icon.svg' | inline_asset_content -}}
         </span>
       </button>
 
@@ -88,7 +91,7 @@
         aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
       >
         <span class="svg-wrapper">
-          {{- 'single-right-arrow-icon.svg' | inline_asset_content -}}      
+          {{- 'single-right-arrow-icon.svg' | inline_asset_content -}}
         </span>
       </button>
     </div>
@@ -165,7 +168,7 @@
               aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
             >
               <span class="svg-wrapper">
-                {{- 'single-left-arrow-icon.svg' | inline_asset_content -}}      
+                {{- 'single-left-arrow-icon.svg' | inline_asset_content -}}
               </span>
             </button>
           {% endif %}
@@ -198,18 +201,28 @@
                   </div>
                 {% elsif b.bg_type == 'image' and b.bg_image != blank %}
                   <div class="tc-item__media-wrapper">
-                    {{ b.bg_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'tc-item__media-img', style: 'object-position: ' | append: b.bg_position }}
+                    {%- assign _alt1 = b.bg_image_alt | default: 'image' -%}
+                    {{ b.bg_image
+                      | image_url: width: 1200
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'tc-item__media-img',
+                        alt: _alt1,
+                        style: 'object-position:' | append: b.bg_position
+                    }}
                   </div>
                 {% endif %}
 
                 <div class="tc-item__overlay" aria-hidden="true"></div>
 
-                <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{b.item_txt_color}};">
+                <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{ b.item_txt_color }};">
                   {% if b.title != blank %}
-                    <h3 class="tc-item__title" style="color: {{b.item_txt_color}}; font-size :{{section.settings.item_title_size}};">{{ b.title }}</h3>
+                    <h3 class="tc-item__title" style="color: {{ b.item_txt_color }}; font-size: {{ section.settings.item_title_size }}px;">
+                      {{ b.title }}
+                    </h3>
                   {% endif %}
                   {% if b.rich_text != blank %}
-                    <div class="tc-item__text" style="font-size :{{section.settings.item_desc_size}};">
+                    <div class="tc-item__text" style="font-size: {{ section.settings.item_desc_size }}px;">
                       {{ b.rich_text }}
                     </div>
                   {% endif %}
@@ -260,6 +273,7 @@
               {% assign base = 'item_' | append: i | append: '_' %}
               {% assign media_type_key = base | append: 'media_type' %}
               {% assign image_key = base | append: 'image' %}
+              {% assign image_alt_key = base | append: 'image_alt' %}
               {% assign video_file_key = base | append: 'video_file' %}
               {% assign external_video_key = base | append: 'external_video' %}
               {% assign video_url_key = base | append: 'video_mp4_url' %}
@@ -270,6 +284,7 @@
 
               {% assign media_type = b[media_type_key] | default: 'image' %}
               {% assign image = b[image_key] %}
+              {% assign image_alt = b[image_alt_key] %}
               {% assign video_file = b[video_file_key] %}
               {% assign external_video = b[external_video_key] %}
               {% assign video_url = b[video_url_key] %}
@@ -302,18 +317,21 @@
                     </div>
                   {% elsif image != blank %}
                     <div class="tc-item__media-wrapper">
-                      {{ image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'tc-item__media-img' }}
+                      {%- assign _altN = image_alt | default: 'image' -%}
+                      {{ image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'tc-item__media-img', alt: _altN }}
                     </div>
                   {% endif %}
 
                   <div class="tc-item__overlay" aria-hidden="true"></div>
 
-                  <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{b.item_txt_color}};">
+                  <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{ b.item_txt_color }};">
                     {% if item_title != blank %}
-                      <h3 class="tc-item__title" style="color: {{b.item_txt_color}}; font-size :{{section.settings.item_title_size}};">{{ item_title }}</h3>
+                      <h3 class="tc-item__title" style="color: {{ b.item_txt_color }}; font-size: {{ section.settings.item_title_size }}px;">
+                        {{ item_title }}
+                      </h3>
                     {% endif %}
                     {% if item_text != blank %}
-                      <div class="tc-item__text" style="font-size :{{section.settings.item_desc_size}};">
+                      <div class="tc-item__text" style="font-size: {{ section.settings.item_desc_size }}px;">
                         {{ item_text }}
                       </div>
                     {% endif %}
@@ -321,7 +339,7 @@
                       <a
                         class="tc-item__btn"
                         href="{{ item_btn_link }}"
-                        style="--btn-bg: {{ b.button_bg }}; --btn-text: {{ b.button_text }}; --btn-bg-h: {{ b.button_bg_hover }}; --btn-text-h: {{ b.button_text_hover }};"
+                        style="--btn-bg: {{ section.settings.btn_bg }}; --btn-text: {{ section.settings.btn_text }}; --btn-bg-h: {{ section.settings.btn_bg_hover }}; --btn-text-h: {{ section.settings.btn_text_hover }};"
                       >
                         {{ item_btn_label }}
                       </a>
@@ -363,7 +381,7 @@
               aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
             >
               <span class="svg-wrapper">
-                {{- 'single-right-arrow-icon.svg' | inline_asset_content -}}      
+                {{- 'single-right-arrow-icon.svg' | inline_asset_content -}}
               </span>
             </button>
           {% endif %}
@@ -373,498 +391,16 @@
   </div>
 </section>
 
-  <!-- MODAL VIDEO FULLSCREEN -->
-  <div class="tc-modal" aria-hidden="true">
-    <div class="tc-modal__inner" role="dialog" aria-modal="true">
-      <button type="button" class="tc-modal__close" aria-label="Cerrar video">&times;</button>
-      <div class="tc-modal__content"></div>
-    </div>
+<!-- MODAL VIDEO FULLSCREEN -->
+<div class="tc-modal" aria-hidden="true">
+  <div class="tc-modal__inner" role="dialog" aria-modal="true">
+    <button type="button" class="tc-modal__close" aria-label="Cerrar video">&times;</button>
+    <div class="tc-modal__content"></div>
   </div>
+</div>
 
-  <style>
-    .tc { --tc-gap: 16px; color: #fff; }
-    .tc__heading{ margin-bottom: 10px; color:#fff; }
 
-    /* Shell de tabs (scroll real) */
-    .tc__tabs-shell{
-      position:relative;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex:1 1 auto;
-      overflow-x:auto;
-      overflow-y:hidden;
-      scroll-behavior:smooth;
-      scrollbar-width:none;
-    }
-    .tc__tabs-shell::-webkit-scrollbar{
-      display:none;
-    }
-
-    .tc__tabs-shell.tc__tabs-shell--no-arrows + .tc-tabs-arrow{
-      display:none;
-    }
-
-    .tc__tabs{
-      position: relative;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      padding: 0;
-      flex:1 1 auto;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
-
-    /* TABS */
-    .tc-tab__btn{
-      --tab-bg: transparent;
-      --tab-bg-h: transparent;
-      --tab-text: inherit;
-      --tab-text-h: #fff;
-      position:relative;
-      display: inline-block;
-      white-space: nowrap;
-      padding: 10px 28px;
-      border-radius: 0;
-      background: transparent;
-      color: var(--tab-text);
-      font-size: var(--tab-fs, 16px);
-      line-height: 1.2;
-      border: none;
-      transition: color .18s ease;
-      cursor: pointer;
-      overflow:visible;
-      z-index:1;
-    }
-    .tc-tab__btn:hover{
-      color: var(--tab-text-h);
-    }
-    .tc-tab__btn.is-active{
-      color: var(--tab-text-h);
-    }
-
-    /* Indicador glow superior + inferior */
-    .tc__indicator{
-      position: absolute;
-      left: 0;
-      width: 0;
-      height: 6px;
-      border-radius: 8px;
-      pointer-events: none;
-      z-index: 0;
-      background: linear-gradient(
-        to right,
-        rgba(255,190,150,0.0) 0%,
-        rgba(255,190,150,0.85) 40%,
-        rgba(255,190,150,1) 50%,
-        rgba(255,190,150,0.85) 60%,
-        rgba(255,190,150,0.0) 100%
-      );
-      transition: transform .22s ease, width .22s ease;
-    }
-    .tc__indicator--top{
-      top: -1px;
-    }
-    .tc__indicator--bottom{
-      bottom: -1px;
-    }
-
-    .tc-tabs-arrow{
-      flex:0 0 auto;
-      width:32px;
-      height:32px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.7);
-      background:rgba(0,0,0,0.45);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      transition:box-shadow .2s ease, background .2s ease, transform .2s ease;
-    }
-    .tc-tabs-arrow .svg-wrapper svg{
-      width:30px;
-      height:30px;
-    }
-    .tc-tabs-arrow svg *{
-      fill:#ffffff !important;
-      stroke:#ffffff !important;
-    }
-    .tc-tabs-arrow:hover{
-      box-shadow:0 0 14px rgba(255,255,255,0.9);
-      background:rgba(0,0,0,0.7);
-      transform:translateY(-1px);
-    }
-
-    .tc-tab__btn::before{
-      content:"";
-      position:absolute;
-      inset:-6px;
-      border-radius:inherit;
-      background:
-        radial-gradient(circle at 0 0, rgba(255,255,255,0.7) 0, transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(255,160,130,0.75) 0, transparent 55%);
-      opacity:0;
-      filter:blur(6px);
-      pointer-events:none;
-      mix-blend-mode:screen;
-      transition:opacity .3s ease, filter .3s ease;
-    }
-
-    /* PANELS */
-    .tc__panels{
-      position: relative;
-      transition: height .26s ease;
-      margin-top: 20px;
-    }
-    .tc-panel{
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(6px);
-      pointer-events: none;
-      transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
-    }
-    .tc-panel.is-active{
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    /* CARRUSEL INTERNO */
-    .tc-carousel{
-      position: relative;
-      min-height: var(--min-h-desktop);
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      padding: 20px 60px;
-    }
-
-    .tc-items{
-      position: relative;
-      display: flex;
-      justify-content: flex-start;
-      gap: clamp(12px, 3vw, 50px);
-      width: 100%;
-      max-width: 1100px;
-      overflow-x: hidden;
-      overflow-y: hidden;
-    }
-
-    .tc-item{
-      position: relative;
-      flex: 0 0 min(360px, 33.333%);
-      max-width: 320px;
-      border-radius: 12px;
-      overflow: hidden;
-      background:var(--card-bg,#15131a);
-      opacity: .35;
-      transition: opacity .25s ease,
-                  box-shadow .25s ease,
-                  border-color .25s ease;
-      border: 1px solid rgba(255,255,255,0.1);
-      cursor: pointer;
-    }
-
-    .tc-item::before{
-      content:"";
-      position:absolute;
-      inset:-6px;
-      border-radius:inherit;
-      background:
-        radial-gradient(circle at 10% 0, rgba(255,255,255,0.8) 0, transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(255,170,130,0.9) 0, transparent 55%),
-        radial-gradient(circle at 0 80%, rgba(255,230,200,0.8) 0, transparent 55%);
-      opacity:0;
-      filter:blur(12px);
-      pointer-events:none;
-      mix-blend-mode:screen;
-      transition:opacity .3s ease, filter .3s ease;
-    }
-    
-    .tc-item.is-active{
-      opacity: 1;
-      box-shadow: 0 0 36px rgba(255, 180, 140, 0.7);
-      border-color: rgba(255, 210, 180, 0.9);
-    }
-
-    .tc-item.is-active::before{
-      opacity:1;
-      filter:blur(16px);
-    }
-
-    .tc-item__media-wrapper{
-      position:absolute;
-      inset:0;
-      z-index:0;
-    }
-    .tc-item__media-img,
-    .tc-item__video{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .tc-item__overlay{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.9) 65%);
-      z-index:1;
-      background-color: var(--overlay);
-      opacity: var(--overlay-op);
-      mix-blend-mode: normal;
-      pointer-events: none; /* IMPORTANTE: no bloquear los botones */
-    }
-
-    .tc-item__content{
-      position:relative;
-      z-index:2;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      padding:clamp(18px, 3vw, 26px);
-      max-width:var(--content-w);
-      margin-inline:auto;
-      background: var(--content-bg, transparent);
-      border-radius: var(--content-radius, 18px);
-      text-align:left;
-      justify-content:flex-end;
-    }
-    .tc-item__content--left{
-      margin-left:0;
-      margin-right:auto;
-      text-align:left;
-    }
-    .tc-item__content--center{
-      margin-left:auto;
-      margin-right:auto;
-      text-align:center;
-    }
-    .tc-item__content--right{
-      margin-left:auto;
-      margin-right:0;
-      text-align:right;
-    }
-    .tc-item__content--top{
-      justify-content:flex-start;
-    }
-    .tc-item__content--center{
-      justify-content:center;
-    }
-    .tc-item__content--bottom{
-      justify-content:flex-end;
-    }
-
-    .tc-item__title{
-      margin:0 0 0.5rem;
-      font-size: clamp(20px, 3vw, 28px);
-      line-height:1.25;
-    }
-    .tc-item__title p{
-      margin-bottom: 0 !important;
-    }
-    .tc-item__text p{ margin:0.25rem 0 0 0; }
-
-    .tc-item__btn{
-      display:inline-block;
-      margin-top:1.2rem;
-      align-self:center;
-      text-decoration:none;
-      padding:.65rem 1.4rem;
-      border-radius:999px;
-      font-weight:600;
-      background: var(--btn-bg, #ffffff);
-      color: var(--btn-text, #111111);
-      transition: background .18s ease, color .18s ease, transform .18s ease;
-    }
-    .tc-item__btn:hover{
-      background: var(--btn-bg-h, #111111);
-      color: var(--btn-text-h, #ffffff);
-      transform: translateY(-1px);
-    }
-
-    /* Flechas laterales cards */
-    .tc-arrow{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      width:50px;
-      height:50px;
-      display:flex;
-      background:transparent;
-      align-items:center;
-      justify-content:center;
-      border: none;
-      cursor:pointer;
-      z-index:3;
-      transition: transform .2s ease;
-    }
-    .tc-arrow .svg-wrapper{
-      width: 50px;
-      height: 50px;
-    }
-    .tc-arrow--prev{
-      left:min(-4px, 3vw);
-    }
-    .tc-arrow--next{
-      right:min(24px, 3vw);
-    }
-    .tc-arrow svg *{
-      fill:#ffffff !important;
-      stroke:#ffffff !important;
-    }
-
-    /* Controles video dentro de la card */
-    .tc-item__controls{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      margin-top:18px;
-    }
-    .tc-vid-btn{
-      width:28px;
-      height:28px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,0.9);
-      background:rgba(0,0,0,0.45);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      transition:box-shadow .2s ease, transform .2s ease, background .2s ease;
-    }
-    .tc-vid-btn svg{
-      width:14px;
-      height:14px;
-    }
-    .tc-vid-btn svg *{
-      fill:#ffffff !important;
-      stroke:#ffffff !important;
-    }
-    .tc-vid-btn:hover{
-      box-shadow:0 0 14px rgba(255,255,255,0.9);
-      transform:translateY(-1px);
-      background:rgba(0,0,0,0.7);
-    }
-    .tc-item:not(.is-playing) .tc-vid-btn--pause{
-      opacity:.4;
-    }
-
-    /* Modal video fullscreen */
-    .tc-modal{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,0.85);
-      opacity:0;
-      visibility:hidden;
-      transition:opacity .25s ease, visibility 0s linear .25s;
-      z-index:9999;
-    }
-    .tc-modal.is-open{
-      opacity:1;
-      visibility:visible;
-      transition-delay:0s;
-    }
-    .tc-modal__inner{
-      position:relative;
-      width:min(90vw, 520px);
-      max-height:90vh;
-    }
-    .tc-modal__content{
-      background:#000;
-      border-radius:12px;
-      overflow:hidden;
-      box-shadow:0 0 40px rgba(0,0,0,0.9);
-    }
-    .tc-modal__content video,
-    .tc-modal__content iframe,
-    .tc-modal__content img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-    .tc-modal__close{
-      position:absolute;
-      top:-40px;
-      right:0;
-      background:none;
-      border:none;
-      color:#ffffff;
-      font-size:26px;
-      cursor:pointer;
-      padding:4px 8px;
-    }
-    body.tc-modal-open{
-      overflow:hidden;
-    }
-
-    /* Responsive */
-    @media (max-width: 989px){
-      .tc-carousel{
-        min-height: var(--min-h-mobile);
-        padding: 20px 16px 28px;
-      }
-
-      .tc-items{
-        width: 90%;
-        max-width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-        display: flex;
-        justify-content: flex-start;
-        gap: 0;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .tc-item{
-        flex: 0 0 100%;
-        max-width: 100%;
-        scroll-snap-align: center;
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .tc__tabs{
-        gap: 12px;
-      }
-      .tc-tab__btn{
-        padding: .5rem .9rem;
-      }
-
-      .tc-item__text{
-        font-size: 0.9rem;
-      }
-
-      .tc-arrow--prev{
-        left: 8px;
-      }
-      .tc-arrow--next{
-        right: 8px;
-      }
-    }
-
-    @media (max-width: 480px){
-      .tc-item__content{
-        padding: 16px 14px;
-      }
-      .tc-item__text{
-        display: none;
-      }
-    }
-  </style>
-
-  <script>
-
+<script>
   (function(){
     var root = document.getElementById('tc-{{ section.id }}');
     if(!root) return;
@@ -951,12 +487,10 @@
       }
     });
 
-    /* Tabs: ocultar flechas si hay pocas */
     if(tabsShell && tabs.length <= 4){
       tabsShell.classList.add('tc__tabs-shell--no-arrows');
     }
 
-    /* Navegación de tabs con flechas (scroll sobre tabsShell) */
     function scrollTabs(delta){
       if(!tabsShell) return;
       var target = tabsShell.scrollLeft + delta;
@@ -980,9 +514,6 @@
       }
     }
 
-    /* =====================
-       Auto contraste de tabs
-       ===================== */
     function hexToRGB(h){
       if(!h) return [255,255,255];
       h = h.replace('#','');
@@ -1036,9 +567,7 @@
       });
     }
 
-    /* =====================
-       Alto dinámico del panel
-       ===================== */
+    
     function setHeights(panel){
       if(!wrap || !panel) return;
       wrap.style.height = panel.scrollHeight + 'px';
@@ -1049,9 +578,7 @@
       });
     }
 
-    /* =====================
-       Activar tab + panel
-       ===================== */
+
     function activate(btn){
       var id = btn.getAttribute('aria-controls');
 
@@ -1077,7 +604,6 @@
       setIndicator(btn);
     }
 
-    /* Eventos de los tabs */
     tabs.forEach(function(btn, i){
       btn.addEventListener('click', function(e){
         e.preventDefault();
@@ -1095,7 +621,6 @@
       });
     });
 
-    /* Estado inicial */
     var initial = root.querySelector('.tc-tab__btn.is-active') || tabs[0];
     if(initial){
       setIndicator(initial);
@@ -1103,7 +628,6 @@
       setHeights(p);
     }
 
-    /* Recalcular en resize / scroll tabs */
     window.addEventListener('resize', function(){
       var activeTab   = root.querySelector('.tc-tab__btn.is-active');
       var activePanel = root.querySelector('.tc-panel.is-active');
@@ -1117,7 +641,7 @@
       }, { passive:true });
     }
 
-        /* ============================
+    /* ============================
        VIDEO CONTROLS (cards)
        ============================ */
     function attachVideoControls(item){
@@ -1163,15 +687,14 @@
           if(video.requestFullscreen){
             video.requestFullscreen();
           } else if(video.webkitRequestFullscreen){
-            video.webkitRequestFullscreen(); 
+            video.webkitRequestFullscreen();
           } else if(video.msRequestFullscreen){
-            video.msRequestFullscreen(); 
+            video.msRequestFullscreen();
           } else {
             openModalFromItem(item, video);
           }
         });
       }
-
 
       item._pauseVideo = pauseVideo;
       item.dataset.videoBound = '1';
@@ -1183,9 +706,7 @@
       }
     }
 
-        /* ============================
-       Carruseles internos por tab
-       ============================ */
+
     function initPanelCarousel(panel){
       var track = panel.querySelector('.tc-items');
       if(!track) return;
@@ -1193,7 +714,6 @@
       var items = Array.from(track.querySelectorAll('.tc-item'));
       if(!items.length) return;
 
-      // Asignar controles de video a todos los items
       items.forEach(attachVideoControls);
 
       var prev = panel.querySelector('.tc-arrow--prev');
@@ -1202,12 +722,8 @@
       var mqDesktop = window.matchMedia('(min-width: 990px)');
       var isDesktop = mqDesktop.matches;
 
-      /* ===========================
-         MODO DESKTOP: 3 items fijos
-         item central activo, loop
-         =========================== */
       function initDesktopMode(){
-        if(items.length < 3) return false; // si hay menos de 3, usar modo simple
+        if(items.length < 3) return false;
 
         var animating = false;
 
@@ -1244,20 +760,17 @@
             track.style.transform  = 'translateX(0)';
 
             if(direction > 0){
-              // NEXT → mover primer item al final
               var first = track.firstElementChild;
               if(first && first.classList.contains('tc-item')){
                 track.appendChild(first);
               }
             } else {
-              // PREV → mover último al inicio
               var last = track.lastElementChild;
               if(last && last.classList.contains('tc-item')){
                 track.insertBefore(last, track.firstElementChild);
               }
             }
 
-            // Re-bind (por seguridad, mismos nodos)
             Array.from(track.querySelectorAll('.tc-item')).forEach(attachVideoControls);
             updateCenter();
 
@@ -1284,7 +797,6 @@
           });
         }
 
-        // Click sobre cards: izquierda → prev, derecha → next
         track.addEventListener('click', function(e){
           if(
             e.target.closest('.tc-arrow') ||
@@ -1302,15 +814,10 @@
           if(idx === 2) slide(1);
         });
 
-        // Estado inicial
         updateCenter();
         return true;
       }
 
-      /* =================================
-         MODO SIMPLE (mobile / <3 items)
-         - scroll-snap + flechas
-         ================================= */
       function initSimpleMode(){
         var index = 0;
 
@@ -1320,7 +827,7 @@
           if(newIndex >= items.length) newIndex = 0;
           index = newIndex;
 
-          var cardWidth = track.clientWidth; // cada card ocupa 100% en mobile
+          var cardWidth = track.clientWidth;
           var target    = cardWidth * index;
 
           if(typeof track.scrollTo === 'function'){
@@ -1353,7 +860,6 @@
           });
         }
 
-        // Actualizar activo cuando el usuario haga swipe manual
         var scrollTimeout = null;
         track.addEventListener('scroll', function(){
           if(scrollTimeout) window.clearTimeout(scrollTimeout);
@@ -1373,35 +879,22 @@
           }, 80);
         }, { passive:true });
 
-        // Estado inicial
         scrollToIndex(0);
       }
 
-      // Inicializar según modo
       if(isDesktop && items.length >= 3){
-        // Desktop “pro” con 3 items en carrusel circular
         initDesktopMode();
       } else {
-        // Mobile y/o pocos ítems → slider simple
         initSimpleMode();
       }
-
-      // Por si cambia el tamaño de viewport mientras la sección está visible
-      mqDesktop.addEventListener('change', function(e){
-        // NOTA: Para no duplicar listeners, podrías recargar la página,
-        // o en una mejora futura, limpiar listeners y re-inicializar.
-        // Aquí solo no hacemos nada para evitar comportamientos raros.
-      });
     }
-    /* Inicializar carrusel en todos los paneles */
+
     panels.forEach(function(panel){
       initPanelCarousel(panel);
     });
 
   })();
 </script>
-
-
 
 {% schema %}
 {
@@ -1485,7 +978,7 @@
       "unit": "px",
       "label": "Tamaño de letra titulo cards",
       "default": 46
-    },         
+    },
     {
       "type": "range",
       "id": "item_desc_size",
@@ -1495,7 +988,7 @@
       "unit": "px",
       "label": "Tamaño de letra texto cards",
       "default": 12
-    },        
+    },
     {
       "type": "color",
       "id": "card_bg_color",
@@ -1673,22 +1166,16 @@
           ]
         },
         { "type": "image_picker", "id": "bg_image", "label": "Imagen de fondo item 1" },
+        { "type": "text", "id": "bg_image_alt", "label": "Alt text imagen item 1", "default": "Background" },
+
         {
           "type": "video",
           "id": "video_file",
           "label": "Video subido item 1 (MP4, mov)",
           "info": "Se prioriza sobre externo/URL."
         },
-        {
-          "type": "url",
-          "id": "external_video",
-          "label": "Video externo item 1 (YouTube/Vimeo)"
-        },
-        {
-          "type": "url",
-          "id": "video_mp4_url",
-          "label": "URL MP4 directa item 1 (opcional)"
-        },
+        { "type": "url", "id": "external_video", "label": "Video externo item 1 (YouTube/Vimeo)" },
+        { "type": "url", "id": "video_mp4_url", "label": "URL MP4 directa item 1 (opcional)" },
 
         { "type": "select", "id": "bg_position", "label": "Posición imagen item 1 (no aplica a video)", "options": [
           { "value": "center center", "label": "Centro" },
@@ -1701,24 +1188,14 @@
         { "type": "richtext", "id": "rich_text", "label": "Descripción item 1", "default": "<p>Texto descriptivo de la diapositiva.</p>" },
         { "type": "text", "id": "button_label", "label": "Texto del botón item 1", "default": "Read more" },
         { "type": "url", "id": "button_link", "label": "Enlace del botón item 1" },
-        {
-          "type": "color",
-          "id": "item_txt_color",
-          "label": "Color texto item 1",
-          "default": "#ffffff"
-        },
+        { "type": "color", "id": "item_txt_color", "label": "Color texto item 1", "default": "#ffffff" },
+
         { "type": "header", "content": "Item 2" },
-        {
-          "type": "select",
-          "id": "item_2_media_type",
-          "label": "Tipo de medio item 2",
-          "default": "image",
-          "options": [
-            { "value": "image", "label": "Imagen" },
-            { "value": "video", "label": "Video" }
-          ]
+        { "type": "select", "id": "item_2_media_type", "label": "Tipo de medio item 2", "default": "image",
+          "options": [ { "value": "image", "label": "Imagen" }, { "value": "video", "label": "Video" } ]
         },
         { "type": "image_picker", "id": "item_2_image", "label": "Imagen de fondo item 2" },
+        { "type": "text", "id": "item_2_image_alt", "label": "Alt text imagen item 2", "default": "Card imageCard image" },
         { "type": "video", "id": "item_2_video_file", "label": "Video subido item 2" },
         { "type": "url", "id": "item_2_external_video", "label": "Video externo item 2" },
         { "type": "url", "id": "item_2_video_mp4_url", "label": "URL MP4 directa item 2" },
@@ -1728,17 +1205,11 @@
         { "type": "url", "id": "item_2_button_link", "label": "Enlace del botón item 2" },
 
         { "type": "header", "content": "Item 3" },
-        {
-          "type": "select",
-          "id": "item_3_media_type",
-          "label": "Tipo de medio item 3",
-          "default": "image",
-          "options": [
-            { "value": "image", "label": "Imagen" },
-            { "value": "video", "label": "Video" }
-          ]
+        { "type": "select", "id": "item_3_media_type", "label": "Tipo de medio item 3", "default": "image",
+          "options": [ { "value": "image", "label": "Imagen" }, { "value": "video", "label": "Video" } ]
         },
         { "type": "image_picker", "id": "item_3_image", "label": "Imagen de fondo item 3" },
+        { "type": "text", "id": "item_3_image_alt", "label": "Alt text imagen item 3", "default": "Card image" },
         { "type": "video", "id": "item_3_video_file", "label": "Video subido item 3" },
         { "type": "url", "id": "item_3_external_video", "label": "Video externo item 3" },
         { "type": "url", "id": "item_3_video_mp4_url", "label": "URL MP4 directa item 3" },
@@ -1748,17 +1219,11 @@
         { "type": "url", "id": "item_3_button_link", "label": "Enlace del botón item 3" },
 
         { "type": "header", "content": "Item 4" },
-        {
-          "type": "select",
-          "id": "item_4_media_type",
-          "label": "Tipo de medio item 4",
-          "default": "image",
-          "options": [
-            { "value": "image", "label": "Imagen" },
-            { "value": "video", "label": "Video" }
-          ]
+        { "type": "select", "id": "item_4_media_type", "label": "Tipo de medio item 4", "default": "image",
+          "options": [ { "value": "image", "label": "Imagen" }, { "value": "video", "label": "Video" } ]
         },
         { "type": "image_picker", "id": "item_4_image", "label": "Imagen de fondo item 4" },
+        { "type": "text", "id": "item_4_image_alt", "label": "Alt text imagen item 4", "default": "Card image" },
         { "type": "video", "id": "item_4_video_file", "label": "Video subido item 4" },
         { "type": "url", "id": "item_4_external_video", "label": "Video externo item 4" },
         { "type": "url", "id": "item_4_video_mp4_url", "label": "URL MP4 directa item 4" },
@@ -1766,47 +1231,34 @@
         { "type": "richtext", "id": "item_4_rich_text", "label": "Descripción item 4" },
         { "type": "text", "id": "item_4_button_label", "label": "Texto del botón item 4" },
         { "type": "url", "id": "item_4_button_link", "label": "Enlace del botón item 4" },
-        
+
         { "type": "header", "content": "Item 5" },
-        {
-          "type": "select",
-          "id": "item_5_media_type",
-          "label": "Tipo de medio item 5",
-          "default": "image",
-          "options": [
-            { "value": "image", "label": "Imagen" },
-            { "value": "video", "label": "Video" }
-          ]
+        { "type": "select", "id": "item_5_media_type", "label": "Tipo de medio item 5", "default": "image",
+          "options": [ { "value": "image", "label": "Imagen" }, { "value": "video", "label": "Video" } ]
         },
         { "type": "image_picker", "id": "item_5_image", "label": "Imagen de fondo item 5" },
+        { "type": "text", "id": "item_5_image_alt", "label": "Alt text imagen item 5", "default": "Card image" },
         { "type": "video", "id": "item_5_video_file", "label": "Video subido item 5" },
         { "type": "url", "id": "item_5_external_video", "label": "Video externo item 5" },
         { "type": "url", "id": "item_5_video_mp4_url", "label": "URL MP4 directa item 5" },
         { "type": "richtext", "id": "item_5_title", "label": "Título item 5" },
         { "type": "richtext", "id": "item_5_rich_text", "label": "Descripción item 5" },
         { "type": "text", "id": "item_5_button_label", "label": "Texto del botón item 5" },
-        { "type": "url", "id": "item_5_button_link", "label": "Enlace del botón item 5" },        
+        { "type": "url", "id": "item_5_button_link", "label": "Enlace del botón item 5" },
 
         { "type": "header", "content": "Item 6" },
-        {
-          "type": "select",
-          "id": "item_6_media_type",
-          "label": "Tipo de medio item 6",
-          "default": "image",
-          "options": [
-            { "value": "image", "label": "Imagen" },
-            { "value": "video", "label": "Video" }
-          ]
+        { "type": "select", "id": "item_6_media_type", "label": "Tipo de medio item 6", "default": "image",
+          "options": [ { "value": "image", "label": "Imagen" }, { "value": "video", "label": "Video" } ]
         },
         { "type": "image_picker", "id": "item_6_image", "label": "Imagen de fondo item 6" },
+        { "type": "text", "id": "item_6_image_alt", "label": "Alt text imagen item 6", "default": "Card image" },
         { "type": "video", "id": "item_6_video_file", "label": "Video subido item 6" },
         { "type": "url", "id": "item_6_external_video", "label": "Video externo item 6" },
         { "type": "url", "id": "item_6_video_mp4_url", "label": "URL MP4 directa item 6" },
         { "type": "richtext", "id": "item_6_title", "label": "Título item 6" },
         { "type": "richtext", "id": "item_6_rich_text", "label": "Descripción item 6" },
         { "type": "text", "id": "item_6_button_label", "label": "Texto del botón item 6" },
-        { "type": "url", "id": "item_6_button_link", "label": "Enlace del botón item 6" },
-
+        { "type": "url", "id": "item_6_button_link", "label": "Enlace del botón item 6" }
       ]
     }
   ],

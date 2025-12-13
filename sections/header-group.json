@@ -16,7 +16,6 @@
       "blocks": {
         "announcement-bar-0": {
           "type": "announcement",
-          "disabled": true,
           "settings": {
             "text": "Welcome to our store",
             "link": ""
@@ -39,23 +38,55 @@
     },
     "header": {
       "type": "header",
-      "disabled": true,
+      "blocks": {
+        "mega_config_FgpmRr": {
+          "type": "mega_config",
+          "settings": {
+            "trigger_label": "Season",
+            "side_menu": "season-menu",
+            "side_menu_label": "By Season"
+          }
+        },
+        "mega_config_XfyRDi": {
+          "type": "mega_config",
+          "settings": {
+            "trigger_label": "Category",
+            "side_menu": "category-menu",
+            "side_menu_label": "By Category"
+          }
+        },
+        "mega_config_cYKUar": {
+          "type": "mega_config",
+          "settings": {
+            "trigger_label": "Collection",
+            "side_menu": "collection-menu",
+            "side_menu_label": "By Collection"
+          }
+        }
+      },
+      "block_order": [
+        "mega_config_FgpmRr",
+        "mega_config_XfyRDi",
+        "mega_config_cYKUar"
+      ],
       "settings": {
+        "onload_logo": "shopify://shop_images/logoo.png",
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
-        "enable_transparent_header": true,
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "enable_transparent_header": false,
+        "menu": "custom-menu",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
+        "color_scheme": "scheme-68a82cc8-0ce5-4612-a54c-bf99f159cf35",
+        "menu_color_scheme": "scheme-68a82cc8-0ce5-4612-a54c-bf99f159cf35",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": true,
         "margin_bottom": 0,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "background_image": "shopify://shop_images/Sin_titulo_66d381a6-015a-4533-a739-44c27a37ef11.png"
       }
     }
   },

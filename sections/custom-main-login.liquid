@@ -1,7 +1,7 @@
 {% comment %}
   Custom Login – replica layout (card centered + 2 columns + socials)
-  - Usa form 'customer_login' + recover
-  - Soporta login con Shop (si está disponible) y botones sociales custom
+  - Uses form 'customer_login' + recover
+  - Supports login with Shop (if available) and social login
 {% endcomment %}
 
 {{ 'customer.css' | asset_url | stylesheet_tag }}
@@ -172,7 +172,7 @@
             {%- endif -%}
           {% endif %}
 
-          <div class="custom-login__socials">
+          {% comment %} <div class="custom-login__socials">
             {% if section.settings.enable_google %}
               <a class="custom-login__social custom-login__social--google" href="{{ section.settings.google_url | default: '#' }}">
                 <span class="custom-login__social-icon">G</span>
@@ -221,7 +221,7 @@
                 <span>{{ section.settings.amazon_label | default: 'Continue with Amazon' }}</span>
               </a>
             {% endif %}
-          </div>
+          </div> {% endcomment %}
 
           {%- if shop.checkout.guest_login and section.settings.enable_guest -%}
             <div class="custom-login__guest">
