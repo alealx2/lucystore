@@ -168,60 +168,13 @@
               <div class="custom-login__shop">
                 {{ shop | login_button }}
               </div>
-              <div class="custom-login__or">{{ section.settings.or_label | default: 'or' }}</div>
+              {% comment %} <div class="custom-login__or">{{ section.settings.or_label | default: 'or' }}</div> {% endcomment %}
             {%- endif -%}
           {% endif %}
 
-          {% comment %} <div class="custom-login__socials">
-            {% if section.settings.enable_google %}
-              <a class="custom-login__social custom-login__social--google" href="{{ section.settings.google_url | default: '#' }}">
-                <span class="custom-login__social-icon">G</span>
-                <span>{{ section.settings.google_label | default: 'Continue with Google' }}</span>
-              </a>
-            {% endif %}
-
-            {% if section.settings.enable_apple %}
-              <a class="custom-login__social custom-login__social--apple" href="{{ section.settings.apple_url | default: '#' }}">
-                <span class="custom-login__social-icon"></span>
-                <span>{{ section.settings.apple_label | default: 'Continue with Apple' }}</span>
-              </a>
-            {% endif %}
-
-            {% if section.settings.enable_microsoft %}
-              <a class="custom-login__social custom-login__social--microsoft" href="{{ section.settings.microsoft_url | default: '#' }}">
-                <span class="custom-login__social-icon">□</span>
-                <span>{{ section.settings.microsoft_label | default: 'Continue with Microsoft' }}</span>
-              </a>
-            {% endif %}
-
-            {% if section.settings.enable_facebook %}
-              <a class="custom-login__social custom-login__social--facebook" href="{{ section.settings.facebook_url | default: '#' }}">
-                <span class="custom-login__social-icon">f</span>
-                <span>{{ section.settings.facebook_label | default: 'Continue with Facebook' }}</span>
-              </a>
-            {% endif %}
-
-            {% if section.settings.enable_instagram %}
-              <a class="custom-login__social custom-login__social--instagram" href="{{ section.settings.instagram_url | default: '#' }}">
-                <span class="custom-login__social-icon">◎</span>
-                <span>{{ section.settings.instagram_label | default: 'Continue with Instagram' }}</span>
-              </a>
-            {% endif %}
-
-            {% if section.settings.enable_pinterest %}
-              <a class="custom-login__social custom-login__social--pinterest" href="{{ section.settings.pinterest_url | default: '#' }}">
-                <span class="custom-login__social-icon">P</span>
-                <span>{{ section.settings.pinterest_label | default: 'Continue with Pinterest' }}</span>
-              </a>
-            {% endif %}
-
-            {% if section.settings.enable_amazon %}
-              <a class="custom-login__social custom-login__social--amazon" href="{{ section.settings.amazon_url | default: '#' }}">
-                <span class="custom-login__social-icon">a</span>
-                <span>{{ section.settings.amazon_label | default: 'Continue with Amazon' }}</span>
-              </a>
-            {% endif %}
-          </div> {% endcomment %}
+          {% comment %} THIRD PARTY APP SOCIAL LOGIN {% endcomment %}
+          <div class="custom-login__hoku-slot" data-hoku-slot></div>
+          {% comment %} END  {% endcomment %}
 
           {%- if shop.checkout.guest_login and section.settings.enable_guest -%}
             <div class="custom-login__guest">
@@ -465,6 +418,7 @@
 
     .custom-login-{{ section.id }} .custom-login__shop{
       margin-bottom: 12px;
+      display: flex;
     }
 
     .custom-login-{{ section.id }} .custom-login__or{
@@ -547,6 +501,19 @@
     .custom-login-{{ section.id }} .custom-login__btn:after{
       box-shadow:none !important;
     }
+
+    .custom-login-{{ section.id }} [data-hoku-slot]{
+      margin-top: 10px;
+    }
+
+    .custom-login-{{ section.id }} .custom-login__hoku{
+      width: 100%;
+    }
+
+    .h_divider{
+      display: none;
+    }
+
   </style>
 
   <script>
@@ -585,7 +552,94 @@
       window.addEventListener('hashchange', syncHash);
     })();
   </script>
+
+
 </section>
+
+<script>
+  (function(){
+    var root = document.getElementById('custom-login-{{ section.id }}');
+    if(!root) return;
+
+    // Password show/hide
+    var toggle = root.querySelector('[data-pw-toggle]');
+    var pw = root.querySelector('#CustomerPassword');
+    if(toggle && pw){
+      toggle.addEventListener('click', function(e){
+        e.preventDefault();
+        var isPw = pw.getAttribute('type') === 'password';
+        pw.setAttribute('type', isPw ? 'text' : 'password');
+        toggle.textContent = isPw ? '{{ section.settings.hide_label | default: "Hide" }}' : '{{ section.settings.show_label | default: "Show" }}';
+      });
+    }
+
+    // Hash switching (recover/login)
+    function syncHash(){
+      var hash = window.location.hash || '#login';
+      var recover = root.querySelector('#recover');
+      var login = root.querySelector('#login');
+      if(!recover || !login) return;
+
+      if(hash === '#recover'){
+        recover.style.display = 'block';
+        login.style.display = 'none';
+      } else {
+        login.style.display = 'block';
+        recover.style.display = 'none';
+      }
+    }
+    syncHash();
+    window.addEventListener('hashchange', syncHash);
+
+    // ==========================
+    // MOVE HOKU CONTAINER TO RIGHT COLUMN
+    // ==========================
+    var SLOT_SELECTOR = '[data-hoku-slot]';
+    var HOKU_SELECTOR = '[name="hiko-container"], [data-hiko-container], .hiko-container, #hiko-container';
+
+    function moveHoku(){
+      var slot = root.querySelector(SLOT_SELECTOR);
+      if(!slot) return false;
+
+      // Busca el contenedor del app en toda la página (no solo dentro del root)
+      var hoku = document.querySelector(HOKU_SELECTOR);
+      if(!hoku) return false;
+
+      // Evita loops si ya está dentro del slot
+      if(slot.contains(hoku)) return true;
+
+      // Si el app inyecta wrappers, podrías querer mover el wrapper padre.
+      // En general el container mismo funciona.
+      slot.appendChild(hoku);
+
+      // (Opcional) agrega clase para estilizarlo
+      hoku.classList.add('custom-login__hoku');
+
+      return true;
+    }
+
+    // Intenta mover inmediatamente
+    if (moveHoku()) return;
+
+    // Observa cambios del DOM (third-party suele renderizar tarde)
+    var obs = new MutationObserver(function(){
+      if (moveHoku()) obs.disconnect();
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Fallback: reintentos por un rato por si el app re-renderiza y lo vuelve a sacar
+    var tries = 0;
+    var maxTries = 40; // ~10s
+    var iv = setInterval(function(){
+      tries++;
+      moveHoku();
+      if (tries >= maxTries) clearInterval(iv);
+    }, 250);
+
+  })();
+</script>
+
+
 
 {% schema %}
 {

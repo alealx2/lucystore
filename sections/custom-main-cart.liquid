@@ -437,9 +437,11 @@
                 </div>
 
                 <div class="custom-cart-line__info">
-                  <p class="custom-cart-line__title">
-                    {{ item.product.title | escape }}
-                  </p>
+                  <a href="{{ item.product.url }}">
+                    <p class="custom-cart-line__title">
+                      {{ item.product.title | escape }}
+                    </p>
+                  </a>
                   {% if item.variant.title != 'Default Title' %}
                     <p class="custom-cart-line__variant">
                       {{ item.variant.title | escape }}

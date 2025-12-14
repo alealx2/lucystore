@@ -85,9 +85,6 @@ height:40px;
 }
 .hs-point.is-active .hs-point__dot{
 background:#ffffff;
-{% comment %} box-shadow:
-    0 0 0 2px rgba(0,0,0,.7),
-    0 0 18px rgba(255,255,255,.92); {% endcomment %}
 }
 @keyframes hsPulse{
 0%{transform:scale(1);opacity:.4}
@@ -105,7 +102,7 @@ color:#fff;
 border-radius:8px;
 box-shadow:0 18px 40px rgba(0,0,0,0.85);
 padding:10px 12px 12px;
-z-index: 9999; 
+z-index: 3; 
 
 display: none;
 backdrop-filter: blur(6px); 
@@ -338,9 +335,7 @@ display:block;
 .hs-panel__arrow--next span{
 transform:rotate(40deg);
 }
-{% comment %} .hs-panel__arrow--prev{
-margin-left: 30px;
-} {% endcomment %}
+
 .hs-panel__arrow--prev span{
 transform:rotate(-140deg);
 }
@@ -354,7 +349,7 @@ overflow:hidden;
 .hs-modal{
 position:fixed;
 inset:0;
-z-index:60;
+z-index:2;
 display:none;
 }
 .hs-modal.is-open{
@@ -594,9 +589,7 @@ border-color:#161F3A;
     bottom:16px;
     max-width:none;
 }
-{% comment %} .hs-panel__main{
-    grid-template-columns:auto 1fr;
-} {% endcomment %}
+
 .hs-modal__dialog{
     padding:22px 10px;
 }

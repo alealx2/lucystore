@@ -28,21 +28,16 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
 
     {% if section.settings.bg_image != blank %}
-      /* Imagen de fondo de la sección */
       background-image: url({{ section.settings.bg_image | image_url: width: 2000 }});
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-color: {{ section.settings.bg }};
     {% else %}
-      /* Solo color de fondo */
       background-color: {{ section.settings.bg }};
     {% endif %}
   }
 
-  /* CONTROL DEL ESPACIADO ENTRE PRODUCTOS
-     Usamos las variables que ya usa Dawn para calcular los márgenes,
-     en vez de usar gap (que rompe el layout flex). */
   .section-{{ section.id }}-padding .product-grid {
     --grid-desktop-horizontal-spacing: {{ section.settings.grid_gap | divided_by: 2 | round: 0 }}px;
     --grid-desktop-vertical-spacing: {{ section.settings.grid_gap | divided_by: 2 | round: 0 }}px;
@@ -64,7 +59,7 @@
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
-    {% comment %} Insertar buscador aqui  {% endcomment %}
+    {% comment %} INSERT SEARCH HERE  {% endcomment %}
       {% comment %} <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
         <form class="facets-vertical-form" id="FacetSortForm">
           <div class="facet-filters sorting caption">
@@ -123,23 +118,27 @@
     {%- endif -%}
 
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+      
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
-        <aside
-          aria-labelledby="verticalTitle"
-          class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
-          id="main-collection-filters"
-          data-id="{{ section.id }}"
-        >
-          {% render 'facets',
-            results: collection,
-            enable_filtering: section.settings.enable_filtering,
-            enable_sorting: section.settings.enable_sorting,
-            filter_type: section.settings.filter_type,
-            paginate: paginate
-          %}
-        </aside>
+
+      {% if collection.products.size > 0 %}
+        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+          <aside
+            aria-labelledby="verticalTitle"
+            class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+            id="main-collection-filters"
+            data-id="{{ section.id }}"
+          >
+            {% render 'facets',
+              results: collection,
+              enable_filtering: section.settings.enable_filtering,
+              enable_sorting: section.settings.enable_sorting,
+              filter_type: section.settings.filter_type,
+              paginate: paginate
+            %}
+          </aside>
+        {%- endif -%}
       {%- endif -%}
 
       <div
