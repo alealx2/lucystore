@@ -37,6 +37,8 @@
         "primary_btn_text": "#ffffff",
         "small_label": "Welcome",
         "heading": "Create your account",
+        "right_small_label": "Or you can",
+        "right_heading": "Register with",
         "submit_label": "Create account",
         "have_account_text": "Already have an account?",
         "login_label": "Log in",

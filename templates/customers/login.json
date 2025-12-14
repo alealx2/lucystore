@@ -48,7 +48,7 @@
         "signup_label": "Sign up",
         "show_label": "Show",
         "hide_label": "Hide",
-        "enable_shop_login_button": true,
+        "enable_shop_login_button": false,
         "or_label": "or",
         "enable_google": true,
         "google_url": "",
