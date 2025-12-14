@@ -73,7 +73,6 @@
     }
 }
 
-/* Galería */
 .via-pdp-main__gallery {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
@@ -166,7 +165,6 @@
 }
 
 
-/* Imagen principal */
 .via-pdp-gallery-main {
     position: relative;
     background: #ffffff;
@@ -232,7 +230,6 @@
     box-shadow: 0 10px 26px rgba(0,0,0,0.18);
 }
 
-/* Columna derecha */
 .via-pdp-main__info {
     max-width: 480px;
 }
@@ -370,7 +367,6 @@
     }
 }
 
-/* --- Tabs incrustadas en la columna derecha --- */
 .via-pdp-main .product-tabs {
     margin-top: 24px;
 }

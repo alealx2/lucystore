@@ -1,13 +1,9 @@
 {% comment %}
-  Custom main product section
-  - Galería vertical de miniaturas + imagen principal grande
-  - Columna derecha con info básica de producto
-  - Fondo configurable con color e imagen
+Custom Main Product Section
+- Vertical gallery of thumbnails + large main image
+- Right column with basic product information
+- Configurable background with color and image
 
-  Para usarla:
-  - Crea un archivo en sections/ llamado product-main-custom.liquid
-  - Pega este código
-  - En el template de producto JSON, reemplaza la sección principal por esta.
 {% endcomment %}
 
 {%- assign gallery_media = product.media | where: 'media_type', 'image' -%}
@@ -542,25 +538,16 @@
         });
       }
 
-      /**
-       * Mover sección "Product tabs (metafields)" dentro del contenedor .product-tabs
-       * de la columna derecha.
-       *
-       * Lo hacemos en window.load para asegurarnos de que el resto de secciones
-       * del template ya estén presentes en el DOM.
-       */
       window.addEventListener('load', function() {
         var tabsTarget = root.querySelector('.product-tabs');
         if (!tabsTarget) return;
 
-        // Buscamos la sección de tabs en la página (sea cual sea su id dinámico)
         var externalTabsSection =
           document.querySelector('section.product-spec-tabs') ||
           document.querySelector('section[id^="ProductTabs-template"]');
 
         if (!externalTabsSection) return;
 
-        // Evitamos moverla más de una vez
         if (tabsTarget.contains(externalTabsSection)) return;
 
         tabsTarget.appendChild(externalTabsSection);

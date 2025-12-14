@@ -19,6 +19,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
   id="pgrid-{{ section.id }}"
   class="pgrid"
   style="
+    z-index: 1;
     --gap: {{ section.settings.gap | default: 16 }}px;
     {% if section.settings.section_bg_type == 'image' and section.settings.section_bg_image != blank %}
       background-image: linear-gradient({{ ov_rgba }}, {{ ov_rgba }}),
@@ -240,7 +241,6 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     </div>
   </div>
 
-  <!-- Modal tipo Via Luci (se rellena clonando la card clickeada) -->
   <div class="pgrid-modal" aria-hidden="true">
     <div class="pgrid-modal__backdrop"><span></span></div>
     <div class="pgrid-modal__dialog" role="dialog" aria-modal="true" aria-label="Preview">
@@ -250,7 +250,6 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
   </div>
 
   <style>
-    /* ========= SCOPE total a esta sección ========= */
     #pgrid-{{ section.id }} .grid-video-bg{
       position:absolute; inset:0; width:100%; height:100%;
       object-fit:cover; z-index:0;
@@ -349,7 +348,6 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       font-size: var(--text-size, 14px);
     }
 
-    /* Pinterest Save (arriba derecha) */
     #pgrid-{{ section.id }} .pgrid__pin{
       position:absolute; top:12px; right:12px;
       display:inline-flex; align-items:center; gap:6px;
@@ -365,7 +363,6 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     #pgrid-{{ section.id }} .pgrid__pin .svg-wrapper{ width:16px; height:16px; }
     #pgrid-{{ section.id }} .pgrid__pin-text{ letter-spacing:.04em; }
 
-    /* Share + Download (abajo izquierda) */
     #pgrid-{{ section.id }} .pgrid__mini{
       position:absolute;
       left:16px;
@@ -393,7 +390,6 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       width:30px; padding-inline:0; transform: rotate(-180deg);
     }
 
-    /* Botones internos */
     #pgrid-{{ section.id }} .pgrid__actions{
       display:flex; gap:.5rem; flex-wrap:wrap; margin-top:10px;
     }
@@ -417,14 +413,55 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     }
     #pgrid-{{ section.id }} .pgrid__btn:hover{ transform: translateY(-1px); }
 
-    /* Hover general */
     #pgrid-{{ section.id }} .pgrid__item:hover .pgrid__img{ transform: scale(1.04); }
 
-    /* Desktop layout fijo tipo referencia Pinterest */
+    /* ================================
+      PGRID – Custom elegant scrollbar
+    ================================ */
+
+    /* Firefox */
+    .pgrid {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 215, 160, 0.45) rgba(255, 255, 255, 0.08);
+    }
+
+    /* Webkit browsers (Chrome, Edge, Safari) */
+    .pgrid::-webkit-scrollbar {
+      height: 8px;              /* horizontal scrollbar */
+    }
+
+    .pgrid::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+    }
+
+    .pgrid::-webkit-scrollbar-thumb {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 215, 160, 0.35),
+        rgba(255, 180, 120, 0.55)
+      );
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Hover state */
+    .pgrid::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 215, 160, 0.55),
+        rgba(255, 180, 120, 0.85)
+      );
+    }
+
+
     @media (min-width: 1200px){
       #pgrid-{{ section.id }} .pgrid__grid{
         grid-template-columns: 1.05fr 1.05fr 1.05fr 1.6fr;
         grid-auto-rows: 220px;
+        max-height: 500px;
+        overflow-y: hidden;
+        overflow: auto;        
       }
       #pgrid-{{ section.id }} .pgrid__item--1{ grid-column:1; grid-row:1; }
       #pgrid-{{ section.id }} .pgrid__item--5{ grid-column:1; grid-row:2; }
