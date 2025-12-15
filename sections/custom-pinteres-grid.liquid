@@ -154,8 +154,19 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
                 </a>
               {%- endif -%}
 
-              {%- if b.share_url != blank or download_href != blank -%}
+              {%- if b.share_url != blank or download_href != blank or b.visit_link  != blank -%}
                 <div class="pgrid__mini">
+                 {% if b.visit_link != blank %}
+                    <a
+                      href="{{ b.visit_link }}"
+                      class="pgrid__mini-btn pgrid__mini-btn--visit"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <span class="svg-wrapper iconshare">{{ 'arrow-bottom-left.svg' | inline_asset_content }}</span>
+                      <span class="pgrid__mini-label">Visit Link</span>
+                    </a>
+                  {% endif %}                  
                   {% if b.share_url != blank %}
                     <a
                       href="{{ b.share_url }}"
@@ -347,6 +358,13 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       opacity:.95;
       font-size: var(--text-size, 14px);
     }
+    #pgrid-{{ section.id }} .pgrid__card-title p{
+      margin: 0;      
+    }
+    #pgrid-{{ section.id }} .pgrid__card-text p{
+      margin-top: 0;
+      margin-bottom: 40px;      
+    }
 
     #pgrid-{{ section.id }} .pgrid__pin{
       position:absolute; top:12px; right:12px;
@@ -376,8 +394,9 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       align-items:center;
       justify-content:center;
       border-radius:999px;
-      padding:4px 10px;
-      font-size:11px;
+      padding:0;
+      font-size:10px;
+      text-transform: uppercase;      
       font-weight:600;
       text-decoration:none;
       border:none;
@@ -385,7 +404,21 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       color:#f5f5f5;
       transition:transform .18s ease;
     }
-    #pgrid-{{ section.id }} .pgrid__mini-btn--share{ padding-inline:12px; gap:6px; }
+    #pgrid-{{ section.id }} .pgrid__mini-btn--share, #pgrid-{{ section.id }} .pgrid__mini-btn--visit{ 
+      padding-inline: 5px;
+      padding-top: 2px;
+      padding-bottom: 2px;      
+      gap: 2px;
+      background: #ffffff;
+      color: #000000;
+      opacity: .5;
+      border-radius: 2px;    
+    }
+
+    #pgrid-{{ section.id }} .icon-arrow-diagonal{ 
+      transform: rotate(-180deg);
+    }
+
     #pgrid-{{ section.id }} .pgrid__mini-btn--download{
       width:30px; padding-inline:0; transform: rotate(-180deg);
     }
@@ -529,7 +562,17 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     }
 
     #pgrid-{{ section.id }} .share{ transform: rotate(180deg); }
-    #pgrid-{{ section.id }} .iconshare{ fill:#ffffff; }
+    #pgrid-{{ section.id }} .iconshare{ stroke:#000000; }
+
+    #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__media{
+      display: flex;
+      justify-content: center;
+      align-items: center;      
+    }
+
+    #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__content{
+      width: 100%;
+    }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
@@ -854,6 +897,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
         { "type": "header", "content": "Pinterest / Compartir / Descargar" },
         { "type": "url", "id": "pinterest_url", "label": "URL Pinterest Save" },
         { "type": "url", "id": "share_url", "label": "URL para compartir" },
+        { "type": "url", "id": "visit_link", "label": "URL para visitar" },
         { "type": "url", "id": "download_url", "label": "URL de descarga (opcional, si se deja vacío se usa la imagen)" }
       ]
     }
