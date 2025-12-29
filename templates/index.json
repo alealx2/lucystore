@@ -796,7 +796,7 @@
             "video_autoplay": true,
             "video_loop": true,
             "video_muted": true,
-            "video_controls": false,
+            "video_controls": true,
             "image_overlay_opacity": 0,
             "overlay_color": "#000000",
             "heading": "",
