@@ -1,19 +1,3 @@
-document.addEventListener('click', function (e) {
-var trigger = e.target.closest('.lucy-scroll');
-if (!trigger) return;
-
-var selector = trigger.getAttribute('data-scroll-target');
-var target = document.querySelector(selector);
-if (!target) return;
-
-e.preventDefault();
-if (target.scrollIntoView) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-} else {
-    window.location.hash = selector;
-}
-}, true);
-
 document.addEventListener('DOMContentLoaded', function () {
 var slider = document.querySelector('#Slider-{{ section.id }}');
 if (!slider) return;

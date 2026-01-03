@@ -277,21 +277,6 @@
 
 
 <script>
-  document.addEventListener('click', function (e) {
-    var trigger = e.target.closest('.lucy-scroll');
-    if (!trigger) return;
-
-    var selector = trigger.getAttribute('data-scroll-target');
-    var target = document.querySelector(selector);
-    if (!target) return;
-
-    e.preventDefault();
-    if (target.scrollIntoView) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.location.hash = selector;
-    }
-  }, true);
 
   document.addEventListener('DOMContentLoaded', function () {
     var slider = document.querySelector('#Slider-{{ section.id }}');
@@ -379,6 +364,64 @@
     refreshControlsVisibility();
   });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var slider = document.querySelector('#Slider-{{ section.id }}');
+    if (!slider) return;
+
+    var root = slider.closest('slideshow-component') || slider.parentElement;
+    if (!root) return;
+
+    var slides = Array.from(slider.querySelectorAll('.slideshow__slide'));
+    if (!slides.length) return;
+
+    var dots = Array.from(root.querySelectorAll('.slider-counter__link'));
+    function activeIndex() {
+      for (var i = 0; i < slides.length; i++) {
+        var hidden = slides[i].getAttribute('aria-hidden');
+        if (hidden === 'false' || hidden === null) return i;
+      }
+      var w = slider.clientWidth || 1;
+      return Math.round((slider.scrollLeft || 0) / w);
+    }
+
+    function goTo(index) {
+      index = Math.max(0, Math.min(slides.length - 1, index));
+      if (dots[index]) {
+        dots[index].click(); 
+        return;
+      }
+      slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    }
+
+    var prevBtn = root.querySelector('.slider-button[name="previous"][aria-controls="Slider-{{ section.id }}"]');
+    var nextBtn = root.querySelector('.slider-button[name="next"][aria-controls="Slider-{{ section.id }}"]');
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (e) {
+        var i = activeIndex();
+        if (i >= slides.length - 1) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(0);
+        }
+      }, true);
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function (e) {
+        var i = activeIndex();
+        if (i <= 0) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(slides.length - 1);
+        }
+      }, true);
+    }
+  });
+</script>
+
 
 {% schema %}
 {

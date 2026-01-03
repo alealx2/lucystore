@@ -8,6 +8,13 @@
     {% if section.settings.cart_bg_color != blank %} style="background-color: {{ section.settings.cart_bg_color }};" {% endif %}
 >
   <style>
+    .empty-btn{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
     .continue-shopping{
         background: #161F3A;
         border-radius: 8px;
@@ -38,7 +45,7 @@
 
     .custom-cart-card {
       background: #ffffff;
-      border-radius: 26px;
+      border-radius: 8px;
       {% comment %} box-shadow: 0 16px 40px rgba(15, 15, 34, 0.08); {% endcomment %}
       border: 1px solid rgba(230, 230, 245, 0.9);
       padding: 22px 24px 24px;
@@ -62,7 +69,7 @@
 
     .custom-cart-items__count {
       margin-left: 8px;
-      font-size: 14px;
+      font-size: 16px;
       color: #a0a0b5;
     }
 
@@ -105,7 +112,7 @@
 
     .custom-cart-line {
       background: #f7f7f7;
-      border-radius: 20px;
+      border-radius: 8px;
       padding: 12px 14px;
       display: grid;
       grid-template-columns: minmax(0, 3fr) 110px 110px;
@@ -131,7 +138,7 @@
     .custom-cart-line__image-wrap {
       width: 64px;
       height: 64px;
-      border-radius: 18px;
+      border-radius: 8px;
       background: #ffffff;
       display: flex;
       align-items: center;
@@ -158,6 +165,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-transform: capitalize;
     }
 
     .custom-cart-line__variant {
@@ -204,7 +212,7 @@
     .custom-cart-line__price-wrap {
       text-align: center;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       gap: 4px;
     }
@@ -248,7 +256,7 @@
     }
     .custom-cart-summary-card {
       background: #f7f7f7;
-      border-radius: 26px;
+      border-radius: 8px;
       padding: 22px 24px 24px;
       {% comment %} box-shadow: 0 16px 40px rgba(15, 15, 34, 0.08); {% endcomment %}
       border: 1px solid rgba(255, 255, 255, 0.8);
@@ -353,6 +361,7 @@
     }
 
     .custom-cart-summary__checkout-button {
+      text-transform: capitalize;
       margin-top: 14px;
       width: 100%;
       border-radius: 8px;
@@ -388,17 +397,26 @@
   <div class="page-width">
     {% if cart == empty %}
     <div class="cart__warnings">
-      <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="button continue-shopping">
-        {{ 'general.continue_shopping' | t }}
-      </a>
 
-      {%- if shop.customer_accounts_enabled and customer == null -%}
+      <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
+
+      <p>If you have an account, sign in to see items added on earlier visits.</p>
+
+      <div class="empty-btn">
+        <a href="{{ routes.all_products_collection_url }}" class="button continue-shopping">
+          {{ 'general.continue_shopping' | t }}
+        </a>
+        <a href="account/login" class="button continue-shopping">
+          Sign In
+        </a>
+      </div>
+
+      {% comment %} {%- if shop.customer_accounts_enabled and customer == null -%}
         <h2 class="cart__login-title">{{ 'sections.cart.login.title' | t }}</h2>
         <p class="cart__login-paragraph">
           {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
         </p>
-      {%- endif -%}
+      {%- endif -%} {% endcomment %}
     </div>
     {% else %}
       <div class="custom-main-cart">
@@ -407,21 +425,21 @@
           <div class="custom-cart-items__header">
             <h1 class="custom-cart-items__title">
               {% comment %} {{ 'sections.cart.title' | t }} {% endcomment %}
-               My bag
+               My Bag
               <span class="custom-cart-items__count">
                 {% assign qty = cart.item_count %}
-                {{ cart.item_count }} {%  if qty > 1 %} products {% else %} product {% endif  %}
+                {{ cart.item_count }} {%  if qty > 1 %} Products {% else %} Product {% endif  %}
               </span>
             </h1>
 
             <a href="#" class="custom-cart-items__clear" data-cart-clear>
-              <span>&times;</span> Clear cart
+              <span>&times;</span> Empty Bag
             </a>
           </div>
 
           <div class="custom-cart-items__head-row">
             <span>{{ 'sections.cart.headings.product' | t }}</span>
-            <span>{{ 'sections.cart.headings.quantity' | t | default: 'Count' }}</span>
+            <span style="text-align: left;">{{ 'sections.cart.headings.quantity' | t | default: 'Count' }}</span>
             <span>{{ 'sections.cart.headings.total' | t | default: 'Price' }}</span>
           </div>
 
@@ -547,7 +565,7 @@
             </div>
 
             <div class="custom-cart-summary__row custom-cart-summary__row--total">
-              <span>Total</span>
+              <span>My Bag</span>
               <span>{{ cart.total_price | money_with_currency }}</span>
             </div>
           </div>

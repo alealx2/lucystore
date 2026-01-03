@@ -483,45 +483,332 @@
     };
   </script>
 
-  <!-- SNAP TO SCROLL EFFECT (Home + About) -->
+  <!-- SNAP TO SCROLL EFFECT (Home + About pages)-->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var root = document.documentElement;
-      var body = document.body;
+    document.addEventListener('DOMContentLoaded', () => {
+
+      function enableDesktopSnap() {
+        snapDesktopEnabled = true;
+        enableSnapMode();
+      }
+
+      function disableDesktopSnap() {
+        snapDesktopEnabled = false;
+        disableSnapMode();
+
+        // libera cualquier estado interno
+        wheelAcc = 0;
+        wheelDir = 0;
+        wheelLock = false;
+        cancelAnimation();
+      }
+
+      const root = document.documentElement;
+      const body = document.body;
 
       if (!root.classList.contains('is-home') && !root.classList.contains('is-about')) return;
+      
+      const DESKTOP_MQ = window.matchMedia('(min-width: 750px)');
+      let snapDesktopEnabled = DESKTOP_MQ.matches;
 
-      var footer = document.querySelector('footer.footer');
-      if (!footer) return;
+      DESKTOP_MQ.addEventListener('change', (e) => {
+        if (e.matches) {
+          enableDesktopSnap();   
+        } else {
+          disableDesktopSnap();  
+        }
+      });
 
-      function enableSnap() {
+      if (!snapDesktopEnabled) {
+        disableDesktopSnap();
+      }
+
+
+      const main   = document.querySelector('main#MainContent');
+      const footer = document.querySelector('footer.footer');
+      const header = document.querySelector('.section-header');
+      if (!main || !footer) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('button, a');
+        if (btn) btn.blur();
+      });
+
+      function enableSnapMode() {
         root.classList.remove('no-snap');
         body.classList.remove('no-snap');
       }
-
-      function disableSnap() {
+      function disableSnapMode() {
         root.classList.add('no-snap');
         body.classList.add('no-snap');
       }
 
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-            disableSnap();
-          } else {
-            enableSnap();
-          }
-        });
-      }, {
-        root: null,
-        threshold: [0.0, 0.15, 0.3]
-      });
+      function syncHeaderVisibility() {
+        if (!header) return;
+        const st = window.pageYOffset || document.documentElement.scrollTop || 0;
 
-      observer.observe(footer);
+        header.classList.remove('shopify-section-header-hidden');
+
+        if (st <= 1) {
+          header.classList.remove('scrolled-past-header');
+        } else {
+          header.classList.add('scrolled-past-header');
+          header.classList.add('shopify-section-header-sticky');
+        }
+      }
+      syncHeaderVisibility();
+      requestAnimationFrame(syncHeaderVisibility);
+      setTimeout(syncHeaderVisibility, 120);
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const onFooterZone = entry.isIntersecting && entry.intersectionRatio > 0.01;
+          footerSnapOff = onFooterZone;
+
+          if (onFooterZone) disableSnapMode();
+          else enableSnapMode();
+        });
+      }, { threshold: [0, 0.01, 0.15, 0.3] });
+
+      obs.observe(footer);
+
+
+      function getSections() {
+        return Array.from(main.querySelectorAll(':scope > .shopify-section'))
+          .filter(el => el.offsetParent !== null);
+      }
+
+      function headerOffset() {
+        return header ? Math.round(header.getBoundingClientRect().height) : 0;
+      }
+
+      function hasScrollableParent(el) {
+        let node = el;
+        while (node && node !== document.body) {
+          const s = getComputedStyle(node);
+          const oy = s.overflowY;
+          const canScroll = (oy === 'auto' || oy === 'scroll') && node.scrollHeight > node.clientHeight + 2;
+          if (canScroll) return true;
+          node = node.parentElement;
+        }
+        return false;
+      }
+
+      function inBlockedUI(target) {
+        return !!target.closest('.drawer, .modal, details[open], .cart-drawer, .predictive-search');
+      }
+
+      function snapEnabledForEvent(e) {
+        if (!snapDesktopEnabled) return false; 
+        if (reduceMotion.matches) return false;
+        if (footerSnapOff) return false;
+        if (root.classList.contains('no-snap') || body.classList.contains('no-snap')) return false;
+
+        const t = e.target;
+        if (!t) return true;
+
+        if (t.closest('input, textarea, select, [contenteditable="true"]')) return false;
+        if (inBlockedUI(t)) return false;
+        if (hasScrollableParent(t)) return false;
+
+        return true;
+      }
+
+      let rafId = 0;
+      let animating = false;
+      let animCancel = false;
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+      }
+
+      function cancelAnimation() {
+        if (!animating) return;
+        animCancel = true;
+        if (rafId) cancelAnimationFrame(rafId);
+        animating = false;
+        animCancel = false;
+      }
+
+      function animateTo(targetY, duration = 950) {
+        cancelAnimation();
+
+        const startY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const delta = targetY - startY;
+        if (Math.abs(delta) < 2) return;
+
+        animating = true;
+        const start = performance.now();
+
+        const step = (now) => {
+          if (animCancel) return;
+          const t = Math.min(1, (now - start) / duration);
+          const eased = easeInOutCubic(t);
+          window.scrollTo(0, startY + delta * eased);
+
+          if (t < 1) rafId = requestAnimationFrame(step);
+          else {
+            animating = false;
+            syncHeaderVisibility();
+          }
+        };
+
+        rafId = requestAnimationFrame(step);
+      }
+
+      function currentIndex(sections) {
+        const y = (window.pageYOffset || document.documentElement.scrollTop || 0) + headerOffset() + 2;
+        let best = 0, bestDist = Infinity;
+
+        sections.forEach((sec, i) => {
+          const top = sec.getBoundingClientRect().top + (window.pageYOffset || 0);
+          const dist = Math.abs(top - y);
+          if (dist < bestDist) { bestDist = dist; best = i; }
+        });
+
+        return best;
+      }
+
+      function scrollToIndex(nextIdx, duration = 980) {
+        const sections = getSections();
+        if (!sections.length) return;
+
+        const clamped = Math.max(0, Math.min(sections.length - 1, nextIdx));
+        const top = sections[clamped].getBoundingClientRect().top + (window.pageYOffset || 0);
+        const target = Math.max(0, Math.round(top - headerOffset()));
+
+        animateTo(target, duration);
+      }
+
+      let footerSnapOff = false;
+
+      function footerTopY() {
+        const top = footer.getBoundingClientRect().top + (window.pageYOffset || 0);
+        return Math.max(0, Math.round(top - headerOffset()));
+      }
+
+
+      let wheelAcc = 0;
+      let wheelDir = 0;          
+      let wheelLock = false;
+      let wheelResetTimer = 0;
+
+      // movement settings
+      const TRIGGER = 120;       // trackball 
+      const DURATION = 1000;     // delay
+      const LOCK_MS = 950;       //look
+
+      window.addEventListener('wheel', (e) => {
+        if (!snapEnabledForEvent(e)) return;
+
+        e.preventDefault();
+
+        if (animating || wheelLock) return;
+
+        const dy = e.deltaY;
+
+        clearTimeout(wheelResetTimer);
+        wheelResetTimer = setTimeout(() => { wheelAcc = 0; wheelDir = 0; }, 180);
+
+        const dir = dy > 0 ? 1 : -1;
+
+        if (wheelDir !== 0 && dir !== wheelDir) {
+          wheelAcc = 0;
+        }
+        wheelDir = dir;
+
+        wheelAcc += Math.abs(dy);
+
+        if (wheelAcc < TRIGGER) return;
+
+        wheelAcc = 0;
+
+        const sections = getSections();
+        if (!sections.length) return;
+
+        const idx = currentIndex(sections);
+
+
+        if (dir === 1 && idx === sections.length - 1) {
+          wheelAcc = 0;
+
+          disableSnapMode();
+          footerSnapOff = true;
+
+          wheelLock = true;
+          animateTo(footerTopY(), DURATION);
+
+          setTimeout(() => { wheelLock = false; }, LOCK_MS);
+          return;
+        }
+
+
+        const next = idx + dir;
+
+        wheelLock = true;
+        scrollToIndex(next, DURATION);
+
+        setTimeout(() => { wheelLock = false; }, LOCK_MS);
+      }, { passive: false });
+
+      window.addEventListener('keydown', (e) => {
+          if (!snapDesktopEnabled) return; 
+        if (!snapEnabledForEvent(e)) return;
+
+        const keys = [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp'];
+        if (!keys.includes(e.key)) return;
+
+        e.preventDefault();
+        if (animating) return;
+
+        const sections = getSections();
+        if (!sections.length) return;
+
+        const idx = currentIndex(sections);
+        const dir = (e.key === 'PageDown' || e.key === 'ArrowDown' || e.key === ' ') ? 1 : -1;
+
+        scrollToIndex(idx + dir, DURATION);
+      }, { passive: false });
+
+      window.addEventListener('scroll', () => {
+        if (!animating) syncHeaderVisibility();
+      }, { passive: true });
+
+      //Arrow btn go to next section
+      document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('.lucy-scroll');
+        if (!trigger) return;
+
+        const selector = trigger.getAttribute('data-scroll-target');
+        if (!selector) return;
+
+        const target = document.querySelector(selector);
+        if (!target) return;
+
+        e.preventDefault();
+
+        disableSnapMode();
+        footerSnapOff = true;
+
+        const top = target.getBoundingClientRect().top + (window.pageYOffset || 0);
+        const targetY = Math.max(0, Math.round(top - headerOffset()));
+
+        animateTo(targetY, 1000);
+
+        setTimeout(() => {
+          footerSnapOff = false;
+          enableSnapMode();
+        }, 1050);
+      }, true);
+
     });
   </script>
-  <!-- /SNAP TO SCROLL EFFECT -->
+  <!-- END SNAP TO -->
 
+
+  
   {%- if settings.predictive_search_enabled -%}
     <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}

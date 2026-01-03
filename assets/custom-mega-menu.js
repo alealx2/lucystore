@@ -1,5 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    var url = window.location.href;
+    var header = document.querySelector('.header-wrapper');
+
+    if(url == 'https://vialuci.com/'){
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+
+            if (scrollPosition > 0) {
+                header.style.background = '#000000';
+            } else {
+                header.style.background = 'transparent';
+            }
+        });
+    }
+
+
+
     var desktopMQ = window.matchMedia('(min-width: 990px)');
 
     /* ========== DESKTOP MEGA ========== */
@@ -138,14 +155,21 @@ document.addEventListener('DOMContentLoaded', function () {
             activateTab(tab);
         });
 
+        var tabHoverDelay;
+
         tab.addEventListener('mouseenter', function () {
-            if (!desktopMQ.matches) return;
+        if (!desktopMQ.matches) return;
+        clearTimeout(tabHoverDelay);
+
+        tabHoverDelay = setTimeout(function () {
             activateTab(tab);
+        }, 180); 
         });
-        tab.addEventListener('focus', function () {
-            if (!desktopMQ.matches) return;
-            activateTab(tab);
+
+        tab.addEventListener('mouseleave', function () {
+        clearTimeout(tabHoverDelay);
         });
+
         });
 
         window.addEventListener('resize', function () {
@@ -155,20 +179,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
         mega.addEventListener('toggle', function () {
         if (mega.open) {
+            if(url == 'https://vialuci.com/'){
+                header.style.background = '#000000';
+            }
             var current = mega.querySelector('.optionB__panel.is-active');
             setHeights(current);
         } else {
+            if(url == 'https://vialuci.com/'){
+                header.style.background = 'transparent';
+            }
             wrap.style.height = '0px';
         }
         });
 
-        /* ------- open/close hover ------- */
         var hoverTimeout;
+        var openDelay;
+
         mega.addEventListener('mouseenter', function () {
         if (!desktopMQ.matches) return;
         clearTimeout(hoverTimeout);
-        mega.open = true;
+        clearTimeout(openDelay);
+
+        openDelay = setTimeout(function () {
+            mega.open = true;
+        }, 180); 
         });
+
 
         mega.addEventListener('mouseleave', function () {
         if (!desktopMQ.matches) return;

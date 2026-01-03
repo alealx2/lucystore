@@ -1,3 +1,131 @@
+/* Popup */
+/* Oculta el mensaje inline de éxito del theme (ya no lo queremos) */
+#ContactFooter .newsletter-form__message--success{ display:none !important; }
+
+.vlc-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+
+.vlc-modal.is-open{ display:block; }
+
+.vlc-modal__backdrop{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(6px);
+}
+
+.vlc-modal__dialog{
+  position: absolute;
+  inset: 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 20px;
+}
+
+.vlc-modal__content{
+  width: min(520px, 92vw);
+  background: rgba(255,255,255,.95);
+  border-radius: 18px;
+  padding: 28px 26px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  position: relative;
+}
+
+.vlc-modal__close{
+  position:absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(255,255,255,.9);
+  cursor:pointer;
+}
+
+.vlc-modal__title{
+  margin: 0 0 10px;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 600;
+  color: #0b1b3a;
+}
+
+.vlc-modal__text{
+  margin: 0 0 18px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(11,27,58,.85);
+}
+
+.vlc-modal__btn{
+  width: 100%;
+  height: 46px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: #0b1b3a;
+  color: #fff;
+}
+
+html.vlc-modal-open{ overflow: hidden; }
+
+/* end popup*/
+
+.footer__copyright .policies .footer-policy-text, .copyright__content p{
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;     
+}
+
+.footer__copyright .policies{
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.footer__copyright .policies li{
+  position: relative;
+}
+
+.footer__copyright .policies a.footer-policy-link{
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer__copyright .policies .footer-policy-text{
+  position: relative;
+  display: inline-block;
+}
+
+.footer__copyright .policies .footer-policy-text::after{
+  content:"";
+  position:absolute;
+  left: 0;
+  right: 0;               
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;           
+  transform: translateZ(0);
+}
+
+.footer__copyright .policies a.footer-policy-link:hover .footer-policy-text::after{
+  opacity: .8;
+}
+
+.footer__copyright .policies a.footer-policy-link:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+
 .footer {
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
   padding-bottom: 0 !important;

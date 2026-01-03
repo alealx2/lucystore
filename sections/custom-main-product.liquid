@@ -130,15 +130,20 @@ Custom Main Product Section
           </div>
         {%- endif -%}
 
+        <div class="via-pdp-wishlist">
+          <div class="wishlist-engine" data-product_id="{{  product.id }}" data-variant_id="{{ product.selected_or_first_available_variant.id }}" data-full_button="true" data-css="true"></div>
+          <span class="wishlist-txt">Add to Wishlist</span>
+        </div>
+
         <div class="via-pdp-price">
+            <span class="via-pdp-price__compare">
+              {{ product.compare_at_price | money }}
+            </span>
           {%- if product.compare_at_price > product.price -%}
             <span class="via-pdp-price__current">
                 {{ product.price | money }}
             </span>            
           {%- endif -%}
-            <span class="via-pdp-price__compare">
-              {{ product.compare_at_price | money }}
-            </span>
           {%- if product.compare_at_price > product.price -%}
             <span class="via-pdp-price__badge">
               {{ 'products.product.on_sale' | t }}
@@ -247,6 +252,16 @@ Custom Main Product Section
     }
     }
   </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const whishlisText = document.querySelector('.wishlist-txt'); 
+      const wishlistHeart = document.querySelector('.wishlist-engine');      
+      whishlisText.addEventListener('click', function() {
+          wishlistHeart.click();
+      });
+    });
+  </script>
 
   <script>
     (function() {

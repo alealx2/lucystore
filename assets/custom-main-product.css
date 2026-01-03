@@ -251,11 +251,27 @@
 }
 
 .via-pdp-rating {
-    margin-bottom: 16px;
-    color: #f1a545;
-    font-size: 16px;
+    color: #EB9F88;
+    font-size: 30px;
 }
-
+.via-pdp-wishlist{
+    display: flex;
+    align-items: center;
+    color: #161f3a;
+    margin-bottom: 40px;
+    gap: 10px;
+    cursor: pointer;
+}
+.via-pdp-wishlist{
+    padding-top: 2px;
+}
+.wishlist-engine-button path:focus, .wishlist-engine-button path:hover{
+    stroke: #161f3a !important;
+    fill: #161f3a !important;
+}
+.wishlist-engine-button, .wishlist-engine-button:hover{
+    padding: 0;
+}
 .via-pdp-price {
     display: flex;
     align-items: center;

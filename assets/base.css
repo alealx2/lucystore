@@ -8,6 +8,33 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+:focus-visible {
+  outline: transparent !important;;
+  outline-offset: 0px !important;;
+}
+
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: transparent !important;;
+}
+
+.copyright__content a{
+  text-transform: capitalize;
+}
+
+.header a:focus:not(:focus-visible),
+.header summary:focus:not(:focus-visible),
+.header button:focus:not(:focus-visible) {
+  outline: none !important;;
+  box-shadow: none !important;;
+}
+
+*:focus { outline: none !important; }
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
@@ -2764,6 +2791,7 @@ details[open] > .header__submenu {
   margin-left: -1.2rem;
   grid-area: navigation;
   display: none;
+  transition: background-color 160ms ease-out;
 }
 
 .header--top-center .header__inline-menu,
@@ -3599,79 +3627,31 @@ details-disclosure > details {
   }
 }
 
-/*SNAP TO SCROLL EFFECT */
-
-@media screen and (min-width: 750px) {
-
-  html.is-home {
-    scroll-behavior: smooth;
-    scrollbar-width: none;          
-    -ms-overflow-style: none;       
-  }
-  html.is-home::-webkit-scrollbar { 
-    display: none;
-  }
-
-  html.is-home,
-  body.is-home {
-    scroll-snap-type: y mandatory;
-    overscroll-behavior-y: none;
-    scroll-padding-top: var(--header-height, 0px);
-  }
-
-  html.is-home body.is-home main#MainContent > .shopify-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  html.is-home.no-snap,
-  body.is-home.no-snap {
-    scroll-snap-type: none;
-  }
-
-  html.is-home.no-snap body.is-home main#MainContent > .shopify-section {
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
-  }
-
-}
-
 shop-follow-button{
   display: none;
 }
 
-/* SNAP TO SCROLL EFFECT – SOLO ABOUT */
+/* SNAP TO SCROLL - EFFECT */
 @media screen and (min-width: 750px) {
-
-  html.is-about {
-    scroll-behavior: smooth;
-    scrollbar-width: none;          /* Firefox */
-    -ms-overflow-style: none;       /* IE/Edge antiguo */
+  html:is(.is-home, .is-about),
+  body:is(.is-home, .is-about) {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-
-  html.is-about::-webkit-scrollbar {
+  html:is(.is-home, .is-about)::-webkit-scrollbar,
+  body:is(.is-home, .is-about)::-webkit-scrollbar {
     display: none;
+    width: 0;
+    height: 0;
   }
 
-  html.is-about,
-  html.is-about body {
-    scroll-snap-type: y mandatory;
+  html:is(.is-home, .is-about),
+  body:is(.is-home, .is-about) {
+    scroll-snap-type: none !important;
     overscroll-behavior-y: none;
-    scroll-padding-top: var(--header-height, 0px);
   }
 
-  html.is-about body main#MainContent > .shopify-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  html.is-about.no-snap,
-  html.is-about.no-snap body {
-    scroll-snap-type: none;
-  }
-
-  html.is-about.no-snap body main#MainContent > .shopify-section {
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
+  html:is(.is-home, .is-about) body main#MainContent > .shopify-section {
+    min-height: 100vh;
   }
 }

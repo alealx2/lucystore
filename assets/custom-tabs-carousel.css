@@ -1,4 +1,14 @@
-  .tc { --tc-gap: 16px; color: #fff; }
+  @media screen and (min-width: 750px) {
+  .tc { 
+      height: 100vh;
+    }
+  }
+
+  .tc { 
+    --tc-gap: 16px; 
+    color: #fff; 
+  }
+  
   .tc__heading{ margin-bottom: 10px; color:#fff; }
 
   /* Shell de tabs (scroll real) */
@@ -87,8 +97,8 @@
 
   .tc-tabs-arrow{
     flex:0 0 auto;
-    width:32px;
-    height:32px;
+    width:22px;
+    height:22px;
     border-radius:999px;
     border:1px solid rgba(255,255,255,0.7);
     background:rgba(0,0,0,0.45);

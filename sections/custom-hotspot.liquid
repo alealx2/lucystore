@@ -313,7 +313,12 @@
           root.classList.remove('hs--panel-open');
           points.forEach(p => p.classList.remove('is-active'));
           currentIndex = -1;
+
+          if (modal.classList.contains('is-open')) {
+            closeModal(false); 
+          }
         }
+
 
         function openModalFromCurrent(){
           if(currentIndex < 0) return;
@@ -376,11 +381,22 @@
           document.documentElement.classList.add('hs-modal-open');
         }
 
-        function closeModal(){
+        function closeModal(alsoClosePanel = true){
           modal.classList.remove('is-open');
           modal.setAttribute('aria-hidden','true');
           document.documentElement.classList.remove('hs-modal-open');
+
+          if (modalImg) modalImg.removeAttribute('src');
+
+          if (alsoClosePanel && panel.classList.contains('is-open')) {
+            panel.classList.remove('is-open');
+            panel.setAttribute('aria-hidden','true');
+            root.classList.remove('hs--panel-open');
+            points.forEach(p => p.classList.remove('is-active'));
+            currentIndex = -1;
+          }
         }
+
 
         /*  hotspots */
         points.forEach((point, idx)=>{
@@ -489,7 +505,7 @@
       document.addEventListener('DOMContentLoaded', boot);
       document.addEventListener('shopify:section:load', boot);
 
-      document.addEventListener('click', function(e){
+      {% comment %} document.addEventListener('click', function(e){
         const closeBtn = e.target.closest('.hs-modal-close');
         if(!closeBtn) return;
 
@@ -498,7 +514,7 @@
           modal.classList.remove('is-open');
           document.documentElement.style.overflow = '';
         }
-      });
+      }); {% endcomment %}
 
 
     })();

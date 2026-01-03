@@ -1,3 +1,123 @@
+.optionB__tabs-list {
+  display: flex;
+  align-items: stretch; 
+}
+
+.optionB__tabs-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.optionB__tabs-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -20px;     
+  top: 20%;
+  bottom: 0;        
+  width: 1px;
+  background-color: rgba(255,255,255,0.45);
+}
+
+.optionB__tabs-item:not(:last-child)::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0.45)
+  );
+}
+
+
+@media (min-width: 990px) {
+  .optionB__panels {
+    position: relative; 
+  }
+
+  .optionB__panel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+
+    opacity: 0;
+    transform: translateY(6px);
+
+    transition: transform 180ms ease-out, opacity 140ms ease-out;
+
+    pointer-events: none;
+    visibility: hidden;
+    will-change: opacity, transform;
+  }
+
+  .optionB__panel.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 180ms ease-out, opacity 140ms ease-out;
+    pointer-events: auto;
+    visibility: visible;
+  }
+}
+
+@media (min-width: 990px) {
+  /* HERO Category */
+  .megamenu-cat__hero {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 140ms ease-out, transform 160ms ease-out;
+    pointer-events: none;
+  }
+  .megamenu-cat__hero.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Cards Expanding */
+  .megamenu-pb__card {
+    transition: transform 180ms ease-out, opacity 140ms ease-out;
+  }
+}
+
+
+/* ===== DESKTOP MEGA MENU MICRO TRANSITION ===== */
+@media (min-width: 990px) {
+  details.mega-menu > .mega-menu__content {
+    transform: translateY(-6px);
+    opacity: 0;
+    transition:
+      transform 160ms ease-out,
+      opacity 120ms ease-out;
+    will-change: transform, opacity;
+  }
+
+  details.mega-menu[open] > .mega-menu__content {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== MOBILE MEGA SLIDE ===== */
+.mobile-mega-host {
+  overflow: hidden;
+  transform: translateY(-6px);
+  opacity: 0;
+  transition:
+    max-height 220ms ease,
+    transform 160ms ease-out,
+    opacity 120ms ease-out;
+}
+
+.mobile-mega-host.is-open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.header-wrapper {
+    border: none;
+  transition: background-color 160ms ease-out;
+}
+
 
 .shop-by{
 padding: 10px 8px;
@@ -14,7 +134,7 @@ width: 10px;
 transform: rotate(-90deg);
 }
 
-.optionB__panels{ position: relative; transition: height .24s ease; }
+.optionB__panels{ position: relative; transition: height 180ms ease-out;}
 .optionB__panel{
 position:absolute; inset:0; opacity:0; visibility:hidden;
 transform: translateY(6px); pointer-events:none;
@@ -34,14 +154,17 @@ background-repeat: no-repeat;
 }
 
 
-.optionB__tabs{ border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:16px; }
+.optionB__tabs{ 
+    /* border-bottom:1px solid rgba(255,255,255,.08);  */
+    margin-bottom:16px; 
+}
 .optionB__tabs-list{ list-style:none; margin:0; padding:0; display:flex; gap:28px; align-items:center; justify-content: center; }
 .optionB__tabs-item{ margin:0; }
 .optionB__tabs-link{
 display:inline-block; padding:10px 2px; text-decoration:none; position:relative; line-height:1.2;
 }
 .optionB__tabs-link.is-active::after{
-content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background: currentColor;
+content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background: currentColor;
 }
 
 /* ====== PANEL DEFAULT ====== */
@@ -62,7 +185,7 @@ overflow:auto;
 display:block; padding:10px 8px;
 text-decoration:none; font-size:15px;
 }
-.megamenu-pb__link.is-active{ font-weight:600; }
+.megamenu-pb__link.is-active{ font-weight:600; transition: transform 180ms ease-out, opacity 140ms ease-out; }
 
 /* ====== EXPANDABLE LAYOUT  ====== */
 .megamenu-pb__featured--expanding{
@@ -450,7 +573,7 @@ transform: translateY(0);
 
 @media (min-width: 990px){
     .mega-menu__content{
-    transition: height .26s ease;
+    transition: transform 180ms ease-out, opacity 140ms ease-out;
     max-height: calc(100vh - var(--header-height));
     overflow-y: auto;
     }
