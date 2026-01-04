@@ -454,7 +454,17 @@
     }
 
     onScroll() {
+      const root = document.documentElement;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (root.classList.contains('is-home') || root.classList.contains('is-about')) {
+        this.header.classList.add('shopify-section-header-sticky', 'scrolled-past-header');
+        this.header.classList.remove('shopify-section-header-hidden');
+
+        this.toggleOnloadLogo(scrollTop);
+        this.currentScrollTop = scrollTop;
+        return;
+      }
 
       if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
 
@@ -481,9 +491,9 @@
       }
 
       this.toggleOnloadLogo(scrollTop);
-
       this.currentScrollTop = scrollTop;
     }
+
 
     hide() {
       if (this.headerIsAlwaysSticky) return;

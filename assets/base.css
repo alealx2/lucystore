@@ -3655,3 +3655,21 @@ shop-follow-button{
     min-height: 100vh;
   }
 }
+
+
+html.is-home .section-header,
+html.is-about .section-header{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+html.is-home .section-header.shopify-section-header-hidden,
+html.is-about .section-header.shopify-section-header-hidden{
+  transform: none !important;
+}
+
+html.is-home .section-header .header-wrapper,
+html.is-about .section-header .header-wrapper{
+  z-index: 9999;
+}
