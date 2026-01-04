@@ -538,7 +538,7 @@
         "content_bg": "#111111",
         "content_bg_radius": 2,
         "content_max_width": 440,
-        "padding_top": 100,
+        "padding_top": 32,
         "btn_bg": "#000000",
         "btn_text": "#ffffff",
         "btn_bg_hover": "#000000",
