@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    var url = window.location.href;
     var header = document.querySelector('.header-wrapper');
 
-    if(url == 'https://vialuci.com/'){
+    if(document.body.classList.contains('is-home')){
         window.addEventListener('scroll', function() {
             const scrollPosition = window.scrollY;
 
@@ -179,13 +178,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         mega.addEventListener('toggle', function () {
         if (mega.open) {
-            if(url == 'https://vialuci.com/'){
+            if(document.body.classList.contains('is-home')){
                 header.style.background = '#000000';
             }
             var current = mega.querySelector('.optionB__panel.is-active');
             setHeights(current);
         } else {
-            if(url == 'https://vialuci.com/'){
+            if(document.body.classList.contains('is-home')){
                 header.style.background = 'transparent';
             }
             wrap.style.height = '0px';
