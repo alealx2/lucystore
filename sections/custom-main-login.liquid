@@ -51,6 +51,7 @@
                   autocapitalize="off"
                   autocomplete="email"
                   placeholder="{{ 'customer.login_page.email' | t }}"
+                  required
                   {% if form.errors %}
                     aria-invalid="true"
                     aria-describedby="RecoverEmail-email-error"
@@ -107,6 +108,7 @@
                   autocorrect="off"
                   autocapitalize="off"
                   placeholder="{{ 'customer.login_page.email' | t }}"
+                  required
                   {% if form.errors contains 'form' %} aria-invalid="true" {% endif %}
                 >
               </div>
@@ -122,6 +124,7 @@
                       name="customer[password]"
                       id="CustomerPassword"
                       autocomplete="current-password"
+                      required
                       placeholder="{{ 'customer.login_page.password' | t }}"
                       {% if form.errors contains 'form' %} aria-invalid="true" {% endif %}
                     >

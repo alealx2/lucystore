@@ -249,3 +249,95 @@ document.addEventListener('DOMContentLoaded', function () {
         host.style.maxHeight = host.scrollHeight + 'px';
     }, true);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const isDesktop = window.matchMedia('(min-width: 990px)');
+  const OPEN_DELAY = 110;   // 90–140ms recomendado
+  const CLOSE_DELAY = 120;  // similar al open, se siente natural
+
+  function setupDesktopHover() {
+    const detailsList = document.querySelectorAll('header-menu details.mega-menu');
+    if (!detailsList.length) return;
+
+    detailsList.forEach((details) => {
+      const summary = details.querySelector('summary');
+      if (!summary) return;
+
+      let openT = null;
+      let closeT = null;
+
+      const clearTimers = () => {
+        if (openT) { clearTimeout(openT); openT = null; }
+        if (closeT) { clearTimeout(closeT); closeT = null; }
+      };
+
+      const openMenu = () => {
+        clearTimers();
+        // Cierra otros menús abiertos (premium + ordenado)
+        detailsList.forEach((d) => {
+          if (d !== details) d.removeAttribute('open');
+        });
+        details.setAttribute('open', '');
+      };
+
+      const closeMenu = () => {
+        clearTimers();
+        details.removeAttribute('open');
+      };
+
+      // Hover enter: abre con delay
+      details.addEventListener('mouseenter', () => {
+        if (!isDesktop.matches) return;
+        clearTimers();
+        openT = setTimeout(openMenu, OPEN_DELAY);
+      });
+
+      // Hover leave: cierra con delay
+      details.addEventListener('mouseleave', () => {
+        if (!isDesktop.matches) return;
+        clearTimers();
+        closeT = setTimeout(closeMenu, CLOSE_DELAY);
+      });
+
+      // Accesibilidad: focus dentro abre sin delay (más natural con teclado)
+      details.addEventListener('focusin', () => {
+        if (!isDesktop.matches) return;
+        clearTimers();
+        openMenu();
+      });
+
+      // Si pierdes foco completamente, cierra
+      details.addEventListener('focusout', (e) => {
+        if (!isDesktop.matches) return;
+        // Si el focus se va fuera del details
+        if (!details.contains(e.relatedTarget)) {
+          clearTimers();
+          closeT = setTimeout(closeMenu, CLOSE_DELAY);
+        }
+      });
+
+      // Evita que el click en summary “toggle” raro cuando estamos en modo hover
+      summary.addEventListener('click', (e) => {
+        if (!isDesktop.matches) return;
+        e.preventDefault(); // controlamos open/close por hover
+      });
+    });
+
+    // Cerrar al click fuera (desktop)
+    document.addEventListener('click', (e) => {
+      if (!isDesktop.matches) return;
+      const inside = e.target.closest('header-menu details.mega-menu');
+      if (inside) return;
+      document.querySelectorAll('header-menu details.mega-menu[open]').forEach(d => d.removeAttribute('open'));
+    });
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (!isDesktop.matches) return;
+      if (e.key !== 'Escape') return;
+      document.querySelectorAll('header-menu details.mega-menu[open]').forEach(d => d.removeAttribute('open'));
+    });
+  }
+
+  setupDesktopHover();
+});

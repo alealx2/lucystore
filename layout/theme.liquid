@@ -816,5 +816,29 @@
   {%- if settings.cart_type == 'drawer' -%}
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
+
+
+    <div class="cc-modal_newsletter" id="ccNewsletterSuccessModal" aria-hidden="true">
+      <div class="cc-modal__backdrop" data-cc-close></div>
+
+      <div class="cc-modal__dialog_newsletter" role="dialog" aria-modal="true" aria-labelledby="ccNewsletterModalTitle">
+        <button class="cc-modal__close" type="button" aria-label="Close" data-cc-close>×</button>
+
+        <p class="cc-modal__kicker">NEWSLETTER</p>
+
+        <h3 class="cc-modal__title" id="ccNewsletterModalTitle">
+          Thank you for joining our world of light.
+        </h3>
+
+        <p class="cc-modal__body">
+          Your home, your traditions and your memories just became brighter.
+        </p>
+
+        <button class="button custom-newsletter-submit cc-modal__cta" type="button" data-cc-close>
+          Continue
+        </button>
+      </div>
+    </div>
+
 </body>
 </html>

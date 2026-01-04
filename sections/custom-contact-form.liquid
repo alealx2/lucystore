@@ -72,6 +72,7 @@
                   name="contact[{{ 'templates.contact.form.name' | t }}]"
                   value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
                   placeholder="{{ 'templates.contact.form.name' | t }}"
+                  required
                 >
               </div>
 
@@ -94,6 +95,7 @@
                     aria-describedby="CustomContactForm-email-error"
                   {% endif %}
                   placeholder="{{ 'templates.contact.form.email' | t }}"
+                  required
                 >
                 {%- if form.errors contains 'email' -%}
                   <small class="custom-contact-field-error" id="CustomContactForm-email-error">
@@ -135,6 +137,7 @@
                   class="text-area field__input"
                   name="contact[{{ 'templates.contact.form.comment' | t }}]"
                   placeholder="{{ 'templates.contact.form.comment' | t }}"
+                  required
                 >{{- form.body -}}</textarea>
               </div>
             </div>
@@ -151,7 +154,7 @@
           <div class="cc-modal" id="ccSuccessModal-{{ section.id }}" aria-hidden="true">
             <div class="cc-modal__backdrop" data-cc-close></div>
 
-            <div class="cc-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ccModalTitle-{{ section.id }}">
+            <div class="cc-modal__dialog_contact" role="dialog" aria-modal="true" aria-labelledby="ccModalTitle-{{ section.id }}">
               <button class="cc-modal__close" type="button" aria-label="Close" data-cc-close>×</button>
 
               <p class="cc-modal__kicker">CONTACT</p>
@@ -510,7 +513,6 @@
       }
     }
 
-    /* ===== Forzar visibilidad de placeholders en custom contact ===== */
     .custom-contact-{{ section.id }} .field__input::placeholder,
     .custom-contact-{{ section.id }} .text-area.field__input::placeholder {
       opacity: 1 !important;
@@ -552,7 +554,7 @@
       background: rgba(0,0,0,.55);
     }
 
-    .cc-modal__dialog {
+    .cc-modal__dialog_contact {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -566,7 +568,7 @@
     }
 
     @media (min-width: 900px) {
-      .cc-modal__dialog {
+      .cc-modal__dialog_contact {
         padding: 34px 32px;
       }
     }
@@ -592,6 +594,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #BA745F;
+      text-align: center;
     }
 
     .cc-modal__title {
@@ -600,6 +603,8 @@
       line-height: 1.2;
       font-weight: 700;
       font-style: italic;
+      color: #BA745F;
+      text-align: center;
     }
 
     .cc-modal__body {
@@ -622,6 +627,7 @@
   
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
       const form = document.getElementById('CustomContactForm');
       if (!form) return;
 

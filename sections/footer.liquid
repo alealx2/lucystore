@@ -218,6 +218,8 @@
                   </h3>
                 {%- endif -%}
               {%- endform -%}
+
+
               {%- if section.settings.show_social and has_social_icons -%}
                 {%- render 'social-icons', class: 'footer__list-social' -%}
               {%- endif -%}              
@@ -308,6 +310,59 @@
     </div>
   </div>
 </footer>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('ContactFooter');
+    if (!form) return;
+
+    const modal =
+      document.getElementById('ccNewsletterSuccessModal') ||
+      document.getElementById('ccNewsletterSuccessModal-{{ section.id }}');
+    if (!modal) return;
+
+    function openModal() {
+      modal.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('cc-modal-open');
+      document.body.classList.add('cc-modal-open');
+    }
+
+    function closeModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('cc-modal-open');
+      document.body.classList.remove('cc-modal-open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#' + modal.id + ' [data-cc-close]')) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+    });
+
+    const url = new URL(window.location.href);
+
+    const postedCustomer = url.searchParams.get('customer_posted') === 'true';
+    const postedContact  = url.searchParams.get('contact_posted') === 'true'; 
+
+    const hash = (window.location.hash || '').toLowerCase();
+    const onFooterAnchor = (hash === '#contactfooter'); 
+    const hasError = !!document.getElementById('ContactFooter-error');
+
+    if ((postedCustomer || postedContact) && onFooterAnchor && !hasError) {
+      openModal();
+
+      url.searchParams.delete('customer_posted');
+      url.searchParams.delete('contact_posted');
+      history.replaceState({}, '', url.pathname + url.search + '#ContactFooter');
+
+      try { form.reset(); } catch(e) {}
+    }
+  });
+</script>
+
 
 
 {% schema %}

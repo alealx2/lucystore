@@ -59,6 +59,11 @@
       >
         {%- if card_product.featured_media -%}
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
+            
+            <div class="collection-wishlist">
+              <div class="wishlist-engine" data-product_id="{{  card_product.id }}" data-variant_id="{{ card_product.selected_or_first_available_variant.id }}" data-full_button="true" data-css="true"></div>
+            </div>
+            
             <div class="media media--transparent media--hover-effect">
               {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
               <img
@@ -592,6 +597,11 @@
         <div
           class="card__media {% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}"
         >
+
+          <div class="collection-wishlist">
+            <div class="wishlist-engine" data-product_id="{{  card_product.id }}" data-variant_id="{{ card_product.selected_or_first_available_variant.id }}" data-full_button="true" data-css="true"></div>
+          </div>
+
           <div
             class="media media--transparent"
           >
