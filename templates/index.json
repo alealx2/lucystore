@@ -42,74 +42,10 @@
             "text_alignment_mobile": "center",
             "color_scheme": "scheme-4"
           }
-        },
-        "slide_kFcM3D": {
-          "type": "slide",
-          "settings": {
-            "media_type": "video",
-            "image_alt": "Image",
-            "video_file": "shopify://files/videos/3197580-hd_1920_1080_25fps.mp4",
-            "external_video": "",
-            "video_mp4_url": "",
-            "video_autoplay": true,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "image_overlay_opacity": 60,
-            "overlay_color": "#242833",
-            "heading": "Lorem <strong>Ipsum</strong>",
-            "bold_text_color": "#ba745f",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "Lorem Ipsum",
-            "link": "#",
-            "button_style_secondary": false,
-            "lucy_style_enabled": true,
-            "scroll_arrow_alt": "Scroll down",
-            "show_text_box": false,
-            "box_opacity": 10,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-4"
-          }
-        },
-        "slide_UWBCqz": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/SECTION_3__Image_002__Homealone.png",
-            "image_alt": "Image",
-            "external_video": "",
-            "video_mp4_url": "",
-            "video_autoplay": false,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "image_overlay_opacity": 50,
-            "overlay_color": "#161f3a",
-            "heading": "Lorem <strong>Ipsum</strong>",
-            "bold_text_color": "#ba745f",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "Lorem Ipsum",
-            "link": "#",
-            "button_style_secondary": false,
-            "lucy_style_enabled": true,
-            "scroll_arrow_alt": "Scroll down",
-            "show_text_box": false,
-            "box_opacity": 10,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-4"
-          }
         }
       },
       "block_order": [
-        "slide_CC9RyP",
-        "slide_kFcM3D",
-        "slide_UWBCqz"
+        "slide_CC9RyP"
       ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
