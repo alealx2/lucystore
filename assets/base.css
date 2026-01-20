@@ -3673,3 +3673,45 @@ html.is-home .section-header .header-wrapper,
 html.is-about .section-header .header-wrapper{
   z-index: 9999;
 }
+
+
+
+.sewp-header{
+  background: #000000 !important;
+}
+.sewp-engine-popupinr{
+  border-radius: 8px !important;
+  background: #F9EFE6 !important;
+}
+.wishlist-cart{
+  text-transform: capitalize !important;
+  margin-top: 14px !important;
+  width: 100% !important;
+  border-radius: 8px !important;
+  padding: 12px 18px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  background: #161F3A !important;
+  color: #ffffff !important;
+  text-align: center !important;
+  transition: background .15s ease, transform .15s ease, box-shadow .15s ease !important;
+}
+
+.wishlist-column {
+    background: #ffffff !important;
+    border-radius: 8px !important;
+}
+
+.headerwishlist{
+  text-transform: capitalize !important;
+}
+
+.wishlist-top img{
+  object-fit: contain !important;
+}
+
+.sewp-header {
+    border-radius: 8px 8px 0 0 !important;
+}

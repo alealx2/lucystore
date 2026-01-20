@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 header.style.background = 'transparent';
             }
         });
+    }else{
+      header.style.background = '#000000';
     }
 
 
@@ -298,31 +300,26 @@ document.addEventListener('DOMContentLoaded', () => {
         closeT = setTimeout(closeMenu, CLOSE_DELAY);
       });
 
-      // Accesibilidad: focus dentro abre sin delay (más natural con teclado)
       details.addEventListener('focusin', () => {
         if (!isDesktop.matches) return;
         clearTimers();
         openMenu();
       });
 
-      // Si pierdes foco completamente, cierra
       details.addEventListener('focusout', (e) => {
         if (!isDesktop.matches) return;
-        // Si el focus se va fuera del details
         if (!details.contains(e.relatedTarget)) {
           clearTimers();
           closeT = setTimeout(closeMenu, CLOSE_DELAY);
         }
       });
 
-      // Evita que el click en summary “toggle” raro cuando estamos en modo hover
       summary.addEventListener('click', (e) => {
         if (!isDesktop.matches) return;
-        e.preventDefault(); // controlamos open/close por hover
+        e.preventDefault(); 
       });
     });
 
-    // Cerrar al click fuera (desktop)
     document.addEventListener('click', (e) => {
       if (!isDesktop.matches) return;
       const inside = e.target.closest('header-menu details.mega-menu');
@@ -330,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('header-menu details.mega-menu[open]').forEach(d => d.removeAttribute('open'));
     });
 
-    // Cerrar con Escape
     document.addEventListener('keydown', (e) => {
       if (!isDesktop.matches) return;
       if (e.key !== 'Escape') return;

@@ -104,8 +104,8 @@
             <div class="hs-panel__meta">
               <h3 class="hs-panel__title" data-hs-panel-title>Product title</h3>
               <div class="hs-panel__prices" data-hs-panel-prices>
-                <span class="hs-panel__price" data-hs-panel-price></span>
                 <span class="hs-panel__compare" data-hs-panel-compare></span>
+                <span class="hs-panel__price" data-hs-panel-price></span>
               </div>
               <button
                 class="hs-btn hs-btn--ghost hs-panel__view view-product"
@@ -157,8 +157,8 @@
         <h3 class="hs-modal__title" data-hs-modal-title>Product title…</h3>
 
         <div class="hs-modal__prices" data-hs-modal-prices>
-          <span class="hs-modal__price" data-hs-modal-price></span>
           <span class="hs-modal__compare" data-hs-modal-compare></span>
+          <span class="hs-modal__price" data-hs-modal-price></span>
         </div>
 
         <div class="hs-modal__desc" data-hs-modal-desc></div>
@@ -388,13 +388,13 @@
 
           if (modalImg) modalImg.removeAttribute('src');
 
-          if (alsoClosePanel && panel.classList.contains('is-open')) {
+          {% comment %} if (alsoClosePanel && panel.classList.contains('is-open')) {
             panel.classList.remove('is-open');
             panel.setAttribute('aria-hidden','true');
             root.classList.remove('hs--panel-open');
             points.forEach(p => p.classList.remove('is-active'));
             currentIndex = -1;
-          }
+          } {% endcomment %}
         }
 
 

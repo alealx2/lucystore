@@ -62,7 +62,7 @@
             <div class="custom-contact-grid">
               <div class="field">
                 <label class="field__label" for="CustomContactForm-name">
-                  {{ 'templates.contact.form.name' | t }}
+                  First Name
                 </label>
                 <input
                   class="field__input"
@@ -71,14 +71,29 @@
                   id="CustomContactForm-name"
                   name="contact[{{ 'templates.contact.form.name' | t }}]"
                   value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.name' | t }}"
+                  placeholder="Your First Name"
                   required
+                >
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="CustomContactForm-name">
+                  Last Name
+                </label>
+                <input
+                  class="field__input"
+                  autocomplete="name"
+                  type="text"
+                  id="CustomContactForm-name"
+                  name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  placeholder="Your Last Name"                  
                 >
               </div>
 
               <div class="field field--with-error">
                 <label class="field__label" for="CustomContactForm-email">
-                  {{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span>
+                  Email <span aria-hidden="true">*</span>
                 </label>
                 <input
                   autocomplete="email"
@@ -94,7 +109,7 @@
                     aria-invalid="true"
                     aria-describedby="CustomContactForm-email-error"
                   {% endif %}
-                  placeholder="{{ 'templates.contact.form.email' | t }}"
+                  placeholder="you@example.com"
                   required
                 >
                 {%- if form.errors contains 'email' -%}
@@ -113,7 +128,7 @@
 
               <div class="field">
                 <label class="field__label" for="CustomContactForm-phone">
-                  {{ 'templates.contact.form.phone' | t }}
+                  Phone Number (Optional)
                 </label>
                 <input
                   type="tel"
@@ -123,20 +138,20 @@
                   name="contact[{{ 'templates.contact.form.phone' | t }}]"
                   pattern="[0-9\- ]*"
                   value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.phone' | t }}"
+                  placeholder="+1 (XXX) XXX-XXXX"
                 >
               </div>
 
               <div class="field field--full">
                 <label class="field__label" for="CustomContactForm-body">
-                  {{ 'templates.contact.form.comment' | t }}
+                  Message
                 </label>
                 <textarea
                   rows="5"
                   id="CustomContactForm-body"
                   class="text-area field__input"
                   name="contact[{{ 'templates.contact.form.comment' | t }}]"
-                  placeholder="{{ 'templates.contact.form.comment' | t }}"
+                  placeholder="How can we help?"
                   required
                 >{{- form.body -}}</textarea>
               </div>
@@ -279,7 +294,6 @@
     .custom-contact-{{ section.id }} .custom-contact-inner {
       position: relative;
       z-index: 1;
-      max-width: 1200px;
       margin: 0 auto;
       padding-inline: 16px;
     }
@@ -289,27 +303,26 @@
       border-radius: 8px;
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
       padding: 40px 32px;
+      max-width: 95%;
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
     }
 
     @media (min-width: 900px) {
       .custom-contact-{{ section.id }} .custom-contact-card {
-        padding: 56px 72px;
+        padding: 56px 42px;
+        
       }
     }
 
     .custom-contact-{{ section.id }} .custom-contact-card__inner {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      align-items: center;
+      gap: 20px;
     }
 
-    @media (min-width: 900px) {
-      .custom-contact-{{ section.id }} .custom-contact-card__inner {
-        flex-direction: row;
-        align-items: stretch;
-        gap: 48px;
-      }
-    }
 
     .custom-contact-{{ section.id }} .custom-contact-card__col {
       flex: 1 1 0;
@@ -337,7 +350,7 @@
     }
 
     .custom-contact-{{ section.id }} .custom-contact-subheading {
-      margin: 0 0 24px;
+      margin: 0 0 44px;
       font-size: 15px;
       color: #555555;
     }
@@ -349,7 +362,7 @@
     .custom-contact-{{ section.id }} .custom-contact-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px 16px;
+      gap: 22px 16px;
     }
 
     .custom-contact-{{ section.id }} .custom-contact-grid .field--full {
@@ -370,7 +383,8 @@
 
     .custom-contact-{{ section.id }} .field__label {
       font-size: 13px;
-      margin-bottom: 4px;
+      margin-top: -35px;
+      margin-left: -20px;
       display: block;
       color: #222222;
     }
@@ -555,6 +569,7 @@
     }
 
     .cc-modal__dialog_contact {
+      text-align: center;
       position: absolute;
       left: 50%;
       top: 50%;

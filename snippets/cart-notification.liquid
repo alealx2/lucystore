@@ -22,7 +22,7 @@
       <div class="cart-notification__header">
         <h2 class="cart-notification__heading caption-large text-body">
           {{- 'icon-checkmark.svg' | inline_asset_content -}}
-          {{ 'general.cart.item_added' | t }}
+          One item has been added to your bag.” {% comment %} {{ 'general.cart.item_added' | t }} {% endcomment %}
         </h2>
         <button
           type="button"
@@ -41,14 +41,14 @@
           id="cart-notification-button"
           class="button button--secondary button--full-width"
         >
-          {{- 'general.cart.view_empty_cart' | t -}}
+          View Bag{% comment %} {{- 'general.cart.view_empty_cart' | t -}} {% endcomment %}
         </a>
         <form action="{{ routes.cart_url }}" method="post" id="cart-notification-form">
-          <button class="button button--primary button--full-width" name="checkout">
+          <button class="button button--primary button--full-width" name="checkout" style="text-transform: capitalize;">
             {{ 'sections.cart.checkout' | t }}
           </button>
         </form>
-        <button type="button" class="link button-label">{{ 'general.continue_shopping' | t }}</button>
+        <button type="button" class="link button-label" style="text-transform: capitalize;">{{ 'general.continue_shopping' | t }}</button>
       </div>
     </div>
   </div>

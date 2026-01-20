@@ -186,8 +186,11 @@ html.vlc-modal-open{ overflow: hidden; }
 
 .footer__content-bottom-wrapper {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 0;
+  width: 100%;
   padding-bottom: 10px;  
 }
 
@@ -431,7 +434,10 @@ html.vlc-modal-open{ overflow: hidden; }
   text-align: center;
   margin-top: 1.5rem;
 }
-
+.footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center) .footer__copyright {
+  height: fit-content;
+  max-height: 40px;
+}
 @media screen and (min-width: 750px) {
   .footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center) .footer__copyright {
     text-align: right;
@@ -674,6 +680,7 @@ html.vlc-modal-open{ overflow: hidden; }
 }
 
 .cc-modal__dialog_newsletter {
+  text-align: center;
   position: absolute;
   left: 50%;
   top: 50%;                   
@@ -736,4 +743,8 @@ html.vlc-modal-open{ overflow: hidden; }
 .cc-modal__cta:after { 
   border-radius: 8px;
   border-color: #161f3a;
+}
+
+.vertical-line{
+  padding-right: 5px;
 }

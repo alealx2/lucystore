@@ -578,7 +578,7 @@ button.facets__button {
 }
 
 .active-facets {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   width: 100%;
   grid-column: 1 / -1;

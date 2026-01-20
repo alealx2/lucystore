@@ -290,7 +290,8 @@
         {%- if section.settings.copyright_right_text != blank -%}
           <small class="copyright__content">{{ section.settings.copyright_right_text | capitalize }}</small>
         {%- endif -%}
-
+      </div>
+      <div class="footer__copyright caption">
         {%- if section.settings.show_policy -%}
           <ul class="policies list-unstyled">
             {%- for policy in shop.policies -%}
@@ -298,7 +299,12 @@
                 <li>
                   <small class="copyright__content">
                     <a class="footer-policy-link" href="{{ policy.url }}">
-                      <span class="footer-policy-text"> <span class="vertical-line">|</span> {{ policy.title | escape | capitalize }}</span>
+                      <span class="footer-policy-text"> 
+                        {%- unless forloop.first -%}
+                          <span class="vertical-line">|</span>
+                        {%- endunless -%}
+                        {{ policy.title | escape | capitalize }}
+                      </span>
                     </a>
                   </small>
                 </li>

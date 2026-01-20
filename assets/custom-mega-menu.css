@@ -643,3 +643,19 @@ transform: translateY(0);
     .mega-menu__content{ transition: none !important; transform: none !important; }
   }
 }
+
+.header-wrapper{
+  background: transparent;
+  transition: background-color 0ms cubic-bezier(.2,.8,.2,1);
+  will-change: background-color;
+}
+
+.header-wrapper.is-solid{
+  background: #000;
+}
+
+.header-wrapper{
+  transition:
+    background-color 0ms cubic-bezier(.2,.8,.2,1),
+    box-shadow 0ms cubic-bezier(.2,.8,.2,1);
+}

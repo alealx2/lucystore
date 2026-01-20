@@ -136,14 +136,14 @@ Custom Main Product Section
         </div>
 
         <div class="via-pdp-price">
+          {%- if product.compare_at_price > product.price -%}
             <span class="via-pdp-price__compare">
               {{ product.compare_at_price | money }}
-            </span>
-          {%- if product.compare_at_price > product.price -%}
-            <span class="via-pdp-price__current">
-                {{ product.price | money }}
-            </span>            
+            </span>       
           {%- endif -%}
+            <span class="via-pdp-price__current">
+              {{ product.price | money }}
+            </span>     
           {%- if product.compare_at_price > product.price -%}
             <span class="via-pdp-price__badge">
               {{ 'products.product.on_sale' | t }}
@@ -202,6 +202,46 @@ Custom Main Product Section
                 -%}
               </div>
             </div>
+
+            <share-button id="Share-{{ section.id }}" class="share-button quick-add-hidden" {{ block.shopify_attributes }}>
+              <button class="share-button__button hidden">
+                <span class="svg-wrapper">{{ 'icon-share.svg' | inline_asset_content }}</span>
+                Share
+              </button>
+              <details id="Details-{{ section.id }}-{{ section.id }}">
+                <summary class="share-button__button">
+                  <span class="svg-wrapper">{{ 'icon-share.svg' | inline_asset_content }}</span>
+                  Share
+                </summary>
+                <div class="share-button__fallback motion-reduce">
+                  <div class="field">
+                    <span id="ShareMessage-{{ section.id }}" class="share-button__message hidden" role="status"> </span>
+                    <input
+                      type="text"
+                      class="field__input"
+                      id="ShareUrl-{{ section.id }}"
+                      value="{{ share_link }}"
+                      placeholder="{{ 'general.share.share_url' | t }}"
+                      onclick="this.select();"
+                      readonly
+                    >
+                    <label class="field__label" for="ShareUrl-{{ section.id }}">{{ 'general.share.share_url' | t }}</label>
+                  </div>
+                  <button class="share-button__close hidden">
+                    <span class="svg-wrapper">
+                      {{- 'icon-close.svg' | inline_asset_content -}}
+                    </span>
+                    <span class="visually-hidden">{{ 'general.share.close' | t }}</span>
+                  </button>
+                  <button class="share-button__copy">
+                    <span class="svg-wrapper">
+                      {{- 'icon-copy.svg' | inline_asset_content -}}
+                    </span>
+                    <span class="visually-hidden">{{ 'general.share.copy_to_clipboard' | t }}</span>
+                  </button>
+                </div>
+              </details>
+            </share-button>
           </div>
         </product-form>
 
@@ -389,6 +429,9 @@ Custom Main Product Section
   </script>
 
 </section>
+
+<script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
+
 
 {% schema %}
 {

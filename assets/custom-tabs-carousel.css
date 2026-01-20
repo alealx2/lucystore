@@ -258,7 +258,7 @@
     background: var(--content-bg, transparent);
     border-radius: var(--content-radius, 18px);
     text-align:left;
-    justify-content:flex-end;
+    padding-top: 150px;
   }
   .tc-item__content--left{
     margin-left:0;
@@ -278,9 +278,7 @@
   .tc-item__content--top{
     justify-content:flex-start;
   }
-  .tc-item__content--center{
-    justify-content:center;
-  }
+  
   .tc-item__content--bottom{
     justify-content:flex-end;
   }
