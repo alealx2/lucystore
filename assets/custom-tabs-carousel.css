@@ -429,6 +429,9 @@
 
   /* Responsive */
   @media (max-width: 989px){
+    .tc-item__content--center{
+      justify-content: center ;
+    }
     .tc-carousel{
       min-height: var(--min-h-mobile);
       padding: 20px 16px 28px;
