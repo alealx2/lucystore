@@ -618,7 +618,13 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__content{
       width: 100%;
     }
-
+    
+    @media screen and (max-width: 750px) {
+      #pgrid-{{ section.id }} .pgrid-modal__close{
+        top:56px;
+      }
+    }
+    
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       #pgrid-{{ section.id }} .pgrid__img,
