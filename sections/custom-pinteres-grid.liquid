@@ -89,9 +89,11 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
           endif
 
           assign download_href = b.download_url
-          if download_href == blank and b.image != blank
-            assign download_href = b.image | image_url: width: 2000
+          if download_href == blank or download_href == "#" and b.image != blank
+            assign download_href = b.image | image_url: width: 2400
           endif
+
+
         -%}
 
         {%- capture card -%}
@@ -181,13 +183,16 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
                   {% if download_href != blank %}
                     <a
                       href="{{ download_href }}"
-                      class="pgrid__mini-btn pgrid__mini-btn--download"
-                      download
+                      class="pgrid__mini-btn pgrid__mini-btn--download js-pgrid-download"
+                      data-download="{{ download_href }}"
+                      data-filename="{{ b.title | strip_html | default: 'via-luci' | handle }}.jpg"
+                      role="button"
                     >
                       <span class="svg-wrapper share">{{ 'icon-custom-download.svg' | inline_asset_content }}</span>
                       <span class="visually-hidden">Download</span>
                     </a>
                   {% endif %}
+
                 </div>
               {%- endif -%}
 
@@ -801,6 +806,41 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
           closeModal();
         }
       });
+
+      root.addEventListener('click', function(e){
+        var dl = e.target.closest('.js-pgrid-download');
+        if(!dl || !root.contains(dl)) return;
+
+        e.preventDefault();
+        e.stopPropagation(); 
+
+        var url = dl.getAttribute('data-download') || dl.getAttribute('href');
+        if(!url || url === '#') return;
+
+        var filename = dl.getAttribute('data-filename') || 'download.jpg';
+
+        fetch(url, { mode: 'cors' })
+          .then(function(r){
+            if(!r.ok) throw new Error('Download failed');
+            return r.blob();
+          })
+          .then(function(blob){
+            var blobUrl = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(blobUrl);
+          })
+          .catch(function(err){
+            console.error('Download error:', err);
+            window.open(url, '_blank', 'noopener');
+          });
+      });
+
+
     })();
   </script>
 </section>
