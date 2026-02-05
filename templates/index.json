@@ -523,7 +523,7 @@
             "pinterest_url": "#",
             "share_url": "#",
             "visit_link": "",
-            "download_url": "#"
+            "download_url": ""
           }
         },
         "card_AHknxc": {
@@ -562,9 +562,9 @@
             "action_add_enable": false,
             "action_add_label": "Add to cart",
             "action_qty": 1,
-            "pinterest_url": "#",
-            "share_url": "#",
-            "visit_link": "#",
+            "pinterest_url": "https://cl.pinterest.com/pin/11822017767811579/",
+            "share_url": "https://pin.it/3g8Kegg23",
+            "visit_link": "https://cl.pinterest.com/pin/11822017767811579/",
             "download_url": "#"
           }
         },
@@ -606,7 +606,7 @@
             "pinterest_url": "#",
             "share_url": "#",
             "visit_link": "",
-            "download_url": "#"
+            "download_url": ""
           }
         },
         "card_nn4dUn": {
@@ -646,9 +646,9 @@
             "action_add_enable": false,
             "action_add_label": "Agregar al carrito",
             "action_qty": 1,
-            "pinterest_url": "#",
-            "share_url": "#",
-            "visit_link": "#",
+            "pinterest_url": "https://cl.pinterest.com/pin/30469734974433149/",
+            "share_url": "https://pin.it/4xXYUkBhv",
+            "visit_link": "https://cl.pinterest.com/pin/30469734974433149/",
             "download_url": "#"
           }
         },
@@ -688,9 +688,9 @@
             "action_add_enable": false,
             "action_add_label": "Agregar al carrito",
             "action_qty": 1,
-            "pinterest_url": "#",
-            "share_url": "#",
-            "visit_link": "#",
+            "pinterest_url": "https://cl.pinterest.com/pin/15551561210196163/",
+            "share_url": "https://pin.it/4Q7FhlF5m",
+            "visit_link": "https://cl.pinterest.com/pin/15551561210196163/",
             "download_url": "#"
           }
         },
@@ -730,9 +730,9 @@
             "action_add_enable": false,
             "action_add_label": "Agregar al carrito",
             "action_qty": 1,
-            "pinterest_url": "#",
-            "share_url": "#",
-            "visit_link": "#",
+            "pinterest_url": "https://cl.pinterest.com/pin/375206212728876855/",
+            "share_url": "https://pin.it/3NsiIwlSZ",
+            "visit_link": "https://cl.pinterest.com/pin/375206212728876855/",
             "download_url": "#"
           }
         }
