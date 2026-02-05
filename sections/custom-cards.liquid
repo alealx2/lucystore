@@ -4,9 +4,6 @@
     background-color: {{ section.settings.bg_color }};
     {% if section.settings.bg_image != blank %}
       background-image: url('{{ section.settings.bg_image | image_url: width: 2400 }}');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
     {% endif %}
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
@@ -218,20 +215,29 @@
 
 {% stylesheet %}
 
-@media screen and (min-width: 750px) {
-  .custom-cards-section {
-    height: 100vh;
-  }
-  .custom-card {
-    margin: 0 auto;
-  }
-}
-
 .custom-cards-section {
   display: flex;
   position: relative;
   width: 100%;
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  z-index: 0;
 }
+
+@media screen and (min-width: 750px) {
+  .custom-cards-section {
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .custom-cards-section{
+    background-size: auto;
+  }
+}
+
 
 .custom-cards-inner {
   width: 100%;
@@ -252,7 +258,10 @@
 
 @media screen and (max-width: 640px) {
   .custom-cards-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
   }
 }
 
@@ -269,7 +278,7 @@
 .custom-card-bg {
   position: relative;
   width: 100%;
-  padding-top: 120%; /* relación cuadrada aproximada */
+  padding-top: 120%; 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
