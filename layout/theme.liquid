@@ -807,6 +807,24 @@
   </script>
   <!-- END SNAP TO -->
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const href = link.href;
+
+        if (href && href.includes('/pages/track-your-order')) {
+          e.preventDefault();
+          window.location.href = 'https://vialuci.com/tools/track-your-order';
+        }
+      });
+
+    });
+  </script>
+
 
   
   {%- if settings.predictive_search_enabled -%}

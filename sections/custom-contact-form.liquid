@@ -256,6 +256,196 @@
     </div>
   </div>
 
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const phoneInput = document.getElementById('CustomContactForm-phone');
+    if (!phoneInput) return;
+
+    const COUNTRY_PHONE_CODES = [
+      // North America
+      { continent: 'North America', country: 'United States', code: '+1' },
+      { continent: 'North America', country: 'Canada', code: '+1' },
+      { continent: 'North America', country: 'Mexico', code: '+52' },
+      { continent: 'North America', country: 'Guatemala', code: '+502' },
+      { continent: 'North America', country: 'Cuba', code: '+53' },
+      { continent: 'North America', country: 'Dominican Republic', code: '+1-809' },
+      { continent: 'North America', country: 'Haiti', code: '+509' },
+      { continent: 'North America', country: 'Honduras', code: '+504' },
+      { continent: 'North America', country: 'Costa Rica', code: '+506' },
+      { continent: 'North America', country: 'Panama', code: '+507' },
+
+      // South America
+      { continent: 'South America', country: 'Brazil', code: '+55' },
+      { continent: 'South America', country: 'Argentina', code: '+54' },
+      { continent: 'South America', country: 'Colombia', code: '+57' },
+      { continent: 'South America', country: 'Chile', code: '+56' },
+      { continent: 'South America', country: 'Peru', code: '+51' },
+      { continent: 'South America', country: 'Venezuela', code: '+58' },
+      { continent: 'South America', country: 'Ecuador', code: '+593' },
+      { continent: 'South America', country: 'Bolivia', code: '+591' },
+      { continent: 'South America', country: 'Paraguay', code: '+595' },
+      { continent: 'South America', country: 'Uruguay', code: '+598' },
+
+      // Europe
+      { continent: 'Europe', country: 'United Kingdom', code: '+44' },
+      { continent: 'Europe', country: 'Germany', code: '+49' },
+      { continent: 'Europe', country: 'France', code: '+33' },
+      { continent: 'Europe', country: 'Spain', code: '+34' },
+      { continent: 'Europe', country: 'Italy', code: '+39' },
+      { continent: 'Europe', country: 'Netherlands', code: '+31' },
+      { continent: 'Europe', country: 'Sweden', code: '+46' },
+      { continent: 'Europe', country: 'Switzerland', code: '+41' },
+      { continent: 'Europe', country: 'Poland', code: '+48' },
+      { continent: 'Europe', country: 'Portugal', code: '+351' },
+
+      // Asia
+      { continent: 'Asia', country: 'China', code: '+86' },
+      { continent: 'Asia', country: 'India', code: '+91' },
+      { continent: 'Asia', country: 'Japan', code: '+81' },
+      { continent: 'Asia', country: 'South Korea', code: '+82' },
+      { continent: 'Asia', country: 'Indonesia', code: '+62' },
+      { continent: 'Asia', country: 'Thailand', code: '+66' },
+      { continent: 'Asia', country: 'Vietnam', code: '+84' },
+      { continent: 'Asia', country: 'Philippines', code: '+63' },
+      { continent: 'Asia', country: 'Malaysia', code: '+60' },
+      { continent: 'Asia', country: 'Singapore', code: '+65' },
+
+      // Africa
+      { continent: 'Africa', country: 'South Africa', code: '+27' },
+      { continent: 'Africa', country: 'Nigeria', code: '+234' },
+      { continent: 'Africa', country: 'Egypt', code: '+20' },
+      { continent: 'Africa', country: 'Kenya', code: '+254' },
+      { continent: 'Africa', country: 'Morocco', code: '+212' },
+      { continent: 'Africa', country: 'Ghana', code: '+233' },
+      { continent: 'Africa', country: 'Ethiopia', code: '+251' },
+      { continent: 'Africa', country: 'Tanzania', code: '+255' },
+      { continent: 'Africa', country: 'Algeria', code: '+213' },
+      { continent: 'Africa', country: 'Tunisia', code: '+216' },
+
+      // Oceania
+      { continent: 'Oceania', country: 'Australia', code: '+61' },
+      { continent: 'Oceania', country: 'New Zealand', code: '+64' },
+      { continent: 'Oceania', country: 'Fiji', code: '+679' },
+      { continent: 'Oceania', country: 'Papua New Guinea', code: '+675' },
+      { continent: 'Oceania', country: 'Samoa', code: '+685' },
+      { continent: 'Oceania', country: 'Tonga', code: '+676' },
+      { continent: 'Oceania', country: 'Solomon Islands', code: '+677' },
+      { continent: 'Oceania', country: 'Vanuatu', code: '+678' },
+      { continent: 'Oceania', country: 'French Polynesia', code: '+689' },
+      { continent: 'Oceania', country: 'New Caledonia', code: '+687' },
+    ];
+
+    let dropdown = null;
+
+    function isEmpty(el) {
+      return (el.value || '').trim().length === 0;
+    }
+
+    function buildDropdown() {
+      const select = document.createElement('select');
+      select.className = 'cc-phone-country-select';
+      select.setAttribute('aria-label', 'Select country calling code');
+
+      const ph = document.createElement('option');
+      ph.value = '';
+      ph.textContent = 'Select country code…';
+      ph.disabled = true;
+      ph.selected = true;
+      select.appendChild(ph);
+
+      const continents = [...new Set(COUNTRY_PHONE_CODES.map(x => x.continent))];
+      continents.forEach(cont => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = cont;
+
+        COUNTRY_PHONE_CODES
+          .filter(x => x.continent === cont)
+          .forEach(x => {
+            const opt = document.createElement('option');
+            opt.value = x.code;
+            opt.textContent = `${x.country} (${x.code})`;
+            optgroup.appendChild(opt);
+          });
+
+        select.appendChild(optgroup);
+      });
+
+      select.style.position = 'absolute';
+      select.style.zIndex = '9999';
+      select.style.width = '100%';
+      select.style.marginTop = '6px';
+      select.style.border = '1px solid #161f3a';
+      select.style.borderRadius = '10px';
+      select.style.padding = '10px 14px';
+      select.style.background = '#fff';
+      select.style.fontSize = '14px';
+      select.style.boxShadow = '0 10px 22px rgba(0,0,0,.12)';
+
+      return select;
+    }
+
+    function positionDropdown(selectEl) {
+      const rect = phoneInput.getBoundingClientRect();
+
+      selectEl.style.left = (window.scrollX + rect.left) + 'px';
+      selectEl.style.top  = (window.scrollY + rect.bottom) + 'px';
+      selectEl.style.width = rect.width + 'px';
+    }
+
+    function openDropdownIfNeeded() {
+      if (!isEmpty(phoneInput)) return; 
+
+      closeDropdown();
+
+      dropdown = buildDropdown();
+      document.body.appendChild(dropdown);
+      positionDropdown(dropdown);
+
+      dropdown.addEventListener('change', () => {
+        if (dropdown && dropdown.value && isEmpty(phoneInput)) {
+          const code = dropdown.value.replace(/-/g, ' ');
+          phoneInput.value = code + ' ';
+          phoneInput.focus();
+          try { phoneInput.setSelectionRange(phoneInput.value.length, phoneInput.value.length); } catch (e) {}
+        }
+        closeDropdown();
+      });
+
+      window.addEventListener('scroll', onReposition, true);
+      window.addEventListener('resize', onReposition);
+    }
+
+    function onReposition() {
+      if (dropdown) positionDropdown(dropdown);
+    }
+
+    function closeDropdown() {
+      if (!dropdown) return;
+      window.removeEventListener('scroll', onReposition, true);
+      window.removeEventListener('resize', onReposition);
+      dropdown.remove();
+      dropdown = null;
+    }
+
+    phoneInput.addEventListener('focus', () => {
+      openDropdownIfNeeded();
+    });
+
+    phoneInput.addEventListener('input', () => {
+      if (!isEmpty(phoneInput)) closeDropdown();
+    });
+
+    document.addEventListener('mousedown', (e) => {
+      if (!dropdown) return;
+      const clickedInsideDropdown = dropdown.contains(e.target);
+      const clickedPhone = phoneInput.contains(e.target);
+      if (!clickedInsideDropdown && !clickedPhone) closeDropdown();
+    });
+
+  });
+  </script>
+
+
   <style>
     .contact-bg__overlay{
         display: block;

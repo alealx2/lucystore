@@ -1,0 +1,452 @@
+<div class="custom-text-section custom-page-width"
+  style="
+    background-image: url('{{ section.settings.bg_image | image_url }}');
+    background-color: {{section.settings.bg_color}};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+
+  <div class="custom-overlay"
+    style="
+        background-color: {{ section.settings.overlay_color }};
+        opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+        display: block;
+    "
+  ></div>
+
+  <div class="custom-text-inner custom-text-inner--{{ section.settings.text_align | default: 'center' }}">
+    <div class="page-width">
+      {% if section.settings.main_label != blank %}
+        <div class="label-title" style="font-size: {{ section.settings.main_label_size }}px; color: {{ section.settings.main_label_color }}; letter-spacing: 2px;">
+          {{ section.settings.main_label }}
+        </div>
+      {% endif %}
+
+      <div class="main-title" style="font-size: {{ section.settings.main_title_size }}px; color: {{ section.settings.main_title_color }}; font-weight: 400; line-height: 1; font-family: 'Playfair Display', serif;">
+        {{ section.settings.main_title }}
+      </div>
+
+      {% if section.blocks.size > 0 %}
+        <div class="banner-items-row" style="gap: {{ section.settings.items_gap }}px; {% if section.settings.enable_blocks_border %} border-top: .5px solid #eaeaea; border-bottom: .5px solid #eaeaea; {% endif %}">
+          {% for block in section.blocks %}
+            <div class="banner-item banner-item--{{ block.id }} banner-item-align-{{ block.settings.item_text_align | default: 'center' }}">
+              <div class="item-label" style="font-size: {{ block.settings.item_label_size }}px; color: {{ block.settings.item_label_color }}; letter-spacing: 1px;">
+                {{ block.settings.item_label }}
+              </div>
+
+              <div class="item-title" style="font-size: {{ block.settings.item_title_size }}px; color: {{ block.settings.item_title_color }};">
+                {{ block.settings.item_title }}
+              </div>
+
+              <div class="item-desc" style="font-size: {{ block.settings.item_desc_size }}px; color: {{ block.settings.item_desc_color }}; ">
+                {{ block.settings.item_desc }}
+              </div>
+            </div>
+
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.bottom_title != blank %}
+        <div class="bottom-text" style="font-size: {{ section.settings.bottom_title_size }}px; color: {{ section.settings.main_title_color }};">
+          {{ section.settings.bottom_title }}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<style>
+
+    
+    .custom-text-section {
+    height: 100%;
+    display: flex;
+    position: relative;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    z-index: 0;
+    }
+
+    .custom-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    display: block !important;
+    }
+
+    .custom-text-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    }
+
+    .banner-items-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    }
+
+    .banner-item {
+    flex: 1 1 calc(25% - 20px);
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    }
+    .item-title{
+      line-height: 1.2;
+      font-weight: bold;
+    }
+    .item-title p, .item-label p, .item-desc p{ margin: 0;}
+    .item-label p{
+      width: 52%;
+    }
+  .main-title p, .bottom-text p{
+    margin-top: 0px;
+    line-height: 1.1;
+  }
+
+  .custom-text-inner--left .label-title,
+  .custom-text-inner--left .main-title,
+  .custom-text-inner--left .bottom-text {
+    text-align: left;
+  }
+
+  .custom-text-inner--center .label-title,
+  .custom-text-inner--center .main-title,
+  .custom-text-inner--center .bottom-text {
+    text-align: center;
+  }
+
+  .custom-text-inner--right .label-title,
+  .custom-text-inner--right .main-title,
+  .custom-text-inner--right .bottom-text {
+    text-align: right;
+  }
+
+  .banner-item-align-left  { text-align: left; }
+  .banner-item-align-center{ text-align: center; }
+  .banner-item-align-right { text-align: right; }
+
+  @media (max-width: 768px) {
+      .label-title  { font-size: {{ section.settings.main_label_size_mobile }}px !important; }
+      .main-title   { font-size: {{ section.settings.main_title_size_mobile }}px !important; }
+      .bottom-text  { font-size: {{ section.settings.bottom_title_size_mobile }}px !important; }                    
+
+        .item-label { font-size: 12px; }
+        .item-title { font-size: 28px; }
+        .item-desc  { font-size: 12px; } 
+      
+      .banner-item {
+        flex: 1 1 100%;
+        margin-bottom: 24px;
+      }  
+      .custom-page-width{
+          padding: 0 20px;
+      }
+      .banner-items-row{
+          gap: 0px !important;
+      }
+      .custom-card-bg{
+          padding-top: 80% !important;
+      }
+  }
+
+</style>
+
+
+
+{% schema %}
+{
+  "name": "Custom Text Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Imagen de fondo"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Color del overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo (aplica si no hay imagen)",
+      "default": "#161F3A"
+    },    
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacidad del overlay",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding superior",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding inferior",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Texto principal"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Alineación textos principales",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centrado" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "richtext",
+      "id": "main_label",
+      "label": "Encabezado (label superior)",
+      "default": "<p>ILLUMINATING THE MOMENTS THAT MATTER</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "main_title",
+      "label": "Título principal",
+      "default": "<p>From Rockefeller Center to your front porch, Via Luci brings brilliance.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "bottom_title",
+      "label": "Texto final",
+      "default": "<p>Light is not only what you see, It's what you feel - Rich Martini.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_blocks_border",
+      "label": "Enable top and bottom borders for text items",
+      "default": true
+    },    
+    {
+      "type": "color",
+      "id": "main_label_color",
+      "label": "Color del encabezado",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "main_title_color",
+      "label": "Color del texto principal",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "main_label_size",
+      "label": "Tamaño encabezado (px)",
+      "min": 10,
+      "max": 80,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "main_title_size",
+      "label": "Tamaño título (px)",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "bottom_title_size",
+      "label": "Tamaño texto final (px)",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "main_label_size_mobile",
+      "label": "Tamaño encabezado (mobile)",
+      "min": 10,
+      "max": 40,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "main_title_size_mobile",
+      "label": "Tamaño título principal (mobile)",
+      "min": 10,
+      "max": 60,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "bottom_title_size_mobile",
+      "label": "Tamaño texto final (mobile)",
+      "min": 10,
+      "max": 60,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Bloques inferiores"
+    },
+    {
+      "type": "range",
+      "id": "items_gap",
+      "label": "Separación entre columnas (gap)",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 30
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "info_item",
+      "name": "Info Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "item_text_align",
+          "label": "Alineación textos del bloque",
+          "options": [
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centrado" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "richtext",
+          "id": "item_label",
+          "label": "Texto encabezado pequeño",
+          "default": "<p>20+ YEARS OF MAGIC</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "item_title",
+          "label": "Texto principal del ítem",
+          "default": "<p>HERITAGE</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "item_desc",
+          "label": "Descripción",
+          "default": "<p>FROM BAGNI DI LUCCA TO CHICAGO</p>"
+        },
+        {
+          "type": "color",
+          "id": "item_label_color",
+          "label": "Color encabezado ítem",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "item_title_color",
+          "label": "Color título ítem",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "item_desc_color",
+          "label": "Color descripción ítem",
+          "default": "#EAEAEA"
+        },
+        {
+          "type": "range",
+          "id": "item_label_size",
+          "label": "Tamaño encabezado ítem (px)",
+          "min": 10,
+          "max": 30,
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "item_title_size",
+          "label": "Tamaño título ítem (px)",
+          "min": 10,
+          "max": 40,
+          "default": 22
+        },
+        {
+          "type": "range",
+          "id": "item_desc_size",
+          "label": "Tamaño descripción (px)",
+          "min": 10,
+          "max": 24,
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "item_label_size_mobile",
+          "label": "Tamaño encabezado ítem (mobile)",
+          "min": 10,
+          "max": 30,
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "item_title_size_mobile",
+          "label": "Tamaño título ítem (mobile)",
+          "min": 12,
+          "max": 40,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "item_desc_size_mobile",
+          "label": "Tamaño descripción ítem (mobile)",
+          "min": 10,
+          "max": 24,
+          "default": 12
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Custom Text Section"
+    }
+  ]
+}
+{% endschema %}

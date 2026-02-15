@@ -495,10 +495,28 @@
                 </button>
               </div>
 
+            {%- assign qty = item.quantity -%}
+            {%- assign v_price = item.variant.price -%}
+            {%- assign v_compare = item.variant.compare_at_price -%}
+
+
               <div class="custom-cart-line__price-wrap">
-                <span class="custom-cart-line__price">
-                  {{ item.final_line_price | money_with_currency }}
-                </span>
+
+                <div class="pricewrap">
+                  {%- if v_compare and v_compare > v_price -%}
+                    <span class="custom-cart-line__compare" style="text-decoration: line-through;">
+                      {{ v_compare | times: qty | money }}
+                    </span>
+                  {%- elsif item.original_line_price > item.final_line_price -%}
+                    <span class="custom-cart-line__compare" style="text-decoration: line-through;">
+                      {{ item.original_line_price | money }}
+                    </span>
+                  {%- endif -%}
+
+                  <span class="custom-cart-line__price">
+                    {{ item.final_line_price | money_with_currency }}
+                  </span>
+                </div>
 
                 <button
                   class="custom-cart-line__remove"
