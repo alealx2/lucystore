@@ -490,7 +490,7 @@
           "type": "card",
           "settings": {
             "kicker": "",
-            "title": "<p>Somewhere in the glow. the <strong>moments becomes a memory</strong></p>",
+            "title": "<p>Somewhere in the glow. the <strong>moments becomes a memory.</strong></p>",
             "text": "",
             "title_size": 22,
             "text_size": 14,
@@ -531,7 +531,7 @@
           "type": "card",
           "settings": {
             "kicker": "",
-            "title": "<p><strong>Inspirationally</strong> </p><p>Designed Booms</p>",
+            "title": "<p><strong>Inspirationally</strong> </p><p>Designed Rooms</p>",
             "text": "",
             "title_size": 22,
             "text_size": 16,
@@ -573,7 +573,7 @@
           "type": "card",
           "settings": {
             "kicker": "",
-            "title": "<p>\"What is done in love <strong>is done well</strong>\"</p>",
+            "title": "<p>\"What is done in love <strong>is done well.</strong>\"</p>",
             "text": "<p>Vincent van Gogh</p>",
             "title_size": 22,
             "text_size": 14,
