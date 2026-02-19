@@ -44,6 +44,7 @@
         "link_list_HBU88i",
         "link_list_4mnDgV"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-47cb6f05-b476-4827-9901-888923f39b05",
         "newsletter_enable": true,
