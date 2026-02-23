@@ -64,7 +64,6 @@
       "blocks": {
         "tab_3EAWxe": {
           "type": "tab",
-          "disabled": true,
           "settings": {
             "tab_label": "Moments Transformed",
             "auto_contrast": true,
