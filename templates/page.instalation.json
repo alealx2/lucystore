@@ -23,7 +23,7 @@
         "heading_VKfB8R": {
           "type": "heading",
           "settings": {
-            "heading": "FAQs",
+            "heading": "<strong>Installation Guides</strong>",
             "heading_size": "hxxl"
           }
         }
@@ -47,50 +47,70 @@
         "collapsible_row_MJcRMF": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "What types of branches do Via Luci trees use?",
+            "heading": "Guide 1",
             "icon": "none",
-            "row_content": "<p>Our trees combine lifelike molded tips with lush fill branches for fullness and realism. This balance ensures natural beauty<br/>with a structure that lasts for years.</p>",
+            "row_content": "<p>Guide content</p>",
             "page": ""
           }
         },
-        "collapsible_row_tACNG8": {
+        "collapsible_row_HbtVjn": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Can I buy trees inboth pre-lit and unlit versions?",
+            "heading": "Guide 1",
             "icon": "none",
-            "row_content": "<p>Yes. Most collections, such as King Pine and Shimmering Pine, are available in both ways. Pre-lit trees come with premium<br/>LED lighting already woven throughout, while unlit trees provide complete creative freedom for personal decorating.<br/><br/><br/><br/></p>",
+            "row_content": "<p>Guide content</p>",
             "page": ""
           }
         },
-        "collapsible_row_tVy9wK": {
+        "collapsible_row_HmJgcX": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Are Via Luci trees safe for families and pets?",
+            "heading": "Guide 1",
             "icon": "none",
-            "row_content": "<p>Absolutely. All trees are constructed with<br/>flame-retardant, non-toxic materials and meet strict safety standards, making<br/>them a secure choice for households with children and pets.</p>",
+            "row_content": "<p>Guide content</p>",
             "page": ""
           }
         },
-        "collapsible_row_WM77pn": {
+        "collapsible_row_xeChRR": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Do your trees comewith stands?",
+            "heading": "Guide 1",
             "icon": "none",
-            "row_content": "<p>Each tree comes with a sturdy metal<br/>stand. </p>",
+            "row_content": "<p>Guide content</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_JEFYpL": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Guide 1",
+            "icon": "none",
+            "row_content": "<p>Guide content</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_CPUG6W": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Guide 1",
+            "icon": "none",
+            "row_content": "<p>Guide content</p>",
             "page": ""
           }
         }
       },
       "block_order": [
         "collapsible_row_MJcRMF",
-        "collapsible_row_tACNG8",
-        "collapsible_row_tVy9wK",
-        "collapsible_row_WM77pn"
+        "collapsible_row_HbtVjn",
+        "collapsible_row_HmJgcX",
+        "collapsible_row_xeChRR",
+        "collapsible_row_JEFYpL",
+        "collapsible_row_CPUG6W"
       ],
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
         "caption": "",
-        "heading": "<strong>Christmas Trees</strong>",
+        "heading": "<strong>Guides</strong>",
         "heading_size": "h1",
         "heading_alignment": "left",
         "layout": "none",
@@ -99,491 +119,14 @@
         "open_first_collapsible_row": false,
         "image_ratio": "adapt",
         "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_dnAh3q": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_Cpgjjt": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How bright are thelights on Via Luci trees?",
-            "icon": "none",
-            "row_content": "<p>Our trees are distinguished by their higher<br/>light density and premium LED engineering. The result is a glow that is not only brighter, but also longer-lasting and more energy-efficient than standard<br/>holiday lights.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_j3nhnY": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Are your lights LED, and are they energy-efficient?",
-            "icon": "none",
-            "row_content": "<p>Yes! We exclusively offer premium LED lighting—known for being up to 90% more<br/>efficient than traditional incandescent bulbs. You’ll enjoy brighter, longer-lasting illumination with significantly lower energy costs and minimal<br/>maintenance. <br/></p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_CwjLxN": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What lighting effects do you offer?",
-            "icon": "none",
-            "row_content": "<p>SPARKLE™ Color Change Rice Lights shift seamlessly from warm white to multi-color, with a 4:1 twinkle effect. Most pre-lit collections include an RF remote (and in<br/>some cases a foot pedal), giving you instant control over brightness, color,<br/>and effects.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_tQy6jb": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Are the lights replaceable?",
-            "icon": "none",
-            "row_content": "<p>Yes. Each tree includes replacement bulbs and is designed with protection systems so that if one bulb fails, the rest remain<br/>illuminated.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_Xpw7kW": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Can I use Via Lucilights outdoors?",
-            "icon": "none",
-            "row_content": "<p>Yes. Lights included in outdoor-rated products (such as porch pots, pathway trees, and garlands) are fully weather-tested for seasonal use. Always check the product details for location suitability.<br/><br/><br/><br/></p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_MfjBWh": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Doyour lights require power adapters?",
-            "icon": "none",
-            "row_content": "<p>Most Via Luci strings plug directly into a standard 110 V outlet and don’t need<br/>extra adapters. Specialty styles (e.g., larger or custom-connected systems) will come with any needed adapters or power supplies.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_Cpgjjt",
-        "collapsible_row_j3nhnY",
-        "collapsible_row_CwjLxN",
-        "collapsible_row_tQy6jb",
-        "collapsible_row_Xpw7kW",
-        "collapsible_row_MfjBWh"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Lights & Illumination</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_ji9Cgw": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_hwAKGE": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Do your collections include matching décor?",
-            "icon": "none",
-            "row_content": "<p>Yes. Each Via Luci collection is a complete<br/>suite of coordinated pieces; trees, wreaths, garlands, and porch pots, designed to bring harmony throughout your home.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_ae6AmF": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Are wreaths and garlands suitable for outdoor use?",
-            "icon": "none",
-            "row_content": "<p>Yes, many of our wreaths and garlands are<br/>weather rated for covered outdoor use. For areas with direct exposure, we recommend selecting styles specifically labeled for outdoor placement.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_gGG8a3": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Do you sell unlit wreaths and garlands?",
-            "icon": "none",
-            "row_content": "<p>Yes. Several collections include unlit options, so you can personalize them with your own lights, ribbons, or ornaments.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_hwAKGE",
-        "collapsible_row_ae6AmF",
-        "collapsible_row_gGG8a3"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Wreaths, Garlands & Coordinated Décor</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_cX6bQ6": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_cJn8VU": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Can I shop by collection to ensure everything matches?",
-            "icon": "none",
-            "row_content": "<p>Absolutely. Our site allows you to browse each collection, so you can easily select coordinating pieces for a unified holiday<br/>design. Each item will come to you in its own box.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_KVNGKX": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Do you sell replacement parts and accessories?",
-            "icon": "none",
-            "row_content": "<p>Yes. We offer replacement parts to give you peace of mind that you will be able to<br/>keep your décor in perfect condition year after year.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_cJn8VU",
-        "collapsible_row_KVNGKX"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Ordering & Customization</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_Ffc8De": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_HXtUJP": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How much does shipping cost?",
-            "icon": "none",
-            "row_content": "<p>Shipping is calculated at checkout.</p><p>Receive free shipping on orders over $50.</p><p>Oversized items, such as full-size trees, may carry an additional<br/>handling fee.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_TwdzAx": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How are large trees shipped?",
-            "icon": "none",
-            "row_content": "<p>Trees 7.5’ and under are shipped in a single<br/>box. Trees 9’ and over are shipped in multiple cartons for easier handling.<br/>Each box is carefully packed to ensure the tree arrives safely.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_mnj8g9": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Do you offer international shipping?",
-            "icon": "none",
-            "row_content": "<p>Currently, we ship throughout the United States and Canada. International expansion is planned.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_UM386D": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Can I schedule delivery for a specific date?",
-            "icon": "none",
-            "row_content": "<p>Yes. Premium shipping options allow you to<br/>select a delivery window at checkout.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_NA89Vr": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Where do you ship from?",
-            "icon": "none",
-            "row_content": "<p>We ship from Omaha, Nebraska.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_HXtUJP",
-        "collapsible_row_TwdzAx",
-        "collapsible_row_mnj8g9",
-        "collapsible_row_UM386D",
-        "collapsible_row_NA89Vr"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Shipping & Delivery</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_MhBkz3": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_td6baq": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What is your return policy?",
-            "icon": "none",
-            "row_content": "<p>Returns are accepted within 30-days of delivery for unused items in original packaging. You can contact us at 888-576-2880.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_7DTxgL": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What if my order arrives damaged?",
-            "icon": "none",
-            "row_content": "<p>Please contact us immediately at 888-576-2880. We will arrange a replacement or refund at no additional cost.<br/></p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_td6baq",
-        "collapsible_row_7DTxgL"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Returns & Exchanges</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_xmb9rm": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_6g3Nnr": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Are Via Luci trees difficult to assemble?",
-            "icon": "none",
-            "row_content": "<p>Not at all. With Insta-Shape™ branches, Power Pole™ technology, and clear instructions, most trees can be assembled and fluffed in under 30 minutes.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_iBWcNP": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How do I fluff my tree to look full?",
-            "icon": "none",
-            "row_content": "<p>Begin at the base and gently angle each branch outward. Taking time with shaping ensures a lush, natural silhouette.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_f9eMix": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How should I store my tree and décor?",
-            "icon": "none",
-            "row_content": "<p>Store items in a cool, dry place in their<br/>original packaging. Avoid humid spaces such as basements or attics. </p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_YHPWgM": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What if a light isn’t working or goes out?",
-            "icon": "none",
-            "row_content": "<p>Our LEDs are designed to resist corrosion and weather damage, so they last for seasons. If an issue arises, our warranty covers eligible defects for up to three years, subject to our return policy.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_6g3Nnr",
-        "collapsible_row_iBWcNP",
-        "collapsible_row_f9eMix",
-        "collapsible_row_YHPWgM"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Setup, Care & Storage</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_N9TKxa": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_HEK6YA": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What payment methods do you accept?",
-            "icon": "none",
-            "row_content": "<p>We accept Visa, Master Card, American Express, and Discover.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_j4VgyK": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Is checkout secure?",
-            "icon": "none",
-            "row_content": "<p>Yes. All transactions are protected with<br/>advanced encryption and PCI-compliant processing.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_HEK6YA",
-        "collapsible_row_j4VgyK"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Payment & Security</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_VQ6Bk3": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_G4eFwA": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Can I share my decorated space?",
-            "icon": "none",
-            "row_content": "<p>Absolutely. Tag us on social media or upload directly through our site.<br/>Select entries that may be featured in our community gallery. </p><p>·       Facebook| <a href=\"https://www.facebook.com/ViaLuciLights\"><strong>ViaLuciLights</strong></a></p><p>·       Instagram|<strong> @Via.Luci</strong></p><p>·       TikTok |<strong> @ViaLuci1</strong></p><p>·      Pinterest | <strong>@ViaLuci1</strong></p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_G4eFwA"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Support & Community</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collapsible_content_4PpqKL": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_tjHmrF": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What makes Via Luci unique?",
-            "icon": "none",
-            "row_content": "<p>Via Luci is built around the belief that light<br/>creates lasting memories. From densely lit trees with brighter, longer-lasting<br/>LEDs to curated collections that coordinate across every space in your home, we<br/>craft décor for those who expect the very best.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_k48iiQ": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Are your products sustainable?",
-            "icon": "none",
-            "row_content": "<p>Our décor is designed for multi-season use, reducing waste and frequent<br/>replacement. We use energy-efficient LEDs and recyclable packaging wherever<br/>possible.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_tjHmrF",
-        "collapsible_row_k48iiQ"
-      ],
-      "name": "t:sections.collapsible_content.presets.name",
-      "settings": {
-        "caption": "",
-        "heading": "<strong>Brand Promise & Sustainability</strong>",
-        "heading_size": "h1",
-        "heading_alignment": "left",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     }
   },
   "order": [
     "main",
     "rich_text_wqGPFk",
-    "collapsible_content_WQKthj",
-    "collapsible_content_dnAh3q",
-    "collapsible_content_ji9Cgw",
-    "collapsible_content_cX6bQ6",
-    "collapsible_content_Ffc8De",
-    "collapsible_content_MhBkz3",
-    "collapsible_content_xmb9rm",
-    "collapsible_content_N9TKxa",
-    "collapsible_content_VQ6Bk3",
-    "collapsible_content_4PpqKL"
+    "collapsible_content_WQKthj"
   ]
 }
