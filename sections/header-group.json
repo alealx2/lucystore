@@ -70,7 +70,6 @@
         "mega_config_cYKUar"
       ],
       "settings": {
-        "onload_logo": "shopify://shop_images/logoo.png",
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "enable_transparent_header": false,
