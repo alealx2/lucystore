@@ -2,6 +2,7 @@ slideshow-component {
   position: relative;
   display: flex;
   flex-direction: column;
+  margin-top: -90px;
 }
 
 slideshow-component .slideshow.banner {

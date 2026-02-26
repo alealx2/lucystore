@@ -659,3 +659,54 @@ transform: translateY(0);
     background-color 0ms cubic-bezier(.2,.8,.2,1),
     box-shadow 0ms cubic-bezier(.2,.8,.2,1);
 }
+
+
+/* fix */
+
+/* ===== Smooth open/close for mega menu ===== */
+@media (min-width: 990px) {
+  header-menu details.mega-menu .mega-menu__content {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      opacity 220ms ease,
+      transform 260ms cubic-bezier(.2,.8,.2,1),
+      visibility 0s linear 240ms; /* espera para ocultar al cerrar */
+    will-change: opacity, transform;
+  }
+
+  header-menu details.mega-menu[open] .mega-menu__content {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+      opacity 220ms ease,
+      transform 260ms cubic-bezier(.2,.8,.2,1),
+      visibility 0s;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  header-menu details.mega-menu .mega-menu__content {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (min-width: 990px) {
+  .optionB__panel {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+    transition: opacity 180ms ease, transform 220ms cubic-bezier(.2,.8,.2,1);
+  }
+  .optionB__panel.is-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

@@ -192,27 +192,6 @@ document.addEventListener('DOMContentLoaded', function () {
             wrap.style.height = '0px';
         }
         });
-
-        var hoverTimeout;
-        var openDelay;
-
-        mega.addEventListener('mouseenter', function () {
-        if (!desktopMQ.matches) return;
-        clearTimeout(hoverTimeout);
-        clearTimeout(openDelay);
-
-        openDelay = setTimeout(function () {
-            mega.open = true;
-        }, 180); 
-        });
-
-
-        mega.addEventListener('mouseleave', function () {
-        if (!desktopMQ.matches) return;
-        hoverTimeout = setTimeout(function () {
-            mega.open = false;
-        }, 180);
-        });
     });
 
     /* ========== MOBILE mega menu ========== */
@@ -252,87 +231,114 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const isDesktop = window.matchMedia('(min-width: 990px)');
-  const OPEN_DELAY = 110;   // 90–140ms recomendado
-  const CLOSE_DELAY = 120;  // similar al open, se siente natural
+  const mq = window.matchMedia('(min-width: 990px)');
+  const OPEN_DELAY  = 220;  // más elegante (180–260 recomendado)
+  const CLOSE_DELAY = 180;  // cierre suave
+  const GRACE_MS    = 120;  // “perdón” si el mouse se mueve rápido
 
-  function setupDesktopHover() {
-    const detailsList = document.querySelectorAll('header-menu details.mega-menu');
-    if (!detailsList.length) return;
+  const detailsList = Array.from(document.querySelectorAll('header-menu details.mega-menu'));
+  if (!detailsList.length) return;
 
-    detailsList.forEach((details) => {
-      const summary = details.querySelector('summary');
-      if (!summary) return;
-
-      let openT = null;
-      let closeT = null;
-
-      const clearTimers = () => {
-        if (openT) { clearTimeout(openT); openT = null; }
-        if (closeT) { clearTimeout(closeT); closeT = null; }
-      };
-
-      const openMenu = () => {
-        clearTimers();
-        // Cierra otros menús abiertos (premium + ordenado)
-        detailsList.forEach((d) => {
-          if (d !== details) d.removeAttribute('open');
-        });
-        details.setAttribute('open', '');
-      };
-
-      const closeMenu = () => {
-        clearTimers();
-        details.removeAttribute('open');
-      };
-
-      // Hover enter: abre con delay
-      details.addEventListener('mouseenter', () => {
-        if (!isDesktop.matches) return;
-        clearTimers();
-        openT = setTimeout(openMenu, OPEN_DELAY);
-      });
-
-      // Hover leave: cierra con delay
-      details.addEventListener('mouseleave', () => {
-        if (!isDesktop.matches) return;
-        clearTimers();
-        closeT = setTimeout(closeMenu, CLOSE_DELAY);
-      });
-
-      details.addEventListener('focusin', () => {
-        if (!isDesktop.matches) return;
-        clearTimers();
-        openMenu();
-      });
-
-      details.addEventListener('focusout', (e) => {
-        if (!isDesktop.matches) return;
-        if (!details.contains(e.relatedTarget)) {
-          clearTimers();
-          closeT = setTimeout(closeMenu, CLOSE_DELAY);
-        }
-      });
-
-      summary.addEventListener('click', (e) => {
-        if (!isDesktop.matches) return;
-        e.preventDefault(); 
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!isDesktop.matches) return;
-      const inside = e.target.closest('header-menu details.mega-menu');
-      if (inside) return;
-      document.querySelectorAll('header-menu details.mega-menu[open]').forEach(d => d.removeAttribute('open'));
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (!isDesktop.matches) return;
-      if (e.key !== 'Escape') return;
-      document.querySelectorAll('header-menu details.mega-menu[open]').forEach(d => d.removeAttribute('open'));
+  function closeAll(except) {
+    detailsList.forEach(d => {
+      if (d !== except) d.removeAttribute('open');
     });
   }
 
-  setupDesktopHover();
+  detailsList.forEach((details) => {
+    const summary  = details.querySelector('summary');
+    const content  = details.querySelector('.mega-menu__content');
+
+    let openT = null;
+    let closeT = null;
+    let graceT = null;
+
+    const clearTimers = () => {
+      if (openT)  { clearTimeout(openT);  openT = null; }
+      if (closeT) { clearTimeout(closeT); closeT = null; }
+      if (graceT) { clearTimeout(graceT); graceT = null; }
+    };
+
+    const openMenu = () => {
+      clearTimers();
+      closeAll(details);
+      details.setAttribute('open', '');
+    };
+
+    const closeMenu = () => {
+      clearTimers();
+      details.removeAttribute('open');
+    };
+
+    const scheduleOpen = () => {
+      clearTimers();
+      openT = setTimeout(openMenu, OPEN_DELAY);
+    };
+
+    const scheduleClose = () => {
+      clearTimers();
+
+      // GRACE: no cierres de inmediato, da tiempo para entrar al panel
+      graceT = setTimeout(() => {
+        closeT = setTimeout(closeMenu, CLOSE_DELAY);
+      }, GRACE_MS);
+    };
+
+    // Hover intent: pointerenter/pointerleave es más estable que mouseenter/leave en algunos casos
+    details.addEventListener('pointerenter', () => {
+      if (!mq.matches) return;
+      scheduleOpen();
+    });
+
+    details.addEventListener('pointerleave', () => {
+      if (!mq.matches) return;
+      scheduleClose();
+    });
+
+    // Si entra al contenido, cancelamos el cierre (evita flicker al cruzar el borde)
+    if (content) {
+      content.addEventListener('pointerenter', () => {
+        if (!mq.matches) return;
+        clearTimers();
+      });
+      content.addEventListener('pointerleave', () => {
+        if (!mq.matches) return;
+        scheduleClose();
+      });
+    }
+
+    // Accesibilidad: teclado
+    details.addEventListener('focusin', () => {
+      if (!mq.matches) return;
+      clearTimers();
+      openMenu();
+    });
+
+    details.addEventListener('focusout', (e) => {
+      if (!mq.matches) return;
+      if (!details.contains(e.relatedTarget)) scheduleClose();
+    });
+
+    // Evita “toggle” por click en desktop (solo hover)
+    if (summary) {
+      summary.addEventListener('click', (e) => {
+        if (!mq.matches) return;
+        e.preventDefault();
+      });
+    }
+  });
+
+  // Click fuera cierra
+  document.addEventListener('click', (e) => {
+    if (!mq.matches) return;
+    if (e.target.closest('header-menu details.mega-menu')) return;
+    detailsList.forEach(d => d.removeAttribute('open'));
+  });
+
+  // ESC cierra
+  document.addEventListener('keydown', (e) => {
+    if (!mq.matches) return;
+    if (e.key !== 'Escape') return;
+    detailsList.forEach(d => d.removeAttribute('open'));
+  });
 });
