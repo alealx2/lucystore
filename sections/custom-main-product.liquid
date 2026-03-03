@@ -342,9 +342,20 @@ Custom Main Product Section
         });
       }
 
-      function scrollThumbIntoView(thumb) {
-        var container = root.querySelector('.via-pdp-gallery-thumbs');
-        if (!container) return;
+    function scrollThumbIntoView(thumb) {
+      var container = root.querySelector('.via-pdp-gallery-thumbs');
+      if (!container) return;
+
+      var isMobile = window.matchMedia('(max-width: 749px)').matches;
+
+      if (isMobile) {
+        var left = thumb.offsetLeft;
+        var thumbW = thumb.offsetWidth;
+        var cW = container.clientWidth;
+        var target = left - (cW / 2) + (thumbW / 2);
+
+        container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      } else {
         var rect = thumb.getBoundingClientRect();
         var cRect = container.getBoundingClientRect();
 
@@ -354,6 +365,7 @@ Custom Main Product Section
           container.scrollBy({ top: rect.bottom - cRect.bottom + 8, behavior: 'smooth' });
         }
       }
+    }
 
       thumbs.forEach(function(thumb) {
         thumb.addEventListener('click', function() {
@@ -384,13 +396,29 @@ Custom Main Product Section
 
       if (thumbPrev) {
         thumbPrev.addEventListener('click', function() {
-          thumbContainer.scrollBy({ top: -scrollStep, behavior: 'smooth' });
+          var isMobile = window.matchMedia('(max-width: 749px)').matches;
+
+          if (isMobile) {
+            var step = thumbContainer.querySelector('.via-pdp-thumb')?.offsetWidth || 56;
+            var gap = 10;
+            thumbContainer.scrollBy({ left: -(step + gap), behavior: 'smooth' });
+          } else {
+            thumbContainer.scrollBy({ top: -scrollStep, behavior: 'smooth' });
+          }
         });
       }
 
       if (thumbNext) {
         thumbNext.addEventListener('click', function() {
-          thumbContainer.scrollBy({ top: scrollStep, behavior: 'smooth' });
+          var isMobile = window.matchMedia('(max-width: 749px)').matches;
+
+          if (isMobile) {
+            var step = thumbContainer.querySelector('.via-pdp-thumb')?.offsetWidth || 56;
+            var gap = 10;
+            thumbContainer.scrollBy({ left: (step + gap), behavior: 'smooth' });
+          } else {
+            thumbContainer.scrollBy({ top: scrollStep, behavior: 'smooth' });
+          }
         });
       }
 

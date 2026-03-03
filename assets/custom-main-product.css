@@ -39,10 +39,6 @@
     transform: rotate(-90deg);    
 }
 
-.via-pdp-main-nav--next, .via-pdp-main-nav--prev{
-    background: transparent !important;
-    box-shadow: none !important;
-}
 .via-pdp-main-nav--next svg, .via-pdp-main-nav--prev svg{
     color: #161F3A;
 }
@@ -78,8 +74,8 @@
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 20px;
     align-items: stretch;
-    height: 600px;
-    overflow-y: auto;
+    height: 700px;
+    overflow-y: hidden;
 }
 
 
@@ -178,7 +174,7 @@
 
 .via-pdp-main-frame {
     position: relative;
-    min-height: 420px;
+    min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -354,13 +350,13 @@
     max-width: 100%;
     }
 
-    .via-pdp-gallery-main {
+    /* .via-pdp-gallery-main {
     padding: 16px;
-    }
+    } */
 
-    .via-pdp-main-frame {
+    /* .via-pdp-main-frame {
     min-height: 320px;
-    }
+    } */
 
     .via-pdp-main__gallery {
     grid-template-columns: 1fr;
@@ -399,21 +395,41 @@
 /* ================================
    PDP Gallery - Sticky arrows
    ================================ */
-@media (min-width: 990px) {
 
-  .via-pdp-main__gallery {
-    height: auto !important;
-    overflow: visible !important;
-  }
+@media (min-width: 750px) {
 
-  .via-pdp-gallery-thumbs {
-    max-height: 600px;   
-    overflow-y: auto;
+
+  .via-pdp-gallery-main {
+    height: 100%;
   }
 
   .via-pdp-main-frame {
-    max-height: 600px;   
-    overflow-y: auto;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .via-pdp-main-slide,
+  .via-pdp-main-slide.is-active {
+    height: 100%;
+    width: 100%;
+  }
+
+  img.via-pdp-main-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;   
+    max-height: none !important;
+    display: block;
+  }
+
+  .via-pdp-gallery-thumbs {
+    max-height: 700px;   
+    overflow-y: hidden;
+  }
+
+  .via-pdp-main-frame {
+    max-height: 100%;   
+    overflow-y: hidden;
   }
 
 
@@ -440,8 +456,95 @@
     top: 60%;
     transform: translateY(-50%);
     z-index: 40;
+    cursor: pointer;
+    box-shadow: 0 4px 10px #00000014;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+}
+
+.via-pdp-main-nav--prev { left: 20px; }
+.via-pdp-main-nav--next { right: 20px; }
+
+
+/* ================================
+   MOBILE thumbs:
+   ================================ */
+@media (max-width: 749px) {
+
+  .via-pdp-main__gallery{
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+    height: auto;
+    overflow: visible;
   }
 
-  .via-pdp-main-nav--prev { left: 40px; }
-  .via-pdp-main-nav--next { right: 40px; }
+  .via-pdp-gallery-thumbs-wrap{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40px minmax(0,1fr) 40px; 
+    align-items: center;
+    gap: 10px;
+  }
+
+  .via-pdp-thumb-nav{
+    display: flex !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+  }
+
+  .nav-down, .nav-up { margin: 0 !important; }
+
+  .via-pdp-thumb-nav--prev svg { transform: rotate(180deg); }
+  .via-pdp-thumb-nav--next svg { transform: rotate(180deg); }
+
+  .via-pdp-gallery-thumbs{
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px;
+
+    width: 100%;
+    min-width: 0;           
+    overflow: hidden;       
+    padding: 0;
+    margin: 0 auto;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+
+  .via-pdp-thumb{
+    flex: 0 0 calc((100% - (10px * 3)) / 4);
+    max-width: calc((100% - (10px * 3)) / 4);
+    scroll-snap-align: start;
+  }
+
+  .via-pdp-thumb img{
+    width: 100%;
+    aspect-ratio: 1 / 1;   
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+
+  .via-pdp-main-frame{
+    height: min(60vh, 520px);
+    overflow: hidden;
+  }
+  .via-pdp-main-slide,
+  .via-pdp-main-slide.is-active{ height: 100%; }
+
+  img.via-pdp-main-image{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    max-height: none !important;
+    display: block;
+  }
+  .via-pdp-main-nav {
+    width: 40px;
+    height: 40px;
+  }
 }
