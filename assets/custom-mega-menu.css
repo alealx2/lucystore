@@ -666,47 +666,54 @@ transform: translateY(0);
 /* ===== Smooth open/close for mega menu ===== */
 @media (min-width: 990px) {
   header-menu details.mega-menu .mega-menu__content {
-    opacity: 0;
-    transform: translate3d(0, 10px, 0);
-    visibility: hidden;
-    pointer-events: none;
+    opacity: 0 !important;
+    transform: translate3d(0, 10px, 0) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 
     transition:
       opacity 220ms ease,
       transform 260ms cubic-bezier(.2,.8,.2,1),
-      visibility 0s linear 240ms; /* espera para ocultar al cerrar */
-    will-change: opacity, transform;
+      visibility 0s linear 240ms !important; /* espera para ocultar al cerrar */
+    will-change: opacity, transform !important;
   }
 
   header-menu details.mega-menu[open] .mega-menu__content {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    visibility: visible;
-    pointer-events: auto;
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
 
     transition:
       opacity 220ms ease,
       transform 260ms cubic-bezier(.2,.8,.2,1),
-      visibility 0s;
+      visibility 0s !important;
   }
 }
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   header-menu details.mega-menu .mega-menu__content {
-    transition: none !important;
-    transform: none !important;
+    transition: none !important !important;
+    transform: none !important !important;
   }
 }
 
 @media (min-width: 990px) {
   .optionB__panel {
-    opacity: 0;
-    transform: translate3d(0, 6px, 0);
-    transition: opacity 180ms ease, transform 220ms cubic-bezier(.2,.8,.2,1);
+    opacity: 0 !important;
+    transform: translate3d(0, 6px, 0) !important;
+    transition: opacity 180ms ease, transform 220ms cubic-bezier(.2,.8,.2,1) !important;
   }
   .optionB__panel.is-active {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+@media (min-width: 990px) {
+  header-menu details.mega-menu .mega-menu__content {
+    margin-top: -6px !important;   /* reduce el gap */
+    padding-top: 6px !important;   /* mantiene el layout */
   }
 }

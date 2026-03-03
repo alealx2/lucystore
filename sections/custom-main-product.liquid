@@ -82,6 +82,14 @@ Custom Main Product Section
             >
               {{ 'single-left-arrow-icon.svg' | inline_asset_content }}
             </button>
+            
+            <button
+              type="button"
+              class="via-pdp-main-nav via-pdp-main-nav--next"
+              aria-label="{{ 'general.slider.next_slide' | t }}"
+            >
+              {{ 'single-right-arrow-icon.svg' | inline_asset_content }}
+            </button>
 
             <div class="via-pdp-main-frame">
               {%- for media in gallery_media -%}
@@ -101,14 +109,6 @@ Custom Main Product Section
                 </div>
               {%- endfor -%}
             </div>
-
-            <button
-              type="button"
-              class="via-pdp-main-nav via-pdp-main-nav--next"
-              aria-label="{{ 'general.slider.next_slide' | t }}"
-            >
-              {{ 'single-right-arrow-icon.svg' | inline_asset_content }}
-            </button>
           </div>
         </div>
       {%- endif -%}

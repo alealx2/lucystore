@@ -78,6 +78,8 @@
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 20px;
     align-items: stretch;
+    height: 600px;
+    overflow-y: auto;
 }
 
 
@@ -170,7 +172,7 @@
     background: #ffffff;
     border-radius: 4px;
     box-shadow: 0 4px 40px rgba(0,0,0,0.12);
-    padding: clamp(24px, 4vw, 40px);
+    padding: 0;
     height: 100%;
 }
 
@@ -216,13 +218,6 @@
     z-index: 3;
 }
 
-.via-pdp-main-nav--prev {
-    left: 0;
-}
-
-.via-pdp-main-nav--next {
-    right: 0;
-}
 
 .via-pdp-main-nav:hover {
     background: #f8f5ee;
@@ -399,3 +394,54 @@
     margin-right: 0;
 }
 
+
+
+/* ================================
+   PDP Gallery - Sticky arrows
+   ================================ */
+@media (min-width: 990px) {
+
+  .via-pdp-main__gallery {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .via-pdp-gallery-thumbs {
+    max-height: 600px;   
+    overflow-y: auto;
+  }
+
+  .via-pdp-main-frame {
+    max-height: 600px;   
+    overflow-y: auto;
+  }
+
+
+  .via-pdp-gallery-thumbs-wrap {
+    position: relative;
+  }
+
+  .via-pdp-thumb-nav--prev {
+    position: sticky;
+    z-index: 30;
+  }
+
+  .via-pdp-thumb-nav--next {
+    position: sticky;
+    z-index: 30;
+  }
+
+  .via-pdp-gallery-main {
+    position: relative;
+  }
+
+  .via-pdp-main-nav {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    z-index: 40;
+  }
+
+  .via-pdp-main-nav--prev { left: 40px; }
+  .via-pdp-main-nav--next { right: 40px; }
+}
