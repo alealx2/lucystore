@@ -346,9 +346,9 @@ transform:rotate(-140deg);
 .hs-panel__arrow--next[disabled]{opacity:.4;cursor:default;}
 
 /* MODAL GRANDE */
-html.hs-modal-open{
+/* html.hs-modal-open{
 overflow:hidden;
-}
+} */
 .hs-modal{
 position:fixed;
 inset:0;
@@ -619,3 +619,5 @@ border-color:#161F3A;
 .hs__img--desktop{ display:block; }
 .hs__img--mobile{ display:none; }
 }
+
+

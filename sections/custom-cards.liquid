@@ -5,8 +5,8 @@
     {% if section.settings.bg_image != blank %}
       background-image: url('{{ section.settings.bg_image | image_url: width: 2400 }}');
     {% endif %}
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-top: {{ section.settings.section_vertical_padding }}px;
+    padding-bottom: {{ section.settings.section_vertical_padding }}px;
   "
 >
   <div class="custom-cards-inner page-width">
@@ -24,36 +24,36 @@
               <a href="{{ card_url }}" class="custom-card-link">
             {% endif %}
 
+            <div
+              class="custom-card-bg"
+              style="
+                {% if card_img != blank %}
+                  background-image: url('{{ card_img | image_url: width: 1000 }}');
+                {% endif %}
+              "
+            >
               <div
-                class="custom-card-bg"
+                class="custom-card-overlay"
                 style="
-                  {% if card_img != blank %}
-                    background-image: url('{{ card_img | image_url: width: 1000 }}');
-                  {% endif %}
+                  --card-overlay-color: {{ block.settings.card_overlay_color }};
+                  --card-overlay-opacity: {{ block.settings.card_overlay_opacity | divided_by: 100.0 }};
                 "
-              >
-                <div
-                  class="custom-card-overlay"
-                  style="
-                    --card-overlay-color: {{ block.settings.card_overlay_color }};
-                    --card-overlay-opacity: {{ block.settings.card_overlay_opacity | divided_by: 100.0 }};
-                  "
-                ></div>
+              ></div>
 
-                <div class="custom-card-content">
-                  {% if block.settings.card_title != blank %}
-                    <h3
-                      class="custom-card-title"
-                      style="
-                        color: {{ block.settings.card_title_color }};
-                        font-size: {{ block.settings.card_title_size }}px;
-                      "
-                    >
-                      {{ block.settings.card_title }}
-                    </h3>
-                  {% endif %}
-                </div>
+              <div class="custom-card-content">
+                {% if block.settings.card_title != blank %}
+                  <h3
+                    class="custom-card-title"
+                    style="
+                      color: {{ block.settings.card_title_color }};
+                      font-size: {{ block.settings.card_title_size }}px;
+                    "
+                  >
+                    {{ block.settings.card_title }}
+                  </h3>
+                {% endif %}
               </div>
+            </div>
 
             {% if card_url != blank %}
               </a>
@@ -77,6 +77,147 @@
   </div>
 </div>
 
+{% stylesheet %}
+.custom-cards-section {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: calc(100svh - var(--header-height, 0px));
+  box-sizing: border-box;
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  z-index: 0;
+  align-items: center;
+}
+
+.custom-cards-inner {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+}
+
+.custom-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  justify-items: center;
+  align-items: stretch;
+}
+
+.custom-card {
+  width: 85%;
+  display: flex;
+}
+
+.custom-card-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.custom-card-bg {
+  position: relative;
+  width: 100%;
+  padding-top: 120%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 22px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.custom-card-link:hover .custom-card-bg {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.custom-card-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--card-overlay-color, #000000);
+  opacity: var(--card-overlay-opacity, 0.45);
+  pointer-events: none;
+}
+
+.custom-card-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  z-index: 1;
+}
+
+.custom-card-title {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 700;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.65);
+}
+
+.custom-cards-bottom-text {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.custom-cards-bottom-text p {
+  margin: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .custom-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .custom-cards-section {
+    min-height: auto;
+    background-size: auto;
+  }
+
+  .custom-cards-inner {
+    gap: 24px;
+  }
+
+  .custom-cards-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .custom-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .custom-card-bg {
+    padding-top: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-cards-section {
+    min-height: auto;
+  }
+}
+
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Custom Cards Grid",
@@ -97,21 +238,12 @@
     },
     {
       "type": "header",
-      "content": "Padding de la sección"
+      "content": "Espaciado vertical"
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "label": "Padding superior",
-      "min": 0,
-      "max": 200,
-      "step": 4,
-      "default": 80
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding inferior",
+      "id": "section_vertical_padding",
+      "label": "Padding vertical (arriba y abajo)",
       "min": 0,
       "max": 200,
       "step": 4,
@@ -212,118 +344,3 @@
   ]
 }
 {% endschema %}
-
-{% stylesheet %}
-
-.custom-cards-section {
-  display: flex;
-  position: relative;
-  width: 100%;
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  z-index: 0;
-}
-
-@media screen and (min-width: 750px) {
-  .custom-cards-section {
-    height: 100vh;
-  }
-}
-@media screen and (max-width: 750px) {
-  .custom-cards-section{
-    background-size: auto;
-  }
-}
-
-
-.custom-cards-inner {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.custom-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 32px;
-}
-
-@media screen and (max-width: 1024px) {
-  .custom-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .custom-cards-grid {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;    
-  }
-}
-
-.custom-card {
-  width: 85%;
-}
-
-.custom-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.custom-card-bg {
-  position: relative;
-  width: 100%;
-  padding-top: 120%; 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 22px;
-  overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.custom-card-link:hover .custom-card-bg {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-}
-
-.custom-card-overlay {
-  display: block !important;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--card-overlay-color, #000000);
-  opacity: var(--card-overlay-opacity, 0.45);
-  pointer-events: none;
-  display: block;
-}
-
-.custom-card-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-  z-index: 1;
-}
-
-.custom-card-title {
-  margin: 0;
-  line-height: 1.2;
-  font-weight: 700;
-  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.65);
-}
-
-.custom-cards-bottom-text {
-  max-width: 800px;
-  margin: 40px auto 0;
-  text-align: center;
-}
-{% endstylesheet %}

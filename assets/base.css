@@ -3633,48 +3633,49 @@ shop-follow-button{
 
 /* SNAP TO SCROLL - EFFECT */
 @media screen and (min-width: 750px) {
-  html:is(.is-home, .is-about),
-  body:is(.is-home, .is-about) {
+  html:is(.is-home),
+  body:is(.is-home) {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  html:is(.is-home, .is-about)::-webkit-scrollbar,
-  body:is(.is-home, .is-about)::-webkit-scrollbar {
+  html:is(.is-home)::-webkit-scrollbar,
+  body:is(.is-home)::-webkit-scrollbar {
     display: none;
     width: 0;
     height: 0;
   }
 
-  html:is(.is-home, .is-about),
-  body:is(.is-home, .is-about) {
+  html:is(.is-home),
+  body:is(.is-home) {
     scroll-snap-type: none !important;
     overscroll-behavior-y: none;
   }
 
-  html:is(.is-home, .is-about) body main#MainContent > .shopify-section {
+  html:is(.is-home) body main#MainContent > .shopify-section {
     min-height: 100vh;
   }
 }
 
 
 html.is-home .section-header,
-html.is-about .section-header{
+ .section-header{
   position: sticky;
   top: 0;
   z-index: 9999;
 }
 
 html.is-home .section-header.shopify-section-header-hidden,
-html.is-about .section-header.shopify-section-header-hidden{
+ .section-header.shopify-section-header-hidden{
   transform: none !important;
 }
 
 html.is-home .section-header .header-wrapper,
-html.is-about .section-header .header-wrapper{
+ .section-header .header-wrapper{
   z-index: 9999;
 }
 
 
+/* WHISLIST */
 
 .sewp-header{
   background: #000000 !important;
@@ -3698,7 +3699,9 @@ html.is-about .section-header .header-wrapper{
   text-align: center !important;
   transition: background .15s ease, transform .15s ease, box-shadow .15s ease !important;
 }
-
+.wishlist-row{
+  gap: 20px;
+}
 .wishlist-column {
     background: #ffffff !important;
     border-radius: 8px !important;
@@ -3715,3 +3718,12 @@ html.is-about .section-header .header-wrapper{
 .sewp-header {
     border-radius: 8px 8px 0 0 !important;
 }
+
+@media (max-width: 639px) {
+  .wishlist-row{
+    gap: 10px;
+  }
+  .wishlist-column {
+    width: 45% !important;
+  }
+  }

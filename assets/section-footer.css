@@ -748,3 +748,12 @@ html.vlc-modal-open{ overflow: hidden; }
 .vertical-line{
   padding-right: 5px;
 }
+
+@media screen and (max-width: 480px) {
+  .footer__content-bottom-wrapper{
+    gap: 0;
+  }
+  .footer__copyright .policies{
+    gap: 5px;
+  }
+}
