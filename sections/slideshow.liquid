@@ -156,14 +156,17 @@
             {%- if block.settings.button_label != blank -%}
               <div class="banner__buttons{% if block.settings.lucy_style_enabled %} banner__buttons--lucy{% endif %}">
                 {%- if block.settings.lucy_style_enabled -%}
+
                   <a
                     {% if block.settings.link %}
                       href="{{ block.settings.link }}"
                     {% else %}
                       role="link" aria-disabled="true"
                     {% endif %}
-                    class="lucy-btn"
+                    class="lucy-btn lucy-btn--magic lucy-btn--trail"
                   >
+                    <span class="lucy-btn__bg"></span>
+                    <canvas class="lucy-btn__canvas"></canvas>
                     <span class="lucy-btn__inner">
                       {{- block.settings.button_label | escape -}}
                     </span>
@@ -275,6 +278,544 @@
 {%- endif -%}
 
 
+{% style %}
+.lucy-btn--trail {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  min-width: 300px;
+  padding: 0;
+  border-radius: 18px;
+  text-decoration: none;
+  background: rgba(35, 26, 30, 0.14);
+  border: 1px solid rgba(255, 184, 164, 0.75);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 220, 205, 0.05),
+    0 0 18px rgba(255, 170, 130, 0.08);
+  transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.lucy-btn--trail:hover {
+  background: rgba(78, 48, 42, 0.22);
+  border-color: rgba(255, 205, 188, 0.95);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 230, 220, 0.08),
+    0 0 24px rgba(255, 185, 145, 0.12),
+    0 0 40px rgba(255, 155, 120, 0.10);
+}
+
+.lucy-btn__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02) 0%,
+    rgba(255,190,170,0.04) 100%
+  );
+}
+
+.lucy-btn__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lucy-btn__inner {
+  position: relative;
+  z-index: 2;
+  padding: 20px 34px;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.24),
+    0 0 18px rgba(255,220,190,0.14);
+  white-space: nowrap;
+}
+{% endstyle %}
+
+
+<script>
+(function () {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
+
+  class LucyTrailButton {
+    constructor(button) {
+      this.button = button;
+      this.canvas = button.querySelector(".lucy-btn__canvas");
+      if (!this.canvas) return;
+
+      this.ctx = this.canvas.getContext("2d");
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      this.width = 0;
+      this.height = 0;
+      this.raf = null;
+      this.lastTime = 0;
+
+      // Mezcla del hover: 0 = sin hover, 1 = hover total
+      this.hoverMix = 0;
+
+      // Partículas de la estela fija
+      this.trailParticles = [];
+
+      // Partículas del fondo estrellado del hover
+      this.fieldParticles = [];
+
+      // ============================================
+      // CONFIGURACIÓN
+      // ============================================
+      this.config = {
+        // ------------------------------------------
+        // ESTELA FIJA (VISIBLE FUERA DEL HOVER)
+        // ------------------------------------------
+
+        // Posición horizontal del hotspot de la estela.
+        // 0 = izquierda, 1 = derecha
+        trailHotspotX: 0.86,
+
+        // Posición vertical del hotspot de la estela.
+        // 0 = arriba, 1 = abajo
+        trailHotspotY: 0.78,
+
+        // Largo de la estela hacia atrás.
+        // Ej: 0.22 = 22% del ancho del botón
+        trailLength: 0.22,
+
+        // Intensidad de la estela cuando NO hay hover
+        trailBaseIntensity: 0.82,
+
+        // Al hacer hover, la estela se apaga.
+        // Valor negativo para que desaparezca progresivamente
+        trailHoverBoost: -0.52,
+
+        // Tamaño del punto brillante principal de la estela
+        trailHeadRadius: 18,
+
+        // Radio del bloom suave alrededor del hotspot
+        trailBloomRadius: 26,
+
+        // Cantidad de partículas generadas por frame
+        trailParticleDensity: 2,
+
+        // Tamaño mínimo y máximo de partículas de la estela
+        trailParticleMinSize: 0.35,
+        trailParticleMaxSize: 0.9,
+
+        // Velocidad de partículas de la estela
+        trailParticleSpeedMin: 1.8,
+        trailParticleSpeedMax: 3.2,
+
+        // Dispersión vertical de partículas
+        trailParticleSpreadY: 5,
+
+        // ------------------------------------------
+        // BACKGROUND ESTRELLADO (SOLO EN HOVER)
+        // ------------------------------------------
+
+        // Cantidad de estrellas distribuidas en el botón
+        fieldParticleCount: 100,
+
+        // Opacidad máxima del fondo estrellado en hover
+        fieldMaxAlpha: 0.42,
+
+        // Tamaño mínimo y máximo de estrellas del fondo
+        fieldParticleMinSize: 0.4,
+        fieldParticleMaxSize: 1.3,
+
+        // Intensidad del wash cálido del fondo
+        fieldWashAlpha: 0.24,
+
+        // Velocidad de parpadeo de las estrellas del fondo
+        twinkleSpeedMin: 0.6,
+        twinkleSpeedMax: 1.8,
+
+        // ------------------------------------------
+        // ANIMACIÓN GENERAL
+        // ------------------------------------------
+
+        // Qué tan rápido entra/sale el hover
+        hoverEase: 0.08,
+
+        // Pequeño pulso horizontal del hotspot de la estela
+        trailPulseAmplitudeX: 0.018,
+
+        // Velocidad de ese pulso
+        trailPulseSpeed: 1.6
+      };
+
+      this.time = 0;
+      this.isHovering = false;
+
+      this.resize();
+      this.bind();
+      this.initFieldParticles();
+      this.start();
+    }
+
+    bind() {
+      this.button.addEventListener("mouseenter", () => {
+        this.isHovering = true;
+      });
+
+      this.button.addEventListener("mouseleave", () => {
+        this.isHovering = false;
+      });
+
+      window.addEventListener("resize", () => {
+        this.resize();
+        this.initFieldParticles();
+      });
+    }
+
+    start() {
+      if (!this.raf) {
+        this.lastTime = performance.now();
+        this.raf = requestAnimationFrame((t) => this.loop(t));
+      }
+    }
+
+    resize() {
+      const rect = this.button.getBoundingClientRect();
+      this.width = Math.max(1, Math.round(rect.width));
+      this.height = Math.max(1, Math.round(rect.height));
+
+      this.canvas.width = Math.round(this.width * this.dpr);
+      this.canvas.height = Math.round(this.height * this.dpr);
+      this.canvas.style.width = `${this.width}px`;
+      this.canvas.style.height = `${this.height}px`;
+
+      this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    }
+
+    initFieldParticles() {
+      this.fieldParticles = [];
+
+      for (let i = 0; i < this.config.fieldParticleCount; i++) {
+        this.fieldParticles.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          size: this.random(this.config.fieldParticleMinSize, this.config.fieldParticleMaxSize),
+          alphaSeed: Math.random(),
+          twinkleSpeed: this.random(this.config.twinkleSpeedMin, this.config.twinkleSpeedMax),
+          driftX: this.random(-0.03, 0.03),
+          driftY: this.random(-0.02, 0.02)
+        });
+      }
+    }
+
+    random(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    getTrailHotspot() {
+      const pulse = Math.sin(this.time * this.config.trailPulseSpeed) * this.config.trailPulseAmplitudeX;
+
+      return {
+        x: this.width * (this.config.trailHotspotX + pulse),
+        y: this.height * this.config.trailHotspotY
+      };
+    }
+
+    spawnTrailParticles() {
+      const hotspot = this.getTrailHotspot();
+
+      for (let i = 0; i < this.config.trailParticleDensity; i++) {
+        const maxLife = this.random(20, 34);
+
+        this.trailParticles.push({
+          x: hotspot.x + this.random(-4, 4),
+          y: hotspot.y + this.random(-this.config.trailParticleSpreadY / 2, this.config.trailParticleSpreadY / 2),
+          vx: -this.random(this.config.trailParticleSpeedMin, this.config.trailParticleSpeedMax),
+          vy: this.random(-0.15, 0.15),
+          size: this.random(this.config.trailParticleMinSize, this.config.trailParticleMaxSize),
+          life: maxLife,
+          maxLife: maxLife
+        });
+      }
+    }
+
+    update(dt) {
+      this.time += dt * 0.001;
+
+      // Hover entra/sale suave
+      this.hoverMix += ((this.isHovering ? 1 : 0) - this.hoverMix) * this.config.hoverEase;
+
+      // La estela fija solo se genera cuando no estamos en hover fuerte
+      if (this.hoverMix < 0.95) {
+        this.spawnTrailParticles();
+      }
+
+      this.trailParticles = this.trailParticles.filter((p) => {
+        p.x += p.vx * dt * 0.045;
+        p.y += p.vy * dt * 0.045;
+        p.life -= dt * 0.05;
+        return p.life > 0;
+      });
+
+      // Movimiento ultra sutil del campo de estrellas
+      for (const p of this.fieldParticles) {
+        p.x += p.driftX * dt;
+        p.y += p.driftY * dt;
+
+        if (p.x < 0) p.x = this.width;
+        if (p.x > this.width) p.x = 0;
+        if (p.y < 0) p.y = this.height;
+        if (p.y > this.height) p.y = 0;
+      }
+    }
+
+    clear() {
+      this.ctx.clearRect(0, 0, this.width, this.height);
+    }
+
+    drawFieldWash() {
+      if (this.hoverMix <= 0.01) return;
+
+      const ctx = this.ctx;
+      ctx.save();
+
+      const grad = ctx.createLinearGradient(0, 0, this.width, this.height);
+      grad.addColorStop(0, `rgba(255, 188, 164, ${0.10 * this.hoverMix})`);
+      grad.addColorStop(0.5, `rgba(255, 168, 145, ${this.config.fieldWashAlpha * this.hoverMix})`);
+      grad.addColorStop(1, `rgba(255, 194, 170, ${0.14 * this.hoverMix})`);
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, this.width, this.height);
+
+      ctx.restore();
+    }
+
+    drawFieldParticles() {
+      if (this.hoverMix <= 0.01) return;
+
+      const ctx = this.ctx;
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      for (const p of this.fieldParticles) {
+        const twinkle = (Math.sin(this.time * p.twinkleSpeed * 6 + p.alphaSeed * Math.PI * 2) + 1) * 0.5;
+        const alpha = twinkle * this.config.fieldMaxAlpha * this.hoverMix;
+
+        if (alpha < 0.01) continue;
+
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
+        g.addColorStop(0, `rgba(255, 248, 235, ${alpha})`);
+        g.addColorStop(0.55, `rgba(255, 214, 182, ${alpha * 0.75})`);
+        g.addColorStop(1, "rgba(255, 190, 150, 0)");
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    drawTrailLine() {
+      const ctx = this.ctx;
+      const hotspot = this.getTrailHotspot();
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      const startX = Math.max(this.width * 0.12, hotspot.x - this.width * this.config.trailLength);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      // Núcleo fino, más estilo estrella fugaz
+      const core = ctx.createLinearGradient(startX, hotspot.y, hotspot.x, hotspot.y);
+      core.addColorStop(0, "rgba(255,255,255,0)");
+      core.addColorStop(0.45, `rgba(255,236,214,${0.10 * intensity})`);
+      core.addColorStop(0.8, `rgba(255,246,236,${0.48 * intensity})`);
+      core.addColorStop(1, `rgba(255,255,255,${0.92 * intensity})`);
+
+      ctx.strokeStyle = core;
+      ctx.lineWidth = 1.35;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(startX, hotspot.y);
+      ctx.lineTo(hotspot.x, hotspot.y);
+      ctx.stroke();
+
+      // Halo suave y más contenido
+      const soft = ctx.createLinearGradient(startX, hotspot.y, hotspot.x, hotspot.y);
+      soft.addColorStop(0, "rgba(255,225,190,0)");
+      soft.addColorStop(0.55, `rgba(255,215,190,${0.04 * intensity})`);
+      soft.addColorStop(1, `rgba(255,228,210,${0.10 * intensity})`);
+
+      ctx.strokeStyle = soft;
+      ctx.lineWidth = 5.5;
+      ctx.beginPath();
+      ctx.moveTo(startX, hotspot.y);
+      ctx.lineTo(hotspot.x, hotspot.y);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    drawTrailParticles() {
+      const ctx = this.ctx;
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      for (const p of this.trailParticles) {
+        const alpha = (p.life / p.maxLife) * intensity;
+        if (alpha <= 0.01) continue;
+
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3.2);
+        g.addColorStop(0, `rgba(255,252,245,${alpha})`);
+        g.addColorStop(0.45, `rgba(255,228,195,${alpha * 0.55})`);
+        g.addColorStop(1, "rgba(255,210,170,0)");
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 2.0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    drawTrailHead() {
+      const ctx = this.ctx;
+      const hotspot = this.getTrailHotspot();
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      const head = ctx.createRadialGradient(
+        hotspot.x,
+        hotspot.y,
+        0,
+        hotspot.x,
+        hotspot.y,
+        this.config.trailHeadRadius
+      );
+
+      head.addColorStop(0, `rgba(255,255,255,${0.92 * intensity})`);
+      head.addColorStop(0.28, `rgba(255,244,230,${0.58 * intensity})`);
+      head.addColorStop(1, "rgba(255,220,185,0)");
+
+      ctx.fillStyle = head;
+      ctx.beginPath();
+      ctx.arc(hotspot.x, hotspot.y, this.config.trailHeadRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    drawTrailBloom() {
+      const ctx = this.ctx;
+      const hotspot = this.getTrailHotspot();
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+
+      const bloom = ctx.createRadialGradient(
+        hotspot.x,
+        hotspot.y,
+        0,
+        hotspot.x,
+        hotspot.y,
+        this.config.trailBloomRadius
+      );
+
+      bloom.addColorStop(0, `rgba(255, 240, 220, ${0.11 * intensity})`);
+      bloom.addColorStop(0.42, `rgba(255, 222, 196, ${0.05 * intensity})`);
+      bloom.addColorStop(1, "rgba(255, 210, 180, 0)");
+
+      ctx.fillStyle = bloom;
+      ctx.beginPath();
+      ctx.arc(hotspot.x, hotspot.y, this.config.trailBloomRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    render() {
+      this.clear();
+
+      // Hover background
+      this.drawFieldWash();
+      this.drawFieldParticles();
+
+      // Estela fija
+      this.drawTrailBloom();
+      this.drawTrailLine();
+      this.drawTrailParticles();
+      this.drawTrailHead();
+    }
+
+    loop(now) {
+      const dt = Math.min(32, now - this.lastTime || 16);
+      this.lastTime = now;
+
+      this.update(dt);
+      this.render();
+
+      this.raf = requestAnimationFrame((t) => this.loop(t));
+    }
+  }
+
+  function initLucyTrailButtons(scope) {
+    (scope || document).querySelectorAll(".lucy-btn--trail").forEach((button) => {
+      if (button.dataset.lucyTrailInit === "true") return;
+      button.dataset.lucyTrailInit = "true";
+      new LucyTrailButton(button);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initLucyTrailButtons(document);
+  });
+
+  document.addEventListener("shopify:section:load", function (event) {
+    initLucyTrailButtons(event.target);
+  });
+})();
+</script>
 
 <script>
 

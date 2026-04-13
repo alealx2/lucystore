@@ -253,7 +253,7 @@ slideshow-component:not(.page-width) .slider-buttons {
   gap:1.75rem;
   margin-top:2.5rem;
 }
-
+/* 
 .lucy-btn{
   position: relative;
   display: inline-flex;
@@ -315,7 +315,7 @@ slideshow-component:not(.page-width) .slider-buttons {
     0 0 26px rgba(255, 184, 138, 0.75),
     0 0 70px rgba(255, 120, 190, 0.55);
   transform:translateY(-1px);
-}
+} */
 
 
 .lucy-scroll{

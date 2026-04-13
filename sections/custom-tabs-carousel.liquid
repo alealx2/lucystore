@@ -79,7 +79,8 @@ Carousel Tabs – Section (Dawn / OS 2.0)
             data-bg-hover="{{ section.settings.tab_bg_hover | default: '#111111' }}"
             data-auto="{{ b.auto_contrast }}"
           >
-            {{ b.tab_label | escape }}
+            <canvas class="tc-fx tc-fx--tab" aria-hidden="true"></canvas>
+            <span class="tc-tab__label">{{ b.tab_label | escape }}</span>
           </button>
         {% endfor %}
         <span class="tc__indicator tc__indicator--bottom" aria-hidden="true"></span>
@@ -214,6 +215,7 @@ Carousel Tabs – Section (Dawn / OS 2.0)
                 {% endif %}
 
                 <div class="tc-item__overlay" aria-hidden="true"></div>
+                <canvas class="tc-fx tc-fx--card" aria-hidden="true"></canvas>
 
                 <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{ b.item_txt_color }};">
                   {% if b.title != blank %}
@@ -323,6 +325,7 @@ Carousel Tabs – Section (Dawn / OS 2.0)
                   {% endif %}
 
                   <div class="tc-item__overlay" aria-hidden="true"></div>
+                  <canvas class="tc-fx tc-fx--card" aria-hidden="true"></canvas>
 
                   <div class="tc-item__content tc-item__content--{{ section.settings.content_align }} tc-item__content--{{ section.settings.content_valign }}" style="color: {{ b.item_txt_color }};">
                     {% if item_title != blank %}
@@ -894,6 +897,462 @@ Carousel Tabs – Section (Dawn / OS 2.0)
     });
 
   })();
+</script>
+
+<!-- VISUAL EFFECTS-->
+
+<script>
+(function () {
+  var root = document.getElementById('tc-{{ section.id }}');
+  if (!root) return;
+
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return;
+
+  function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
+  }
+
+  class CanvasFXBase {
+    constructor(el, canvas) {
+      this.el = el;
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      this.width = 0;
+      this.height = 0;
+      this.time = 0;
+      this.mix = 0;
+      this.raf = null;
+      this.lastTime = 0;
+
+      this.resize = this.resize.bind(this);
+      this.loop = this.loop.bind(this);
+
+      this.resize();
+      window.addEventListener('resize', this.resize);
+
+      this.lastTime = performance.now();
+      this.raf = requestAnimationFrame(this.loop);
+    }
+
+    resize() {
+      var rect = this.el.getBoundingClientRect();
+      this.width = Math.max(1, Math.round(rect.width));
+      this.height = Math.max(1, Math.round(rect.height));
+
+      this.canvas.width = Math.round(this.width * this.dpr);
+      this.canvas.height = Math.round(this.height * this.dpr);
+      {% comment %} this.canvas.style.width = this.width + 'px';
+      this.canvas.style.height = this.height + 'px'; {% endcomment %}
+
+      this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    }
+
+    isActive() {
+      return this.el.classList.contains('is-active');
+    }
+
+    clear() {
+      this.ctx.clearRect(0, 0, this.width, this.height);
+    }
+
+    loop(now) {
+      var dt = Math.min(32, now - this.lastTime || 16);
+      this.lastTime = now;
+      this.time += dt * 0.001;
+
+      var target = this.isActive() ? 1 : 0;
+      this.mix += (target - this.mix) * 0.10;
+
+      this.update(dt);
+      this.render();
+
+      this.raf = requestAnimationFrame(this.loop);
+    }
+
+    update() {}
+    render() {}
+  }
+
+  class TabGlowFX extends CanvasFXBase {
+    constructor(el, canvas) {
+      super(el, canvas);
+      this.particlesTop = [];
+      this.particlesBottom = [];
+
+      this.config = {
+        lineInsetX: 10,
+        hotspotBaseX: 0.50,
+        hotspotTravel: 0.11,
+        pulseSpeed: 1.8,
+
+        topY: 3,
+        bottomY: null,
+
+        lineCoreWidth: 1.4,
+        lineGlowWidth: 2,
+
+        hotspotRadius: 20,
+        bloomRadius: 52,
+
+        particleDensity: 1,
+        particleMinSize: 0.45,
+        particleMaxSize: 1.15,
+        particleSpreadY: 3.2,
+        particleSpeedMin: 0.9,
+        particleSpeedMax: 2.3,
+
+        maxIntensity: 0.95
+      };
+    }
+
+    update(dt) {
+      if (this.mix > 0.03) {
+        this.spawnParticles(this.particlesTop, 'top');
+        this.spawnParticles(this.particlesBottom, 'bottom');
+      }
+
+      this.particlesTop = this.particlesTop.filter((p) => {
+        p.x += p.vx * dt * 0.05;
+        p.y += p.vy * dt * 0.05;
+        p.life -= dt * 0.05;
+        return p.life > 0;
+      });
+
+      this.particlesBottom = this.particlesBottom.filter((p) => {
+        p.x += p.vx * dt * 0.05;
+        p.y += p.vy * dt * 0.05;
+        p.life -= dt * 0.05;
+        return p.life > 0;
+      });
+    }
+
+    getHotspotX() {
+      var pulse = Math.sin(this.time * this.config.pulseSpeed) * this.config.hotspotTravel;
+      return this.width * (this.config.hotspotBaseX + pulse);
+    }
+
+    spawnParticles(store, edge) {
+      var x = this.getHotspotX() + (Math.random() - 0.5) * 8;
+      var y = edge === 'top' ? this.config.topY + 1 : this.height - 3;
+
+      for (var i = 0; i < this.config.particleDensity; i++) {
+        var maxLife = 16 + Math.random() * 12;
+        store.push({
+          x: x,
+          y: y + (Math.random() - 0.5) * this.config.particleSpreadY,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.10,
+          size: this.config.particleMinSize + Math.random() * (this.config.particleMaxSize - this.config.particleMinSize),
+          life: maxLife,
+          maxLife: maxLife
+        });
+      }
+    }
+
+    drawLine(y) {
+      var ctx = this.ctx;
+      var x = this.getHotspotX();
+      var startX = this.config.lineInsetX;
+      var endX = this.width - this.config.lineInsetX;
+      var intensity = this.mix * this.config.maxIntensity;
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      var soft = ctx.createLinearGradient(startX, y, endX, y);
+      soft.addColorStop(0, 'rgba(255,190,150,0)');
+      soft.addColorStop(clamp((x - 80) / this.width, 0, 1), 'rgba(255,205,175,0)');
+      soft.addColorStop(clamp((x - 26) / this.width, 0, 1), 'rgba(255,214,186,' + (0.10 * intensity) + ')');
+      soft.addColorStop(clamp(x / this.width, 0, 1), 'rgba(255,240,225,' + (0.36 * intensity) + ')');
+      soft.addColorStop(clamp((x + 26) / this.width, 0, 1), 'rgba(255,214,186,' + (0.10 * intensity) + ')');
+      soft.addColorStop(clamp((x + 80) / this.width, 0, 1), 'rgba(255,190,150,0)');
+
+      ctx.strokeStyle = soft;
+      ctx.lineWidth = this.config.lineGlowWidth;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(startX, y);
+      ctx.lineTo(endX, y);
+      ctx.stroke();
+
+      var core = ctx.createLinearGradient(startX, y, endX, y);
+      core.addColorStop(0, 'rgba(255,255,255,0)');
+      core.addColorStop(clamp((x - 50) / this.width, 0, 1), 'rgba(255,236,220,0)');
+      core.addColorStop(clamp((x - 10) / this.width, 0, 1), 'rgba(255,245,238,' + (0.30 * intensity) + ')');
+      core.addColorStop(clamp(x / this.width, 0, 1), 'rgba(255,255,255,' + (0.95 * intensity) + ')');
+      core.addColorStop(clamp((x + 10) / this.width, 0, 1), 'rgba(255,245,238,' + (0.30 * intensity) + ')');
+      core.addColorStop(clamp((x + 50) / this.width, 0, 1), 'rgba(255,236,220,0)');
+      core.addColorStop(1, 'rgba(255,255,255,0)');
+
+      ctx.strokeStyle = core;
+      ctx.lineWidth = this.config.lineCoreWidth;
+      ctx.beginPath();
+      ctx.moveTo(startX, y);
+      ctx.lineTo(endX, y);
+      ctx.stroke();
+
+      var bloom = ctx.createRadialGradient(x, y, 0, x, y, this.config.bloomRadius);
+      bloom.addColorStop(0, 'rgba(255,244,232,' + (0.14 * intensity) + ')');
+      bloom.addColorStop(0.35, 'rgba(255,214,184,' + (0.06 * intensity) + ')');
+      bloom.addColorStop(1, 'rgba(255,200,160,0)');
+
+      ctx.fillStyle = bloom;
+      ctx.beginPath();
+      ctx.arc(x, y, this.config.bloomRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      var head = ctx.createRadialGradient(x, y, 0, x, y, this.config.hotspotRadius);
+      head.addColorStop(0, 'rgba(255,255,255,' + (0.95 * intensity) + ')');
+      head.addColorStop(0.28, 'rgba(255,240,228,' + (0.62 * intensity) + ')');
+      head.addColorStop(1, 'rgba(255,220,190,0)');
+
+      ctx.fillStyle = head;
+      ctx.beginPath();
+      ctx.arc(x, y, this.config.hotspotRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    drawParticles(store) {
+      var ctx = this.ctx;
+      var intensity = this.mix * this.config.maxIntensity;
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      store.forEach(function (p) {
+        var alpha = (p.life / p.maxLife) * intensity;
+        if (alpha <= 0.01) return;
+
+        var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3.4);
+        g.addColorStop(0, 'rgba(255,250,242,' + alpha + ')');
+        g.addColorStop(0.5, 'rgba(255,222,192,' + (alpha * 0.6) + ')');
+        g.addColorStop(1, 'rgba(255,205,165,0)');
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.restore();
+    }
+
+    render() {
+      this.clear();
+      if (this.mix <= 0.01 && !this.particlesTop.length && !this.particlesBottom.length) return;
+
+      this.drawLine(this.config.topY);
+      this.drawLine(this.height - 3);
+      this.drawParticles(this.particlesTop);
+      this.drawParticles(this.particlesBottom);
+    }
+  }
+
+  class CardBorderFX extends CanvasFXBase {
+    constructor(el, canvas) {
+      super(el, canvas);
+
+      this.leftParticles = [];
+      this.rightParticles = [];
+
+      this.config = {
+        // Distancia del efecto respecto al borde visual de la card
+        sideOffset: 20,
+
+        // Ancho de cada columna lateral de partículas
+        sideColumnWidth: 40,
+
+        // Separación arriba/abajo para que no toque las esquinas del canvas
+        verticalInset: 18,
+
+        // Intensidad general
+        maxIntensity: 1,
+
+        // Radio del haze suave lateral
+        hazeWidth: 14,
+
+        // Partículas
+        particleMinSize: 0.4,
+        particleMaxSize: 1.15,
+
+        // Movimiento sutil
+        driftX: 0.12,
+        driftYMin: -0.18,
+        driftYMax: 0.18,
+
+        // Parpadeo
+        twinkleSpeedMin: 0.8,
+        twinkleSpeedMax: 2.1,
+
+        // Cantidad de estrellas sembradas por lado
+        seededParticlesPerSide: 50
+      };
+
+      this.seedSideParticles();
+    }
+
+    resize() {
+      super.resize();
+
+      // Evita error cuando el constructor base llama resize()
+      // antes de que this.config exista
+      if (!this.config) return;
+
+      this.seedSideParticles();
+    }
+
+    seedSideParticles() {
+      this.leftParticles = [];
+      this.rightParticles = [];
+
+      const leftX = this.config.sideOffset;
+      const rightX = this.width - this.config.sideOffset;
+
+      for (let i = 0; i < this.config.seededParticlesPerSide; i++) {
+        this.leftParticles.push(this.createSeedParticle(leftX, "left"));
+        this.rightParticles.push(this.createSeedParticle(rightX, "right"));
+      }
+    }
+
+    createSeedParticle(baseX, side) {
+      return {
+        side,
+        baseX,
+        x: baseX + (Math.random() - 0.5) * this.config.sideColumnWidth,
+        y:
+          this.config.verticalInset +
+          Math.random() * Math.max(10, this.height - this.config.verticalInset * 2),
+        size:
+          this.config.particleMinSize +
+          Math.random() * (this.config.particleMaxSize - this.config.particleMinSize),
+        alphaSeed: Math.random() * Math.PI * 2,
+        twinkleSpeed:
+          this.config.twinkleSpeedMin +
+          Math.random() * (this.config.twinkleSpeedMax - this.config.twinkleSpeedMin),
+        driftX: (Math.random() - 0.5) * this.config.driftX,
+        driftY:
+          this.config.driftYMin +
+          Math.random() * (this.config.driftYMax - this.config.driftYMin)
+      };
+    }
+
+    update(dt) {
+      const moveParticles = (particles) => {
+        particles.forEach((p) => {
+          p.x += p.driftX * dt * 0.06;
+          p.y += p.driftY * dt * 0.06;
+
+          const minY = this.config.verticalInset;
+          const maxY = this.height - this.config.verticalInset;
+
+          if (p.y < minY) p.y = maxY;
+          if (p.y > maxY) p.y = minY;
+
+          const spread = this.config.sideColumnWidth * 0.5;
+          if (p.x < p.baseX - spread) p.x = p.baseX + spread;
+          if (p.x > p.baseX + spread) p.x = p.baseX - spread;
+        });
+      };
+
+      moveParticles(this.leftParticles);
+      moveParticles(this.rightParticles);
+    }
+
+    drawSideHaze(side) {
+      const ctx = this.ctx;
+      const intensity = this.mix * this.config.maxIntensity;
+      if (intensity <= 0.01) return;
+
+      const x = side === "left" ? this.config.sideOffset : this.width - this.config.sideOffset;
+      const y = this.height * 0.5;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+
+      const g = ctx.createRadialGradient(x, y, 0, x, y, this.config.hazeWidth);
+      g.addColorStop(0, `rgba(255, 222, 196, ${0.12 * intensity})`);
+      g.addColorStop(0.4, `rgba(255, 198, 164, ${0.07 * intensity})`);
+      g.addColorStop(1, "rgba(255, 180, 145, 0)");
+
+      ctx.fillStyle = g;
+      ctx.fillRect(
+        side === "left" ? 0 : this.width - this.config.hazeWidth * 2,
+        this.config.verticalInset,
+        this.config.hazeWidth * 2,
+        this.height - this.config.verticalInset * 2
+      );
+
+      ctx.restore();
+    }
+
+    drawParticleColumn(particles) {
+      const ctx = this.ctx;
+      const intensity = this.mix * this.config.maxIntensity;
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      particles.forEach((p) => {
+        const twinkle = (Math.sin(this.time * p.twinkleSpeed * 6 + p.alphaSeed) + 1) * 0.5;
+        const alpha = twinkle * intensity;
+
+        if (alpha <= 0.02) return;
+
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4.2);
+        g.addColorStop(0, `rgba(255, 248, 238, ${alpha})`);
+        g.addColorStop(0.45, `rgba(255, 220, 190, ${alpha * 0.75})`);
+        g.addColorStop(1, "rgba(255, 200, 165, 0)");
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 2.1, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.restore();
+    }
+
+    render() {
+      this.clear();
+      if (this.mix <= 0.01) return;
+
+      this.drawSideHaze("left");
+      this.drawSideHaze("right");
+      this.drawParticleColumn(this.leftParticles);
+      this.drawParticleColumn(this.rightParticles);
+    }
+  }
+
+  function initTabFX() {
+    root.querySelectorAll('.tc-tab__btn').forEach(function (btn) {
+      var canvas = btn.querySelector('.tc-fx--tab');
+      if (!canvas || btn.dataset.tabFxInit === '1') return;
+      btn.dataset.tabFxInit = '1';
+      new TabGlowFX(btn, canvas);
+    });
+  }
+
+  function initCardFX() {
+    root.querySelectorAll('.tc-item').forEach(function (item) {
+      var canvas = item.querySelector('.tc-fx--card');
+      if (!canvas || item.dataset.cardFxInit === '1') return;
+      item.dataset.cardFxInit = '1';
+      new CardBorderFX(item, canvas);
+    });
+  }
+
+  initTabFX();
+  initCardFX();
+})();
 </script>
 
 {% schema %}
