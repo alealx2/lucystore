@@ -630,6 +630,90 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       }
     }
     
+
+
+    /* VIA LUCI V4 — premium expanding modal motion */
+    #pgrid-{{ section.id }} .pgrid-modal{
+      display:block;
+      visibility:hidden;
+      opacity:0;
+      pointer-events:none;
+      transition:
+        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 620ms;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-open,
+    #pgrid-{{ section.id }} .pgrid-modal.is-closing{
+      visibility:visible;
+      pointer-events:auto;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-open{
+      opacity:1;
+      transition:
+        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0s;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-closing{
+      opacity:0;
+      pointer-events:none;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal__backdrop{
+      opacity:0;
+      transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__backdrop{
+      opacity:1;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal__dialog{
+      transform: scale(0.88) translateY(18px);
+      opacity:0;
+      transition:
+        transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, opacity;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__dialog{
+      transform: scale(1) translateY(0);
+      opacity:1;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-closing .pgrid-modal__dialog{
+      transform: scale(0.92) translateY(12px);
+      opacity:0;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__card{
+      transform: scale(0.96);
+      transition:
+        transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 620ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__body .pgrid__card{
+      transform: scale(1);
+    }
+    #pgrid-{{ section.id }} .pgrid-modal__close{
+      opacity:0;
+      transform: scale(0.86) rotate(-8deg);
+      transition:
+        opacity 420ms cubic-bezier(0.22, 1, 0.36, 1) 180ms,
+        transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 180ms,
+        background 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__close{
+      opacity:1;
+      transform: scale(1) rotate(0deg);
+    }
+
+
+    /* VIA LUCI V5 — modal reliability guard */
+    #pgrid-{{ section.id }} .pgrid-modal.is-open,
+    #pgrid-{{ section.id }} .pgrid-modal.is-closing{
+      display:block !important;
+    }
+    #pgrid-{{ section.id }} .pgrid-modal:not(.is-open):not(.is-closing){
+      pointer-events:none !important;
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       #pgrid-{{ section.id }} .pgrid__img,
@@ -727,6 +811,10 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       function openModalFromCard(card){
         if(!card || !modalBody) return;
 
+        // Prevent intermittent bug where the previous close timer clears a newly opened modal.
+        clearTimeout(pgridCloseTimer);
+        modal.classList.remove('is-closing');
+
         lastFocus = document.activeElement;
 
         // Pausar videos del grid (por si estaban reproduciendo)
@@ -748,6 +836,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
 
         modalBody.appendChild(clone);
 
+        modal.classList.remove('is-closing');
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden','false');
         document.documentElement.classList.add('pgrid-modal-open');
@@ -762,20 +851,27 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
         }
       }
 
+      var pgridCloseTimer = null;
       function closeModal(){
+        if(!modal.classList.contains('is-open')) return;
+        clearTimeout(pgridCloseTimer);
         modal.classList.remove('is-open');
+        modal.classList.add('is-closing');
         modal.setAttribute('aria-hidden','true');
-        document.documentElement.classList.remove('pgrid-modal-open');
 
         // Pausar videos del modal antes de limpiar
         pauseAllVideos(modalBody);
 
-        if(modalBody) modalBody.innerHTML = '';
+        pgridCloseTimer = setTimeout(function(){
+          modal.classList.remove('is-closing');
+          document.documentElement.classList.remove('pgrid-modal-open');
+          if(modalBody) modalBody.innerHTML = '';
 
-        // restaurar focus
-        if(lastFocus && typeof lastFocus.focus === 'function'){
-          try { lastFocus.focus(); } catch(e){}
-        }
+          // restaurar focus
+          if(lastFocus && typeof lastFocus.focus === 'function'){
+            try { lastFocus.focus(); } catch(e){}
+          }
+        }, 840);
       }
 
       root.querySelectorAll('.pgrid__item').forEach(function(item){

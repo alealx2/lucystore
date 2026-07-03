@@ -694,8 +694,8 @@ transform: translateY(0);
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   header-menu details.mega-menu .mega-menu__content {
-    transition: none !important !important;
-    transform: none !important !important;
+    transition: none !important;
+    transform: none !important;
   }
 }
 
@@ -715,5 +715,693 @@ transform: translateY(0);
   header-menu details.mega-menu .mega-menu__content {
     margin-top: -6px !important;   /* reduce el gap */
     padding-top: 6px !important;   /* mantiene el layout */
+  }
+}
+/* =========================================================
+   Via Luci navigation polish: overlay, hover bridge, timing
+   ========================================================= */
+:root {
+  --via-luci-ui-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  --via-luci-ui-duration: 220ms;
+}
+
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  body.via-luci-mega-active::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease);
+  }
+
+  .section-header,
+  .section-header .header-wrapper {
+    z-index: 9999;
+  }
+
+  header-menu details.mega-menu > summary {
+    position: relative;
+  }
+
+  header-menu details.mega-menu > summary::after {
+    content: '';
+    position: absolute;
+    left: -24px;
+    right: -24px;
+    top: 100%;
+    height: 34px;
+    background: transparent;
+    pointer-events: auto;
+  }
+
+  header-menu details.mega-menu .mega-menu__content {
+    padding-top: 10px !important;
+    padding-bottom: 40px !important;
+    margin-top: -8px !important;
+    overflow: visible !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-3px) !important;
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      visibility 0s linear var(--via-luci-ui-duration) !important;
+    will-change: opacity, transform;
+  }
+
+  header-menu details.mega-menu[open] .mega-menu__content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -42px;
+    height: 42px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 0));
+  }
+
+  .optionB__container {
+    padding-bottom: 24px;
+  }
+
+  .optionB__panels {
+    transition: height var(--via-luci-ui-duration) var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__panel,
+  .megamenu-cat__hero,
+  .mobile-mega-host {
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      visibility 0s linear var(--via-luci-ui-duration) !important;
+  }
+
+  .optionB__panel,
+  .megamenu-cat__hero {
+    transform: translateY(-3px) !important;
+  }
+
+  .optionB__panel.is-active,
+  .megamenu-cat__hero.is-active {
+    transform: translateY(0) !important;
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      visibility 0s linear 0s !important;
+  }
+}
+
+@media (max-width: 989px), (hover: none), (pointer: coarse) {
+  body.via-luci-mega-active::before {
+    content: none !important;
+  }
+
+  header-menu details.mega-menu > summary::after {
+    content: none !important;
+  }
+
+  .menu-drawer,
+  .mobile-mega-host {
+    max-height: 100vh;
+    max-height: 100dvh;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.via-luci-mega-active::before,
+  header-menu details.mega-menu .mega-menu__content,
+  .optionB__panel,
+  .megamenu-cat__hero,
+  .mobile-mega-host {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ===== VIA LUCI NAV POLISH — spacing + inactive item dimming ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  header-menu details.mega-menu .mega-menu__content {
+    padding-bottom: 48px !important;
+  }
+
+  header-menu details.mega-menu .optionB__container {
+    padding-bottom: 40px !important;
+  }
+
+  header-menu details.mega-menu .optionB__panels {
+    padding-bottom: 8px;
+  }
+
+  .megamenu-pb__featured--expanding {
+    padding-bottom: 16px;
+  }
+
+  .megamenu-pb__card .megamenu-pb__image-wrap,
+  .megamenu-cat__thumb-image {
+    position: relative;
+  }
+
+  .megamenu-pb__card .megamenu-pb__image-wrap::after,
+  .megamenu-cat__thumb-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0);
+    transition:
+      background var(--via-luci-ui-duration, 220ms) var(--via-luci-ui-ease, cubic-bezier(0.25, 1, 0.5, 1)),
+      opacity var(--via-luci-ui-duration, 220ms) var(--via-luci-ui-ease, cubic-bezier(0.25, 1, 0.5, 1));
+  }
+
+  .megamenu-pb__featured--expanding.has-active .megamenu-pb__card:not(.is-active) .megamenu-pb__image-wrap::after {
+    background: rgba(0, 0, 0, 0.52);
+  }
+
+  .megamenu-pb__featured--expanding.has-active .megamenu-pb__card:not(.is-active) {
+    opacity: 1 !important;
+  }
+
+  .megamenu-pb__featured--expanding.has-active .megamenu-pb__card:not(.is-active) .megamenu-pb__title {
+    opacity: 0.72;
+    transition: opacity var(--via-luci-ui-duration, 220ms) var(--via-luci-ui-ease, cubic-bezier(0.25, 1, 0.5, 1));
+  }
+
+  .megamenu-pb__featured--expanding.has-active .megamenu-pb__card.is-active .megamenu-pb__image-wrap::after {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .megamenu-cat__thumbs:has(.megamenu-cat__thumb.is-active) .megamenu-cat__thumb:not(.is-active) .megamenu-cat__thumb-image::after {
+    background: rgba(0, 0, 0, 0.48);
+  }
+
+  .megamenu-cat__thumbs:has(.megamenu-cat__thumb.is-active) .megamenu-cat__thumb:not(.is-active) .megamenu-cat__thumb-label {
+    opacity: 0.72;
+    transition: opacity var(--via-luci-ui-duration, 220ms) var(--via-luci-ui-ease, cubic-bezier(0.25, 1, 0.5, 1));
+  }
+}
+
+/* ===== VIA LUCI NAV POLISH V3 — slower premium motion ===== */
+:root {
+  --via-luci-ui-duration: 360ms;
+  --via-luci-ui-duration-slow: 440ms;
+  --via-luci-ui-ease: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  .header-wrapper {
+    transition: background-color 360ms var(--via-luci-ui-ease) !important;
+  }
+
+  body.via-luci-mega-active::before {
+    transition: opacity 420ms var(--via-luci-ui-ease) !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content {
+    transform: translateY(-6px) !important;
+    transition:
+      opacity 380ms var(--via-luci-ui-ease),
+      transform 420ms var(--via-luci-ui-ease),
+      visibility 0s linear 380ms !important;
+  }
+
+  header-menu details.mega-menu[open] .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition:
+      opacity 420ms var(--via-luci-ui-ease),
+      transform 440ms var(--via-luci-ui-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    transform: translateY(-6px) !important;
+    pointer-events: none !important;
+  }
+
+  .optionB__panels {
+    transition: height 420ms var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__tabs-link,
+  .megamenu-pb__link,
+  .megamenu-cat__thumb,
+  .megamenu-pb__card,
+  .megamenu-pb__image-wrap,
+  .megamenu-pb__image-wrap img,
+  .megamenu-cat__thumb-image,
+  .megamenu-cat__thumb-image img,
+  .megamenu-pb__title,
+  .megamenu-cat__thumb-label {
+    transition:
+      opacity 360ms var(--via-luci-ui-ease),
+      transform 420ms var(--via-luci-ui-ease),
+      color 360ms var(--via-luci-ui-ease),
+      border-color 360ms var(--via-luci-ui-ease),
+      background 360ms var(--via-luci-ui-ease),
+      filter 420ms var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__panel,
+  .megamenu-cat__hero {
+    transition:
+      opacity 360ms var(--via-luci-ui-ease),
+      transform 420ms var(--via-luci-ui-ease),
+      visibility 0s linear 360ms !important;
+  }
+
+  .optionB__panel.is-active,
+  .megamenu-cat__hero.is-active {
+    transition:
+      opacity 440ms var(--via-luci-ui-ease),
+      transform 440ms var(--via-luci-ui-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  .megamenu-pb__card {
+    transition:
+      flex 520ms var(--via-luci-ui-ease),
+      opacity 360ms var(--via-luci-ui-ease),
+      transform 420ms var(--via-luci-ui-ease) !important;
+  }
+
+  .megamenu-pb__card .megamenu-pb__image-wrap::after,
+  .megamenu-cat__thumb-image::after {
+    transition:
+      background 420ms var(--via-luci-ui-ease),
+      opacity 420ms var(--via-luci-ui-ease) !important;
+  }
+}
+
+/* ===== VIA LUCI NAV POLISH V4 — synchronized + ultra-smooth premium motion ===== */
+:root {
+  --via-luci-ui-duration: 520ms;
+  --via-luci-ui-duration-slow: 680ms;
+  --via-luci-ui-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  body.via-luci-mega-active::before,
+  .header-wrapper,
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu .optionB__container,
+  header-menu details.mega-menu .optionB__tabs,
+  header-menu details.mega-menu .optionB__panels {
+    transition-duration: var(--via-luci-ui-duration) !important;
+    transition-timing-function: var(--via-luci-ui-ease) !important;
+  }
+
+  body.via-luci-mega-active::before {
+    transition: opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease) !important;
+  }
+
+  .header-wrapper {
+    transition: background-color var(--via-luci-ui-duration) var(--via-luci-ui-ease) !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content {
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+    will-change: opacity, transform;
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration-slow) var(--via-luci-ui-ease),
+      visibility 0s linear var(--via-luci-ui-duration) !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration-slow) var(--via-luci-ui-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+    pointer-events: none !important;
+  }
+
+  header-menu details.mega-menu[open] .optionB__container,
+  header-menu details.mega-menu[open] .optionB__tabs,
+  header-menu details.mega-menu[open] .optionB__panels {
+    transition:
+      opacity var(--via-luci-ui-duration) var(--via-luci-ui-ease),
+      transform var(--via-luci-ui-duration-slow) var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__tabs-link {
+    transition:
+      color 460ms var(--via-luci-ui-ease),
+      opacity 460ms var(--via-luci-ui-ease),
+      transform 520ms var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__tabs-link::after,
+  .optionB__tabs-link.is-active::after {
+    transform-origin: left center;
+    transition:
+      transform 520ms var(--via-luci-ui-ease),
+      opacity 460ms var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__tabs-link:not(.is-active)::after {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  .optionB__tabs-link.is-active::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  .optionB__panel {
+    transform: translateY(10px) scale(0.992) !important;
+    transition:
+      opacity 500ms var(--via-luci-ui-ease),
+      transform 620ms var(--via-luci-ui-ease),
+      visibility 0s linear 500ms !important;
+  }
+
+  .optionB__panel.is-active {
+    transform: translateY(0) scale(1) !important;
+    transition:
+      opacity 560ms var(--via-luci-ui-ease) 70ms,
+      transform 660ms var(--via-luci-ui-ease) 70ms,
+      visibility 0s linear 0s !important;
+  }
+
+  .optionB__panels {
+    transition: height 680ms var(--via-luci-ui-ease) !important;
+  }
+
+  .megamenu-pb__card {
+    will-change: flex, transform, opacity;
+    transition:
+      flex 780ms var(--via-luci-ui-ease),
+      opacity 560ms var(--via-luci-ui-ease),
+      transform 680ms var(--via-luci-ui-ease),
+      filter 680ms var(--via-luci-ui-ease) !important;
+  }
+
+  .megamenu-pb__image-wrap,
+  .megamenu-pb__image-wrap img,
+  .megamenu-cat__thumb-image,
+  .megamenu-cat__thumb-image img {
+    will-change: transform, opacity, filter;
+    transition:
+      transform 760ms var(--via-luci-ui-ease),
+      opacity 560ms var(--via-luci-ui-ease),
+      filter 680ms var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__title {
+    will-change: transform, left, top, opacity;
+    transform: translate(-50%, -50%) rotate(-90deg) scale(0.98) !important;
+    transition:
+      transform 780ms var(--via-luci-ui-ease),
+      left 780ms var(--via-luci-ui-ease),
+      top 780ms var(--via-luci-ui-ease),
+      bottom 780ms var(--via-luci-ui-ease),
+      opacity 560ms var(--via-luci-ui-ease),
+      letter-spacing 680ms var(--via-luci-ui-ease) !important;
+  }
+
+  .optionB__panel:not(.optionB__panel--category) .megamenu-pb__card.is-expanded .megamenu-pb__title {
+    transform: translate(0, 0) rotate(0deg) scale(1) !important;
+  }
+
+  .megamenu-pb__link,
+  .megamenu-cat__thumb,
+  .megamenu-cat__hero,
+  .megamenu-cat__thumb-label {
+    transition:
+      opacity 520ms var(--via-luci-ui-ease),
+      transform 620ms var(--via-luci-ui-ease),
+      color 460ms var(--via-luci-ui-ease),
+      filter 620ms var(--via-luci-ui-ease) !important;
+  }
+
+  .megamenu-pb__card .megamenu-pb__image-wrap::after,
+  .megamenu-cat__thumb-image::after {
+    transition:
+      background 620ms var(--via-luci-ui-ease),
+      opacity 620ms var(--via-luci-ui-ease) !important;
+  }
+}
+
+
+/* ===== VIA LUCI NAV POLISH V5 — synchronized close + no desktop click collapse ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  body.via-luci-mega-active::before,
+  .header-wrapper,
+  header-menu details.mega-menu .mega-menu__content {
+    transition-duration: 560ms !important;
+    transition-timing-function: var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)) !important;
+  }
+
+  body.via-luci-mega-active::before {
+    transition: opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)) !important;
+  }
+
+  .header-wrapper {
+    transition: background-color 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)) !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content {
+    transition:
+      opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      visibility 0s linear 560ms !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    transition:
+      opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+    pointer-events: none !important;
+  }
+
+  .optionB__tabs-link { cursor: pointer; }
+}
+
+
+/* ===== VIA LUCI NAV POLISH V6 — seamless header/mega bridge ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  .section-header .header-wrapper {
+    position: relative;
+  }
+
+  /* Covers the 1px/mini gap produced by the menu translate animation so the
+     header background and megamenu read as one single surface while opening/closing. */
+  .section-header .header-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -14px;
+    height: 16px;
+    z-index: 10000;
+    pointer-events: none;
+    background: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)) !important;
+    will-change: opacity;
+  }
+
+  body.via-luci-mega-active .section-header .header-wrapper::after,
+  body.via-luci-mega-transitioning .section-header .header-wrapper::after {
+    opacity: 1;
+  }
+
+  header-menu details.mega-menu .mega-menu__content {
+    margin-top: -10px !important;
+    padding-top: 12px !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    transform: translateY(-4px) !important;
+  }
+}
+
+
+/* ===== VIA LUCI NAV POLISH V7 — remove header/mega micro-line ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  /* Remove the v6 bridge/gradient completely. The issue was the bridge itself
+     reading as a separate black line during the synchronized fade. */
+  .section-header .header-wrapper::after {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Keep overlay alive during the close animation so it fades with the header
+     and the mega menu instead of disappearing one frame earlier. */
+  body.via-luci-mega-active::before,
+  body.via-luci-mega-transitioning::before {
+    content: '' !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9998 !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    transition: opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)) !important;
+    will-change: opacity !important;
+  }
+
+  body.via-luci-mega-active::before {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.via-luci-mega-transitioning::before:not(.via-luci-mega-active::before),
+  body.via-luci-mega-transitioning:not(.via-luci-mega-active)::before {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* The megamenu panel no longer translates as a whole. Translating the whole
+     black surface was creating a visible 1px separation from the header.
+     Premium motion remains inside the menu items/tabs/cards. */
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    margin-top: 0 !important;
+    transform: none !important;
+    transition:
+      opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      visibility 0s linear 560ms !important;
+    will-change: opacity !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition:
+      opacity 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+  }
+
+  .header-wrapper {
+    transition: background-color 560ms var(--via-luci-ui-ease, cubic-bezier(0.22, 1, 0.36, 1)) !important;
+  }
+}
+
+/* ===== VIA LUCI NAV POLISH V8 — smoother category heroes + synchronized overlay close ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  :root {
+    --via-luci-nav-sync-duration: 640ms;
+    --via-luci-nav-sync-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Force header, mega menu and page overlay to use the same fade timing. */
+  body.via-luci-mega-active::before,
+  body.via-luci-mega-transitioning::before {
+    transition: opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
+  }
+
+  .header-wrapper,
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    transition-duration: var(--via-luci-nav-sync-duration) !important;
+    transition-timing-function: var(--via-luci-nav-sync-ease) !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    transition:
+      opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease),
+      visibility 0s linear var(--via-luci-nav-sync-duration) !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    transition:
+      opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  .header-wrapper {
+    transition: background-color var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
+  }
+
+  /* Category hero on the right: no hard swaps. Heroes crossfade and move subtly. */
+  .megamenu-cat__hero-wrap {
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .megamenu-cat__hero {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(8px) scale(0.992) !important;
+    z-index: 0;
+    will-change: opacity, transform;
+    transition:
+      opacity 720ms var(--via-luci-nav-sync-ease),
+      transform 820ms var(--via-luci-nav-sync-ease),
+      visibility 0s linear 720ms !important;
+  }
+
+  .megamenu-cat__hero.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    z-index: 2;
+    transition:
+      opacity 760ms var(--via-luci-nav-sync-ease) 70ms,
+      transform 860ms var(--via-luci-nav-sync-ease) 70ms,
+      visibility 0s linear 0s !important;
+  }
+
+  .megamenu-cat__hero-image,
+  .megamenu-cat__hero-image img {
+    transform: scale(1.015);
+    transition: transform 980ms var(--via-luci-nav-sync-ease) !important;
+    will-change: transform;
+  }
+
+  .megamenu-cat__hero.is-active .megamenu-cat__hero-image,
+  .megamenu-cat__hero.is-active .megamenu-cat__hero-image img {
+    transform: scale(1);
   }
 }

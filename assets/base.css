@@ -3730,3 +3730,46 @@ html.is-home .section-header .header-wrapper,
     width: 45% !important;
   }
   }
+/* =========================================================
+   Via Luci global interaction polish
+   ========================================================= */
+:root {
+  --via-luci-ui-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  --via-luci-ui-duration: 220ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button,
+  .shopify-payment-button__button,
+  button,
+  .link,
+  .card-wrapper,
+  .card,
+  .quick-add-modal,
+  .modal__toggle,
+  .search-modal,
+  .predictive-search,
+  .cart-drawer,
+  .drawer,
+  .menu-drawer {
+    transition-duration: var(--via-luci-ui-duration);
+    transition-timing-function: var(--via-luci-ui-ease);
+  }
+
+  .button,
+  .shopify-payment-button__button,
+  button,
+  .card-wrapper,
+  .card {
+    transition-property: opacity, transform, background-color, color, border-color, box-shadow;
+  }
+
+  .search-modal,
+  .predictive-search,
+  .quick-add-modal,
+  .cart-drawer,
+  .drawer,
+  .menu-drawer {
+    transition-property: opacity, transform, visibility;
+  }
+}

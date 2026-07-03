@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const scrollPosition = window.scrollY;
 
             if (scrollPosition > 0) {
-                header.style.background = '#000000';
+                header.style.backgroundColor = '#000000';
             } else {
-                header.style.background = 'transparent';
+                header.style.backgroundColor = 'transparent';
             }
         });
     }else{
-      header.style.background = '#000000';
+      header.style.backgroundColor = '#000000';
     }
 
 
@@ -67,17 +67,23 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        var cardHoverTimer = null;
+        function scheduleActive(idx) {
+            clearTimeout(cardHoverTimer);
+            cardHoverTimer = setTimeout(function () { setActive(idx); }, 230);
+        }
+
         setActive(0);
 
         links.forEach(function (link) {
             var idx = link.getAttribute('data-card-index');
-            link.addEventListener('mouseenter', function () { setActive(idx); });
+            link.addEventListener('mouseenter', function () { scheduleActive(idx); });
             link.addEventListener('focus',      function () { setActive(idx); });
         });
 
         cards.forEach(function (card) {
             var idx = card.getAttribute('data-card-index');
-            card.addEventListener('mouseenter', function () { setActive(idx); });
+            card.addEventListener('mouseenter', function () { scheduleActive(idx); });
             card.addEventListener('focus',      function () { setActive(idx); });
         });
         }
@@ -103,9 +109,15 @@ document.addEventListener('DOMContentLoaded', function () {
         var first = thumbs[0];
         if (first) setActive(first.getAttribute('data-hero'));
 
+        var thumbHoverTimer = null;
+        function scheduleHero(id) {
+            clearTimeout(thumbHoverTimer);
+            thumbHoverTimer = setTimeout(function () { setActive(id); }, 230);
+        }
+
         thumbs.forEach(function (t) {
             var id = t.getAttribute('data-hero');
-            t.addEventListener('mouseenter', function () { setActive(id); });
+            t.addEventListener('mouseenter', function () { scheduleHero(id); });
             t.addEventListener('focus',      function () { setActive(id); });
         });
         }
@@ -152,7 +164,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!hasPanel) return;
 
         tab.addEventListener('click', function (e) {
+            // Desktop mega-menu tabs are hover-driven only; click must never toggle/close the details menu.
             e.preventDefault();
+            e.stopPropagation();
+            if (!desktopMQ.matches) {
+              activateTab(tab);
+              return;
+            }
+            activateTab(tab);
+        });
+
+        tab.addEventListener('via-luci:activate-tab', function () {
             activateTab(tab);
         });
 
@@ -164,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         tabHoverDelay = setTimeout(function () {
             activateTab(tab);
-        }, 180); 
+        }, 360); 
         });
 
         tab.addEventListener('mouseleave', function () {
@@ -181,13 +203,13 @@ document.addEventListener('DOMContentLoaded', function () {
         mega.addEventListener('toggle', function () {
         if (mega.open) {
             if(document.body.classList.contains('is-home')){
-                header.style.background = '#000000';
+                header.style.backgroundColor = '#000000';
             }
             var current = mega.querySelector('.optionB__panel.is-active');
             setHeights(current);
         } else {
             if(document.body.classList.contains('is-home')){
-                header.style.background = 'transparent';
+                header.style.backgroundColor = 'transparent';
             }
             wrap.style.height = '0px';
         }
@@ -230,115 +252,190 @@ document.addEventListener('DOMContentLoaded', function () {
     }, true);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const mq = window.matchMedia('(min-width: 990px)');
-  const OPEN_DELAY  = 220;  // más elegante (180–260 recomendado)
-  const CLOSE_DELAY = 180;  // cierre suave
-  const GRACE_MS    = 120;  // “perdón” si el mouse se mueve rápido
 
+document.addEventListener('DOMContentLoaded', () => {
+  const desktopMQ = window.matchMedia('(min-width: 990px) and (hover: hover) and (pointer: fine)');
+  const CLOSE_DELAY = 520;
+  const OPEN_DELAY = 170;
+  const CLOSE_ANIMATION = 660;
+  const ACTIVE_CLASS = 'via-luci-mega-active';
+  const TRANSITION_CLASS = 'via-luci-mega-transitioning';
+
+  const header = document.querySelector('.header-wrapper');
   const detailsList = Array.from(document.querySelectorAll('header-menu details.mega-menu'));
   if (!detailsList.length) return;
 
+  const getOpenMenu = () => detailsList.find((details) => details.hasAttribute('open'));
+
+  function syncHeaderState() {
+    const isHome = document.body.classList.contains('is-home');
+    const openMenu = getOpenMenu();
+    const hasVisibleOpenMega = Boolean(openMenu && !openMenu.classList.contains('via-luci-is-closing'));
+
+    // Overlay/header bg must fade at the same time as the mega menu.
+    // During close animation the details remains [open], but visually it is closing.
+    document.body.classList.toggle(ACTIVE_CLASS, hasVisibleOpenMega && desktopMQ.matches);
+
+    if (!header) return;
+
+    if (hasVisibleOpenMega || !isHome || window.scrollY > 0) {
+      header.style.backgroundColor = '#000000';
+    } else {
+      header.style.backgroundColor = 'transparent';
+    }
+  }
+
   function closeAll(except) {
-    detailsList.forEach(d => {
-      if (d !== except) d.removeAttribute('open');
+    detailsList.forEach((details) => {
+      if (details !== except) closeDetails(details);
     });
+    window.requestAnimationFrame(syncHeaderState);
+  }
+
+  function openDetails(details) {
+    if (!desktopMQ.matches) return;
+    closeAll(details);
+    details.classList.remove('via-luci-is-closing');
+    document.body.classList.remove(TRANSITION_CLASS);
+    details.setAttribute('open', '');
+    const summary = details.querySelector('summary');
+    if (summary) summary.setAttribute('aria-expanded', 'true');
+
+    const firstTab = details.querySelector('.optionB__tabs-link[data-has-panel="true"]');
+    const hasActivePanel = details.querySelector('.optionB__panel.is-active');
+    if (firstTab && !hasActivePanel) firstTab.dispatchEvent(new Event('via-luci:activate-tab', { bubbles: true }));
+
+    syncHeaderState();
+  }
+
+  function closeDetails(details) {
+    if (!details || !details.hasAttribute('open')) return;
+    const summary = details.querySelector('summary');
+    if (summary) summary.setAttribute('aria-expanded', 'false');
+
+    details.classList.add('via-luci-is-closing');
+    document.body.classList.add(TRANSITION_CLASS);
+    syncHeaderState();
+    window.setTimeout(() => {
+      if (details.classList.contains('via-luci-is-closing')) {
+        details.removeAttribute('open');
+        details.classList.remove('via-luci-is-closing');
+        document.body.classList.remove(TRANSITION_CLASS);
+        syncHeaderState();
+      }
+    }, CLOSE_ANIMATION);
+
+    syncHeaderState();
   }
 
   detailsList.forEach((details) => {
-    const summary  = details.querySelector('summary');
-    const content  = details.querySelector('.mega-menu__content');
+    const summary = details.querySelector('summary');
+    const content = details.querySelector('.mega-menu__content');
+    let openTimer = null;
+    let closeTimer = null;
 
-    let openT = null;
-    let closeT = null;
-    let graceT = null;
-
-    const clearTimers = () => {
-      if (openT)  { clearTimeout(openT);  openT = null; }
-      if (closeT) { clearTimeout(closeT); closeT = null; }
-      if (graceT) { clearTimeout(graceT); graceT = null; }
+    const clearOpenTimer = () => {
+      if (openTimer) {
+        clearTimeout(openTimer);
+        openTimer = null;
+      }
     };
 
-    const openMenu = () => {
-      clearTimers();
-      closeAll(details);
-      details.setAttribute('open', '');
-    };
-
-    const closeMenu = () => {
-      clearTimers();
-      details.removeAttribute('open');
+    const clearCloseTimer = () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
     };
 
     const scheduleOpen = () => {
-      clearTimers();
-      openT = setTimeout(openMenu, OPEN_DELAY);
+      if (!desktopMQ.matches) return;
+      clearCloseTimer();
+      clearOpenTimer();
+      openTimer = setTimeout(() => openDetails(details), OPEN_DELAY);
     };
 
-    const scheduleClose = () => {
-      clearTimers();
-
-      // GRACE: no cierres de inmediato, da tiempo para entrar al panel
-      graceT = setTimeout(() => {
-        closeT = setTimeout(closeMenu, CLOSE_DELAY);
-      }, GRACE_MS);
+    const scheduleClose = (event) => {
+      if (!desktopMQ.matches) return;
+      const nextTarget = event && event.relatedTarget;
+      if (nextTarget && header && header.contains(nextTarget)) {
+        clearOpenTimer();
+        clearCloseTimer();
+        return;
+      }
+      clearOpenTimer();
+      clearCloseTimer();
+      closeTimer = setTimeout(() => closeDetails(details), CLOSE_DELAY);
     };
 
-    // Hover intent: pointerenter/pointerleave es más estable que mouseenter/leave en algunos casos
-    details.addEventListener('pointerenter', () => {
-      if (!mq.matches) return;
-      scheduleOpen();
-    });
+    details.addEventListener('pointerenter', scheduleOpen);
+    details.addEventListener('pointerleave', scheduleClose);
 
-    details.addEventListener('pointerleave', () => {
-      if (!mq.matches) return;
-      scheduleClose();
-    });
+    if (summary) {
+      summary.addEventListener('pointerenter', scheduleOpen);
+      summary.addEventListener('focus', () => openDetails(details));
+      summary.addEventListener('click', (event) => {
+        if (!desktopMQ.matches) return;
+        event.preventDefault();
+        openDetails(details);
+      });
+    }
 
-    // Si entra al contenido, cancelamos el cierre (evita flicker al cruzar el borde)
     if (content) {
       content.addEventListener('pointerenter', () => {
-        if (!mq.matches) return;
-        clearTimers();
+        if (!desktopMQ.matches) return;
+        clearOpenTimer();
+        clearCloseTimer();
       });
-      content.addEventListener('pointerleave', () => {
-        if (!mq.matches) return;
-        scheduleClose();
+      content.addEventListener('pointerleave', scheduleClose);
+    }
+
+    if (header) {
+      header.addEventListener('pointerenter', () => {
+        if (!desktopMQ.matches) return;
+        clearCloseTimer();
+      });
+      header.addEventListener('pointerleave', (event) => {
+        if (!desktopMQ.matches || !details.hasAttribute('open')) return;
+        scheduleClose(event);
       });
     }
 
-    // Accesibilidad: teclado
     details.addEventListener('focusin', () => {
-      if (!mq.matches) return;
-      clearTimers();
-      openMenu();
+      if (!desktopMQ.matches) return;
+      clearCloseTimer();
+      openDetails(details);
     });
 
-    details.addEventListener('focusout', (e) => {
-      if (!mq.matches) return;
-      if (!details.contains(e.relatedTarget)) scheduleClose();
+    details.addEventListener('focusout', (event) => {
+      if (!desktopMQ.matches) return;
+      if (!details.contains(event.relatedTarget)) scheduleClose();
     });
 
-    // Evita “toggle” por click en desktop (solo hover)
-    if (summary) {
-      summary.addEventListener('click', (e) => {
-        if (!mq.matches) return;
-        e.preventDefault();
-      });
+    details.addEventListener('toggle', syncHeaderState);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!desktopMQ.matches) return;
+    if (event.target.closest('header-menu details.mega-menu')) return;
+    closeAll();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!desktopMQ.matches || event.key !== 'Escape') return;
+    closeAll();
+  });
+
+  window.addEventListener('scroll', syncHeaderState, { passive: true });
+
+  desktopMQ.addEventListener('change', () => {
+    if (!desktopMQ.matches) {
+      document.body.classList.remove(ACTIVE_CLASS);
+      document.body.classList.remove(TRANSITION_CLASS);
+      closeAll();
     }
+    syncHeaderState();
   });
 
-  // Click fuera cierra
-  document.addEventListener('click', (e) => {
-    if (!mq.matches) return;
-    if (e.target.closest('header-menu details.mega-menu')) return;
-    detailsList.forEach(d => d.removeAttribute('open'));
-  });
-
-  // ESC cierra
-  document.addEventListener('keydown', (e) => {
-    if (!mq.matches) return;
-    if (e.key !== 'Escape') return;
-    detailsList.forEach(d => d.removeAttribute('open'));
-  });
+  syncHeaderState();
 });
