@@ -1405,3 +1405,62 @@ transform: translateY(0);
     transform: scale(1);
   }
 }
+
+/* ===== VIA LUCI V11 — synchronized menu + overlay close timing ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  :root {
+    --via-luci-nav-sync-duration: 700ms;
+    --via-luci-nav-sync-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  body.via-luci-mega-active::before,
+  body.via-luci-mega-transitioning::before {
+    content: '' !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9998 !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    transition: opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
+    will-change: opacity !important;
+  }
+
+  body.via-luci-mega-active::before {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.via-luci-mega-transitioning:not(.via-luci-mega-active)::before {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    margin-top: 0 !important;
+    transform: none !important;
+    will-change: opacity !important;
+    transition:
+      opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease),
+      visibility 0s linear var(--via-luci-nav-sync-duration) !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition:
+      opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+  }
+
+  .header-wrapper {
+    transition: background-color var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
+  }
+}

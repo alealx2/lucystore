@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktopMQ = window.matchMedia('(min-width: 990px) and (hover: hover) and (pointer: fine)');
   const CLOSE_DELAY = 520;
   const OPEN_DELAY = 170;
-  const CLOSE_ANIMATION = 660;
+  const CLOSE_ANIMATION = 720;
   const ACTIVE_CLASS = 'via-luci-mega-active';
   const TRANSITION_CLASS = 'via-luci-mega-transitioning';
 
