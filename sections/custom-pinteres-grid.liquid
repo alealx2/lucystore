@@ -714,6 +714,73 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       pointer-events:none !important;
     }
 
+
+
+    /* VIA LUCI V12 — mobile Pinterest modal visibility/reliability */
+    @media (max-width: 749px){
+      #pgrid-{{ section.id }} .pgrid-modal{
+        z-index: 9999 !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__dialog{
+        inset: 0 !important;
+        padding: 72px 18px 24px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transform: scale(0.94) translateY(14px);
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__body{
+        width: min(92vw, 420px) !important;
+        max-width: min(92vw, 420px) !important;
+        max-height: calc(100dvh - 112px) !important;
+        display: block !important;
+        pointer-events: auto !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__card{
+        height: min(74dvh, 620px) !important;
+        min-height: 360px !important;
+        max-height: calc(100dvh - 112px) !important;
+        display: block !important;
+        position: relative !important;
+        overflow: hidden !important;
+        border-radius: var(--radius, 24px) !important;
+        background: #111 !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__media{
+        position: relative !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        display: block !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__img,
+      #pgrid-{{ section.id }} .pgrid-modal__body .grid-video-bg,
+      #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__color{
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__content{
+        position: relative !important;
+        z-index: 2 !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        display: grid !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__overlay{
+        z-index: 1 !important;
+      }
+      #pgrid-{{ section.id }} .pgrid-modal__close{
+        top: 10% !important;
+        right: 22px !important;
+        z-index: 10000 !important;
+      }
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       #pgrid-{{ section.id }} .pgrid__img,
@@ -824,31 +891,42 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
         var clone = card.cloneNode(true);
         clone.classList.add('pgrid__card--modal');
 
+        // Make cloned lazy images reliable on mobile before the scale transition starts.
+        clone.querySelectorAll('img').forEach(function(img){
+          try{
+            img.loading = 'eager';
+            img.decoding = 'sync';
+            img.removeAttribute('sizes');
+          }catch(e){}
+        });
+
         // Si el clon tiene <video>, forzamos controles en modal
         clone.querySelectorAll('video').forEach(function(v){
           try{
             v.muted = false;
             v.setAttribute('controls','true');
             v.removeAttribute('autoplay');
-            v.removeAttribute('playsinline'); // opcional en modal
+            v.setAttribute('playsinline','true');
           }catch(e){}
         });
 
         modalBody.appendChild(clone);
 
         modal.classList.remove('is-closing');
-        modal.classList.add('is-open');
         modal.setAttribute('aria-hidden','false');
         document.documentElement.classList.add('pgrid-modal-open');
 
-        // Focus al botón cerrar
-        if(closeBtn) closeBtn.focus();
+        // Force layout first so mobile Safari/Chrome do not render an empty modal frame.
+        void modal.offsetWidth;
+        window.requestAnimationFrame(function(){
+          modal.classList.add('is-open');
+          if(closeBtn) closeBtn.focus({ preventScroll: true });
 
-        // Intentar reproducir video del modal si existe y si el original tenía autoplay
-        var mv = modalBody.querySelector('video');
-        if(mv){
-          try { mv.play(); } catch(e){}
-        }
+          var mv = modalBody.querySelector('video');
+          if(mv){
+            try { mv.play(); } catch(e){}
+          }
+        });
       }
 
       var pgridCloseTimer = null;
