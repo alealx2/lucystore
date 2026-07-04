@@ -257,7 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktopMQ = window.matchMedia('(min-width: 990px) and (hover: hover) and (pointer: fine)');
   const CLOSE_DELAY = 520;
   const OPEN_DELAY = 170;
-  const CLOSE_ANIMATION = 720;
+  const CLOSE_ANIMATION = 820;
+  const SAFE_BOTTOM_ZONE = 200;
   const ACTIVE_CLASS = 'via-luci-mega-active';
   const TRANSITION_CLASS = 'via-luci-mega-transitioning';
 
@@ -355,14 +356,29 @@ document.addEventListener('DOMContentLoaded', () => {
       openTimer = setTimeout(() => openDetails(details), OPEN_DELAY);
     };
 
-    const scheduleClose = (event) => {
+    const scheduleClose = (event, force = false) => {
       if (!desktopMQ.matches) return;
+
       const nextTarget = event && event.relatedTarget;
-      if (nextTarget && header && header.contains(nextTarget)) {
+      const clientY = event && typeof event.clientY === 'number' ? event.clientY : null;
+      const isLeavingViewport = event && event.type === 'pointerleave' && !nextTarget;
+      const isInBottomSafeExit = clientY !== null && clientY >= (window.innerHeight - SAFE_BOTTOM_ZONE);
+
+      // Premium guardrail: do not collapse the mega menu just because the cursor
+      // crossed a small diagonal gap between header, tabs, content, or page area.
+      // Desktop closes only when the cursor leaves the viewport/DOM, reaches the
+      // bottom exit zone, Escape/outside click is used, or a forced close is called.
+      if (!force && !isLeavingViewport && !isInBottomSafeExit) {
+        clearCloseTimer();
+        return;
+      }
+
+      if (!force && nextTarget && header && header.contains(nextTarget)) {
         clearOpenTimer();
         clearCloseTimer();
         return;
       }
+
       clearOpenTimer();
       clearCloseTimer();
       closeTimer = setTimeout(() => closeDetails(details), CLOSE_DELAY);
@@ -419,6 +435,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!desktopMQ.matches) return;
     if (event.target.closest('header-menu details.mega-menu')) return;
     closeAll();
+  });
+
+  document.addEventListener('pointermove', (event) => {
+    if (!desktopMQ.matches) return;
+    const openMenu = getOpenMenu();
+    if (!openMenu) return;
+    if (event.clientY >= (window.innerHeight - SAFE_BOTTOM_ZONE)) {
+      closeDetails(openMenu);
+    }
+  }, { passive: true });
+
+  document.addEventListener('pointerleave', (event) => {
+    if (!desktopMQ.matches) return;
+    const openMenu = getOpenMenu();
+    if (openMenu) closeDetails(openMenu);
   });
 
   document.addEventListener('keydown', (event) => {
