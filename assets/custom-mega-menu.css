@@ -1464,3 +1464,133 @@ transform: translateY(0);
     transition: background-color var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
   }
 }
+
+/* ===== VIA LUCI V13 — cohesive premium interaction language ===== */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  :root {
+    --via-luci-nav-sync-duration: 820ms;
+    --via-luci-nav-sync-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --via-luci-expand-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Stronger full-page overlay so the page no longer competes visually. */
+  body.via-luci-mega-active::before,
+  body.via-luci-mega-transitioning::before {
+    content: '' !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9998 !important;
+    background: rgba(0, 0, 0, 0.90) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
+    will-change: opacity !important;
+  }
+
+  body.via-luci-mega-active::before {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.via-luci-mega-transitioning:not(.via-luci-mega-active)::before {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .header-wrapper,
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    transition-duration: var(--via-luci-nav-sync-duration) !important;
+    transition-timing-function: var(--via-luci-nav-sync-ease) !important;
+  }
+
+  header-menu details.mega-menu .mega-menu__content,
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    transform: none !important;
+    will-change: opacity !important;
+    transition:
+      opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease),
+      visibility 0s linear var(--via-luci-nav-sync-duration) !important;
+  }
+
+  header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition:
+      opacity var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  header-menu details.mega-menu.via-luci-is-closing .mega-menu__content {
+    opacity: 0 !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+  }
+
+  .header-wrapper {
+    transition: background-color var(--via-luci-nav-sync-duration) var(--via-luci-nav-sync-ease) !important;
+  }
+
+  /* By Season / By Category / By Collection: expansive fade from below. */
+  .optionB__panels {
+    perspective: 1200px;
+    transition: height 820ms var(--via-luci-expand-ease) !important;
+  }
+
+  .optionB__panel {
+    transform-origin: 50% 100% !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translate3d(0, 24px, 0) scale(0.955) !important;
+    filter: saturate(0.92);
+    pointer-events: none !important;
+    will-change: opacity, transform, filter;
+    transition:
+      opacity 760ms var(--via-luci-expand-ease),
+      transform 880ms var(--via-luci-expand-ease),
+      filter 880ms var(--via-luci-expand-ease),
+      visibility 0s linear 760ms !important;
+  }
+
+  .optionB__panel.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translate3d(0, 0, 0) scale(1) !important;
+    filter: saturate(1);
+    pointer-events: auto !important;
+    transition:
+      opacity 820ms var(--via-luci-expand-ease) 70ms,
+      transform 940ms var(--via-luci-expand-ease) 70ms,
+      filter 940ms var(--via-luci-expand-ease) 70ms,
+      visibility 0s linear 0s !important;
+  }
+
+  .optionB__tabs-link::after {
+    transition: transform 680ms var(--via-luci-expand-ease), opacity 520ms var(--via-luci-expand-ease) !important;
+    transform-origin: center;
+  }
+
+  /* Cards inside mega menu inherit the same slow expansion language. */
+  .megamenu-pb__card,
+  .megamenu-pb__image-wrap,
+  .megamenu-pb__title,
+  .megamenu-cat__thumb,
+  .megamenu-cat__hero {
+    transition-duration: 780ms !important;
+    transition-timing-function: var(--via-luci-expand-ease) !important;
+  }
+
+  .megamenu-pb__featured.has-active .megamenu-pb__card,
+  .megamenu-pb__featured--expanding.has-active .megamenu-pb__card {
+    transform: scale(0.965);
+  }
+
+  .megamenu-pb__featured.has-active .megamenu-pb__card.is-expanded,
+  .megamenu-pb__featured--expanding.has-active .megamenu-pb__card.is-active {
+    transform: scale(1);
+  }
+}
