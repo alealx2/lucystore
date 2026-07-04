@@ -457,3 +457,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   syncHeaderState();
 });
+
+
+// V16 scroll lock
+let __vlScrollY=0;
+function lockViaLuciScroll(){
+ if(document.body.classList.contains('via-luci-scroll-lock')) return;
+ __vlScrollY=window.scrollY||window.pageYOffset;
+ document.body.classList.add('via-luci-scroll-lock');
+ document.body.style.position='fixed';
+ document.body.style.top=`-${__vlScrollY}px`;
+ document.body.style.left='0';
+ document.body.style.right='0';
+ document.body.style.width='100%';
+}
+function unlockViaLuciScroll(){
+ if(!document.body.classList.contains('via-luci-scroll-lock')) return;
+ document.body.classList.remove('via-luci-scroll-lock');
+ document.body.style.position='';
+ document.body.style.top='';
+ document.body.style.left='';
+ document.body.style.right='';
+ document.body.style.width='';
+ window.scrollTo(0,__vlScrollY);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+ const obs=new MutationObserver(()=>{
+   if(document.body.classList.contains('via-luci-mega-active')) lockViaLuciScroll();
+   else unlockViaLuciScroll();
+ });
+ obs.observe(document.body,{attributes:true,attributeFilter:['class']});
+});

@@ -333,7 +333,7 @@
           if(isNaN(gap)) gap = 40;
           var distance = firstCard.offsetWidth + gap;
 
-          track.style.transition = 'transform 0.35s ease';
+          track.style.transition = 'transform 0.85s ease';
           track.style.transform  = 'translateX(' + (direction > 0 ? -distance : distance) + 'px)';
 
           setTimeout(function(){
@@ -356,7 +356,7 @@
             updateCenter();
 
             setTimeout(function(){
-              track.style.transition = 'transform 0.35s ease';
+              track.style.transition = 'transform 0.85s ease';
               animating = false;
             }, 20);
 
