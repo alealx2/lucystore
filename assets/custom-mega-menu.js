@@ -258,7 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const CLOSE_DELAY = 520;
   const OPEN_DELAY = 170;
   const CLOSE_ANIMATION = 820;
-  const SAFE_BOTTOM_ZONE = 200;
   const ACTIVE_CLASS = 'via-luci-mega-active';
   const TRANSITION_CLASS = 'via-luci-mega-transitioning';
 
@@ -359,22 +358,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const scheduleClose = (event, force = false) => {
       if (!desktopMQ.matches) return;
 
-      const nextTarget = event && event.relatedTarget;
-      const clientY = event && typeof event.clientY === 'number' ? event.clientY : null;
-      const isLeavingViewport = event && event.type === 'pointerleave' && !nextTarget;
-      const isInBottomSafeExit = clientY !== null && clientY >= (window.innerHeight - SAFE_BOTTOM_ZONE);
+      const nextTarget = event && (event.relatedTarget || event.toElement);
+      const isLeavingDOM = Boolean(event && !nextTarget);
 
-      // Premium guardrail: do not collapse the mega menu just because the cursor
-      // crossed a small diagonal gap between header, tabs, content, or page area.
-      // Desktop closes only when the cursor leaves the viewport/DOM, reaches the
-      // bottom exit zone, Escape/outside click is used, or a forced close is called.
-      if (!force && !isLeavingViewport && !isInBottomSafeExit) {
-        clearCloseTimer();
-        return;
-      }
-
-      if (!force && nextTarget && header && header.contains(nextTarget)) {
-        clearOpenTimer();
+      // V15: el mega menú solo se cierra cuando el cursor abandona por completo
+      // el DOM/viewport. Mientras el mouse siga sobre header, menú, contenido,
+      // footer o cualquier sección del sitio, el menú permanece abierto.
+      if (!force && !isLeavingDOM) {
         clearCloseTimer();
         return;
       }
@@ -423,31 +413,28 @@ document.addEventListener('DOMContentLoaded', () => {
       openDetails(details);
     });
 
-    details.addEventListener('focusout', (event) => {
+    details.addEventListener('focusout', () => {
+      // V15: no cerrar por cambio de foco en desktop; solo por salida real del DOM.
       if (!desktopMQ.matches) return;
-      if (!details.contains(event.relatedTarget)) scheduleClose();
+      clearCloseTimer();
     });
 
     details.addEventListener('toggle', syncHeaderState);
   });
 
-  document.addEventListener('click', (event) => {
-    if (!desktopMQ.matches) return;
-    if (event.target.closest('header-menu details.mega-menu')) return;
-    closeAll();
-  });
-
-  document.addEventListener('pointermove', (event) => {
-    if (!desktopMQ.matches) return;
-    const openMenu = getOpenMenu();
-    if (!openMenu) return;
-    if (event.clientY >= (window.innerHeight - SAFE_BOTTOM_ZONE)) {
-      closeDetails(openMenu);
-    }
-  }, { passive: true });
-
+  // V15: en desktop no cerramos el mega menú por click fuera ni por zonas del viewport.
+  // El cierre ocurre únicamente cuando el cursor abandona completamente el DOM/viewport.
   document.addEventListener('pointerleave', (event) => {
     if (!desktopMQ.matches) return;
+    const nextTarget = event.relatedTarget || event.toElement;
+    if (nextTarget) return;
+    const openMenu = getOpenMenu();
+    if (openMenu) closeDetails(openMenu);
+  });
+
+  window.addEventListener('mouseout', (event) => {
+    if (!desktopMQ.matches) return;
+    if (event.relatedTarget || event.toElement) return;
     const openMenu = getOpenMenu();
     if (openMenu) closeDetails(openMenu);
   });
