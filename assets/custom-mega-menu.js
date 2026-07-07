@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
   const desktopMQ = window.matchMedia('(min-width: 990px) and (hover: hover) and (pointer: fine)');
-  const CLOSE_DELAY = 520;
+  const CLOSE_DELAY = 650;
   const OPEN_DELAY = 170;
   const CLOSE_ANIMATION = 820;
   const ACTIVE_CLASS = 'via-luci-mega-active';
@@ -355,20 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
       openTimer = setTimeout(() => openDetails(details), OPEN_DELAY);
     };
 
-    const scheduleClose = (event, force = false) => {
+    const scheduleClose = () => {
       if (!desktopMQ.matches) return;
 
-      const nextTarget = event && (event.relatedTarget || event.toElement);
-      const isLeavingDOM = Boolean(event && !nextTarget);
-
-      // V15: el mega menú solo se cierra cuando el cursor abandona por completo
-      // el DOM/viewport. Mientras el mouse siga sobre header, menú, contenido,
-      // footer o cualquier sección del sitio, el menú permanece abierto.
-      if (!force && !isLeavingDOM) {
-        clearCloseTimer();
-        return;
-      }
-
+      // Cierre permisivo: si el cursor sale del header/summary/mega menu,
+      // esperamos 2s antes de cerrar. Si vuelve a entrar al header o al
+      // mega menu durante esa ventana, se cancela el cierre.
       clearOpenTimer();
       clearCloseTimer();
       closeTimer = setTimeout(() => closeDetails(details), CLOSE_DELAY);
