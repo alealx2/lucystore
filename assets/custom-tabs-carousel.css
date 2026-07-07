@@ -858,3 +858,21 @@
     scroll-snap-align: center !important;
   }
 }
+
+
+/* ===== VIA LUCI FIX — custom tabs should scroll selected tab fully into view ===== */
+.tc__tabs{
+  min-width:0;
+  overflow:hidden;
+}
+
+.tc__tabs-shell{
+  min-width:0;
+  max-width:100%;
+  scroll-padding-inline:40px;
+  -webkit-overflow-scrolling:touch;
+}
+
+.tc-tab__btn{
+  flex:0 0 auto;
+}

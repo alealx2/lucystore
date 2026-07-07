@@ -581,6 +581,66 @@ Carousel Tabs – Section (Dawn / OS 2.0)
     }
 
 
+
+
+    function getTabsScrollElement(btn){
+      if(!btn) return tabsShell || null;
+
+      /* Pick the real horizontal scrolling element. In this theme the visual
+         clipping can happen from CSS on different wrappers, so relying only on
+         tabsShell is not enough in every viewport/browser. */
+      var node = btn.parentElement;
+      while(node && node !== root){
+        if(node.scrollWidth > node.clientWidth + 2){
+          return node;
+        }
+        node = node.parentElement;
+      }
+
+      return tabsShell || null;
+    }
+
+    function ensureTabVisible(btn){
+      var shell = getTabsScrollElement(btn);
+      if(!shell || !btn) return;
+
+      window.requestAnimationFrame(function(){
+        var shellRect = shell.getBoundingClientRect();
+        var btnRect   = btn.getBoundingClientRect();
+
+        var padding = Math.min(180, tabsShell.clientWidth);        
+        var current = shell.scrollLeft || 0;
+        var max     = Math.max(0, shell.scrollWidth - shell.clientWidth);
+
+        var btnLeft  = (btnRect.left - shellRect.left) + current;
+        var btnRight = btnLeft + btnRect.width;
+
+        var visibleLeft  = current + padding;
+        var visibleRight = current + shell.clientWidth - padding;
+
+        var target = current;
+
+        if(btnRight > visibleRight){
+          target = btnRight - shell.clientWidth + padding;
+        } else if(btnLeft < visibleLeft){
+          target = btnLeft - padding;
+        }
+
+        target = Math.max(0, Math.min(max, target));
+
+        if(Math.abs(target - current) > 1){
+          if(typeof shell.scrollTo === 'function'){
+            shell.scrollTo({ left: target, behavior: 'smooth' });
+          } else {
+            shell.scrollLeft = target;
+          }
+        }
+
+        window.setTimeout(function(){ setIndicator(btn); }, 120);
+        window.setTimeout(function(){ setIndicator(btn); }, 360);
+      });
+    }
+
     function activate(btn){
       var id = btn.getAttribute('aria-controls');
 
@@ -596,6 +656,8 @@ Carousel Tabs – Section (Dawn / OS 2.0)
       btn.classList.add('is-active');
       btn.setAttribute('aria-selected','true');
       btn.setAttribute('tabindex','0');
+
+      ensureTabVisible(btn);
 
       var panel = root.querySelector('#'+id);
       if(panel){
