@@ -136,11 +136,16 @@
   {{ content_for_header }}
 
   <style>
-    /* Via Luci: critical first paint guard. Prevents header/page flashes while async CSS and header JS initialize. */
-    html.vl-page-loading body { opacity: 0; }
-    html.vl-page-ready body { opacity: 1; transition: opacity 260ms cubic-bezier(.22, 1, .36, 1); }
-    @media (prefers-reduced-motion: reduce) {
-      html.vl-page-ready body { transition: none; }
+    /* Via Luci V19: no page opacity guard. The previous body fade caused a visible blink on every page load. */
+    html.vl-page-loading body,
+    html.vl-page-ready body {
+      opacity: 1 !important;
+      transition: none !important;
+    }
+    html,
+    body {
+      overscroll-behavior-y: none;
+      background: #000000;
     }
     html:not(.is-home) .section-header .header-wrapper,
     html:not(.is-home) #shopify-section-header .header-wrapper {
@@ -167,14 +172,8 @@
         root.classList.remove('vl-page-loading');
       }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () {
-          window.requestAnimationFrame(markReady);
-        }, { once: true });
-      } else {
-        window.requestAnimationFrame(markReady);
-      }
-
+      /* Mark ready immediately. Header state is handled by critical CSS, so there is no full-page blink. */
+      markReady();
       window.addEventListener('pageshow', markReady);
     })();
   </script>

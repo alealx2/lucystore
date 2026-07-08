@@ -3789,3 +3789,48 @@ html.is-home .section-header.shopify-section-header-hidden,
 .shopify-section-header-sticky{
   overscroll-behavior:contain;
 }
+
+
+/* ===== VIA LUCI V19 — hard fix: no page blink + no sticky header bounce ===== */
+html,
+body {
+  overscroll-behavior-y: none !important;
+  background: #000000;
+}
+
+html.vl-page-loading body,
+html.vl-page-ready body {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.section-header,
+.section-header.shopify-section-header-hidden,
+.section-header.shopify-section-header-hidden.menu-open,
+html.is-home .section-header.shopify-section-header-hidden,
+.shopify-section-header-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition: none !important;
+  will-change: auto !important;
+  z-index: 9999 !important;
+}
+
+.section-header.animate {
+  transition: none !important;
+}
+
+html:not(.is-home) .header-wrapper,
+html:not(.is-home) .header-wrapper.onload-header,
+html:not(.is-home) .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  margin-bottom: 0 !important;
+  box-shadow: none;
+}
+
+html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
