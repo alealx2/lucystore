@@ -86,8 +86,13 @@
 
   /* V19: scope the hero overlay header only to Home. Avoids negative-margin jumps/blink on inner pages. */
   html.is-home .header-wrapper.onload-header {
-    background: transparent;
-    margin-bottom: -130px;
+    background: transparent !important;
+    background-color: transparent !important;
+    margin-bottom: -130px !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition: none !important;
   }
 
   html:not(.is-home) .header-wrapper.onload-header,
@@ -106,12 +111,12 @@
   }
 
   .header-wrapper.onload-header .onload-logo {
-    display: block;
+    display: block !important;
     position: absolute;
     top: 10px;
   }
   .header-wrapper.onload-header .main-logo {
-    display: none;
+    display: none !important;
   }
   @media screen and (max-width: 480px) {
     .header-wrapper.onload-header .onload-logo {

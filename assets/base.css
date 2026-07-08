@@ -3834,3 +3834,13 @@ html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-w
   background: transparent !important;
   background-color: transparent !important;
 }
+
+
+/* ===== VIA LUCI V20 — Home anti-flash final override ===== */
+html.vl-page-loading body,
+html.vl-page-ready body { opacity: 1 !important; transition: none !important; }
+html.is-home .section-header,
+html.is-home #shopify-section-header,
+html.is-home .shopify-section-header-sticky { transform: translate3d(0,0,0) !important; transition: none !important; }
+html.is-home .header-wrapper.onload-header,
+html.is-home #shopify-section-header .header-wrapper.onload-header { background: transparent !important; background-color: transparent !important; margin-bottom: -130px !important; box-shadow: none !important; border-color: transparent !important; }

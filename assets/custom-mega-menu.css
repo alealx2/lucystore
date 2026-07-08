@@ -1141,3 +1141,39 @@ html.vl-page-ready body {
     transition: none;
   }
 }
+
+
+/* ===== VIA LUCI V20 — Home first-paint anti-flash override =====
+   Keep Home header/hero state deterministic before deferred JS finishes.
+   Also neutralizes older body opacity guards that could still load after base.css. */
+html.vl-page-loading body,
+html.vl-page-ready body {
+  opacity: 1 !important;
+  transition: none !important;
+}
+html.is-home,
+html.is-home body {
+  background: #000000;
+  overscroll-behavior-y: none !important;
+}
+html.is-home .section-header,
+html.is-home #shopify-section-header,
+html.is-home .shopify-section-header-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition: none !important;
+  z-index: 9999 !important;
+}
+html.is-home .header-wrapper.onload-header,
+html.is-home #shopify-section-header .header-wrapper.onload-header,
+html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid) {
+  background: transparent !important;
+  background-color: transparent !important;
+  margin-bottom: -130px !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+html.is-home .header-wrapper.onload-header .onload-logo { display: block !important; }
+html.is-home .header-wrapper.onload-header .main-logo { display: none !important; }
