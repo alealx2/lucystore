@@ -1,20 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     var header = document.querySelector('.header-wrapper');
-
-    if(document.body.classList.contains('is-home')){
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.scrollY;
-
-            if (scrollPosition > 0) {
-                header.style.backgroundColor = '#000000';
-            } else {
-                header.style.backgroundColor = 'transparent';
-            }
-        });
-    }else{
-      header.style.backgroundColor = '#000000';
-    }
+    // Header background is synchronized by the Via Luci mega controller below.
+    // Keeping this first initializer passive avoids duplicated abrupt bg changes.
 
 
 
@@ -125,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         /* ------- Activate tab (Season / Category / Collection) ------- */
         function activateTab(tab) {
         var target = tab.getAttribute('data-panel');
+        var previousPanel = mega.querySelector('.optionB__panel.is-active');
 
         tabs.forEach(function (t) { t.classList.remove('is-active'); });
         tab.classList.add('is-active');
@@ -132,10 +121,25 @@ document.addEventListener('DOMContentLoaded', function () {
         var activePanel = null;
         panels.forEach(function (p) {
             if (p.id === target) {
-            p.classList.add('is-active');
             activePanel = p;
-            } else {
+            }
+        });
+
+        if (previousPanel && activePanel && previousPanel !== activePanel) {
+            previousPanel.classList.add('via-luci-panel-leaving');
+            previousPanel.classList.remove('is-active');
+            window.setTimeout(function () {
+            previousPanel.classList.remove('via-luci-panel-leaving');
+            }, 760);
+        }
+
+        panels.forEach(function (p) {
+            if (p === activePanel) {
+            p.classList.remove('via-luci-panel-leaving');
+            p.classList.add('is-active');
+            } else if (p !== previousPanel) {
             p.classList.remove('is-active');
+            p.classList.remove('via-luci-panel-leaving');
             }
         });
 
@@ -202,15 +206,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         mega.addEventListener('toggle', function () {
         if (mega.open) {
-            if(document.body.classList.contains('is-home')){
-                header.style.backgroundColor = '#000000';
-            }
             var current = mega.querySelector('.optionB__panel.is-active');
             setHeights(current);
         } else {
-            if(document.body.classList.contains('is-home')){
-                header.style.backgroundColor = 'transparent';
-            }
             wrap.style.height = '0px';
         }
         });
@@ -355,15 +353,34 @@ document.addEventListener('DOMContentLoaded', () => {
       openTimer = setTimeout(() => openDetails(details), OPEN_DELAY);
     };
 
-    const scheduleClose = () => {
+    const isInsideSafeMegaZone = (target) => {
+      if (!target || target === window || target === document) return false;
+      return Boolean(
+        (header && header.contains(target)) ||
+        (content && content.contains(target)) ||
+        details.contains(target)
+      );
+    };
+
+    const scheduleClose = (event) => {
       if (!desktopMQ.matches) return;
 
-      // Cierre permisivo: si el cursor sale del header/summary/mega menu,
-      // esperamos 2s antes de cerrar. Si vuelve a entrar al header o al
-      // mega menu durante esa ventana, se cancela el cierre.
+      // Mantiene abierto el mega menu mientras el hover siga dentro del
+      // encabezado, el summary activo o el propio mega menu. Solo cierra
+      // cuando el cursor abandona esa zona segura o sale del viewport/DOM.
+      const nextTarget = event && (event.relatedTarget || event.toElement);
+      if (isInsideSafeMegaZone(nextTarget)) {
+        clearCloseTimer();
+        return;
+      }
+
       clearOpenTimer();
       clearCloseTimer();
-      closeTimer = setTimeout(() => closeDetails(details), CLOSE_DELAY);
+      closeTimer = setTimeout(() => {
+        const hovered = document.querySelector(':hover');
+        if (hovered && isInsideSafeMegaZone(hovered)) return;
+        closeDetails(details);
+      }, CLOSE_DELAY);
     };
 
     details.addEventListener('pointerenter', scheduleOpen);
@@ -406,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     details.addEventListener('focusout', () => {
-      // V15: no cerrar por cambio de foco en desktop; solo por salida real del DOM.
+      //no cerrar por cambio de foco en desktop; solo por salida real del DOM.
       if (!desktopMQ.matches) return;
       clearCloseTimer();
     });
@@ -414,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     details.addEventListener('toggle', syncHeaderState);
   });
 
-  // V15: en desktop no cerramos el mega menú por click fuera ni por zonas del viewport.
+  //en desktop no cerramos el mega menú por click fuera ni por zonas del viewport.
   // El cierre ocurre únicamente cuando el cursor abandona completamente el DOM/viewport.
   document.addEventListener('pointerleave', (event) => {
     if (!desktopMQ.matches) return;
