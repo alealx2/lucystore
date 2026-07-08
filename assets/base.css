@@ -3773,3 +3773,19 @@ html.is-home .section-header .header-wrapper,
     transition-property: opacity, transform, visibility;
   }
 }
+
+
+/* ===== VIA LUCI V18 — stable sticky header, no edge bounce ===== */
+.section-header.shopify-section-header-hidden,
+html.is-home .section-header.shopify-section-header-hidden,
+.section-header.shopify-section-header-hidden.menu-open{
+  top:0 !important;
+  transform:none !important;
+}
+.section-header.animate{
+  transition:background-color 520ms cubic-bezier(.22,1,.36,1), opacity 420ms cubic-bezier(.22,1,.36,1) !important;
+}
+.section-header,
+.shopify-section-header-sticky{
+  overscroll-behavior:contain;
+}

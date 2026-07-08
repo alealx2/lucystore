@@ -621,3 +621,87 @@ border-color:#161F3A;
 }
 
 
+
+
+/* ===== VIA LUCI V18 — smooth hotspot panel + modal transitions ===== */
+.hs-panel{
+  display:block !important;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translate3d(0, 14px, 0) scale(.985);
+  filter:blur(4px);
+  transition:
+    opacity 520ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    transform 620ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    filter 620ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    visibility 0s linear 620ms;
+  will-change:opacity, transform, filter;
+}
+.hs-panel.is-open{
+  opacity:.92;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translate3d(0,0,0) scale(1);
+  filter:blur(0);
+  transition:
+    opacity 520ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    transform 620ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    filter 620ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    visibility 0s linear 0s;
+}
+.hs-panel__inner{
+  transition:opacity 280ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)), transform 340ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1));
+}
+.hs-panel.is-switching .hs-panel__inner{
+  opacity:0;
+  transform:translate3d(0, 8px, 0);
+}
+.hs-modal{
+  display:block !important;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity 520ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)), visibility 0s linear 520ms;
+}
+.hs-modal.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transition:opacity 520ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)), visibility 0s linear 0s;
+}
+.hs-modal__backdrop{
+  opacity:0;
+  transition:opacity 520ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1));
+}
+.hs-modal.is-open .hs-modal__backdrop{ opacity:1; }
+.hs-modal__content{
+  opacity:0;
+  transform:translate3d(0, 18px, 0) scale(.985);
+  filter:blur(5px);
+  transition:
+    opacity 560ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    transform 680ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1)),
+    filter 680ms var(--via-luci-ui-ease, cubic-bezier(.22,1,.36,1));
+  will-change:opacity, transform, filter;
+}
+.hs-modal.is-open .hs-modal__content{
+  opacity:1;
+  transform:translate3d(0,0,0) scale(1);
+  filter:blur(0);
+}
+.hs-modal.is-switching .hs-modal__content{
+  opacity:.15;
+  transform:translate3d(0, 10px, 0) scale(.992);
+}
+@media (prefers-reduced-motion: reduce){
+  .hs-panel,
+  .hs-panel__inner,
+  .hs-modal,
+  .hs-modal__backdrop,
+  .hs-modal__content{
+    transition:none !important;
+    transform:none !important;
+    filter:none !important;
+  }
+}

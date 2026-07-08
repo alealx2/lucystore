@@ -484,7 +484,20 @@
 
     onScroll() {
       const root = document.documentElement;
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const rawScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const maxScrollTop = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const scrollTop = Math.min(Math.max(rawScrollTop, 0), maxScrollTop);
+
+      /* V18: keep the header visually stable at page edges and avoid the
+         native browser overscroll/bounce from triggering hide/reveal jumps. */
+      if (scrollTop <= 2 || scrollTop >= maxScrollTop - 2) {
+        this.header.classList.add('shopify-section-header-sticky');
+        this.header.classList.remove('shopify-section-header-hidden', 'animate');
+        if (scrollTop <= 2) this.header.classList.remove('scrolled-past-header');
+        this.toggleOnloadLogo(scrollTop);
+        this.currentScrollTop = scrollTop;
+        return;
+      }
 
       if (root.classList.contains('is-home')) {
         this.header.classList.add('shopify-section-header-sticky', 'scrolled-past-header');
@@ -497,26 +510,12 @@
 
       if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
 
-      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden', 'animate');
+      if (scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
-        if (this.preventHide) return;
-        requestAnimationFrame(this.hide.bind(this));
-      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-        this.header.classList.add('scrolled-past-header');
-        if (!this.preventReveal) {
-          requestAnimationFrame(this.reveal.bind(this));
-        } else {
-          window.clearTimeout(this.isScrolling);
-
-          this.isScrolling = setTimeout(() => {
-            this.preventReveal = false;
-          }, 66);
-
-          requestAnimationFrame(this.hide.bind(this));
-        }
-      } else if (scrollTop <= this.headerBounds.top) {
+      } else {
         this.header.classList.remove('scrolled-past-header');
-        requestAnimationFrame(this.reset.bind(this));
       }
 
       this.toggleOnloadLogo(scrollTop);
