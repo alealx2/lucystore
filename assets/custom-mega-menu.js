@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const getOpenMenu = () => detailsList.find((details) => details.hasAttribute('open'));
 
   function syncHeaderState() {
-    const isHome = document.body.classList.contains('is-home');
+    const isHome = document.documentElement.classList.contains('is-home') || document.body.classList.contains('is-home');
     const openMenu = getOpenMenu();
     const hasVisibleOpenMega = Boolean(openMenu && !openMenu.classList.contains('via-luci-is-closing'));
 
@@ -277,8 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!header) return;
 
     if (hasVisibleOpenMega || !isHome || window.scrollY > 0) {
+      header.classList.add('via-luci-force-solid');
       header.style.backgroundColor = '#000000';
     } else {
+      header.classList.remove('via-luci-force-solid');
       header.style.backgroundColor = 'transparent';
     }
   }

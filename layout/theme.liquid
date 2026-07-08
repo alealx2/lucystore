@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}">
+<html class="js template-{{ template.name | escape }}{% if template.name == 'index' %} is-home{% endif %}{% if request.page_type == 'page' and page and page.handle == 'about' %} is-about{% endif %} vl-page-loading" lang="{{ request.locale.iso_code }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -135,17 +135,48 @@
   {% render 'meta-tags' %}
   {{ content_for_header }}
 
+  <style>
+    /* Via Luci: critical first paint guard. Prevents header/page flashes while async CSS and header JS initialize. */
+    html.vl-page-loading body { opacity: 0; }
+    html.vl-page-ready body { opacity: 1; transition: opacity 260ms cubic-bezier(.22, 1, .36, 1); }
+    @media (prefers-reduced-motion: reduce) {
+      html.vl-page-ready body { transition: none; }
+    }
+    html:not(.is-home) .section-header .header-wrapper,
+    html:not(.is-home) #shopify-section-header .header-wrapper {
+      background: #000000 !important;
+      background-color: #000000 !important;
+    }
+    html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid) {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+  </style>
+
   {%- comment -%}
-    Robust page flags (for JS/CSS targeting)
+    Robust page flags are rendered directly on <html> to avoid first-paint header flashes.
   {%- endcomment -%}
   <script>
-    document.documentElement.classList.add('template-{{ template.name | escape }}');
-    {%- if template.name == 'index' -%}
-      document.documentElement.classList.add('is-home');
-    {%- endif -%}
-    {%- if request.page_type == 'page' and page and page.handle == 'about' -%}
-      document.documentElement.classList.add('is-about');
-    {%- endif -%}
+    (function () {
+      var root = document.documentElement;
+      root.classList.remove('no-js');
+      root.classList.add('js');
+
+      function markReady() {
+        root.classList.add('vl-page-ready');
+        root.classList.remove('vl-page-loading');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+          window.requestAnimationFrame(markReady);
+        }, { once: true });
+      } else {
+        window.requestAnimationFrame(markReady);
+      }
+
+      window.addEventListener('pageshow', markReady);
+    })();
   </script>
 
   <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>

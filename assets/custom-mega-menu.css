@@ -114,8 +114,11 @@
 }
 
 .header-wrapper {
-    border: none;
-  transition: background-color 160ms ease-out;
+  border: none;
+  transition:
+    background-color 420ms cubic-bezier(.22, 1, .36, 1),
+    background 420ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 420ms cubic-bezier(.22, 1, .36, 1) !important;
 }
 
 
@@ -1110,3 +1113,31 @@ transform: translateY(0);
 }
 
 body.via-luci-scroll-lock{overflow:hidden;touch-action:none;overscroll-behavior:none;}
+
+
+/* ===== VIA LUCI V17 — page-load anti-flash + deterministic header state ===== */
+html:not(.is-home) .section-header .header-wrapper,
+html:not(.is-home) #shopify-section-header .header-wrapper {
+  background: #000000 !important;
+  background-color: #000000 !important;
+}
+
+html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html.vl-page-loading body {
+  opacity: 0;
+}
+
+html.vl-page-ready body {
+  opacity: 1;
+  transition: opacity 260ms cubic-bezier(.22, 1, .36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.vl-page-ready body {
+    transition: none;
+  }
+}

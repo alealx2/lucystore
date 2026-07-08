@@ -114,6 +114,34 @@
       position: relative;
     }
   }
+
+  /* Via Luci premium load state: transparent only on Home, solid black everywhere else. */
+  .header-wrapper {
+    border: none;
+    transition:
+      background-color 420ms cubic-bezier(.22, 1, .36, 1),
+      background 420ms cubic-bezier(.22, 1, .36, 1),
+      box-shadow 420ms cubic-bezier(.22, 1, .36, 1),
+      border-color 420ms cubic-bezier(.22, 1, .36, 1);
+    will-change: background-color;
+  }
+
+  html:not(.is-home) .header-wrapper {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    margin-bottom: 0 !important;
+  }
+
+  html:not(.is-home) .header-wrapper.onload-header {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    margin-bottom: 0 !important;
+  }
+
+  html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent {
+    background: transparent !important;
+    box-shadow: none;
+  }
 </style>
 
 {%- style -%}
@@ -458,7 +486,7 @@
       const root = document.documentElement;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      if (root.classList.contains('is-home') || root.classList.contains('is-about')) {
+      if (root.classList.contains('is-home')) {
         this.header.classList.add('shopify-section-header-sticky', 'scrolled-past-header');
         this.header.classList.remove('shopify-section-header-hidden');
 
