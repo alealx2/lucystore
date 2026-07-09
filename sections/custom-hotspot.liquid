@@ -1,6 +1,23 @@
 {% comment %}
   Hotspots Product Map + Panel + Modal Product
 {% endcomment %}
+{{ 'custom-hotspot.css' | asset_url | stylesheet_tag }}
+<style>
+  /* VIA LUCI hotspot critical no-flash: product UI must never paint before JS interaction. */
+  [data-hs-panel][aria-hidden="true"],
+  [data-hs-modal][aria-hidden="true"]{
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+  [data-hs-panel][hidden],
+  [data-hs-modal][hidden]{
+    display:block !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+</style>
 
 <section class="hs color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding" data-hs-root>
   <div class="page-width">
@@ -92,7 +109,7 @@
       {%- endfor -%}
 
       {%- comment -%} PANEL MINI (abajo izquierda) {%- endcomment -%}
-      <aside class="hs-panel" data-hs-panel aria-hidden="true">
+      <aside class="hs-panel" data-hs-panel aria-hidden="true" hidden>
         <div class="hs-panel__inner">
           <button class="hs-panel__close" type="button" aria-label="Close">X</button>
 
@@ -142,7 +159,7 @@
   </div>
 
 {%- comment -%} MODAL GRANDE PRODUCTO {%- endcomment -%}
-<div class="hs-modal" data-hs-modal aria-hidden="true">
+<div class="hs-modal" data-hs-modal aria-hidden="true" hidden>
   <div class="hs-modal__backdrop"></div>
 
   <div class="hs-modal__dialog" role="dialog" aria-modal="true">
@@ -198,7 +215,6 @@
   }
 </style>
 
-{{ 'custom-hotspot.css' | asset_url | stylesheet_tag }}
 
   <script>
     (function(){
@@ -305,6 +321,7 @@
               delete panelAddBtn.dataset.qty;
             }
 
+            panel.removeAttribute('hidden');
             panel.classList.add('is-open');
             panel.setAttribute('aria-hidden','false');
             root.classList.add('hs--panel-open');
@@ -323,6 +340,7 @@
         function closePanel(){
           panel.classList.remove('is-open');
           panel.setAttribute('aria-hidden','true');
+          window.setTimeout(function(){ if(!panel.classList.contains('is-open')) panel.setAttribute('hidden',''); }, 220);
           root.classList.remove('hs--panel-open');
           points.forEach(p => p.classList.remove('is-active'));
           currentIndex = -1;
@@ -398,9 +416,10 @@
             window.setTimeout(function(){
               fillModalContent();
               requestAnimationFrame(function(){ modal.classList.remove('is-switching'); });
-            }, 150);
+            }, 100);
           }else{
             fillModalContent();
+            modal.removeAttribute('hidden');
             modal.classList.add('is-open');
             modal.setAttribute('aria-hidden','false');
             document.documentElement.classList.add('hs-modal-open');
@@ -411,6 +430,7 @@
           modal.classList.remove('is-switching');
           modal.classList.remove('is-open');
           modal.setAttribute('aria-hidden','true');
+          window.setTimeout(function(){ if(!modal.classList.contains('is-open')) modal.setAttribute('hidden',''); }, 220);
           document.documentElement.classList.remove('hs-modal-open');
 
           if (modalImg) {
