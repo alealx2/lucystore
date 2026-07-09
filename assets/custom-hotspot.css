@@ -705,3 +705,39 @@ border-color:#161F3A;
     filter:none !important;
   }
 }
+
+
+/* ===== VIA LUCI V9 — hotspot no-flash + unified motion ===== */
+:root{ --vl-motion-duration:200ms; --vl-motion-ease:cubic-bezier(.22,1,.36,1); }
+.hs-panel[hidden], .hs-modal[hidden]{
+  display:block !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+.hs-panel, .hs-panel.is-open{
+  transition:
+    opacity var(--vl-motion-duration) var(--vl-motion-ease),
+    transform var(--vl-motion-duration) var(--vl-motion-ease),
+    filter var(--vl-motion-duration) var(--vl-motion-ease),
+    visibility 0s linear var(--vl-motion-duration) !important;
+}
+.hs-panel.is-open{ transition-delay:0s !important; }
+.hs-panel__inner{
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), transform var(--vl-motion-duration) var(--vl-motion-ease) !important;
+}
+.hs-modal, .hs-modal.is-open{
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), visibility 0s linear var(--vl-motion-duration) !important;
+}
+.hs-modal.is-open{ transition-delay:0s !important; }
+.hs-modal__backdrop{ transition:opacity var(--vl-motion-duration) var(--vl-motion-ease) !important; }
+.hs-modal__content{
+  transition:
+    opacity var(--vl-motion-duration) var(--vl-motion-ease),
+    transform var(--vl-motion-duration) var(--vl-motion-ease),
+    filter var(--vl-motion-duration) var(--vl-motion-ease) !important;
+}
+.hs-btn, .hs-panel__arrow, .hs-modal__close{
+  transition-duration:var(--vl-motion-duration) !important;
+  transition-timing-function:var(--vl-motion-ease) !important;
+}
