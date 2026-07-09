@@ -3844,3 +3844,10 @@ html.is-home #shopify-section-header,
 html.is-home .shopify-section-header-sticky { transform: translate3d(0,0,0) !important; transition: none !important; }
 html.is-home .header-wrapper.onload-header,
 html.is-home #shopify-section-header .header-wrapper.onload-header { background: transparent !important; background-color: transparent !important; margin-bottom: -130px !important; box-shadow: none !important; border-color: transparent !important; }
+
+
+/* VIA LUCI V9 — hide scrollbar on About page like Home */
+@media screen and (min-width: 750px){
+  html.is-about, body.is-about{ scrollbar-width:none; -ms-overflow-style:none; }
+  html.is-about::-webkit-scrollbar, body.is-about::-webkit-scrollbar{ display:none; width:0; height:0; }
+}
