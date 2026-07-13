@@ -1,0 +1,227 @@
+/* ===== VIA LUCI V21 — client feedback polish: motion system, page transition, carousel consistency ===== */
+:root{
+  --vl-motion-duration: 200ms;
+  --vl-motion-duration-long: 240ms;
+  --vl-motion-ease: cubic-bezier(.22, 1, .36, 1);
+  --vl-motion-ease-soft: cubic-bezier(.16, 1, .3, 1);
+}
+
+html, body{
+  overscroll-behavior: none !important;
+  background:#000 !important;
+}
+
+/* Page-to-page transition: subtle overlay instead of body opacity blink/rebuild. */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:2147483647;
+  background:#000;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), visibility 0s linear var(--vl-motion-duration);
+}
+html.vl-route-fading body::after{
+  opacity:.26;
+  visibility:visible;
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), visibility 0s linear 0s;
+}
+html.vl-first-paint body::after{
+  opacity:.18;
+  visibility:visible;
+}
+html.vl-page-ready:not(.vl-route-fading) body::after{
+  opacity:0;
+  visibility:hidden;
+}
+
+/* Header: stable at viewport edges. Disable hide/reveal transform that causes bounce. */
+.section-header,
+.section-header.animate,
+.section-header.shopify-section-header-hidden,
+.section-header.shopify-section-header-hidden.menu-open,
+.shopify-section-header-sticky,
+html.is-home .section-header,
+html.is-home #shopify-section-header{
+  top:0 !important;
+  transform:translate3d(0,0,0) !important;
+  transition:background-color var(--vl-motion-duration) var(--vl-motion-ease), opacity var(--vl-motion-duration) var(--vl-motion-ease) !important;
+  will-change:auto !important;
+}
+html:not(.is-home) .header-wrapper,
+html:not(.is-home) .header-wrapper.onload-header,
+html:not(.is-home) .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent{
+  background:#000 !important;
+  background-color:#000 !important;
+  margin-bottom:0 !important;
+}
+html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid),
+html.is-home .header-wrapper.onload-header:not(.via-luci-force-solid){
+  background:transparent !important;
+  background-color:transparent !important;
+}
+
+/* One motion language across menu/mega/overlays. */
+.header-wrapper,
+.header__menu-item,
+.header__menu-item span,
+.header__active-menu-item,
+header-menu details.mega-menu .mega-menu__content,
+body.via-luci-mega-active::before,
+body.via-luci-mega-transitioning::before,
+.optionB__tabs-link,
+.optionB__tabs-link::after,
+.tc-tab__btn,
+.tc__indicator,
+.tc-panel,
+.tc-tabs-arrow{
+  transition-duration:var(--vl-motion-duration) !important;
+  transition-timing-function:var(--vl-motion-ease) !important;
+}
+
+/* Mega menu: container stays fixed; only internal panels crossfade subtly. */
+.optionB__panels{
+  transition:height var(--vl-motion-duration-long) var(--vl-motion-ease) !important;
+}
+.optionB__panel{
+  opacity:0 !important;
+  visibility:hidden !important;
+  transform:translate3d(0,8px,0) scale(.992) !important;
+  filter:none !important;
+  pointer-events:none !important;
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), transform var(--vl-motion-duration) var(--vl-motion-ease), visibility 0s linear var(--vl-motion-duration) !important;
+}
+.optionB__panel.is-active{
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:translate3d(0,0,0) scale(1) !important;
+  pointer-events:auto !important;
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), transform var(--vl-motion-duration) var(--vl-motion-ease), visibility 0s linear 0s !important;
+}
+.optionB__panel.via-luci-panel-leaving{
+  opacity:0 !important;
+  visibility:visible !important;
+  transform:translate3d(0,-4px,0) scale(.996) !important;
+  pointer-events:none !important;
+}
+
+/* Main menu underline: hover is independent; current page is the only active state. */
+.header__inline-menu .header__menu-item,
+.header__inline-menu summary.header__menu-item{
+  text-decoration:none !important;
+  border-bottom:0 !important;
+  background-image:none !important;
+}
+.header__inline-menu .header__menu-item span,
+.header__inline-menu summary.header__menu-item span{
+  position:relative;
+  text-decoration:none !important;
+  background-image:none !important;
+}
+.header__inline-menu .header__menu-item span::after,
+.header__inline-menu summary.header__menu-item span::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-.28rem;
+  height:.1rem;
+  background:currentColor;
+  opacity:0;
+  transform:scaleX(.7);
+  transform-origin:center;
+  transition:opacity var(--vl-motion-duration) var(--vl-motion-ease), transform var(--vl-motion-duration) var(--vl-motion-ease);
+}
+.header__inline-menu .header__menu-item:hover span::after,
+.header__inline-menu summary.header__menu-item:hover span::after,
+.header__inline-menu .header__active-menu-item::after,
+.header__inline-menu [aria-current="page"] span::after,
+body.via-luci-mega-active header-menu details.mega-menu[open] > summary > span::after{
+  opacity:1;
+  transform:scaleX(1);
+}
+body.via-luci-mega-active .header__inline-menu .header__active-menu-item:not(:hover)::after,
+body.via-luci-mega-transitioning .header__inline-menu .header__active-menu-item:not(:hover)::after{
+  opacity:0;
+  transform:scaleX(.7);
+}
+
+
+
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ transition-duration:1ms !important; animation-duration:1ms !important; }
+}
+
+
+/* ===== VIA LUCI V23 — synchronized Home navigation + single underline + Pinterest global motion ===== */
+:root{
+  /* All navigation and Pinterest motion below consume the same global setting. */
+  --via-luci-nav-sync-duration: var(--vl-motion-duration);
+  --vl-mega-duration: var(--vl-motion-duration);
+}
+
+/* Home header background and mega menu share exactly the same opacity/background timing. */
+html.is-home .header-wrapper,
+html.is-home .header-wrapper.onload-header,
+html.is-home .header-wrapper.via-luci-force-solid,
+header-menu details.mega-menu .mega-menu__content,
+header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+header-menu details.mega-menu.via-luci-is-closing .mega-menu__content,
+body::before{
+  transition-duration: var(--vl-motion-duration) !important;
+  transition-timing-function: var(--vl-motion-ease) !important;
+}
+
+html.is-home .header-wrapper.via-luci-force-solid,
+html.is-home .header-wrapper.onload-header.via-luci-force-solid,
+html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent.via-luci-force-solid{
+  background:#000 !important;
+  background-color:#000 !important;
+}
+
+/* One underline renderer only. Remove all native/theme underline layers. */
+.header__inline-menu .header__menu-item,
+.header__inline-menu .header__menu-item:hover,
+.header__inline-menu summary.header__menu-item,
+.header__inline-menu summary.header__menu-item:hover,
+.header__inline-menu .header__active-menu-item,
+.header__inline-menu [aria-current="page"],
+body.via-luci-mega-active header-menu details.mega-menu[open] > summary > span,
+body.via-luci-mega-transitioning header-menu details.mega-menu[open] > summary > span{
+  text-decoration:none !important;
+  text-decoration-line:none !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  background-image:none !important;
+}
+.header__inline-menu .header__menu-item > span,
+.header__inline-menu summary.header__menu-item > span{
+  text-decoration:none !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  background-image:none !important;
+}
+
+/* Keep exactly the pseudo-element underline defined by the polish system. */
+.header__inline-menu .header__menu-item > span::before,
+.header__inline-menu summary.header__menu-item > span::before{
+  content:none !important;
+  display:none !important;
+}
+
+/* Pinterest modal/card scale and fade are fully controlled by --vl-motion-duration. */
+.section-pinterest-grid .pgrid-modal,
+.section-pinterest-grid .pgrid-modal__backdrop,
+.section-pinterest-grid .pgrid-modal__dialog,
+.section-pinterest-grid .pgrid-modal__body .pgrid__card,
+.section-pinterest-grid .pgrid-modal__close,
+.section-pinterest-grid .pgrid__item,
+.section-pinterest-grid .pgrid__card,
+.section-pinterest-grid .pgrid__img,
+.section-pinterest-grid .pgrid__content{
+  transition-duration:var(--vl-motion-duration) !important;
+  transition-timing-function:var(--vl-motion-ease) !important;
+}

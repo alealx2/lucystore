@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js template-{{ template.name | escape }}{% if template.name == 'index' %} is-home{% endif %}{% if request.page_type == 'page' and page and page.handle == 'about' %} is-about{% endif %} vl-page-loading" lang="{{ request.locale.iso_code }}">
+<html class="js template-{{ template.name | escape }}{% if template.name == 'index' %} is-home{% endif %}{% if request.page_type == 'page' and page and page.handle == 'about' %} is-about{% endif %} vl-page-loading vl-first-paint" lang="{{ request.locale.iso_code }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -195,6 +195,9 @@
       function markReady() {
         root.classList.add('vl-page-ready');
         root.classList.remove('vl-page-loading');
+        window.requestAnimationFrame(function(){
+          root.classList.remove('vl-first-paint');
+        });
       }
 
       /* Mark ready immediately. Header state is handled by critical CSS, so there is no full-page blink. */
@@ -429,6 +432,7 @@
   {% endstyle %}
 
   {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'via-luci-polish-v21.css' | asset_url | stylesheet_tag }}
   <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
   {%- if settings.cart_type == 'drawer' -%}
@@ -893,5 +897,7 @@
       </div>
     </div>
 
+  {{ 'via-luci-polish-v21.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'via-luci-polish-v21.js' | asset_url }}" defer="defer"></script>
 </body>
 </html>

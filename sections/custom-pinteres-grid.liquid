@@ -639,8 +639,8 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       opacity:0;
       pointer-events:none;
       transition:
-        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 620ms;
+        opacity var(--vl-motion-duration) var(--vl-motion-ease),
+        visibility 0s linear var(--vl-motion-duration);
     }
     #pgrid-{{ section.id }} .pgrid-modal.is-open,
     #pgrid-{{ section.id }} .pgrid-modal.is-closing{
@@ -650,7 +650,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     #pgrid-{{ section.id }} .pgrid-modal.is-open{
       opacity:1;
       transition:
-        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity var(--vl-motion-duration) var(--vl-motion-ease),
         visibility 0s linear 0s;
     }
     #pgrid-{{ section.id }} .pgrid-modal.is-closing{
@@ -659,7 +659,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     }
     #pgrid-{{ section.id }} .pgrid-modal__backdrop{
       opacity:0;
-      transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity var(--vl-motion-duration) var(--vl-motion-ease);
     }
     #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__backdrop{
       opacity:1;
@@ -668,8 +668,8 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       transform: scale(0.88) translateY(18px);
       opacity:0;
       transition:
-        transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform var(--vl-motion-duration) var(--vl-motion-ease),
+        opacity var(--vl-motion-duration) var(--vl-motion-ease);
       will-change: transform, opacity;
     }
     #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__dialog{
@@ -683,8 +683,8 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     #pgrid-{{ section.id }} .pgrid-modal__body .pgrid__card{
       transform: scale(0.96);
       transition:
-        transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 620ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform var(--vl-motion-duration) var(--vl-motion-ease),
+        box-shadow var(--vl-motion-duration) var(--vl-motion-ease);
       will-change: transform;
     }
     #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__body .pgrid__card{
@@ -694,10 +694,10 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
       opacity:0;
       transform: scale(0.86) rotate(-8deg);
       transition:
-        opacity 420ms cubic-bezier(0.22, 1, 0.36, 1) 180ms,
-        transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 180ms,
-        background 420ms cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1);
+        opacity var(--vl-motion-duration) var(--vl-motion-ease),
+        transform var(--vl-motion-duration) var(--vl-motion-ease),
+        background var(--vl-motion-duration) var(--vl-motion-ease),
+        box-shadow var(--vl-motion-duration) var(--vl-motion-ease);
     }
     #pgrid-{{ section.id }} .pgrid-modal.is-open .pgrid-modal__close{
       opacity:1;
@@ -797,6 +797,13 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
     (function(){
       var root = document.getElementById('pgrid-{{ section.id }}');
       if(!root) return;
+
+      function getPinterestMotionMs(){
+        var raw = getComputedStyle(document.documentElement).getPropertyValue('--vl-motion-duration').trim();
+        if(!raw) return 200;
+        var value = parseFloat(raw);
+        return raw.endsWith('s') && !raw.endsWith('ms') ? value * 1000 : value;
+      }
 
       /* =========================
          Helpers: videos
@@ -949,7 +956,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
           if(lastFocus && typeof lastFocus.focus === 'function'){
             try { lastFocus.focus(); } catch(e){}
           }
-        }, 840);
+        }, getPinterestMotionMs());
       }
 
       root.querySelectorAll('.pgrid__item').forEach(function(item){
