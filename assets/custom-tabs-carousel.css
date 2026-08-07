@@ -877,3 +877,30 @@
 .tc-tab__btn{
   flex:0 0 auto;
 }
+
+/* ===== VIA LUCI — exactly 3 visible cards on desktop =====
+   Keeps every tab on the same three-card viewport regardless of item count.
+*/
+@media screen and (min-width: 990px) {
+  .tc-carousel .tc-items {
+    --tc-visible-cards: 3;
+    --tc-desktop-gap: clamp(12px, 3vw, 50px);
+    gap: var(--tc-desktop-gap) !important;
+    overflow: hidden !important;
+    max-width: 1100px !important;
+    width: 100% !important;
+  }
+
+  .tc-carousel .tc-item {
+    flex: 0 0 calc(
+      (100% - (var(--tc-desktop-gap) * (var(--tc-visible-cards) - 1))) /
+      var(--tc-visible-cards)
+    ) !important;
+    width: calc(
+      (100% - (var(--tc-desktop-gap) * (var(--tc-visible-cards) - 1))) /
+      var(--tc-visible-cards)
+    ) !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+}

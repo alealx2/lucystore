@@ -1,6 +1,6 @@
-/* ===== VIA LUCI V21 — client feedback polish: motion system, page transition, carousel consistency ===== */
+/* ===== VIA LUCI  — effect motions control ===== */
 :root{
-  --vl-motion-duration: 200ms;
+  --vl-motion-duration: 400ms;
   --vl-motion-duration-long: 240ms;
   --vl-motion-ease: cubic-bezier(.22, 1, .36, 1);
   --vl-motion-ease-soft: cubic-bezier(.16, 1, .3, 1);
@@ -11,7 +11,6 @@ html, body{
   background:#000 !important;
 }
 
-/* Page-to-page transition: subtle overlay instead of body opacity blink/rebuild. */
 body::after{
   content:"";
   position:fixed;
@@ -37,7 +36,7 @@ html.vl-page-ready:not(.vl-route-fading) body::after{
   visibility:hidden;
 }
 
-/* Header: stable at viewport edges. Disable hide/reveal transform that causes bounce. */
+/* Header */
 .section-header,
 .section-header.animate,
 .section-header.shopify-section-header-hidden,
@@ -81,7 +80,7 @@ body.via-luci-mega-transitioning::before,
   transition-timing-function:var(--vl-motion-ease) !important;
 }
 
-/* Mega menu: container stays fixed; only internal panels crossfade subtly. */
+/* Mega menu */
 .optionB__panels{
   transition:height var(--vl-motion-duration-long) var(--vl-motion-ease) !important;
 }
@@ -107,7 +106,6 @@ body.via-luci-mega-transitioning::before,
   pointer-events:none !important;
 }
 
-/* Main menu underline: hover is independent; current page is the only active state. */
 .header__inline-menu .header__menu-item,
 .header__inline-menu summary.header__menu-item{
   text-decoration:none !important;
@@ -156,14 +154,12 @@ body.via-luci-mega-transitioning .header__inline-menu .header__active-menu-item:
 }
 
 
-/* ===== VIA LUCI V23 — synchronized Home navigation + single underline + Pinterest global motion ===== */
+/* ===== VIA LUCI  — synchronized Home navigation ===== */
 :root{
-  /* All navigation and Pinterest motion below consume the same global setting. */
   --via-luci-nav-sync-duration: var(--vl-motion-duration);
   --vl-mega-duration: var(--vl-motion-duration);
 }
 
-/* Home header background and mega menu share exactly the same opacity/background timing. */
 html.is-home .header-wrapper,
 html.is-home .header-wrapper.onload-header,
 html.is-home .header-wrapper.via-luci-force-solid,
@@ -182,7 +178,6 @@ html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-w
   background-color:#000 !important;
 }
 
-/* One underline renderer only. Remove all native/theme underline layers. */
 .header__inline-menu .header__menu-item,
 .header__inline-menu .header__menu-item:hover,
 .header__inline-menu summary.header__menu-item,
@@ -205,14 +200,12 @@ body.via-luci-mega-transitioning header-menu details.mega-menu[open] > summary >
   background-image:none !important;
 }
 
-/* Keep exactly the pseudo-element underline defined by the polish system. */
 .header__inline-menu .header__menu-item > span::before,
 .header__inline-menu summary.header__menu-item > span::before{
   content:none !important;
   display:none !important;
 }
 
-/* Pinterest modal/card scale and fade are fully controlled by --vl-motion-duration. */
 .section-pinterest-grid .pgrid-modal,
 .section-pinterest-grid .pgrid-modal__backdrop,
 .section-pinterest-grid .pgrid-modal__dialog,
