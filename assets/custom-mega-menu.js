@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (panel.dataset.expandingInit === 'true') return;
         panel.dataset.expandingInit = 'true';
 
+        // Establish the accordion's initial geometry while it is still visually hidden.
+        // This prevents Season/Collection cards from sliding horizontally into place
+        // when the panel first opens, so their entrance matches By Category.
+        panel.classList.add('via-luci-expanding-initializing');
+
         var featured = panel.querySelector('.megamenu-pb__featured--expanding, .megamenu-pb__featured');
         if (!featured) return;
 
@@ -75,6 +80,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var firstIndex = cards[0] ? cards[0].getAttribute('data-card-index') : '0';
         setActive(firstIndex);
+
+        // Force the initial expanded/collapsed layout to be committed without animation.
+        // The class is removed only after the panel has been painted in its final geometry.
+        void panel.offsetWidth;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                panel.classList.remove('via-luci-expanding-initializing');
+            });
+        });
 
         // Season and Collection intentionally share EXACTLY the same interaction
         // path. Delegation also makes the hover reliable when moving quickly

@@ -1226,3 +1226,19 @@ html.is-home .header-wrapper.onload-header .main-logo { display: none !important
     padding-bottom: 70px !important;
   }
 }
+
+
+/* ===== VIA LUCI V14 — Season/Collection open exactly like Category =====
+   On first panel reveal, the accordion geometry is established instantly while
+   the panel itself uses the same opacity/vertical entrance as By Category.
+   Hover expansion remains animated normally after initialization. */
+@media screen and (min-width: 990px) {
+  .optionB__panel:not(.optionB__panel--category).via-luci-expanding-initializing .megamenu-pb__card,
+  .optionB__panel:not(.optionB__panel--category).via-luci-expanding-initializing .megamenu-pb__image-wrap,
+  .optionB__panel:not(.optionB__panel--category).via-luci-expanding-initializing .megamenu-pb__image-wrap img,
+  .optionB__panel:not(.optionB__panel--category).via-luci-expanding-initializing .megamenu-pb__title,
+  .optionB__panel:not(.optionB__panel--category).via-luci-expanding-initializing .megamenu-pb__image-wrap::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
