@@ -41,38 +41,59 @@ document.addEventListener('DOMContentLoaded', function () {
         featured.classList.add('has-active');
 
         function setActive(idx) {
-            idx = parseInt(idx, 10);
-            if (isNaN(idx)) return;
+            idx = String(parseInt(idx, 10));
+            if (idx === 'NaN') return;
 
-            cards.forEach(function (card, i) {
-            var on = i === idx;
+            // Match by the explicit data-card-index instead of NodeList position.
+            // This keeps Season perfectly synchronized even if a menu item/card
+            // is omitted or Shopify returns links in a slightly different shape.
+            cards.forEach(function (card) {
+            var on = card.getAttribute('data-card-index') === idx;
             card.classList.toggle('is-expanded', on);
             card.classList.toggle('is-active',  on);
             });
 
-            links.forEach(function (link, i) {
-            link.classList.toggle('is-active', i === idx);
+            links.forEach(function (link) {
+            link.classList.toggle('is-active', link.getAttribute('data-card-index') === idx);
             });
         }
 
         var cardHoverTimer = null;
+        var isSeasonPanel = panel.getAttribute('data-mega-type') === 'season';
+        var hoverDelay = isSeasonPanel ? 0 : 230;
+
         function scheduleActive(idx) {
             clearTimeout(cardHoverTimer);
-            cardHoverTimer = setTimeout(function () { setActive(idx); }, 230);
+
+            // Season nav labels must feel immediate: activate in the same hover
+            // frame, exactly when the user reaches the title.
+            if (isSeasonPanel) {
+            setActive(idx);
+            return;
+            }
+
+            cardHoverTimer = setTimeout(function () { setActive(idx); }, hoverDelay);
         }
 
-        setActive(0);
+        function cancelScheduledActive() {
+            clearTimeout(cardHoverTimer);
+            cardHoverTimer = null;
+        }
+
+        var firstIndex = cards[0] ? cards[0].getAttribute('data-card-index') : '0';
+        setActive(firstIndex);
 
         links.forEach(function (link) {
             var idx = link.getAttribute('data-card-index');
             link.addEventListener('mouseenter', function () { scheduleActive(idx); });
-            link.addEventListener('focus',      function () { setActive(idx); });
+            link.addEventListener('pointerenter', function () { if (isSeasonPanel) setActive(idx); });
+            link.addEventListener('focus', function () { cancelScheduledActive(); setActive(idx); });
         });
 
         cards.forEach(function (card) {
             var idx = card.getAttribute('data-card-index');
             card.addEventListener('mouseenter', function () { scheduleActive(idx); });
-            card.addEventListener('focus',      function () { setActive(idx); });
+            card.addEventListener('focus', function () { cancelScheduledActive(); setActive(idx); });
         });
         }
 

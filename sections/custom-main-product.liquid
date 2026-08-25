@@ -461,6 +461,51 @@ Custom Main Product Section
 <script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
 
 
+{% javascript %}
+document.addEventListener('DOMContentLoaded', function () {
+
+  const fixJunip = () => {
+    document
+      .querySelectorAll('.junip-product-review')
+      .forEach(junip => {
+
+        junip.style.setProperty(
+          'background-color',
+          'transparent',
+          'important'
+        );
+
+        let parent = junip.parentElement;
+
+        for (let i = 0; i < 4 && parent; i++) {
+          parent.style.setProperty(
+            'background-color',
+            '#ffffff',
+            'important'
+          );
+
+          parent.style.setProperty(
+            'background',
+            '#ffffff',
+            'important'
+          );
+
+          parent = parent.parentElement;
+        }
+      });
+  };
+
+  fixJunip();
+
+  new MutationObserver(fixJunip).observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+});
+{% endjavascript %}
+
+
 {% schema %}
 {
   "name": "Custom product main",
