@@ -17,14 +17,14 @@
         "padding_bottom": 4
       }
     },
-    "banner_with_text_Yg4iTU": {
-      "type": "banner-with-text",
-      "name": "Custom Banner Text",
+    "custom_text_section_RzeXAn": {
+      "type": "custom-text-section",
+      "name": "Custom Text Section",
       "settings": {
-        "bg_image": "shopify://shop_images/lightbg.png",
+        "bg_image": "shopify://shop_images/bgcurve.webp",
         "overlay_color": "rgba(0,0,0,0)",
-        "bg_color": "#000000",
-        "overlay_opacity": 61,
+        "bg_color": "rgba(0,0,0,0)",
+        "overlay_opacity": 60,
         "padding_top": 55,
         "padding_bottom": 65,
         "text_align": "left",
@@ -40,12 +40,12 @@
         "main_label_size_mobile": 14,
         "main_title_size_mobile": 28,
         "bottom_title_size_mobile": 18,
-        "items_gap": 20
+        "items_gap": 30
       }
     }
   },
   "order": [
     "main",
-    "banner_with_text_Yg4iTU"
+    "custom_text_section_RzeXAn"
   ]
 }

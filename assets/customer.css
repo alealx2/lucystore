@@ -385,6 +385,13 @@
   margin-bottom: 0;
 }
 
+.reset-password button{
+  background: #0f1b33;
+  color: #ffffff;
+  border-color: #0f1b33;
+  border-radius: 8px;
+}
+
 .activate button[name='decline'],
 .addresses li > button,
 .addresses form button[type] {

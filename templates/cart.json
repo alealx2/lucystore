@@ -41,19 +41,19 @@
         "padding_bottom": 40
       }
     },
-    "custom_main_cart_w6cCEJ": {
+    "custom_main_cart_KxykKJ": {
       "type": "custom-main-cart",
       "name": "Custom main cart",
       "settings": {
         "padding_top": 80,
-        "padding_bottom": 72,
-        "cart_bg_color": "#f9efe6"
+        "padding_bottom": 76,
+        "cart_bg_color": "#F9EFE6"
       }
     }
   },
   "order": [
     "cart-items",
     "cart-footer",
-    "custom_main_cart_w6cCEJ"
+    "custom_main_cart_KxykKJ"
   ]
 }

@@ -76,14 +76,30 @@
     }
   }
 
+  {% comment %} .shop-by{
+    margin-top: -10px;
+  } {% endcomment %}
+
   .tohide{
     display: none;
   }
 
-  /* ESTADO ESPECIAL SOLO CUANDO ESTÁ ACTIVO EL LOGO ONLOAD */
-  .header-wrapper.onload-header {
-    background: transparent;
-    margin-bottom: -130px;
+  /* V19: scope the hero overlay header only to Home. Avoids negative-margin jumps/blink on inner pages. */
+  html.is-home .header-wrapper.onload-header {
+    background: transparent !important;
+    background-color: transparent !important;
+    margin-bottom: -130px !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition: none !important;
+  }
+
+  html:not(.is-home) .header-wrapper.onload-header,
+  html:not(.is-home) .header-wrapper {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    margin-bottom: 0 !important;
   }
 
   .onload-logo {
@@ -95,12 +111,12 @@
   }
 
   .header-wrapper.onload-header .onload-logo {
-    display: block;
+    display: block !important;
     position: absolute;
     top: 10px;
   }
   .header-wrapper.onload-header .main-logo {
-    display: none;
+    display: none !important;
   }
   @media screen and (max-width: 480px) {
     .header-wrapper.onload-header .onload-logo {
@@ -108,7 +124,36 @@
       left: 0;      
       width: 40px;
       margin: 0 auto;
+      position: relative;
     }
+  }
+
+  /* Via Luci premium load state: transparent only on Home, solid black everywhere else. */
+  .header-wrapper {
+    border: none;
+    transition:
+      background-color 420ms cubic-bezier(.22, 1, .36, 1),
+      background 420ms cubic-bezier(.22, 1, .36, 1),
+      box-shadow 420ms cubic-bezier(.22, 1, .36, 1),
+      border-color 420ms cubic-bezier(.22, 1, .36, 1);
+    will-change: background-color;
+  }
+
+  html:not(.is-home) .header-wrapper {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    margin-bottom: 0 !important;
+  }
+
+  html:not(.is-home) .header-wrapper.onload-header {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    margin-bottom: 0 !important;
+  }
+
+  html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent {
+    background: transparent !important;
+    box-shadow: none;
   }
 </style>
 
@@ -451,53 +496,49 @@
     }
 
     onScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const root = document.documentElement;
+      const rawScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const maxScrollTop = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const scrollTop = Math.min(Math.max(rawScrollTop, 0), maxScrollTop);
 
       if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
 
-      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-        this.header.classList.add('scrolled-past-header');
-        if (this.preventHide) return;
-        requestAnimationFrame(this.hide.bind(this));
-      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-        this.header.classList.add('scrolled-past-header');
-        if (!this.preventReveal) {
-          requestAnimationFrame(this.reveal.bind(this));
+      /* V19: stable sticky header. We no longer hide/reveal the header based on scroll
+         direction, because that was creating the elastic bounce at the top/bottom. */
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden', 'animate');
+
+      if (root.classList.contains('is-home')) {
+        if (scrollTop > 8) {
+          this.header.classList.add('scrolled-past-header');
         } else {
-          window.clearTimeout(this.isScrolling);
-
-          this.isScrolling = setTimeout(() => {
-            this.preventReveal = false;
-          }, 66);
-
-          requestAnimationFrame(this.hide.bind(this));
+          this.header.classList.remove('scrolled-past-header');
         }
-      } else if (scrollTop <= this.headerBounds.top) {
-        this.header.classList.remove('scrolled-past-header');
-        requestAnimationFrame(this.reset.bind(this));
+      } else {
+        this.header.classList.add('scrolled-past-header');
       }
 
       this.toggleOnloadLogo(scrollTop);
-
       this.currentScrollTop = scrollTop;
     }
 
+
     hide() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      /* V19: keep header pinned to avoid bounce/flicker. Menus/search still close normally. */
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden', 'animate');
       this.closeMenuDisclosure();
       this.closeSearchModal();
     }
 
     reveal() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.add('shopify-section-header-sticky', 'animate');
-      this.header.classList.remove('shopify-section-header-hidden');
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden', 'animate');
     }
 
     reset() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden', 'animate');
     }
 
     closeMenuDisclosure() {

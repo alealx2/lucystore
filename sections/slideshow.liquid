@@ -109,13 +109,13 @@
                 {{
                   block.settings.image
                   | image_url: width: 3840
-                  | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+                  | image_tag: alt: block.settings.image_alt | default: 'image', height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
                 }}
               {%- else -%}
                 {{
                   block.settings.image
                   | image_url: width: 3840
-                  | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+                  | image_tag: alt: block.settings.image_alt | default: 'image', loading: 'lazy', height: height, sizes: sizes, widths: widths
                 }}
               {%- endif -%}
             {%- else -%}
@@ -136,9 +136,15 @@
             style="--box-opacity: {{ block.settings.box_opacity | divided_by: 100.0 }};"
           >
             {%- if block.settings.heading != blank -%}
-              <h2 class="banner__heading inline-richtext {{ block.settings.heading_size }}">
+              {%- liquid
+                assign heading_tag = 'h2'
+                if template.name == 'index' and section.index == 1 and forloop.first
+                  assign heading_tag = 'h1'
+                endif
+              -%}
+              <{{ heading_tag }} class="banner__heading inline-richtext {{ block.settings.heading_size }}">
                 {{ block.settings.heading }}
-              </h2>
+              </{{ heading_tag }}>
             {%- endif -%}
 
             {%- if block.settings.subheading != blank -%}
@@ -150,14 +156,17 @@
             {%- if block.settings.button_label != blank -%}
               <div class="banner__buttons{% if block.settings.lucy_style_enabled %} banner__buttons--lucy{% endif %}">
                 {%- if block.settings.lucy_style_enabled -%}
+
                   <a
                     {% if block.settings.link %}
                       href="{{ block.settings.link }}"
                     {% else %}
                       role="link" aria-disabled="true"
                     {% endif %}
-                    class="lucy-btn"
+                    class="lucy-btn lucy-btn--magic lucy-btn--trail"
                   >
+                    <span class="lucy-btn__bg"></span>
+                    <canvas class="lucy-btn__canvas"></canvas>
                     <span class="lucy-btn__inner">
                       {{- block.settings.button_label | escape -}}
                     </span>
@@ -169,7 +178,12 @@
                     data-scroll-target=".customtabs"
                     aria-label="Scroll down"
                   >
-                    <img src="{{ 'double-arrow.png' | asset_url }}" alt="arrow" height="60" width="60" />
+                    <img
+                      src="{{ 'double-arrow.png' | asset_url }}"
+                      alt="{{ block.settings.scroll_arrow_alt | default: 'image' | escape }}"
+                      height="60"
+                      width="60"
+                    />
                   </a>
                 {%- else -%}
                   <a
@@ -263,351 +277,548 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<style>
-  .slider-button{
-    z-index: 1 !important;
-  }
-  .slider-button--next .svg-wrapper, .slider-button--prev .svg-wrapper{
-    width: 60px;
-    height: 60px;
-  }
-  .slider-button--next .icon, .slider-button--prev .icon{
-    transform: rotate(0);    
-    width: 60px;
-    height: 60px;  
-  }
-  .banner-video-bg{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    z-index:0;
-    pointer-events:none;
-  }
 
-  .slideshow__text.has-opacity{
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    background-color: rgba(var(--color-background), var(--box-opacity, 0)) !important;
-  }
-  .slideshow__text.has-opacity::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius: inherit;
-    background-color: rgba(var(--color-background), var(--box-opacity, 0)) !important;
-    pointer-events: none;
-  }
-  .slideshow__text>*{
-    z-index: 1;
-  }
+{% style %}
+.lucy-btn--trail {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  min-width: 300px;
+  padding: 0;
+  border-radius: 18px;
+  text-decoration: none;
+  background: rgba(35, 26, 30, 0.14);
+  border: 1px solid rgba(255, 184, 164, 0.75);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 220, 205, 0.05),
+    0 0 18px rgba(255, 170, 130, 0.08);
+  transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
 
-  /* === Lucy button navideño (glow + polvo mágico) === */
+.lucy-btn--trail:hover {
+  background: rgba(78, 48, 42, 0.22);
+  border-color: rgba(255, 205, 188, 0.95);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 230, 220, 0.08),
+    0 0 24px rgba(255, 185, 145, 0.12),
+    0 0 40px rgba(255, 155, 120, 0.10);
+}
 
-  .banner__buttons--lucy{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:1.75rem;
-    margin-top:2.5rem;
-  }
+.lucy-btn__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02) 0%,
+    rgba(255,190,170,0.04) 100%
+  );
+}
 
-  .lucy-btn{
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 2.75rem;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    overflow: hidden;
-    border: 1px solid rgba(255, 196, 160, 0.9);
-    background: transparent;
-    box-shadow: 0;
-    color: #fff;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 2rem;
-    transition: box-shadow .25s ease, transform .25s ease;
-  }
+.lucy-btn__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
-  .lucy-btn__inner{
-    position:relative;
-    z-index:2;
-  }
+.lucy-btn__inner {
+  position: relative;
+  z-index: 2;
+  padding: 20px 34px;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.24),
+    0 0 18px rgba(255,220,190,0.14);
+  white-space: nowrap;
+}
+{% endstyle %}
 
-  .lucy-btn::before,
-  .lucy-btn::after{
-    content:"";
-    position:absolute;
-    inset:-40%;
-    background:
-      radial-gradient(circle at 0 0, rgba(255,255,255,0.65) 0, transparent 55%),
-      radial-gradient(circle at 100% 100%, rgba(255,150,120,0.7) 0, transparent 60%),
-      radial-gradient(circle at 0 100%, rgba(255,220,190,0.65) 0, transparent 55%);
-    opacity:.0;
-    transform:translate3d(-10%, 10%, 0);
-    transition:opacity .35s ease, transform .45s ease;
-    z-index:1;
-    mix-blend-mode:screen;
-  }
-
-  .lucy-btn::after{
-    background:
-      radial-gradient(circle at 20% -10%, rgba(255,255,255,0.9) 0, transparent 55%),
-      radial-gradient(circle at 80% 120%, rgba(255,180,140,0.8) 0, transparent 55%),
-      radial-gradient(circle at -10% 60%, rgba(255,220,200,0.75) 0, transparent 52%);
-    filter:blur(1px);
-  }
-
-  .lucy-btn:hover::before,
-  .lucy-btn:hover::after{
-    opacity:1;
-    transform:translate3d(0,0,0);
-  }
-
-  .lucy-btn:hover{
-    box-shadow:
-      0 0 26px rgba(255, 184, 138, 0.75),
-      0 0 70px rgba(255, 120, 190, 0.55);
-    transform:translateY(-1px);
-  }
-
-  /* === Scroll-down Lucy (flecha + polvo mágico) === */
-
-  .lucy-scroll{
-    position: absolute;
-    top: 110%;
-    width:44px;
-    height:44px;
-    border-radius:0;
-    border: 0;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    cursor:pointer;
-    background: trasparent;
-    overflow:hidden;
-  }
-  .lucy-scroll img{
-    width: 100%;
-    object-fit: contain;
-  }
-  .lucy-scroll__sparkles{
-    position:absolute;
-    inset:-40%;
-    background:
-      radial-gradient(circle at 10% 0%, rgba(255,255,255,0.9) 0, transparent 55%),
-      radial-gradient(circle at 80% 120%, rgba(255,184,150,0.85) 0, transparent 55%),
-      radial-gradient(circle at -10% 70%, rgba(255,235,210,0.85) 0, transparent 55%);
-    opacity:0;
-    transform:translate3d(0,10%,0);
-    filter:blur(0.5px);
-    transition:opacity .35s ease, transform .45s ease;
-    mix-blend-mode:screen;
-    pointer-events:none;
-  }
-
-  .lucy-scroll__chevron{
-    position:absolute;
-    width:22px;
-    height:22px;
-    border-bottom:2px solid rgba(255, 230, 210, 0.95);
-    border-right:2px solid rgba(255, 230, 210, 0.95);
-    transform:rotate(45deg);
-    opacity:.75;
-  }
-
-  .lucy-scroll__chevron--top{
-    transform:translateY(-4px) rotate(45deg);
-  }
-  .lucy-scroll__chevron--bottom{
-    transform:translateY(4px) rotate(45deg);
-  }
-
-  {% comment %} .lucy-scroll:hover .lucy-scroll__sparkles{
-    opacity:1;
-    transform:translate3d(0,0,0);
-  } {% endcomment %}
-
-  .lucy-scroll:hover{
-    {% comment %} box-shadow:
-      0 0 24px rgba(255, 184, 138, 0.8),
-      0 0 55px rgba(255, 130, 195, 0.6); {% endcomment %}
-    {% comment %} transform:translateY(-1px); {% endcomment %}
-  }
-
-  @keyframes lucy-scroll-breathe{
-    0%,100%{ transform:translateY(0); opacity:1; }
-    50%{ transform:translateY(3px); opacity:0.8; }
-  }
-  .lucy-scroll{
-    animation: lucy-scroll-breathe 2.8s ease-in-out infinite;
-  }
-
-  /* === Flechas prev/next laterales === */
-
-  .slider-button--overlay{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%) !important;
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background: transparent;
-    {% comment %} border:1px solid rgba(255,255,255,0.8);
-    background:rgba(0,0,0,0.25);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px); {% endcomment %}
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    z-index:4;
-  }
-
-  .slider-button--overlay-left{
-    left:24px;
-  }
-  .slider-button--overlay-right{
-    right:24px;
-  }
-
-  {% comment %} 
-  .slider-button--overlay:hover{
-    transform:translateY(-50%) !important;
-  }.slider-button--overlay-right .svg-wrapper svg
-
-  .slider-button--overlay .svg-wrapper svg{
-    width:22px;
-    height:22px;
-    transform:rotate(90deg);
-  }
-   .slider-button--overlay-right .svg-wrapper svg{
-    transform:rotate(-90deg);
-  } {% endcomment %}
-
-  .slider-button--overlay svg *{
-    stroke:#ffffff !important;
-    fill:#ffffff !important;
-  }
-
-  @media screen and (max-width: 749px){
-    .slider-button--overlay{
-      width:32px;
-      height:32px;
-    }
-    .slider-button--overlay-left{
-      left:14px;
-    }
-    .slider-button--overlay-right{
-      right:14px;
-    }
-  }
-
-  /* === Controles inferior derecha estilo Lucy === */
-
-  .slideshow{
-    position:relative;
-  }
-
-  .slideshow__controls--bottom.slider-buttons {
-    position: absolute !important;
-    bottom: 32px;
-    right: 32px;
-    z-index: 20;
-    display:flex;
-    align-items:center;
-    padding:6px 12px;
-    border-radius:999px;
-    background:transparent;
-    gap:10px;
-  }
-
-  .slideshow__controls--bottom .slider-button{
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  .slideshow__controls--bottom .slider-counter__link .dot {
-    background-color: rgba(255,255,255,.7) !important;
-  }
-
-  .slideshow__controls--bottom .slider-counter__link--dots.is-active .dot {
-    background-color: #ffffff !important;
-  }
-
-  .slideshow__play-pause{
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .slider-circle-btn{
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,0.9);
-    background:rgba(0,0,0,0.25);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    transition:box-shadow .2s ease, transform .2s ease, background .2s ease;
-  }
-
-  .slider-circle-btn:hover{
-    box-shadow:0 0 14px rgba(255,255,255,0.85);
-    transform:translateY(-1px);
-    background:rgba(0,0,0,0.4);
-  }
-
-  .slider-circle-btn .svg-wrapper svg{
-    width:14px;
-    height:14px;
-  }
-
-  .slider-circle-btn svg *{
-    fill:#ffffff !important;
-    stroke:#ffffff !important;
-  }
-
-  @media screen and (max-width: 749px){
-    .slideshow__controls--bottom.slider-buttons {
-      bottom:18px;
-      right:18px;
-      padding:4px 10px;
-      gap:8px;
-    }
-  }
-
-</style>
 
 <script>
-  // Scroll suave Lucy
-  document.addEventListener('click', function (e) {
-    var trigger = e.target.closest('.lucy-scroll');
-    if (!trigger) return;
+(function () {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
 
-    var selector = trigger.getAttribute('data-scroll-target');
-    var target = document.querySelector(selector);
-    if (!target) return;
+  class LucyTrailButton {
+    constructor(button) {
+      this.button = button;
+      this.canvas = button.querySelector(".lucy-btn__canvas");
+      if (!this.canvas) return;
 
-    e.preventDefault();
-    if (target.scrollIntoView) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.location.hash = selector;
+      this.ctx = this.canvas.getContext("2d");
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      this.width = 0;
+      this.height = 0;
+      this.raf = null;
+      this.lastTime = 0;
+
+      // Mezcla del hover: 0 = sin hover, 1 = hover total
+      this.hoverMix = 0;
+
+      // Partículas de la estela fija
+      this.trailParticles = [];
+
+      // Partículas del fondo estrellado del hover
+      this.fieldParticles = [];
+
+      // ============================================
+      // CONFIGURACIÓN
+      // ============================================
+      this.config = {
+        // ------------------------------------------
+        // ESTELA FIJA (VISIBLE FUERA DEL HOVER)
+        // ------------------------------------------
+
+        // Posición horizontal del hotspot de la estela.
+        // 0 = izquierda, 1 = derecha
+        trailHotspotX: 0.86,
+
+        // Posición vertical del hotspot de la estela.
+        // 0 = arriba, 1 = abajo
+        trailHotspotY: 0.78,
+
+        // Largo de la estela hacia atrás.
+        // Ej: 0.22 = 22% del ancho del botón
+        trailLength: 0.22,
+
+        // Intensidad de la estela cuando NO hay hover
+        trailBaseIntensity: 0.82,
+
+        // Al hacer hover, la estela se apaga.
+        // Valor negativo para que desaparezca progresivamente
+        trailHoverBoost: -0.52,
+
+        // Tamaño del punto brillante principal de la estela
+        trailHeadRadius: 18,
+
+        // Radio del bloom suave alrededor del hotspot
+        trailBloomRadius: 26,
+
+        // Cantidad de partículas generadas por frame
+        trailParticleDensity: 2,
+
+        // Tamaño mínimo y máximo de partículas de la estela
+        trailParticleMinSize: 0.35,
+        trailParticleMaxSize: 0.9,
+
+        // Velocidad de partículas de la estela
+        trailParticleSpeedMin: 1.8,
+        trailParticleSpeedMax: 3.2,
+
+        // Dispersión vertical de partículas
+        trailParticleSpreadY: 5,
+
+        // ------------------------------------------
+        // BACKGROUND ESTRELLADO (SOLO EN HOVER)
+        // ------------------------------------------
+
+        // Cantidad de estrellas distribuidas en el botón
+        fieldParticleCount: 100,
+
+        // Opacidad máxima del fondo estrellado en hover
+        fieldMaxAlpha: 0.42,
+
+        // Tamaño mínimo y máximo de estrellas del fondo
+        fieldParticleMinSize: 0.4,
+        fieldParticleMaxSize: 1.3,
+
+        // Intensidad del wash cálido del fondo
+        fieldWashAlpha: 0.24,
+
+        // Velocidad de parpadeo de las estrellas del fondo
+        twinkleSpeedMin: 0.6,
+        twinkleSpeedMax: 1.8,
+
+        // ------------------------------------------
+        // ANIMACIÓN GENERAL
+        // ------------------------------------------
+
+        // Qué tan rápido entra/sale el hover
+        hoverEase: 0.08,
+
+        // Pequeño pulso horizontal del hotspot de la estela
+        trailPulseAmplitudeX: 0.018,
+
+        // Velocidad de ese pulso
+        trailPulseSpeed: 1.6
+      };
+
+      this.time = 0;
+      this.isHovering = false;
+
+      this.resize();
+      this.bind();
+      this.initFieldParticles();
+      this.start();
     }
-  }, true);
 
-  // Controles personalizados play / pause solo para slides con video
+    bind() {
+      this.button.addEventListener("mouseenter", () => {
+        this.isHovering = true;
+      });
+
+      this.button.addEventListener("mouseleave", () => {
+        this.isHovering = false;
+      });
+
+      window.addEventListener("resize", () => {
+        this.resize();
+        this.initFieldParticles();
+      });
+    }
+
+    start() {
+      if (!this.raf) {
+        this.lastTime = performance.now();
+        this.raf = requestAnimationFrame((t) => this.loop(t));
+      }
+    }
+
+    resize() {
+      const rect = this.button.getBoundingClientRect();
+      this.width = Math.max(1, Math.round(rect.width));
+      this.height = Math.max(1, Math.round(rect.height));
+
+      this.canvas.width = Math.round(this.width * this.dpr);
+      this.canvas.height = Math.round(this.height * this.dpr);
+      this.canvas.style.width = `${this.width}px`;
+      this.canvas.style.height = `${this.height}px`;
+
+      this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    }
+
+    initFieldParticles() {
+      this.fieldParticles = [];
+
+      for (let i = 0; i < this.config.fieldParticleCount; i++) {
+        this.fieldParticles.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          size: this.random(this.config.fieldParticleMinSize, this.config.fieldParticleMaxSize),
+          alphaSeed: Math.random(),
+          twinkleSpeed: this.random(this.config.twinkleSpeedMin, this.config.twinkleSpeedMax),
+          driftX: this.random(-0.03, 0.03),
+          driftY: this.random(-0.02, 0.02)
+        });
+      }
+    }
+
+    random(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    getTrailHotspot() {
+      const pulse = Math.sin(this.time * this.config.trailPulseSpeed) * this.config.trailPulseAmplitudeX;
+
+      return {
+        x: this.width * (this.config.trailHotspotX + pulse),
+        y: this.height * this.config.trailHotspotY
+      };
+    }
+
+    spawnTrailParticles() {
+      const hotspot = this.getTrailHotspot();
+
+      for (let i = 0; i < this.config.trailParticleDensity; i++) {
+        const maxLife = this.random(20, 34);
+
+        this.trailParticles.push({
+          x: hotspot.x + this.random(-4, 4),
+          y: hotspot.y + this.random(-this.config.trailParticleSpreadY / 2, this.config.trailParticleSpreadY / 2),
+          vx: -this.random(this.config.trailParticleSpeedMin, this.config.trailParticleSpeedMax),
+          vy: this.random(-0.15, 0.15),
+          size: this.random(this.config.trailParticleMinSize, this.config.trailParticleMaxSize),
+          life: maxLife,
+          maxLife: maxLife
+        });
+      }
+    }
+
+    update(dt) {
+      this.time += dt * 0.001;
+
+      // Hover entra/sale suave
+      this.hoverMix += ((this.isHovering ? 1 : 0) - this.hoverMix) * this.config.hoverEase;
+
+      // La estela fija solo se genera cuando no estamos en hover fuerte
+      if (this.hoverMix < 0.95) {
+        this.spawnTrailParticles();
+      }
+
+      this.trailParticles = this.trailParticles.filter((p) => {
+        p.x += p.vx * dt * 0.045;
+        p.y += p.vy * dt * 0.045;
+        p.life -= dt * 0.05;
+        return p.life > 0;
+      });
+
+      // Movimiento ultra sutil del campo de estrellas
+      for (const p of this.fieldParticles) {
+        p.x += p.driftX * dt;
+        p.y += p.driftY * dt;
+
+        if (p.x < 0) p.x = this.width;
+        if (p.x > this.width) p.x = 0;
+        if (p.y < 0) p.y = this.height;
+        if (p.y > this.height) p.y = 0;
+      }
+    }
+
+    clear() {
+      this.ctx.clearRect(0, 0, this.width, this.height);
+    }
+
+    drawFieldWash() {
+      if (this.hoverMix <= 0.01) return;
+
+      const ctx = this.ctx;
+      ctx.save();
+
+      const grad = ctx.createLinearGradient(0, 0, this.width, this.height);
+      grad.addColorStop(0, `rgba(255, 188, 164, ${0.10 * this.hoverMix})`);
+      grad.addColorStop(0.5, `rgba(255, 168, 145, ${this.config.fieldWashAlpha * this.hoverMix})`);
+      grad.addColorStop(1, `rgba(255, 194, 170, ${0.14 * this.hoverMix})`);
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, this.width, this.height);
+
+      ctx.restore();
+    }
+
+    drawFieldParticles() {
+      if (this.hoverMix <= 0.01) return;
+
+      const ctx = this.ctx;
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      for (const p of this.fieldParticles) {
+        const twinkle = (Math.sin(this.time * p.twinkleSpeed * 6 + p.alphaSeed * Math.PI * 2) + 1) * 0.5;
+        const alpha = twinkle * this.config.fieldMaxAlpha * this.hoverMix;
+
+        if (alpha < 0.01) continue;
+
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
+        g.addColorStop(0, `rgba(255, 248, 235, ${alpha})`);
+        g.addColorStop(0.55, `rgba(255, 214, 182, ${alpha * 0.75})`);
+        g.addColorStop(1, "rgba(255, 190, 150, 0)");
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    drawTrailLine() {
+      const ctx = this.ctx;
+      const hotspot = this.getTrailHotspot();
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      const startX = Math.max(this.width * 0.12, hotspot.x - this.width * this.config.trailLength);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      // Núcleo fino, más estilo estrella fugaz
+      const core = ctx.createLinearGradient(startX, hotspot.y, hotspot.x, hotspot.y);
+      core.addColorStop(0, "rgba(255,255,255,0)");
+      core.addColorStop(0.45, `rgba(255,236,214,${0.10 * intensity})`);
+      core.addColorStop(0.8, `rgba(255,246,236,${0.48 * intensity})`);
+      core.addColorStop(1, `rgba(255,255,255,${0.92 * intensity})`);
+
+      ctx.strokeStyle = core;
+      ctx.lineWidth = 1.35;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(startX, hotspot.y);
+      ctx.lineTo(hotspot.x, hotspot.y);
+      ctx.stroke();
+
+      // Halo suave y más contenido
+      const soft = ctx.createLinearGradient(startX, hotspot.y, hotspot.x, hotspot.y);
+      soft.addColorStop(0, "rgba(255,225,190,0)");
+      soft.addColorStop(0.55, `rgba(255,215,190,${0.04 * intensity})`);
+      soft.addColorStop(1, `rgba(255,228,210,${0.10 * intensity})`);
+
+      ctx.strokeStyle = soft;
+      ctx.lineWidth = 5.5;
+      ctx.beginPath();
+      ctx.moveTo(startX, hotspot.y);
+      ctx.lineTo(hotspot.x, hotspot.y);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    drawTrailParticles() {
+      const ctx = this.ctx;
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      for (const p of this.trailParticles) {
+        const alpha = (p.life / p.maxLife) * intensity;
+        if (alpha <= 0.01) continue;
+
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3.2);
+        g.addColorStop(0, `rgba(255,252,245,${alpha})`);
+        g.addColorStop(0.45, `rgba(255,228,195,${alpha * 0.55})`);
+        g.addColorStop(1, "rgba(255,210,170,0)");
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 2.0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    drawTrailHead() {
+      const ctx = this.ctx;
+      const hotspot = this.getTrailHotspot();
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      const head = ctx.createRadialGradient(
+        hotspot.x,
+        hotspot.y,
+        0,
+        hotspot.x,
+        hotspot.y,
+        this.config.trailHeadRadius
+      );
+
+      head.addColorStop(0, `rgba(255,255,255,${0.92 * intensity})`);
+      head.addColorStop(0.28, `rgba(255,244,230,${0.58 * intensity})`);
+      head.addColorStop(1, "rgba(255,220,185,0)");
+
+      ctx.fillStyle = head;
+      ctx.beginPath();
+      ctx.arc(hotspot.x, hotspot.y, this.config.trailHeadRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    drawTrailBloom() {
+      const ctx = this.ctx;
+      const hotspot = this.getTrailHotspot();
+
+      const intensity = Math.max(
+        0,
+        this.config.trailBaseIntensity + this.hoverMix * this.config.trailHoverBoost
+      );
+
+      if (intensity <= 0.01) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+
+      const bloom = ctx.createRadialGradient(
+        hotspot.x,
+        hotspot.y,
+        0,
+        hotspot.x,
+        hotspot.y,
+        this.config.trailBloomRadius
+      );
+
+      bloom.addColorStop(0, `rgba(255, 240, 220, ${0.11 * intensity})`);
+      bloom.addColorStop(0.42, `rgba(255, 222, 196, ${0.05 * intensity})`);
+      bloom.addColorStop(1, "rgba(255, 210, 180, 0)");
+
+      ctx.fillStyle = bloom;
+      ctx.beginPath();
+      ctx.arc(hotspot.x, hotspot.y, this.config.trailBloomRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    render() {
+      this.clear();
+
+      // Hover background
+      this.drawFieldWash();
+      this.drawFieldParticles();
+
+      // Estela fija
+      this.drawTrailBloom();
+      this.drawTrailLine();
+      this.drawTrailParticles();
+      this.drawTrailHead();
+    }
+
+    loop(now) {
+      const dt = Math.min(32, now - this.lastTime || 16);
+      this.lastTime = now;
+
+      this.update(dt);
+      this.render();
+
+      this.raf = requestAnimationFrame((t) => this.loop(t));
+    }
+  }
+
+  function initLucyTrailButtons(scope) {
+    (scope || document).querySelectorAll(".lucy-btn--trail").forEach((button) => {
+      if (button.dataset.lucyTrailInit === "true") return;
+      button.dataset.lucyTrailInit = "true";
+      new LucyTrailButton(button);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initLucyTrailButtons(document);
+  });
+
+  document.addEventListener("shopify:section:load", function (event) {
+    initLucyTrailButtons(event.target);
+  });
+})();
+</script>
+
+<script>
+
   document.addEventListener('DOMContentLoaded', function () {
     var slider = document.querySelector('#Slider-{{ section.id }}');
     if (!slider) return;
@@ -635,7 +846,6 @@
     });
 
     if (!hasAnyVideo) {
-      // No hay videos en este slideshow: ocultar controles play/pause
       playPauseWrapper.style.display = 'none';
       return;
     }
@@ -681,14 +891,12 @@
       });
     }
 
-    // Escuchar clicks en flechas y bullets para actualizar visibilidad
     root.addEventListener('click', function (evt) {
       var el = evt.target.closest('.slider-button, .slider-counter__link');
       if (!el) return;
       setTimeout(refreshControlsVisibility, 150);
     });
 
-    // Observer para cambios de aria-hidden (auto-rotate, swipe, etc.)
     var observer = new MutationObserver(function () {
       refreshControlsVisibility();
     });
@@ -697,6 +905,64 @@
     refreshControlsVisibility();
   });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var slider = document.querySelector('#Slider-{{ section.id }}');
+    if (!slider) return;
+
+    var root = slider.closest('slideshow-component') || slider.parentElement;
+    if (!root) return;
+
+    var slides = Array.from(slider.querySelectorAll('.slideshow__slide'));
+    if (!slides.length) return;
+
+    var dots = Array.from(root.querySelectorAll('.slider-counter__link'));
+    function activeIndex() {
+      for (var i = 0; i < slides.length; i++) {
+        var hidden = slides[i].getAttribute('aria-hidden');
+        if (hidden === 'false' || hidden === null) return i;
+      }
+      var w = slider.clientWidth || 1;
+      return Math.round((slider.scrollLeft || 0) / w);
+    }
+
+    function goTo(index) {
+      index = Math.max(0, Math.min(slides.length - 1, index));
+      if (dots[index]) {
+        dots[index].click(); 
+        return;
+      }
+      slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    }
+
+    var prevBtn = root.querySelector('.slider-button[name="previous"][aria-controls="Slider-{{ section.id }}"]');
+    var nextBtn = root.querySelector('.slider-button[name="next"][aria-controls="Slider-{{ section.id }}"]');
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (e) {
+        var i = activeIndex();
+        if (i >= slides.length - 1) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(0);
+        }
+      }, true);
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function (e) {
+        var i = activeIndex();
+        if (i <= 0) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(slides.length - 1);
+        }
+      }, true);
+    }
+  });
+</script>
+
 
 {% schema %}
 {
@@ -849,6 +1115,12 @@
           "label": "t:sections.slideshow.blocks.slide.settings.image.label"
         },
         {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text (imagen)",
+          "default": "Image"
+        },
+        {
           "type": "video",
           "id": "video_file",
           "label": "Video subido (MP4, mov)",
@@ -981,6 +1253,12 @@
           "id": "lucy_style_enabled",
           "label": "Usar botón Lucy navideño ",
           "default": false
+        },
+        {
+          "type": "text",
+          "id": "scroll_arrow_alt",
+          "label": "Alt text (flecha scroll)",
+          "default": "Scroll down"
         },
         {
           "type": "header",

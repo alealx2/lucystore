@@ -1,0 +1,906 @@
+  @media screen and (min-width: 750px) {
+  .tc { 
+      height: 100vh;
+    }
+  }
+
+  .tc { 
+    --tc-gap: 16px; 
+    color: #fff; 
+  }
+  
+  .tc__heading{ margin-bottom: 10px; color:#fff; }
+
+  /* Shell de tabs (scroll real) */
+  .tc__tabs-shell{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content: space-around;
+    gap: 16px;
+    flex:1 1 auto;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+  }
+  .tc__tabs-shell::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tc__tabs-shell.tc__tabs-shell--no-arrows + .tc-tabs-arrow{
+    display:none;
+  }
+
+  .tc__tabs{
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 0;
+    flex:1 1 auto;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* TABS */
+  .tc-tab__btn{
+    --tab-bg: transparent;
+    --tab-bg-h: transparent;
+    --tab-text: inherit;
+    --tab-text-h: #fff;
+    position:relative;
+    display: inline-block;
+    white-space: nowrap;
+    padding: 10px 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--tab-text);
+    font-size: var(--tab-fs, 16px);
+    line-height: 1.2;
+    border: none;
+    transition: color .18s ease;
+    cursor: pointer;
+    overflow:visible;
+    z-index:1;
+  }
+  .tc-tab__btn:hover{
+    color: var(--tab-text-h);
+  }
+  .tc-tab__btn.is-active{
+    color: var(--tab-text-h);
+  }
+
+  .tc__indicator{
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 6px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+      to right,
+      rgba(255,190,150,0.0) 0%,
+      rgba(255,190,150,0.85) 40%,
+      rgba(255,190,150,1) 50%,
+      rgba(255,190,150,0.85) 60%,
+      rgba(255,190,150,0.0) 100%
+    );
+    transition: transform .22s ease, width .22s ease;
+  }
+  .tc__indicator--top{
+    top: -1px;
+  }
+  .tc__indicator--bottom{
+    bottom: -1px;
+  }
+
+  .tc-tabs-arrow{
+    flex:0 0 auto;
+    width:22px;
+    height:22px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.7);
+    background:rgba(0,0,0,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:box-shadow .2s ease, background .2s ease, transform .2s ease;
+  }
+  .tc-tabs-arrow .svg-wrapper svg{
+    width:30px;
+    height:30px;
+  }
+  .tc-tabs-arrow svg *{
+    fill:#ffffff !important;
+    stroke:#ffffff !important;
+  }
+  .tc-tabs-arrow:hover{
+    box-shadow:0 0 14px rgba(255,255,255,0.9);
+    background:rgba(0,0,0,0.7);
+    transform:translateY(-1px);
+  }
+
+  .tc-tab__btn::before{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:inherit;
+    background:
+      radial-gradient(circle at 0 0, rgba(255,255,255,0.7) 0, transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(255,160,130,0.75) 0, transparent 55%);
+    opacity:0;
+    filter:blur(6px);
+    pointer-events:none;
+    mix-blend-mode:screen;
+    transition:opacity .3s ease, filter .3s ease;
+  }
+
+  /* PANELS */
+  .tc__panels{
+    position: relative;
+    transition: height .26s ease;
+    margin-top: 20px;
+  }
+  .tc-panel{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  .tc-panel.is-active{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .tc-carousel{
+    position: relative;
+    min-height: var(--min-h-desktop);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: 20px 60px;
+  }
+
+  .tc-items{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    gap: clamp(12px, 3vw, 50px);
+    width: 100%;
+    max-width: 1100px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .tc-item{
+    position: relative;
+    flex: 0 0 min(360px, 33.333%);
+    max-width: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    background:var(--card-bg,#15131a);
+    opacity: .35;
+    transition: opacity .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+  }
+
+  .tc-item::before{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:inherit;
+    background:
+      radial-gradient(circle at 10% 0, rgba(255,255,255,0.8) 0, transparent 55%),
+      radial-gradient(circle at 90% 100%, rgba(255,170,130,0.9) 0, transparent 55%),
+      radial-gradient(circle at 0 80%, rgba(255,230,200,0.8) 0, transparent 55%);
+    opacity:0;
+    filter:blur(12px);
+    pointer-events:none;
+    mix-blend-mode:screen;
+    transition:opacity .3s ease, filter .3s ease;
+  }
+
+  .tc-item.is-active{
+    opacity: 1;
+    box-shadow: 0 0 36px rgba(255, 180, 140, 0.7);
+    border-color: rgba(255, 210, 180, 0.9);
+  }
+
+  .tc-item.is-active::before{
+    opacity:1;
+    filter:blur(16px);
+  }
+
+  .tc-item__media-wrapper{
+    position:absolute;
+    inset:0;
+    z-index:0;
+  }
+  .tc-item__media-img,
+  .tc-item__video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .tc-item__overlay{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.9) 65%);
+    z-index:1;
+    background-color: var(--overlay);
+    opacity: var(--overlay-op);
+    mix-blend-mode: normal;
+    pointer-events: none;
+  }
+
+  .tc-item__content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(18px, 3vw, 26px);
+    max-width:var(--content-w);
+    margin-inline:auto;
+    background: var(--content-bg, transparent);
+    border-radius: var(--content-radius, 18px);
+    text-align:left;
+    padding-top: 150px;
+  }
+  .tc-item__content--left{
+    margin-left:0;
+    margin-right:auto;
+    text-align:left;
+  }
+  .tc-item__content--center{
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+  }
+  .tc-item__content--right{
+    margin-left:auto;
+    margin-right:0;
+    text-align:right;
+  }
+  .tc-item__content--top{
+    justify-content:flex-start;
+  }
+  
+  .tc-item__content--bottom{
+    justify-content:flex-end;
+  }
+
+  .tc-item__title{
+    margin:0 0 0.5rem;
+    font-size: clamp(20px, 3vw, 28px);
+    line-height:1.25;
+  }
+  .tc-item__title p{
+    margin-bottom: 0 !important;
+  }
+  .tc-item__text p{ margin:0.25rem 0 0 0; }
+
+  .tc-item__btn{
+    display:inline-block;
+    margin-top:1.2rem;
+    align-self:center;
+    text-decoration:none;
+    padding:.65rem 1.4rem;
+    border-radius:999px;
+    font-weight:600;
+    background: var(--btn-bg, #ffffff);
+    color: var(--btn-text, #111111);
+    transition: background .18s ease, color .18s ease, transform .18s ease;
+  }
+  .tc-item__btn:hover{
+    background: var(--btn-bg-h, #111111);
+    color: var(--btn-text-h, #ffffff);
+    transform: translateY(-1px);
+  }
+
+  .tc-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:50px;
+    height:50px;
+    display:flex;
+    background:transparent;
+    align-items:center;
+    justify-content:center;
+    border: none;
+    cursor:pointer;
+    z-index:3;
+    transition: transform .2s ease;
+  }
+  .tc-arrow .svg-wrapper{
+    width: 50px;
+    height: 50px;
+  }
+  .tc-arrow--prev{
+    left:min(-4px, 3vw);
+  }
+  .tc-arrow--next{
+    right:min(24px, 3vw);
+  }
+  .tc-arrow svg *{
+    fill:#ffffff !important;
+    stroke:#ffffff !important;
+  }
+
+  .tc-item__controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:18px;
+  }
+  .tc-vid-btn{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.9);
+    background:rgba(0,0,0,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:box-shadow .2s ease, transform .2s ease, background .2s ease;
+  }
+  .tc-vid-btn svg{
+    width:14px;
+    height:14px;
+  }
+  .tc-vid-btn svg *{
+    fill:#ffffff !important;
+    stroke:#ffffff !important;
+  }
+  .tc-vid-btn:hover{
+    box-shadow:0 0 14px rgba(255,255,255,0.9);
+    transform:translateY(-1px);
+    background:rgba(0,0,0,0.7);
+  }
+  .tc-item:not(.is-playing) .tc-vid-btn--pause{
+    opacity:.4;
+  }
+
+  /* Modal video fullscreen */
+  .tc-modal{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.85);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .25s ease, visibility 0s linear .25s;
+    z-index:9999;
+  }
+  .tc-modal.is-open{
+    opacity:1;
+    visibility:visible;
+    transition-delay:0s;
+  }
+  .tc-modal__inner{
+    position:relative;
+    width:min(90vw, 520px);
+    max-height:90vh;
+  }
+  .tc-modal__content{
+    background:#000;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 0 40px rgba(0,0,0,0.9);
+  }
+  .tc-modal__content video,
+  .tc-modal__content iframe,
+  .tc-modal__content img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .tc-modal__close{
+    position:absolute;
+    top:-40px;
+    right:0;
+    background:none;
+    border:none;
+    color:#ffffff;
+    font-size:26px;
+    cursor:pointer;
+    padding:4px 8px;
+  }
+  body.tc-modal-open{
+    overflow:hidden;
+  }
+
+  /* Responsive */
+  @media (max-width: 989px){
+    .tc-item__content--center{
+      justify-content: center ;
+    }
+    .tc-carousel{
+      min-height: var(--min-h-mobile);
+      padding: 20px 16px 28px;
+    }
+
+    .tc-items{
+      width: 90%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: flex;
+      justify-content: flex-start;
+      gap: 0;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tc-item{
+      flex: 0 0 100%;
+      max-width: 100%;
+      scroll-snap-align: center;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .tc__tabs{
+      gap: 12px;
+    }
+    .tc-tab__btn{
+      padding: .5rem .9rem;
+    }
+
+    .tc-item__text{
+      font-size: 0.9rem;
+    }
+
+    .tc-arrow--prev{
+      left: 8px;
+    }
+    .tc-arrow--next{
+      right: 8px;
+    }
+  }
+
+  @media (max-width: 480px){
+    .tc-item__content{
+      padding: 16px 14px;
+    }
+    .tc-item__text{
+      display: none;
+    }
+  }
+
+
+  /* =========================
+   FX base
+========================= */
+
+.tc-tab__btn,
+.tc-item {
+  position: relative;
+}
+
+.tc-tab__label,
+.tc-item__content,
+.tc-item__controls {
+  position: relative;
+  z-index: 3;
+}
+
+.tc-fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tc-fx--tab {
+  overflow: visible;
+}
+
+.tc-fx--card {
+  border-radius: inherit;
+}
+
+/* =========================
+   Tab activo
+========================= */
+
+.tc-item {
+  position: relative;
+  isolation: isolate;
+  overflow: visible !important;
+  border-radius: 24px;
+}
+
+.tc-item__media-wrapper,
+.tc-item__media-img,
+.tc-item__video,
+.tc-item__overlay {
+  border-radius: inherit;
+}
+
+.tc-fx--card {
+  position: absolute;
+  left: -30px;
+  width: calc(100% + 52px);
+  height: calc(100% + 52px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tc-item__content,
+.tc-item__controls {
+  position: relative;
+  z-index: 3;
+}
+
+.tc-panel,
+.tc-carousel,
+.tc-items,
+.tc__panels {
+  overflow: visible !important;
+}
+
+/* =========================
+   Card activa
+========================= */
+
+.tc-item {
+  isolation: isolate;
+  overflow: visible;
+  border-radius: 24px;
+}
+
+.tc-item.is-active {
+  box-shadow:
+    0 0 0 1px rgba(255, 205, 180, 0.14) inset,
+    0 0 34px rgba(255, 168, 130, 0.08);
+}
+
+.tc-item__overlay {
+  z-index: 1;
+}
+
+.tc-item__media-wrapper,
+.tc-item__media-img,
+.tc-item__video {
+  border-radius: inherit;
+}
+
+/* Para que el glow no se corte en desktop */
+.tc-carousel,
+.tc-items,
+.tc-panel,
+.tc__panels {
+  overflow: visible;
+}
+
+/* Para que el glow no se corte en desktop */
+.tc-carousel,
+.tc-items,
+.tc-panel,
+.tc__panels {
+  overflow: visible;
+}
+/* VIA LUCI V4 — smoother premium tab carousel interaction */
+.tc-item,
+.tc-item::before,
+.tc-item__media-img,
+.tc-item__video,
+.tc-item__overlay,
+.tc-item__content,
+.tc-item__title,
+.tc-item__text,
+.tc-tabs__btn,
+.tc-tabs__btn::after {
+  transition-duration: 560ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+.tc-track {
+  transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+.tc-item {
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.tc-pane {
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 560ms !important;
+}
+.tc-pane.is-active {
+  transition:
+    opacity 620ms cubic-bezier(0.22, 1, 0.36, 1) 80ms,
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1) 80ms,
+    visibility 0s linear 0s !important;
+}
+
+/* ===== VIA LUCI TABS V8 — premium smooth panel/item transitions ===== */
+.tc__panels {
+  transition: height 760ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.tc__indicator {
+  transition:
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 760ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  will-change: transform, width;
+}
+
+.tc-panel {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(14px) scale(0.992) !important;
+  pointer-events: none !important;
+  transition:
+    opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 620ms !important;
+  will-change: opacity, transform;
+}
+
+.tc-panel.is-active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+  transition:
+    opacity 680ms cubic-bezier(0.22, 1, 0.36, 1) 80ms,
+    transform 820ms cubic-bezier(0.22, 1, 0.36, 1) 80ms,
+    visibility 0s linear 0s !important;
+}
+
+
+
+/* ===== VIA LUCI V11 — preserve existing carousel, soften tab indicator and panel item fades ===== */
+@media (min-width: 750px) {
+  .tc__indicator {
+    transition:
+      transform 980ms cubic-bezier(0.22, 1, 0.36, 1),
+      width 980ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 620ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: transform, width, opacity;
+  }
+
+  .tc__panels {
+    transition: height 760ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  .tc-panel {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(12px) scale(0.995) !important;
+    pointer-events: none !important;
+    transition:
+      opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 620ms !important;
+    will-change: opacity, transform;
+  }
+}
+
+@media (max-width: 989px){
+  .tc__panels{
+    overflow: hidden !important;
+    width: 100% !important;
+  }
+  .tc-panel{
+    overflow: hidden !important;
+  }
+  .tc-carousel{
+    overflow: hidden !important;
+    width: 100% !important;
+    padding-left: 34px !important;
+    padding-right: 34px !important;
+    box-sizing: border-box !important;
+  }
+  .tc-items{
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 0 !important;
+    justify-content: flex-start !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .tc-items::-webkit-scrollbar{
+    display: none !important;
+  }
+  .tc-item{
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 95% !important;
+    margin-left: 50px !important;
+    scroll-snap-align: center !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+  .tc-item .tc-fx--card,
+  .tc-item::before{
+    display: none !important;
+  }
+  .tc-arrow{
+    z-index: 10 !important;
+    pointer-events: auto !important;
+  }
+  .tc-arrow--prev{
+    left: 0 !important;
+  }
+  .tc-arrow--next{
+    right: 0 !important;
+  }
+}
+
+@media (max-width: 480px){
+  .tc__panels{
+    height: 50vh !important;
+  }
+  .tc-carousel{
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+}
+
+
+/* ===== VIA LUCI V13 — unify carousel/tabs with expansive fade language ===== */
+.tc__indicator {
+  transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1), width 720ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.tc__panels {
+  perspective: 1200px;
+  transition: height 760ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.tc-panel {
+  transform-origin: 50% 100% !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translate3d(0, 22px, 0) scale(0.955) !important;
+  pointer-events: none !important;
+  will-change: opacity, transform;
+  transition:
+    opacity 680ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 820ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 680ms !important;
+}
+
+.tc-panel.is-active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+  pointer-events: auto !important;
+  transition:
+    opacity 760ms cubic-bezier(0.16, 1, 0.3, 1) 60ms,
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 60ms,
+    visibility 0s linear 0s !important;
+}
+
+.tc-item {
+  transform: scale(0.965);
+  transform-origin: center bottom;
+  will-change: opacity, transform;
+  transition:
+    opacity 680ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 820ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 820ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 820ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.tc-item.is-active {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tc__indicator,
+  .tc__panels,
+  .tc-panel,
+  .tc-item {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* VIA LUCI V21 — smoother custom tabs carousel prev/next motion */
+.tc-items {
+  scroll-behavior: smooth !important;
+  will-change: transform, scroll-position !important;
+}
+
+.tc-carousel .tc-items {
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+}
+
+.tc-carousel .tc-item {
+  backface-visibility: hidden;
+  transform-origin: center center !important;
+}
+
+@media screen and (max-width: 989px) {
+  .tc-items {
+    scroll-snap-type: x mandatory !important;
+    scroll-padding-inline: 0 !important;
+  }
+
+  .tc-item {
+    scroll-snap-align: center !important;
+  }
+}
+
+
+/* ===== VIA LUCI FIX — custom tabs should scroll selected tab fully into view ===== */
+.tc__tabs{
+  min-width:0;
+  overflow:hidden;
+}
+
+.tc__tabs-shell{
+  min-width:0;
+  max-width:100%;
+  scroll-padding-inline:40px;
+  -webkit-overflow-scrolling:touch;
+}
+
+.tc-tab__btn{
+  flex:0 0 auto;
+}
+
+/* ===== VIA LUCI — exactly 3 visible cards on desktop =====
+   Keeps every tab on the same three-card viewport regardless of item count.
+*/
+@media screen and (min-width: 990px) {
+  .tc-carousel .tc-items {
+    --tc-visible-cards: 3;
+    --tc-desktop-gap: clamp(12px, 3vw, 50px);
+    gap: var(--tc-desktop-gap) !important;
+    overflow: hidden !important;
+    max-width: 1100px !important;
+    width: 100% !important;
+  }
+
+  .tc-carousel .tc-item {
+    flex: 0 0 calc(
+      (100% - (var(--tc-desktop-gap) * (var(--tc-visible-cards) - 1))) /
+      var(--tc-visible-cards)
+    ) !important;
+    width: calc(
+      (100% - (var(--tc-desktop-gap) * (var(--tc-visible-cards) - 1))) /
+      var(--tc-visible-cards)
+    ) !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+}

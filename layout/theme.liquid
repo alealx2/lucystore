@@ -1,435 +1,903 @@
 <!doctype html>
-  <html class="js" lang="{{ request.locale.iso_code }}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
-    <link rel="canonical" href="{{ canonical_url }}">
+<html class="js template-{{ template.name | escape }}{% if template.name == 'index' %} is-home{% endif %}{% if request.page_type == 'page' and page and page.handle == 'about' %} is-about{% endif %} vl-page-loading vl-first-paint" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {%- endif -%}
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
 
-    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
+  {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+  {%- endunless -%}
 
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+  {%- liquid
+    assign seo_title = blank
+    assign seo_description = blank
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+    # =========================
+    # HOME
+    # =========================
+    if template.name == 'index'
+      assign seo_title = 'Via Luci. Premium Lighting for Holidays and Home'
+      assign seo_description = 'Via Luci creates premium holiday and year-round lighting that transforms spaces into unforgettable memories. Discover beautifully crafted trees, décor and lighting designed to elevate your home with elegance.'
+    endif
 
-    {% render 'meta-tags' %}
+    # =========================
+    # PAGES (by handle - reales)
+    # =========================
+    if request.page_type == 'page' and page != blank
+      case page.handle
+        when 'about'
+          assign seo_title = 'About Via Luci. Craftsmanship and the Art of Lighting'
+          assign seo_description = 'Learn the story behind Via Luci. A brand dedicated to craftsmanship, innovation and lighting that inspires meaningful memories and beautiful spaces.'
 
-    {% if template == 'page.about' %}
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          document.documentElement.classList.add('is-about');
-          document.body.classList.add('is-about');
+        when 'contact', 'contact-us'
+          assign seo_title = 'Contact Via Luci. Customer Support and Guidance'
+          assign seo_description = 'Contact Via Luci for support, product guidance and expert lighting help. We are here to assist you in creating beautiful illuminated spaces.'
+
+        when 'faqs'
+          assign seo_title = 'Via Luci FAQs. Product and Lighting Information'
+          assign seo_description = 'Find answers about Via Luci products, lighting, Christmas trees and ordering. Helpful information for a seamless experience.'
+
+        when 'return-and-exchanges', 'returns', 'returns-warranty', 'warranty-returns', 'warranty-information'
+          assign seo_title = 'Returns and Warranty. Via Luci Quality Assurance'
+          assign seo_description = 'Learn about Via Luci’s return and warranty policies. Quality assurance designed for confidence and peace of mind.'
+
+        when 'installation-guides'
+          assign seo_title = 'Installation Guides. How to Set Up Via Luci Lighting'
+          assign seo_description = 'Easy step by step installation guides for Via Luci lighting and décor. Clear instructions for creating flawless results at home.'
+      endcase
+    endif
+
+    # =========================
+    # COLLECTIONS (by handle - reales)
+    # =========================
+    if request.page_type == 'collection' and collection != blank
+      case collection.handle
+        # SHOP / ALL PRODUCTS
+        when 'all', 'via-luci', 'frontpage'
+          assign seo_title = 'Shop Via Luci. Premium Lighting, Trees and Décor'
+          assign seo_description = 'Explore Via Luci’s full collection of premium lighting, Christmas trees and décor crafted for elegance, longevity and unforgettable moments.'
+
+        # CHRISTMAS TREES COLLECTION (handle real: trees)
+        when 'trees'
+          assign seo_title = 'Premium Artificial Christmas Trees. Via Luci'
+          assign seo_description = 'Shop lifelike premium Christmas trees designed for realism, brilliance and durability. Create unforgettable holiday moments with Via Luci.'
+
+        # CHRISTMAS LIGHTING COLLECTION (handle real: lights; + christmas-interior opcional)
+        when 'lights', 'christmas-interior'
+          assign seo_title = 'Christmas Lighting Collection. Elegant LED Designs'
+          assign seo_description = 'Discover high quality Christmas lighting crafted for beauty, durability and magical displays. Elevate your holiday season with premium LED designs from Via Luci.'
+
+        # CHRISTMAS EXTERIOR COLLECTION
+        when 'christmas-exterior'
+          assign seo_title = 'Exterior Christmas Lighting and Décor. Via Luci'
+          assign seo_description = 'Transform your home exterior with premium holiday lighting built for brilliance and long lasting performance. Create an unforgettable outdoor experience.'
+
+        # KING PINE SPARKLE
+        when 'king-pine-sparkle'
+          assign seo_title = 'King Pine Sparkle Collection. Lifelike Premium Trees'
+          assign seo_description = 'Experience the King Pine Sparkle collection with realistic branches, warm lighting and elegant craftsmanship designed for timeless holiday beauty.'
+
+        # ROYAL NOBLE SPARKLE
+        when 'royal-noble-sparkle'
+          assign seo_title = 'Royal Noble Sparkle Collection. Elegant Holiday Trees'
+          assign seo_description = 'Explore the Royal Noble Sparkle collection featuring refined silhouettes and premium integrated lighting made to inspire beautiful holiday memories.'
+
+        # NOBLE EMPRESS SPARKLE (handle real: nobel-empress-sparkle)
+        when 'nobel-empress-sparkle'
+          assign seo_title = 'Noble Empress Sparkle Collection. Luxury Holiday Trees'
+          assign seo_description = 'Discover the Noble Empress Sparkle collection. Full luxurious shapes and elegant lighting designed for a premium holiday experience.'
+      endcase
+    endif
+
+    # =========================
+    # PRODUCTS (template dynamic)
+    # =========================
+    if request.page_type == 'product' and product != blank
+      assign seo_title = product.title | append: '. Premium Holiday and Home Décor by Via Luci'
+      assign seo_description = 'Premium ' | append: product.title | append: ' crafted with quality materials and elegant design. A perfect addition to elevate your home décor and create unforgettable moments.'
+    endif
+
+    # =========================
+    # FALLBACKS (never empty)
+    # =========================
+    if seo_title == blank
+      assign seo_title = page_title
+      if current_tags
+        assign seo_title = seo_title | append: ' – tagged "' | append: current_tags | join: ', ' | append: '"'
+      endif
+      if current_page != 1
+        assign seo_title = seo_title | append: ' – Page ' | append: current_page
+      endif
+      unless seo_title contains shop.name
+        assign seo_title = seo_title | append: ' – ' | append: shop.name
+      endunless
+    endif
+
+    if seo_description == blank
+      if page_description != blank
+        assign seo_description = page_description
+      else
+        assign seo_description = 'Via Luci creates premium holiday and year-round lighting that transforms spaces into unforgettable memories. Discover beautifully crafted décor and lighting designed to elevate your home.'
+      endif
+    endif
+  -%}
+
+  <title>{{ seo_title | strip | escape }}</title>
+  <meta name="description" content="{{ seo_description | strip | truncate: 155, '' | escape }}">
+
+  {% render 'meta-tags' %}
+  {{ content_for_header }}
+
+  <style>
+    /* Via Luci V19: no page opacity guard. The previous body fade caused a visible blink on every page load. */
+    html.vl-page-loading body,
+    html.vl-page-ready body {
+      opacity: 1 !important;
+      transition: none !important;
+    }
+    html,
+    body {
+      overscroll-behavior-y: none;
+      background: #000000;
+    }
+    html:not(.is-home) .section-header .header-wrapper,
+    html:not(.is-home) #shopify-section-header .header-wrapper {
+      background: #000000 !important;
+      background-color: #000000 !important;
+    }
+    html.is-home .section-header,
+    html.is-home #shopify-section-header {
+      position: sticky !important;
+      top: 0 !important;
+      transform: translate3d(0, 0, 0) !important;
+      z-index: 9999 !important;
+    }
+    html.is-home .header-wrapper.onload-header,
+    html.is-home #shopify-section-header .header-wrapper.onload-header {
+      background: transparent !important;
+      background-color: transparent !important;
+      margin-bottom: -130px !important;
+      box-shadow: none !important;
+      border-color: transparent !important;
+      transform: translate3d(0, 0, 0) !important;
+      transition: none !important;
+    }
+    html.is-home .section-header:not(.scrolled-past-header) .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid) {
+      background: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
+      border-color: transparent !important;
+    }
+    html.is-home .header-wrapper.onload-header .onload-logo {
+      display: block !important;
+    }
+    html.is-home .header-wrapper.onload-header .main-logo {
+      display: none !important;
+    }
+  </style>
+
+  {%- comment -%}
+    Robust page flags are rendered directly on <html> to avoid first-paint header flashes.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.remove('no-js');
+      root.classList.add('js');
+
+      function markReady() {
+        root.classList.add('vl-page-ready');
+        root.classList.remove('vl-page-loading');
+        window.requestAnimationFrame(function(){
+          root.classList.remove('vl-first-paint');
         });
-      </script>
-    {% endif %}
-
-
-
-    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
-
-    {%- if settings.animations_reveal_on_scroll -%}
-      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
-
-    {{ content_for_header }}
-
-    {%- liquid
-      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
-      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
-      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
-    %}
-
-    {% style %}
-      {{ settings.type_body_font | font_face: font_display: 'swap' }}
-      {{ body_font_bold | font_face: font_display: 'swap' }}
-      {{ body_font_italic | font_face: font_display: 'swap' }}
-      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-      {{ settings.type_header_font | font_face: font_display: 'swap' }}
-
-      {% for scheme in settings.color_schemes -%}
-        {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
-        {% if forloop.index == 1 -%}
-          :root,
-        {%- endif %}
-        .color-{{ scheme.id }} {
-          --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
-        {% if scheme.settings.background_gradient != empty %}
-          --gradient-background: {{ scheme.settings.background_gradient }};
-        {% else %}
-          --gradient-background: {{ scheme.settings.background }};
-        {% endif %}
-
-        {% liquid
-          assign background_color = scheme.settings.background
-          assign background_color_brightness = background_color | color_brightness
-          if background_color_brightness <= 26
-            assign background_color_contrast = background_color | color_lighten: 50
-          elsif background_color_brightness <= 65
-            assign background_color_contrast = background_color | color_lighten: 5
-          else
-            assign background_color_contrast = background_color | color_darken: 25
-          endif
-        %}
-
-        --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
-        --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
-        --color-shadow: {{ scheme.settings.shadow.red }},{{ scheme.settings.shadow.green }},{{ scheme.settings.shadow.blue }};
-        --color-button: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
-        --color-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
-        --color-secondary-button: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
-        --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
-        --color-link: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
-        --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
-        --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
-        --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
-        --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
-      }
-      {% endfor %}
-
-      {{ scheme_classes | prepend: 'body' }} {
-        color: rgba(var(--color-foreground), 0.75);
-        background-color: rgb(var(--color-background));
       }
 
-      :root {
-        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
-        --font-body-style: {{ settings.type_body_font.style }};
-        --font-body-weight: {{ settings.type_body_font.weight }};
-        --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+      /* Mark ready immediately. Header state is handled by critical CSS, so there is no full-page blink. */
+      markReady();
+      window.addEventListener('pageshow', markReady);
+    })();
+  </script>
 
-        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
-        --font-heading-style: {{ settings.type_header_font.style }};
-        --font-heading-weight: {{ settings.type_header_font.weight }};
+  <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
 
-        --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
-        --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+  {%- if settings.animations_reveal_on_scroll -%}
+    <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
 
-        --media-padding: {{ settings.media_padding }}px;
-        --media-border-opacity: {{ settings.media_border_opacity | divided_by: 100.0 }};
-        --media-border-width: {{ settings.media_border_thickness }}px;
-        --media-radius: {{ settings.media_radius }}px;
-        --media-shadow-opacity: {{ settings.media_shadow_opacity | divided_by: 100.0 }};
-        --media-shadow-horizontal-offset: {{ settings.media_shadow_horizontal_offset }}px;
-        --media-shadow-vertical-offset: {{ settings.media_shadow_vertical_offset }}px;
-        --media-shadow-blur-radius: {{ settings.media_shadow_blur }}px;
-        --media-shadow-visible: {% if settings.media_shadow_opacity > 0 %}1{% else %}0{% endif %};
+  {%- liquid
+    assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+    assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+    assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+  %}
 
-        --page-width: {{ settings.page_width | divided_by: 10 }}rem;
-        --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+  {% style %}
+    {{ settings.type_body_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
 
-        --product-card-image-padding: {{ settings.card_image_padding | divided_by: 10.0 }}rem;
-        --product-card-corner-radius: {{ settings.card_corner_radius | divided_by: 10.0 }}rem;
-        --product-card-text-alignment: {{ settings.card_text_alignment }};
-        --product-card-border-width: {{ settings.card_border_thickness | divided_by: 10.0 }}rem;
-        --product-card-border-opacity: {{ settings.card_border_opacity | divided_by: 100.0 }};
-        --product-card-shadow-opacity: {{ settings.card_shadow_opacity | divided_by: 100.0 }};
-        --product-card-shadow-visible: {% if settings.card_shadow_opacity > 0 %}1{% else %}0{% endif %};
-        --product-card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
-        --product-card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
-        --product-card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
+    {% for scheme in settings.color_schemes -%}
+      {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+      {% if forloop.index == 1 -%}
+        :root,
+      {%- endif %}
+      .color-{{ scheme.id }} {
+        --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+      {% if scheme.settings.background_gradient != empty %}
+        --gradient-background: {{ scheme.settings.background_gradient }};
+      {% else %}
+        --gradient-background: {{ scheme.settings.background }};
+      {% endif %}
 
-        --collection-card-image-padding: {{ settings.collection_card_image_padding | divided_by: 10.0 }}rem;
-        --collection-card-corner-radius: {{ settings.collection_card_corner_radius | divided_by: 10.0 }}rem;
-        --collection-card-text-alignment: {{ settings.collection_card_text_alignment }};
-        --collection-card-border-width: {{ settings.collection_card_border_thickness | divided_by: 10.0 }}rem;
-        --collection-card-border-opacity: {{ settings.collection_card_border_opacity | divided_by: 100.0 }};
-        --collection-card-shadow-opacity: {{ settings.collection_card_shadow_opacity | divided_by: 100.0 }};
-        --collection-card-shadow-visible: {% if settings.collection_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
-        --collection-card-shadow-horizontal-offset: {{ settings.collection_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
-        --collection-card-shadow-vertical-offset: {{ settings.collection_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
-        --collection-card-shadow-blur-radius: {{ settings.collection_card_shadow_blur | divided_by: 10.0 }}rem;
+      {% liquid
+        assign background_color = scheme.settings.background
+        assign background_color_brightness = background_color | color_brightness
+        if background_color_brightness <= 26
+          assign background_color_contrast = background_color | color_lighten: 50
+        elsif background_color_brightness <= 65
+          assign background_color_contrast = background_color | color_lighten: 5
+        else
+          assign background_color_contrast = background_color | color_darken: 25
+        endif
+      %}
 
-        --blog-card-image-padding: {{ settings.blog_card_image_padding | divided_by: 10.0 }}rem;
-        --blog-card-corner-radius: {{ settings.blog_card_corner_radius | divided_by: 10.0 }}rem;
-        --blog-card-text-alignment: {{ settings.blog_card_text_alignment }};
-        --blog-card-border-width: {{ settings.blog_card_border_thickness | divided_by: 10.0 }}rem;
-        --blog-card-border-opacity: {{ settings.blog_card_border_opacity | divided_by: 100.0 }};
-        --blog-card-shadow-opacity: {{ settings.blog_card_shadow_opacity | divided_by: 100.0 }};
-        --blog-card-shadow-visible: {% if settings.blog_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
-        --blog-card-shadow-horizontal-offset: {{ settings.blog_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
-        --blog-card-shadow-vertical-offset: {{ settings.blog_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
-        --blog-card-shadow-blur-radius: {{ settings.blog_card_shadow_blur | divided_by: 10.0 }}rem;
+      --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+      --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
+      --color-shadow: {{ scheme.settings.shadow.red }},{{ scheme.settings.shadow.green }},{{ scheme.settings.shadow.blue }};
+      --color-button: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
+      --color-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
+      --color-secondary-button: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+      --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+      --color-link: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+      --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+      --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+      --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+      --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
+    }
+    {% endfor %}
 
-        --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
+    {{ scheme_classes | prepend: 'body' }} {
+      color: rgba(var(--color-foreground), 0.75);
+      background-color: rgb(var(--color-background));
+    }
 
-        --popup-border-width: {{ settings.popup_border_thickness }}px;
-        --popup-border-opacity: {{ settings.popup_border_opacity | divided_by: 100.0 }};
-        --popup-corner-radius: {{ settings.popup_corner_radius }}px;
-        --popup-shadow-opacity: {{ settings.popup_shadow_opacity | divided_by: 100.0 }};
-        --popup-shadow-horizontal-offset: {{ settings.popup_shadow_horizontal_offset }}px;
-        --popup-shadow-vertical-offset: {{ settings.popup_shadow_vertical_offset }}px;
-        --popup-shadow-blur-radius: {{ settings.popup_shadow_blur }}px;
+    :root {
+      --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+      --font-body-style: {{ settings.type_body_font.style }};
+      --font-body-weight: {{ settings.type_body_font.weight }};
+      --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
 
-        --drawer-border-width: {{ settings.drawer_border_thickness }}px;
-        --drawer-border-opacity: {{ settings.drawer_border_opacity | divided_by: 100.0 }};
-        --drawer-shadow-opacity: {{ settings.drawer_shadow_opacity | divided_by: 100.0 }};
-        --drawer-shadow-horizontal-offset: {{ settings.drawer_shadow_horizontal_offset }}px;
-        --drawer-shadow-vertical-offset: {{ settings.drawer_shadow_vertical_offset }}px;
-        --drawer-shadow-blur-radius: {{ settings.drawer_shadow_blur }}px;
+      --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+      --font-heading-style: {{ settings.type_header_font.style }};
+      --font-heading-weight: {{ settings.type_header_font.weight }};
 
-        --spacing-sections-desktop: {{ settings.spacing_sections }}px;
-        --spacing-sections-mobile: {% if settings.spacing_sections < 24 %}{{ settings.spacing_sections }}{% else %}{{ settings.spacing_sections | times: 0.7 | round | at_least: 20 }}{% endif %}px;
+      --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+      --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
 
-        --grid-desktop-vertical-spacing: {{ settings.spacing_grid_vertical }}px;
-        --grid-desktop-horizontal-spacing: {{ settings.spacing_grid_horizontal }}px;
-        --grid-mobile-vertical-spacing: {{ settings.spacing_grid_vertical | divided_by: 2 }}px;
-        --grid-mobile-horizontal-spacing: {{ settings.spacing_grid_horizontal | divided_by: 2 }}px;
+      --media-padding: {{ settings.media_padding }}px;
+      --media-border-opacity: {{ settings.media_border_opacity | divided_by: 100.0 }};
+      --media-border-width: {{ settings.media_border_thickness }}px;
+      --media-radius: {{ settings.media_radius }}px;
+      --media-shadow-opacity: {{ settings.media_shadow_opacity | divided_by: 100.0 }};
+      --media-shadow-horizontal-offset: {{ settings.media_shadow_horizontal_offset }}px;
+      --media-shadow-vertical-offset: {{ settings.media_shadow_vertical_offset }}px;
+      --media-shadow-blur-radius: {{ settings.media_shadow_blur }}px;
+      --media-shadow-visible: {% if settings.media_shadow_opacity > 0 %}1{% else %}0{% endif %};
 
-        --text-boxes-border-opacity: {{ settings.text_boxes_border_opacity | divided_by: 100.0 }};
-        --text-boxes-border-width: {{ settings.text_boxes_border_thickness }}px;
-        --text-boxes-radius: {{ settings.text_boxes_radius }}px;
-        --text-boxes-shadow-opacity: {{ settings.text_boxes_shadow_opacity | divided_by: 100.0 }};
-        --text-boxes-shadow-visible: {% if settings.text_boxes_shadow_opacity > 0 %}1{% else %}0{% endif %};
-        --text-boxes-shadow-horizontal-offset: {{ settings.text_boxes_shadow_horizontal_offset }}px;
-        --text-boxes-shadow-vertical-offset: {{ settings.text_boxes_shadow_vertical_offset }}px;
-        --text-boxes-shadow-blur-radius: {{ settings.text_boxes_shadow_blur }}px;
+      --page-width: {{ settings.page_width | divided_by: 10 }}rem;
+      --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
 
-        --buttons-radius: {{ settings.buttons_radius }}px;
-        --buttons-radius-outset: {% if settings.buttons_radius > 0 %}{{ settings.buttons_radius | plus: settings.buttons_border_thickness }}{% else %}0{% endif %}px;
-        --buttons-border-width: {% if settings.buttons_border_opacity > 0 %}{{ settings.buttons_border_thickness }}{% else %}0{% endif %}px;
-        --buttons-border-opacity: {{ settings.buttons_border_opacity | divided_by: 100.0 }};
-        --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | divided_by: 100.0 }};
-        --buttons-shadow-visible: {% if settings.buttons_shadow_opacity > 0 %}1{% else %}0{% endif %};
-        --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset }}px;
-        --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset }}px;
-        --buttons-shadow-blur-radius: {{ settings.buttons_shadow_blur }}px;
-        --buttons-border-offset: {% if settings.buttons_radius > 0 or settings.buttons_shadow_opacity > 0 %}0.3{% else %}0{% endif %}px;
+      --product-card-image-padding: {{ settings.card_image_padding | divided_by: 10.0 }}rem;
+      --product-card-corner-radius: {{ settings.card_corner_radius | divided_by: 10.0 }}rem;
+      --product-card-text-alignment: {{ settings.card_text_alignment }};
+      --product-card-border-width: {{ settings.card_border_thickness | divided_by: 10.0 }}rem;
+      --product-card-border-opacity: {{ settings.card_border_opacity | divided_by: 100.0 }};
+      --product-card-shadow-opacity: {{ settings.card_shadow_opacity | divided_by: 100.0 }};
+      --product-card-shadow-visible: {% if settings.card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+      --product-card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+      --product-card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+      --product-card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
 
-        --inputs-radius: {{ settings.inputs_radius }}px;
-        --inputs-border-width: {{ settings.inputs_border_thickness }}px;
-        --inputs-border-opacity: {{ settings.inputs_border_opacity | divided_by: 100.0 }};
-        --inputs-shadow-opacity: {{ settings.inputs_shadow_opacity | divided_by: 100.0 }};
-        --inputs-shadow-horizontal-offset: {{ settings.inputs_shadow_horizontal_offset }}px;
-        --inputs-margin-offset: {% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_opacity > 0 %}{{ settings.inputs_shadow_vertical_offset | abs }}{% else %}0{% endif %}px;
-        --inputs-shadow-vertical-offset: {{ settings.inputs_shadow_vertical_offset }}px;
-        --inputs-shadow-blur-radius: {{ settings.inputs_shadow_blur }}px;
-        --inputs-radius-outset: {% if settings.inputs_radius > 0 %}{{ settings.inputs_radius | plus: settings.inputs_border_thickness }}{% else %}0{% endif %}px;
+      --collection-card-image-padding: {{ settings.collection_card_image_padding | divided_by: 10.0 }}rem;
+      --collection-card-corner-radius: {{ settings.collection_card_corner_radius | divided_by: 10.0 }}rem;
+      --collection-card-text-alignment: {{ settings.collection_card_text_alignment }};
+      --collection-card-border-width: {{ settings.collection_card_border_thickness | divided_by: 10.0 }}rem;
+      --collection-card-border-opacity: {{ settings.collection_card_border_opacity | divided_by: 100.0 }};
+      --collection-card-shadow-opacity: {{ settings.collection_card_shadow_opacity | divided_by: 100.0 }};
+      --collection-card-shadow-visible: {% if settings.collection_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+      --collection-card-shadow-horizontal-offset: {{ settings.collection_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+      --collection-card-shadow-vertical-offset: {{ settings.collection_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+      --collection-card-shadow-blur-radius: {{ settings.collection_card_shadow_blur | divided_by: 10.0 }}rem;
 
-        --variant-pills-radius: {{ settings.variant_pills_radius }}px;
-        --variant-pills-border-width: {{ settings.variant_pills_border_thickness }}px;
-        --variant-pills-border-opacity: {{ settings.variant_pills_border_opacity | divided_by: 100.0 }};
-        --variant-pills-shadow-opacity: {{ settings.variant_pills_shadow_opacity | divided_by: 100.0 }};
-        --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
-        --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
-        --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
-      }
+      --blog-card-image-padding: {{ settings.blog_card_image_padding | divided_by: 10.0 }}rem;
+      --blog-card-corner-radius: {{ settings.blog_card_corner_radius | divided_by: 10.0 }}rem;
+      --blog-card-text-alignment: {{ settings.blog_card_text_alignment }};
+      --blog-card-border-width: {{ settings.blog_card_border_thickness | divided_by: 10.0 }}rem;
+      --blog-card-border-opacity: {{ settings.blog_card_border_opacity | divided_by: 100.0 }};
+      --blog-card-shadow-opacity: {{ settings.blog_card_shadow_opacity | divided_by: 100.0 }};
+      --blog-card-shadow-visible: {% if settings.blog_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+      --blog-card-shadow-horizontal-offset: {{ settings.blog_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+      --blog-card-shadow-vertical-offset: {{ settings.blog_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+      --blog-card-shadow-blur-radius: {{ settings.blog_card_shadow_blur | divided_by: 10.0 }}rem;
 
-      *,
-      *::before,
-      *::after {
-        box-sizing: inherit;
-      }
+      --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
 
-      html {
-        box-sizing: border-box;
-        font-size: calc(var(--font-body-scale) * 62.5%);
-        height: 100%;
-      }
+      --popup-border-width: {{ settings.popup_border_thickness }}px;
+      --popup-border-opacity: {{ settings.popup_border_opacity | divided_by: 100.0 }};
+      --popup-corner-radius: {{ settings.popup_corner_radius }}px;
+      --popup-shadow-opacity: {{ settings.popup_shadow_opacity | divided_by: 100.0 }};
+      --popup-shadow-horizontal-offset: {{ settings.popup_shadow_horizontal_offset }}px;
+      --popup-shadow-vertical-offset: {{ settings.popup_shadow_vertical_offset }}px;
+      --popup-shadow-blur-radius: {{ settings.popup_shadow_blur }}px;
 
+      --drawer-border-width: {{ settings.drawer_border_thickness }}px;
+      --drawer-border-opacity: {{ settings.drawer_border_opacity | divided_by: 100.0 }};
+      --drawer-shadow-opacity: {{ settings.drawer_shadow_opacity | divided_by: 100.0 }};
+      --drawer-shadow-horizontal-offset: {{ settings.drawer_shadow_horizontal_offset }}px;
+      --drawer-shadow-vertical-offset: {{ settings.drawer_shadow_vertical_offset }}px;
+      --drawer-shadow-blur-radius: {{ settings.drawer_shadow_blur }}px;
+
+      --spacing-sections-desktop: {{ settings.spacing_sections }}px;
+      --spacing-sections-mobile: {% if settings.spacing_sections < 24 %}{{ settings.spacing_sections }}{% else %}{{ settings.spacing_sections | times: 0.7 | round | at_least: 20 }}{% endif %}px;
+
+      --grid-desktop-vertical-spacing: {{ settings.spacing_grid_vertical }}px;
+      --grid-desktop-horizontal-spacing: {{ settings.spacing_grid_horizontal }}px;
+      --grid-mobile-vertical-spacing: {{ settings.spacing_grid_vertical | divided_by: 2 }}px;
+      --grid-mobile-horizontal-spacing: {{ settings.spacing_grid_horizontal | divided_by: 2 }}px;
+
+      --text-boxes-border-opacity: {{ settings.text_boxes_border_opacity | divided_by: 100.0 }};
+      --text-boxes-border-width: {{ settings.text_boxes_border_thickness }}px;
+      --text-boxes-radius: {{ settings.text_boxes_radius }}px;
+      --text-boxes-shadow-opacity: {{ settings.text_boxes_shadow_opacity | divided_by: 100.0 }};
+      --text-boxes-shadow-visible: {% if settings.text_boxes_shadow_opacity > 0 %}1{% else %}0{% endif %};
+      --text-boxes-shadow-horizontal-offset: {{ settings.text_boxes_shadow_horizontal_offset }}px;
+      --text-boxes-shadow-vertical-offset: {{ settings.text_boxes_shadow_vertical_offset }}px;
+      --text-boxes-shadow-blur-radius: {{ settings.text_boxes_shadow_blur }}px;
+
+      --buttons-radius: {{ settings.buttons_radius }}px;
+      --buttons-radius-outset: {% if settings.buttons_radius > 0 %}{{ settings.buttons_radius | plus: settings.buttons_border_thickness }}{% else %}0{% endif %}px;
+      --buttons-border-width: {% if settings.buttons_border_opacity > 0 %}{{ settings.buttons_border_thickness }}{% else %}0{% endif %}px;
+      --buttons-border-opacity: {{ settings.buttons_border_opacity | divided_by: 100.0 }};
+      --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | divided_by: 100.0 }};
+      --buttons-shadow-visible: {% if settings.buttons_shadow_opacity > 0 %}1{% else %}0{% endif %};
+      --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset }}px;
+      --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset }}px;
+      --buttons-shadow-blur-radius: {{ settings.buttons_shadow_blur }}px;
+      --buttons-border-offset: {% if settings.buttons_radius > 0 or settings.buttons_shadow_opacity > 0 %}0.3{% else %}0{% endif %}px;
+
+      --inputs-radius: {{ settings.inputs_radius }}px;
+      --inputs-border-width: {{ settings.inputs_border_thickness }}px;
+      --inputs-border-opacity: {{ settings.inputs_border_opacity | divided_by: 100.0 }};
+      --inputs-shadow-opacity: {{ settings.inputs_shadow_opacity | divided_by: 100.0 }};
+      --inputs-shadow-horizontal-offset: {{ settings.inputs_shadow_horizontal_offset }}px;
+      --inputs-margin-offset: {% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_opacity > 0 %}{{ settings.inputs_shadow_vertical_offset | abs }}{% else %}0{% endif %}px;
+      --inputs-shadow-vertical-offset: {{ settings.inputs_shadow_vertical_offset }}px;
+      --inputs-shadow-blur-radius: {{ settings.inputs_shadow_blur }}px;
+      --inputs-radius-outset: {% if settings.inputs_radius > 0 %}{{ settings.inputs_radius | plus: settings.inputs_border_thickness }}{% else %}0{% endif %}px;
+
+      --variant-pills-radius: {{ settings.variant_pills_radius }}px;
+      --variant-pills-border-width: {{ settings.variant_pills_border_thickness }}px;
+      --variant-pills-border-opacity: {{ settings.variant_pills_border_opacity | divided_by: 100.0 }};
+      --variant-pills-shadow-opacity: {{ settings.variant_pills_shadow_opacity | divided_by: 100.0 }};
+      --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
+      --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
+      --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    html {
+      box-sizing: border-box;
+      font-size: calc(var(--font-body-scale) * 62.5%);
+      height: 100%;
+    }
+
+    body {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      grid-template-columns: 100%;
+      min-height: 100%;
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: 0.06rem;
+      line-height: calc(1 + 0.8 / var(--font-body-scale));
+      font-family: var(--font-body-family);
+      font-style: var(--font-body-style);
+      font-weight: var(--font-body-weight);
+    }
+
+    @media screen and (min-width: 750px) {
       body {
-        display: grid;
-        grid-template-rows: auto auto 1fr auto;
-        grid-template-columns: 100%;
-        min-height: 100%;
-        margin: 0;
-        font-size: 1.5rem;
-        letter-spacing: 0.06rem;
-        line-height: calc(1 + 0.8 / var(--font-body-scale));
-        font-family: var(--font-body-family);
-        font-style: var(--font-body-style);
-        font-weight: var(--font-body-weight);
+        font-size: 1.6rem;
+      }
+    }
+  {% endstyle %}
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'via-luci-polish-v21.css' | asset_url | stylesheet_tag }}
+  <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+
+  {%- if settings.cart_type == 'drawer' -%}
+    {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+    {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+    {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+    {{ 'component-price.css' | asset_url | stylesheet_tag }}
+    {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
+  {%- unless settings.type_body_font.system? -%}
+    {% comment %}theme-check-disable AssetPreload{% endcomment %}
+    <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {% comment %}theme-check-enable AssetPreload{% endcomment %}
+  {%- endunless -%}
+  {%- unless settings.type_header_font.system? -%}
+    {% comment %}theme-check-disable AssetPreload{% endcomment %}
+    <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {% comment %}theme-check-enable AssetPreload{% endcomment %}
+  {%- endunless -%}
+
+  {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+    {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+    <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  {%- if settings.predictive_search_enabled -%}
+    <link
+      rel="stylesheet"
+      href="{{ 'component-predictive-search.css' | asset_url }}"
+      media="print"
+      onload="this.media='all'"
+    >
+  {%- endif -%}
+
+  <script>
+    if (Shopify.designMode) {
+      document.documentElement.classList.add('shopify-design-mode');
+    }
+  </script>
+</head>
+
+<body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if template.name == 'index' %} is-home{% endif %}{% if request.page_type == 'page' and page and page.handle == 'about' %} is-about{% endif %}">
+  <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+    {{ 'accessibility.skip_to_text' | t }}
+  </a>
+
+  {%- if settings.cart_type == 'drawer' -%}
+    {%- render 'cart-drawer' -%}
+  {%- endif -%}
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  <ul hidden>
+    <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+    <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+  </ul>
+
+  <script>
+    window.shopUrl = '{{ request.origin }}';
+    window.routes = {
+      cart_add_url: '{{ routes.cart_add_url }}',
+      cart_change_url: '{{ routes.cart_change_url }}',
+      cart_update_url: '{{ routes.cart_update_url }}',
+      cart_url: '{{ routes.cart_url }}',
+      predictive_search_url: '{{ routes.predictive_search_url }}',
+    };
+
+    window.cartStrings = {
+      error: `{{ 'sections.cart.cart_error' | t }}`,
+      quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+    };
+
+    window.variantStrings = {
+      addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+      soldOut: `{{ 'products.product.sold_out' | t }}`,
+      unavailable: `{{ 'products.product.unavailable' | t }}`,
+      unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+    };
+
+    window.quickOrderListStrings = {
+      itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+      itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+      itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+      itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+      viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+      each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+      min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
+      max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
+      step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
+    };
+
+    window.accessibilityStrings = {
+      imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+      shareSuccess: `{{ 'general.share.success_message' | t }}`,
+      pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+      playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+      recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
+      recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+      countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
+    };
+  </script>
+
+  <!-- SNAP TO SCROLL EFFECT (Home + About pages)-->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+      const body = document.body;
+
+      if (!root.classList.contains('is-home') && !root.classList.contains('is-about')) return;
+
+      const main   = document.querySelector('main#MainContent');
+      const footer = document.querySelector('footer.footer');
+      const header = document.querySelector('.section-header');
+      if (!main || !footer) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const DESKTOP_MQ = window.matchMedia('(min-width: 750px)');
+      let snapDesktopEnabled = DESKTOP_MQ.matches;
+
+      function enableSnapMode() {
+        root.classList.remove('no-snap');
+        body.classList.remove('no-snap');
+      }
+      function disableSnapMode() {
+        root.classList.add('no-snap');
+        body.classList.add('no-snap');
       }
 
-      @media screen and (min-width: 750px) {
-        body {
-          font-size: 1.6rem;
+      function enableDesktopSnap() { snapDesktopEnabled = true; enableSnapMode(); }
+      function disableDesktopSnap() {
+        snapDesktopEnabled = false;
+        disableSnapMode();
+        wheelAcc = 0; wheelDir = 0; wheelLock = false;
+        cancelAnimation();
+      }
+
+      DESKTOP_MQ.addEventListener('change', (e) => {
+        if (e.matches) enableDesktopSnap();
+        else disableDesktopSnap();
+      });
+
+      if (!snapDesktopEnabled) disableDesktopSnap();
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('button, a');
+        if (btn) btn.blur();
+      });
+
+      function headerOffset() {
+        return header ? Math.round(header.getBoundingClientRect().height) : 0;
+      }
+
+      function maxScrollY() {
+        const doc = document.documentElement;
+        return Math.max(0, (doc.scrollHeight || 0) - window.innerHeight);
+      }
+
+      function clampY(y) {
+        return Math.max(0, Math.min(Math.round(y), maxScrollY()));
+      }
+
+      function syncHeaderVisibility() {
+        if (!header) return;
+        const st = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+        header.classList.remove('shopify-section-header-hidden');
+
+        if (st <= 1) header.classList.remove('scrolled-past-header');
+        else {
+          header.classList.add('scrolled-past-header');
+          header.classList.add('shopify-section-header-sticky');
         }
       }
-    {% endstyle %}
 
-    {{ 'base.css' | asset_url | stylesheet_tag }}
-    <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
-
-    {%- if settings.cart_type == 'drawer' -%}
-      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
-      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
-      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
-      {{ 'component-price.css' | asset_url | stylesheet_tag }}
-      {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
-    {%- endif -%}
-
-    {%- unless settings.type_body_font.system? -%}
-      {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
-      {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {%- endunless -%}
-    {%- unless settings.type_header_font.system? -%}
-      {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
-      {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {%- endunless -%}
-
-    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
-      {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
-      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
-
-    {%- if settings.predictive_search_enabled -%}
-      <link
-        rel="stylesheet"
-        href="{{ 'component-predictive-search.css' | asset_url }}"
-        media="print"
-        onload="this.media='all'"
-      >
-    {%- endif -%}
-
-    <script>
-      if (Shopify.designMode) {
-        document.documentElement.classList.add('shopify-design-mode');
+      function hasScrollableParent(el) {
+        let node = el;
+        while (node && node !== document.body) {
+          const s = getComputedStyle(node);
+          const oy = s.overflowY;
+          const canScroll = (oy === 'auto' || oy === 'scroll') && node.scrollHeight > node.clientHeight + 2;
+          if (canScroll) return true;
+          node = node.parentElement;
+        }
+        return false;
       }
-    </script>
-  </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if template.name == 'index' %} is-home{% endif %}">
-    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
-      {{ 'accessibility.skip_to_text' | t }}
-    </a>
+      function inBlockedUI(target) {
+        return !!target.closest('.drawer, .modal, details[open], .cart-drawer, .predictive-search');
+      }
 
-    {%- if settings.cart_type == 'drawer' -%}
-      {%- render 'cart-drawer' -%}
-    {%- endif -%}
+      function snapEnabledForEvent(e) {
+        if (!snapDesktopEnabled) return false;
+        if (reduceMotion.matches) return false;
+        if (root.classList.contains('no-snap') || body.classList.contains('no-snap')) return false;
 
-    {% sections 'header-group' %}
+        const t = e.target;
+        if (!t) return true;
 
-    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-      {{ content_for_layout }}
-    </main>
+        if (t.closest('input, textarea, select, [contenteditable="true"]')) return false;
+        if (inBlockedUI(t)) return false;
+        if (hasScrollableParent(t)) return false;
 
-    {% sections 'footer-group' %}
+        return true;
+      }
 
-    <ul hidden>
-      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
-      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
-    </ul>
+      function getSections() {
+        return Array.from(main.querySelectorAll(':scope > .shopify-section'))
+          .filter(el => el.offsetParent !== null);
+      }
 
-    <script>
-      window.shopUrl = '{{ request.origin }}';
-      window.routes = {
-        cart_add_url: '{{ routes.cart_add_url }}',
-        cart_change_url: '{{ routes.cart_change_url }}',
-        cart_update_url: '{{ routes.cart_update_url }}',
-        cart_url: '{{ routes.cart_url }}',
-        predictive_search_url: '{{ routes.predictive_search_url }}',
-      };
+      function footerTopY() {
+        const top = footer.offsetTop || (footer.getBoundingClientRect().top + (window.pageYOffset || 0));
+        return clampY(top - headerOffset());
+      }
 
-      window.cartStrings = {
-        error: `{{ 'sections.cart.cart_error' | t }}`,
-        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
-      };
+      function getTargets() {
+        const secs = getSections();
+        const targets = secs.map((sec) => {
+          const top = sec.getBoundingClientRect().top + (window.pageYOffset || 0);
+          return { el: sec, y: clampY(top - headerOffset()) };
+        });
 
-      window.variantStrings = {
-        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
-        soldOut: `{{ 'products.product.sold_out' | t }}`,
-        unavailable: `{{ 'products.product.unavailable' | t }}`,
-        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
-      };
+        targets.push({ el: footer, y: footerTopY(), isFooter: true });
+        return targets;
+      }
 
-      window.quickOrderListStrings = {
-        itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
-        itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
-        itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
-        itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
-        viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
-        each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
-        min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
-        max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
-        step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
-      };
+      function currentIndex(targets) {
+        const y = (window.pageYOffset || document.documentElement.scrollTop || 0) + headerOffset() + 2;
+        let best = 0, bestDist = Infinity;
 
-      window.accessibilityStrings = {
-        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
-        shareSuccess: `{{ 'general.share.success_message' | t }}`,
-        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
-        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
-        recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
-        recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
-        countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
-      };
-    </script>
+        targets.forEach((t, i) => {
+          const dist = Math.abs(t.y - y);
+          if (dist < bestDist) { bestDist = dist; best = i; }
+        });
 
-<!-- SNAP TO SCROLL EFFECT (Home + About) -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var root = document.documentElement;
-    var body = document.body;
+        return best;
+      }
 
-    // Solo activar en home o about
-    if (
-      !root.classList.contains('is-home') &&
-      !root.classList.contains('is-about')
-    ) {
-      return;
-    }
+      // ======= Animation =======
+      let rafId = 0;
+      let animating = false;
+      let animCancel = false;
 
-    var footer = document.querySelector('footer.footer');
-    if (!footer) return;
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+      }
 
-    function enableSnap() {
-      root.classList.remove('no-snap');
-      body.classList.remove('no-snap');
-    }
+      function cancelAnimation() {
+        if (!animating) return;
+        animCancel = true;
+        if (rafId) cancelAnimationFrame(rafId);
+        animating = false;
+        animCancel = false;
+      }
 
-    function disableSnap() {
-      root.classList.add('no-snap');
-      body.classList.add('no-snap');
-    }
+      function animateTo(targetY, duration = 950) {
+        cancelAnimation();
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-          // Cuando el footer entra en vista → quitar snap
-          disableSnap();
-        } else {
-          // Cuando salimos del footer → volver a activar snap
-          enableSnap();
+        const startY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const safeTarget = clampY(targetY);
+        const delta = safeTarget - startY;
+        if (Math.abs(delta) < 2) return;
+
+        animating = true;
+        const start = performance.now();
+
+        const step = (now) => {
+          if (animCancel) return;
+          const t = Math.min(1, (now - start) / duration);
+          const eased = easeInOutCubic(t);
+
+          window.scrollTo(0, clampY(startY + delta * eased));
+
+          if (t < 1) rafId = requestAnimationFrame(step);
+          else {
+            animating = false;
+            syncHeaderVisibility();
+          }
+        };
+
+        rafId = requestAnimationFrame(step);
+      }
+
+      function scrollToIndex(idx, duration = 980) {
+        const targets = getTargets();
+        if (!targets.length) return;
+
+        const clampedIdx = Math.max(0, Math.min(targets.length - 1, idx));
+        animateTo(targets[clampedIdx].y, duration);
+      }
+
+      let wheelAcc = 0;
+      let wheelDir = 0;
+      let wheelLock = false;
+      let wheelResetTimer = 0;
+
+      // movement settings
+      const TRIGGER = 120;       // trackball 
+      const DURATION = 1000;     // delay
+      const LOCK_MS = 950;       //look
+
+      function isAtFooter() {
+        const targets = getTargets();
+        const idx = currentIndex(targets);
+        return !!targets[idx]?.isFooter;
+      }
+
+      window.addEventListener('wheel', (e) => {
+        if (!snapEnabledForEvent(e)) return;
+
+        e.preventDefault();
+
+        if (animating || wheelLock) return;
+
+        const dy = e.deltaY;
+        clearTimeout(wheelResetTimer);
+        wheelResetTimer = setTimeout(() => { wheelAcc = 0; wheelDir = 0; }, 180);
+
+        const dir = dy > 0 ? 1 : -1;
+
+        if (isAtFooter()) {
+          if (dir > 0) return; 
+          const targets = getTargets();
+          wheelLock = true;
+          scrollToIndex(targets.length - 2, DURATION);
+          setTimeout(() => { wheelLock = false; }, LOCK_MS);
+          return;
+        }
+
+        if (wheelDir !== 0 && dir !== wheelDir) wheelAcc = 0;
+        wheelDir = dir;
+
+        wheelAcc += Math.abs(dy);
+        if (wheelAcc < TRIGGER) return;
+        wheelAcc = 0;
+
+        const targets = getTargets();
+        if (!targets.length) return;
+
+        const idx = currentIndex(targets);
+        const next = Math.max(0, Math.min(targets.length - 1, idx + dir));
+
+        wheelLock = true;
+        scrollToIndex(next, DURATION);
+        setTimeout(() => { wheelLock = false; }, LOCK_MS);
+      }, { passive: false });
+
+      window.addEventListener('keydown', (e) => {
+        if (!snapDesktopEnabled) return;
+        if (!snapEnabledForEvent(e)) return;
+
+        const keys = [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp'];
+        if (!keys.includes(e.key)) return;
+
+        e.preventDefault();
+        if (animating) return;
+
+        const targets = getTargets();
+        if (!targets.length) return;
+
+        const idx = currentIndex(targets);
+        const dir = (e.key === 'PageDown' || e.key === 'ArrowDown' || e.key === ' ') ? 1 : -1;
+
+        if (targets[idx]?.isFooter && dir > 0) return;
+
+        scrollToIndex(idx + dir, DURATION);
+      }, { passive: false });
+
+      window.addEventListener('scroll', () => {
+        if (!animating) syncHeaderVisibility();
+      }, { passive: true });
+
+      // init
+      syncHeaderVisibility();
+      requestAnimationFrame(syncHeaderVisibility);
+      setTimeout(syncHeaderVisibility, 120);
+
+      // Arrow btn go to next section
+      document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('.lucy-scroll');
+        if (!trigger) return;
+
+        const selector = trigger.getAttribute('data-scroll-target');
+        if (!selector) return;
+
+        const target = document.querySelector(selector);
+        if (!target) return;
+
+        e.preventDefault();
+
+        disableSnapMode();
+
+        const top = target.getBoundingClientRect().top + (window.pageYOffset || 0);
+        const targetY = clampY(top - headerOffset());
+
+        animateTo(targetY, 1000);
+
+        setTimeout(() => {
+          enableSnapMode();
+        }, 1050);
+      }, true);
+
+    });
+  </script>
+  <!-- END SNAP TO -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const href = link.href;
+
+        if (href && href.includes('/pages/track-your-order')) {
+          e.preventDefault();
+          window.location.href = 'https://vialuci.com/tools/track-your-order';
         }
       });
-    }, {
-      root: null,
-      threshold: [0.0, 0.15, 0.3]
+
     });
-
-    observer.observe(footer);
-  });
-</script>
-<!-- /SNAP TO SCROLL EFFECT -->
+  </script>
 
 
-    {%- if settings.predictive_search_enabled -%}
-      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
+  
+  {%- if settings.predictive_search_enabled -%}
+    <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
 
-    {%- if settings.cart_type == 'drawer' -%}
-      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
-  </body>
+  {%- if settings.cart_type == 'drawer' -%}
+    <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+
+    <div class="cc-modal_newsletter" id="ccNewsletterSuccessModal" aria-hidden="true">
+      <div class="cc-modal__backdrop" data-cc-close></div>
+
+      <div class="cc-modal__dialog_newsletter" role="dialog" aria-modal="true" aria-labelledby="ccNewsletterModalTitle">
+        <button class="cc-modal__close" type="button" aria-label="Close" data-cc-close>×</button>
+
+        <p class="cc-modal__kicker">SUBSCRIBED</p>
+
+        <h3 class="cc-modal__title" id="ccNewsletterModalTitle">
+          Thank you for joining our world of light.
+        </h3>
+
+        <p class="cc-modal__body">
+          Your home, your traditions and your memories just became brighter.
+        </p>
+
+        <button class="button custom-newsletter-submit cc-modal__cta" type="button" data-cc-close>
+          Continue
+        </button>
+      </div>
+    </div>
+
+  {{ 'via-luci-polish-v21.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'via-luci-polish-v21.js' | asset_url }}" defer="defer"></script>
+</body>
 </html>

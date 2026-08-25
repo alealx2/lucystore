@@ -37,3 +37,28 @@
     grid-column-gap: 2rem;
   }
 }
+
+.phone-field__row{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.phone-field__select{
+  width: 100%;
+  padding-right: 32px;
+}
+
+.phone-field__hint{
+  display: block;
+  margin-top: 8px;
+  opacity: .75;
+  font-size: 12px;
+}
+
+@media (max-width: 749px){
+  .phone-field__row{
+    grid-template-columns: 1fr;
+  }
+}

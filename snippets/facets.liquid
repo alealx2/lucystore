@@ -63,10 +63,17 @@
                       id="verticalTitle"
                       tabindex="-1"
                     >
-                      {{ 'products.facets.filter_by_label' | t }}
+                      Showing all products
                     </h2>
-                  {%- endunless -%}
+                  {%- endunless -%} 
                   <facet-remove class="active-facets__button-wrapper">
+                    {% comment %} <h2
+                      class="facets__heading facets__heading--vertical caption-large text-body"
+                      id="verticalTitle"
+                      tabindex="-1"
+                    >
+                      {{ 'products.facets.filter_by_label' | t }}
+                    </h2> {% endcomment %}
                     <a href="{{ results_url }}" class="active-facets__button-remove underlined-link">
                       <span>{{ 'products.facets.clear_all' | t }}</span>
                     </a>
@@ -138,23 +145,30 @@
                       aria-label="{{ filter.label | escape }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
                       style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"
                     >
-                      <div>
+                      <div class="facets__summary-inner">
                         <span class="facets__summary-label">
                           {{- filter.label | escape }}
                           {%- if filter_type == 'vertical' -%}
                             <span class="facets__selected{% if filter.active_values.size == 0 %} hidden{% endif %}">
-                              ({{ filter.active_values.size }})</span
-                            >
+                              ({{ filter.active_values.size }})
+                            </span>
                           {%- endif -%}
                         </span>
+
                         {%- if filter_type == 'vertical' and filter.operator == 'AND' -%}
                           <span class="facets__and-helptext">
                             {{ 'products.facets.filter_and_operator_subtitle' | t }}
                           </span>
                         {%- endif -%}
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
+
+                        <span class="facets__toggle" aria-hidden="true">
+                          <span class="facets__toggle-plus">+</span>
+                          <span class="facets__toggle-minus">−</span>
+                        </span>
                       </div>
                     </summary>
+
+
                     <div
                       id="Facet-{{ forloop.index }}-{{ section.id }}"
                       class="parent-display {% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
@@ -207,7 +221,7 @@
 
                             {%- capture text_value -%}
                               <span class="facet-checkbox__text" aria-hidden="true">
-                                <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
+                                <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> <span>({{- value.count -}})</span>
                               </span>
                               <span class="visually-hidden">
                                 {{- value.label | escape }} (
@@ -309,11 +323,16 @@
                       class="facets__summary caption-large focus-offset"
                       style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"                    
                     >
-                      <div>
+                      <div class="facets__summary-inner">
                         <span>{{ filter.label | escape }}</span>
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                        <span class="facets__toggle" aria-hidden="true">
+                          <span class="facets__toggle-plus">+</span>
+                          <span class="facets__toggle-minus">−</span>
+                        </span>
                       </div>
                     </summary>
+
+
                     <div
                       id="Facet-{{ forloop.index }}-{{ section.id }}"
                       class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
@@ -533,13 +552,16 @@
                           class="mobile-facets__summary focus-inset"
                           style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"                        
                         >
-                          <div>
+                          <div class="mobile-facets__summary-inner">
                             <span>{{ filter.label | escape }}</span>
-                            <span class="mobile-facets__arrow">
-                              {{- 'icon-arrow.svg' | inline_asset_content -}}
+                            <span class="mobile-facets__toggle" aria-hidden="true">
+                              <span class="mobile-facets__toggle-plus">+</span>
+                              <span class="mobile-facets__toggle-minus">−</span>
                             </span>
                           </div>
                         </summary>
+
+
                         <div
                           id="FacetMobile-{{ forloop.index }}-{{ section.id }}"
                           class="mobile-facets__submenu gradient"
@@ -582,7 +604,7 @@
 
                               {%- capture text_value -%}
                                 <span class="facet-checkbox__text" aria-hidden="true">
-                                  <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
+                                  <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> <span>({{- value.count -}})</span>
                                 </span>
                                 <span class="visually-hidden">
                                   {{- value.label | escape }} (
@@ -678,13 +700,16 @@
                           class="mobile-facets__summary focus-inset"
                           style="{%  if section.settings.filters_bg_image != blank %} background-image: url({{ section.settings.filters_bg_image | image_url: width: 400 }}); {% else  %} background-color: {{section.settings.filters_bg_color}}; {% endif %}"                        
                         >
-                          <div>
+                          <div class="mobile-facets__summary-inner">
                             <span>{{ filter.label | escape }}</span>
-                            <span class="mobile-facets__arrow">
-                              {{- 'icon-arrow.svg' | inline_asset_content -}}
+                            <span class="mobile-facets__toggle" aria-hidden="true">
+                              <span class="mobile-facets__toggle-plus">+</span>
+                              <span class="mobile-facets__toggle-minus">−</span>
                             </span>
                           </div>
                         </summary>
+
+
                         <div
                           id="FacetMobile-{{ forloop.index }}-{{ section.id }}"
                           class="mobile-facets__submenu gradient"
@@ -948,3 +973,72 @@
     </facet-filters-form>
   {%- endif -%}
 </div>
+
+<style>
+  .facets-vertical .facets-wrapper{
+    padding: 0;
+  }
+  .facets__label{
+    padding-right: 0;
+  }
+  .facets-wrap-vertical{
+    padding: 0;
+  }
+  .facets__heading{
+    font-weight: bold;
+    color: #161F3A;  
+    font-family: Lato, sans-serif;  
+  }
+  .facet-checkbox__text{
+    font-weight: bold;
+    color: #161F3A;  
+    font-family: Lato, sans-serif;    
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+  }
+  .facets__summary-inner,
+  .mobile-facets__summary-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .facets__toggle,
+  .mobile-facets__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    margin-left: 0.5rem;
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #f7f7f7;
+    padding: 0 10px;
+    margin-right: 8px;    
+  }
+
+  .facets__toggle-plus,
+  .facets__toggle-minus,
+  .mobile-facets__toggle-plus,
+  .mobile-facets__toggle-minus {
+    display: inline-block;
+  }
+
+  .js-filter .facets__toggle-minus,
+  .mobile-facets__details .mobile-facets__toggle-minus {
+    display: none;
+  }
+
+  .js-filter[open] .facets__toggle-plus,
+  .mobile-facets__details[open] .mobile-facets__toggle-plus {
+    display: none;
+  }
+
+  .js-filter[open] .facets__toggle-minus,
+  .mobile-facets__details[open] .mobile-facets__toggle-minus {
+    display: inline-block;
+  }
+</style>

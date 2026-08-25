@@ -49,6 +49,11 @@
     >
       {%- if card_collection.featured_image -%}
         <div class="card__media">
+          
+          <div class="via-pdp-wishlist">
+            <div class="wishlist-engine" data-product_id="{{  card_product.id }}" data-variant_id="{{ card_product.selected_or_first_available_variant.id }}" data-full_button="true" data-css="true"></div>
+          </div>
+
           <div class="media media--transparent media--hover-effect">
             <img
               srcset="

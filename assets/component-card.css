@@ -293,6 +293,7 @@
 .card__media .media img {
   height: 100%;
   object-fit: cover;
+  
   object-position: center center;
   width: 100%;
 }
@@ -354,7 +355,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 0;
 }
 
 .card__heading a:after {

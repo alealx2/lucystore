@@ -20,11 +20,11 @@
         "bg_overlay_color": "#ffffff",
         "bg_overlay_opacity": 40,
         "thumb_scroll_step": 160,
-        "button_bg": "#13192b",
-        "button_bg_hover": "#060b18",
+        "button_bg": "#e91818",
+        "button_bg_hover": "#e91818",
         "button_text": "#ffffff",
         "show_description": true,
-        "show_rating": false
+        "show_rating": true
       }
     },
     "product_spec_tabs_HK8yGY": {
@@ -58,20 +58,20 @@
           "type": "tab",
           "settings": {
             "tab_title": "Tree",
-            "item_1_icon": "shopify://shop_images/SECTION_6__Image_006_Slender_shape.png",
-            "item_1_label": "Height",
+            "item_1_icon": "shopify://shop_images/pandectes-banner-logo.png",
+            "item_1_label": "Color",
             "item_1_value": "{{ product.metafields.custom.tree_height.value }}",
-            "item_2_icon": "shopify://shop_images/SECTION_6__Image_008_Multicolor_led_bulb.png",
-            "item_2_label": "Shape",
+            "item_2_icon": "shopify://shop_images/SECTION_6__Image_005_expand_icon_fce45d30-968c-4dd0-b448-1ce8602cabf2.png",
+            "item_2_label": "Usage",
             "item_2_value": "{{ product.metafields.custom.tree_shape.value }}",
-            "item_3_icon": "shopify://shop_images/SECTION_6__Image_009_with_lights.png",
-            "item_3_label": "Bulb",
+            "item_3_icon": "shopify://shop_images/SECTION_6__Image_007_with_lights.png",
+            "item_3_label": "Pallete",
             "item_3_value": "{{ product.metafields.custom.bulb_type.value }}",
-            "item_4_icon": "shopify://shop_images/SECTION_6__Image_005_expand_icon_fce45d30-968c-4dd0-b448-1ce8602cabf2.png",
-            "item_4_label": "Type",
+            "item_4_icon": "shopify://shop_images/SECTION_6__Image_006_Slender_shape.png",
+            "item_4_label": "Environment",
             "item_4_value": "{{ product.metafields.custom.light_type.value }}",
             "item_5_icon": "shopify://shop_images/SECTION_6__Image_007_with_lights.png",
-            "item_5_label": "Color",
+            "item_5_label": "Type",
             "item_5_value": "{{ product.metafields.custom.light_color.value }}",
             "item_6_icon": "shopify://shop_images/icopallete.png",
             "item_6_label": "Style",
@@ -213,6 +213,7 @@
       "blocks": {
         "vendor": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "{{ product.vendor }}",
             "text_style": "uppercase"
@@ -220,14 +221,17 @@
         },
         "title": {
           "type": "title",
+          "disabled": true,
           "settings": {}
         },
         "price": {
           "type": "price",
+          "disabled": true,
           "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "picker_type": "button",
             "swatch_shape": "circle"
@@ -235,10 +239,12 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
+          "disabled": true,
           "settings": {
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true
@@ -246,6 +252,7 @@
         },
         "description": {
           "type": "description",
+          "disabled": true,
           "settings": {}
         },
         "share": {

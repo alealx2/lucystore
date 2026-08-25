@@ -48,10 +48,10 @@
 
           {%- form 'contact', id: 'CustomContactForm', class: contact_form_class -%}
             {%- if form.posted_successfully? -%}
-              <div class="custom-contact-status custom-contact-status--success" tabindex="-1" autofocus>
+              {% comment %} <div class="custom-contact-status custom-contact-status--success" tabindex="-1" autofocus>
                 {{- 'icon-success.svg' | inline_asset_content -}}
                 <span>{{ 'templates.contact.form.post_success' | t }}</span>
-              </div>
+              </div> {% endcomment %}
             {%- elsif form.errors -%}
               <div class="custom-contact-status custom-contact-status--error" role="alert" tabindex="-1" autofocus>
                 {{- 'icon-error.svg' | inline_asset_content -}}
@@ -62,7 +62,7 @@
             <div class="custom-contact-grid">
               <div class="field">
                 <label class="field__label" for="CustomContactForm-name">
-                  {{ 'templates.contact.form.name' | t }}
+                  First Name
                 </label>
                 <input
                   class="field__input"
@@ -71,13 +71,29 @@
                   id="CustomContactForm-name"
                   name="contact[{{ 'templates.contact.form.name' | t }}]"
                   value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.name' | t }}"
+                  placeholder="Your First Name"
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="CustomContactForm-name">
+                  Last Name
+                </label>
+                <input
+                  class="field__input"
+                  autocomplete="name"
+                  type="text"
+                  id="CustomContactForm-name"
+                  name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  placeholder="Your Last Name"                  
                 >
               </div>
 
               <div class="field field--with-error">
                 <label class="field__label" for="CustomContactForm-email">
-                  {{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span>
+                  Email <span aria-hidden="true">*</span>
                 </label>
                 <input
                   autocomplete="email"
@@ -93,7 +109,8 @@
                     aria-invalid="true"
                     aria-describedby="CustomContactForm-email-error"
                   {% endif %}
-                  placeholder="{{ 'templates.contact.form.email' | t }}"
+                  placeholder="you@example.com"
+                  required
                 >
                 {%- if form.errors contains 'email' -%}
                   <small class="custom-contact-field-error" id="CustomContactForm-email-error">
@@ -111,7 +128,7 @@
 
               <div class="field">
                 <label class="field__label" for="CustomContactForm-phone">
-                  {{ 'templates.contact.form.phone' | t }}
+                  Phone Number (Optional)
                 </label>
                 <input
                   type="tel"
@@ -121,20 +138,21 @@
                   name="contact[{{ 'templates.contact.form.phone' | t }}]"
                   pattern="[0-9\- ]*"
                   value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.phone' | t }}"
+                  placeholder="+1 (XXX) XXX-XXXX"
                 >
               </div>
 
               <div class="field field--full">
                 <label class="field__label" for="CustomContactForm-body">
-                  {{ 'templates.contact.form.comment' | t }}
+                  Message
                 </label>
                 <textarea
                   rows="5"
                   id="CustomContactForm-body"
                   class="text-area field__input"
                   name="contact[{{ 'templates.contact.form.comment' | t }}]"
-                  placeholder="{{ 'templates.contact.form.comment' | t }}"
+                  placeholder="How can we help?"
+                  required
                 >{{- form.body -}}</textarea>
               </div>
             </div>
@@ -146,6 +164,30 @@
             </div>
 
           {%- endform -%}
+
+          <!-- popup modal -->
+          <div class="cc-modal" id="ccSuccessModal-{{ section.id }}" aria-hidden="true">
+            <div class="cc-modal__backdrop" data-cc-close></div>
+
+            <div class="cc-modal__dialog_contact" role="dialog" aria-modal="true" aria-labelledby="ccModalTitle-{{ section.id }}">
+              <button class="cc-modal__close" type="button" aria-label="Close" data-cc-close>×</button>
+
+              <p class="cc-modal__kicker">CONTACT</p>
+
+              <h3 class="cc-modal__title" id="ccModalTitle-{{ section.id }}">
+                Message received.
+              </h3>
+
+              <p class="cc-modal__body">
+                Thank you for reaching out. Our team will review your message and respond within one business day.
+              </p>
+
+              <button class="button custom-contact-submit cc-modal__cta" type="button" data-cc-close>
+                Continue
+              </button>
+            </div>
+          </div>
+
 
           {% if section.settings.footer_text != blank %}
             <p class="custom-contact-footer-text">
@@ -214,6 +256,196 @@
     </div>
   </div>
 
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const phoneInput = document.getElementById('CustomContactForm-phone');
+    if (!phoneInput) return;
+
+    const COUNTRY_PHONE_CODES = [
+      // North America
+      { continent: 'North America', country: 'United States', code: '+1' },
+      { continent: 'North America', country: 'Canada', code: '+1' },
+      { continent: 'North America', country: 'Mexico', code: '+52' },
+      { continent: 'North America', country: 'Guatemala', code: '+502' },
+      { continent: 'North America', country: 'Cuba', code: '+53' },
+      { continent: 'North America', country: 'Dominican Republic', code: '+1-809' },
+      { continent: 'North America', country: 'Haiti', code: '+509' },
+      { continent: 'North America', country: 'Honduras', code: '+504' },
+      { continent: 'North America', country: 'Costa Rica', code: '+506' },
+      { continent: 'North America', country: 'Panama', code: '+507' },
+
+      // South America
+      { continent: 'South America', country: 'Brazil', code: '+55' },
+      { continent: 'South America', country: 'Argentina', code: '+54' },
+      { continent: 'South America', country: 'Colombia', code: '+57' },
+      { continent: 'South America', country: 'Chile', code: '+56' },
+      { continent: 'South America', country: 'Peru', code: '+51' },
+      { continent: 'South America', country: 'Venezuela', code: '+58' },
+      { continent: 'South America', country: 'Ecuador', code: '+593' },
+      { continent: 'South America', country: 'Bolivia', code: '+591' },
+      { continent: 'South America', country: 'Paraguay', code: '+595' },
+      { continent: 'South America', country: 'Uruguay', code: '+598' },
+
+      // Europe
+      { continent: 'Europe', country: 'United Kingdom', code: '+44' },
+      { continent: 'Europe', country: 'Germany', code: '+49' },
+      { continent: 'Europe', country: 'France', code: '+33' },
+      { continent: 'Europe', country: 'Spain', code: '+34' },
+      { continent: 'Europe', country: 'Italy', code: '+39' },
+      { continent: 'Europe', country: 'Netherlands', code: '+31' },
+      { continent: 'Europe', country: 'Sweden', code: '+46' },
+      { continent: 'Europe', country: 'Switzerland', code: '+41' },
+      { continent: 'Europe', country: 'Poland', code: '+48' },
+      { continent: 'Europe', country: 'Portugal', code: '+351' },
+
+      // Asia
+      { continent: 'Asia', country: 'China', code: '+86' },
+      { continent: 'Asia', country: 'India', code: '+91' },
+      { continent: 'Asia', country: 'Japan', code: '+81' },
+      { continent: 'Asia', country: 'South Korea', code: '+82' },
+      { continent: 'Asia', country: 'Indonesia', code: '+62' },
+      { continent: 'Asia', country: 'Thailand', code: '+66' },
+      { continent: 'Asia', country: 'Vietnam', code: '+84' },
+      { continent: 'Asia', country: 'Philippines', code: '+63' },
+      { continent: 'Asia', country: 'Malaysia', code: '+60' },
+      { continent: 'Asia', country: 'Singapore', code: '+65' },
+
+      // Africa
+      { continent: 'Africa', country: 'South Africa', code: '+27' },
+      { continent: 'Africa', country: 'Nigeria', code: '+234' },
+      { continent: 'Africa', country: 'Egypt', code: '+20' },
+      { continent: 'Africa', country: 'Kenya', code: '+254' },
+      { continent: 'Africa', country: 'Morocco', code: '+212' },
+      { continent: 'Africa', country: 'Ghana', code: '+233' },
+      { continent: 'Africa', country: 'Ethiopia', code: '+251' },
+      { continent: 'Africa', country: 'Tanzania', code: '+255' },
+      { continent: 'Africa', country: 'Algeria', code: '+213' },
+      { continent: 'Africa', country: 'Tunisia', code: '+216' },
+
+      // Oceania
+      { continent: 'Oceania', country: 'Australia', code: '+61' },
+      { continent: 'Oceania', country: 'New Zealand', code: '+64' },
+      { continent: 'Oceania', country: 'Fiji', code: '+679' },
+      { continent: 'Oceania', country: 'Papua New Guinea', code: '+675' },
+      { continent: 'Oceania', country: 'Samoa', code: '+685' },
+      { continent: 'Oceania', country: 'Tonga', code: '+676' },
+      { continent: 'Oceania', country: 'Solomon Islands', code: '+677' },
+      { continent: 'Oceania', country: 'Vanuatu', code: '+678' },
+      { continent: 'Oceania', country: 'French Polynesia', code: '+689' },
+      { continent: 'Oceania', country: 'New Caledonia', code: '+687' },
+    ];
+
+    let dropdown = null;
+
+    function isEmpty(el) {
+      return (el.value || '').trim().length === 0;
+    }
+
+    function buildDropdown() {
+      const select = document.createElement('select');
+      select.className = 'cc-phone-country-select';
+      select.setAttribute('aria-label', 'Select country calling code');
+
+      const ph = document.createElement('option');
+      ph.value = '';
+      ph.textContent = 'Select country code…';
+      ph.disabled = true;
+      ph.selected = true;
+      select.appendChild(ph);
+
+      const continents = [...new Set(COUNTRY_PHONE_CODES.map(x => x.continent))];
+      continents.forEach(cont => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = cont;
+
+        COUNTRY_PHONE_CODES
+          .filter(x => x.continent === cont)
+          .forEach(x => {
+            const opt = document.createElement('option');
+            opt.value = x.code;
+            opt.textContent = `${x.country} (${x.code})`;
+            optgroup.appendChild(opt);
+          });
+
+        select.appendChild(optgroup);
+      });
+
+      select.style.position = 'absolute';
+      select.style.zIndex = '9999';
+      select.style.width = '100%';
+      select.style.marginTop = '6px';
+      select.style.border = '1px solid #161f3a';
+      select.style.borderRadius = '10px';
+      select.style.padding = '10px 14px';
+      select.style.background = '#fff';
+      select.style.fontSize = '14px';
+      select.style.boxShadow = '0 10px 22px rgba(0,0,0,.12)';
+
+      return select;
+    }
+
+    function positionDropdown(selectEl) {
+      const rect = phoneInput.getBoundingClientRect();
+
+      selectEl.style.left = (window.scrollX + rect.left) + 'px';
+      selectEl.style.top  = (window.scrollY + rect.bottom) + 'px';
+      selectEl.style.width = rect.width + 'px';
+    }
+
+    function openDropdownIfNeeded() {
+      if (!isEmpty(phoneInput)) return; 
+
+      closeDropdown();
+
+      dropdown = buildDropdown();
+      document.body.appendChild(dropdown);
+      positionDropdown(dropdown);
+
+      dropdown.addEventListener('change', () => {
+        if (dropdown && dropdown.value && isEmpty(phoneInput)) {
+          const code = dropdown.value.replace(/-/g, ' ');
+          phoneInput.value = code + ' ';
+          phoneInput.focus();
+          try { phoneInput.setSelectionRange(phoneInput.value.length, phoneInput.value.length); } catch (e) {}
+        }
+        closeDropdown();
+      });
+
+      window.addEventListener('scroll', onReposition, true);
+      window.addEventListener('resize', onReposition);
+    }
+
+    function onReposition() {
+      if (dropdown) positionDropdown(dropdown);
+    }
+
+    function closeDropdown() {
+      if (!dropdown) return;
+      window.removeEventListener('scroll', onReposition, true);
+      window.removeEventListener('resize', onReposition);
+      dropdown.remove();
+      dropdown = null;
+    }
+
+    phoneInput.addEventListener('focus', () => {
+      openDropdownIfNeeded();
+    });
+
+    phoneInput.addEventListener('input', () => {
+      if (!isEmpty(phoneInput)) closeDropdown();
+    });
+
+    document.addEventListener('mousedown', (e) => {
+      if (!dropdown) return;
+      const clickedInsideDropdown = dropdown.contains(e.target);
+      const clickedPhone = phoneInput.contains(e.target);
+      if (!clickedInsideDropdown && !clickedPhone) closeDropdown();
+    });
+
+  });
+  </script>
+
+
   <style>
     .contact-bg__overlay{
         display: block;
@@ -252,7 +484,6 @@
     .custom-contact-{{ section.id }} .custom-contact-inner {
       position: relative;
       z-index: 1;
-      max-width: 1200px;
       margin: 0 auto;
       padding-inline: 16px;
     }
@@ -262,27 +493,26 @@
       border-radius: 8px;
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
       padding: 40px 32px;
+      max-width: 95%;
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
     }
 
     @media (min-width: 900px) {
       .custom-contact-{{ section.id }} .custom-contact-card {
-        padding: 56px 72px;
+        padding: 56px 42px;
+        
       }
     }
 
     .custom-contact-{{ section.id }} .custom-contact-card__inner {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      align-items: center;
+      gap: 20px;
     }
 
-    @media (min-width: 900px) {
-      .custom-contact-{{ section.id }} .custom-contact-card__inner {
-        flex-direction: row;
-        align-items: stretch;
-        gap: 48px;
-      }
-    }
 
     .custom-contact-{{ section.id }} .custom-contact-card__col {
       flex: 1 1 0;
@@ -310,7 +540,7 @@
     }
 
     .custom-contact-{{ section.id }} .custom-contact-subheading {
-      margin: 0 0 24px;
+      margin: 0 0 44px;
       font-size: 15px;
       color: #555555;
     }
@@ -322,7 +552,7 @@
     .custom-contact-{{ section.id }} .custom-contact-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px 16px;
+      gap: 22px 16px;
     }
 
     .custom-contact-{{ section.id }} .custom-contact-grid .field--full {
@@ -343,7 +573,8 @@
 
     .custom-contact-{{ section.id }} .field__label {
       font-size: 13px;
-      margin-bottom: 4px;
+      margin-top: -35px;
+      margin-left: -20px;
       display: block;
       color: #222222;
     }
@@ -486,7 +717,6 @@
       }
     }
 
-    /* ===== Forzar visibilidad de placeholders en custom contact ===== */
     .custom-contact-{{ section.id }} .field__input::placeholder,
     .custom-contact-{{ section.id }} .text-area.field__input::placeholder {
       opacity: 1 !important;
@@ -511,9 +741,150 @@
       color: #a0a0b3;
     }
 
+    .cc-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+    }
+
+    .cc-modal[aria-hidden="false"] {
+      display: block;
+    }
+
+    .cc-modal__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+    }
+
+    .cc-modal__dialog_contact {
+      text-align: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(560px, calc(100% - 32px));
+      background: {{ section.settings.card_bg_color }};
+      border-radius: 10px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.45);
+      padding: 28px 24px;
+      color: #111;
+    }
+
+    @media (min-width: 900px) {
+      .cc-modal__dialog_contact {
+        padding: 34px 32px;
+      }
+    }
+
+    .cc-modal__close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid #e6e6ee;
+      background: #fff;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      color: #161f3a;
+    }
+
+    .cc-modal__kicker {
+      margin: 0 0 8px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #BA745F;
+      text-align: center;
+    }
+
+    .cc-modal__title {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 700;
+      font-style: italic;
+      color: #BA745F;
+      text-align: center;
+    }
+
+    .cc-modal__body {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .cc-modal__cta {
+      width: 100%;
+    }
+
+    {% comment %} html.cc-modal-open,
+    body.cc-modal-open {
+      overflow: hidden !important;
+    } {% endcomment %}
+
 
   </style>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const form = document.getElementById('CustomContactForm');
+      if (!form) return;
+
+      const sectionRoot = form.closest('section[id^="custom-contact-"]') || document;
+      const modal = sectionRoot.querySelector('.cc-modal');
+
+      function openModal() {
+        if (!modal) return;
+        modal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('cc-modal-open');
+        document.body.classList.add('cc-modal-open');
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('cc-modal-open');
+        document.body.classList.remove('cc-modal-open');
+      }
+
+      sectionRoot.addEventListener('click', (e) => {
+        if (e.target.closest('[data-cc-close]')) closeModal();
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (modal && modal.getAttribute('aria-hidden') === 'false') closeModal();
+      });
+
+      const url = new URL(window.location.href);
+      const posted = url.searchParams.get('contact_posted') === 'true';
+
+
+      if (posted) {
+        openModal();
+
+        url.searchParams.delete('contact_posted');
+        history.replaceState({}, '', url.pathname + url.search + '#CustomContactForm');
+
+        try { form.reset(); } catch (e) {}
+
+        {% comment %} requestAnimationFrame(() => {
+          const top = form.getBoundingClientRect().top + window.pageYOffset - 20;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }); {% endcomment %}
+      }
+    });
+  </script>
+
+
 </section>
+
 
 {% schema %}
 {
