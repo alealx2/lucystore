@@ -1,9 +1,8 @@
 <div
   class="banner-text-section custom-page-width"
   style="
-    --vl-section-bg-image: {% if section.settings.bg_image != blank %}url('{{ section.settings.bg_image | image_url: width: 2400 }}'){% else %}none{% endif %};
-    --vl-section-bg-color: {{ section.settings.bg_color }};
-    background-color: transparent;
+    background-image: url('{{ section.settings.bg_image | image_url }}');
+    background-color: {{ section.settings.bg_color }};
     padding-top: {{ section.settings.section_vertical_padding }}px;
     padding-bottom: {{ section.settings.section_vertical_padding }}px;
   "
@@ -132,19 +131,6 @@
   overflow: hidden;
   z-index: 0;
   align-items: center;
-}
-
-.banner-text-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-color: var(--vl-section-bg-color, #000000);
-  background-image: var(--vl-section-bg-image, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .banner-text-inner {

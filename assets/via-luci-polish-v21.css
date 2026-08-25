@@ -218,37 +218,3 @@ body.via-luci-mega-transitioning header-menu details.mega-menu[open] > summary >
   transition-duration:var(--vl-motion-duration) !important;
   transition-timing-function:var(--vl-motion-ease) !important;
 }
-
-
-/* ===== VIA LUCI FINAL DELIVERY — About continuous section transitions ===== */
-html.is-about main#MainContent { background: #000; overflow: clip; }
-html.is-about main#MainContent > .shopify-section { position: relative; overflow: visible; }
-
-html.is-about .banner-text-section,
-html.is-about .custom-cards-section {
-  overflow: visible !important;
-  background: transparent !important;
-  isolation: isolate;
-}
-
-html.is-about .banner-text-section::before,
-html.is-about .custom-cards-section::before {
-  inset: -64px 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 34px, #000 82px, #000 calc(100% - 82px), rgba(0,0,0,.35) calc(100% - 34px), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 34px, #000 82px, #000 calc(100% - 82px), rgba(0,0,0,.35) calc(100% - 34px), transparent 100%);
-}
-
-html.is-about .banner-overlay { z-index: 1; }
-html.is-about .banner-text-inner,
-html.is-about .custom-cards-inner { position: relative; z-index: 2; }
-
-html.is-about main#MainContent > .shopify-section + .shopify-section { margin-top: -2px !important; }
-
-@media (max-width: 749px) {
-  html.is-about .banner-text-section::before,
-  html.is-about .custom-cards-section::before {
-    inset: -28px 0;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 36px, #000 calc(100% - 36px), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 36px, #000 calc(100% - 36px), transparent 100%);
-  }
-}

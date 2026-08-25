@@ -74,7 +74,7 @@
                   <div
                     class="optionB__panels{% if section.settings.background_image != blank %} has-bg{% endif %}"
                     {% if section.settings.background_image != blank %}
-                      style="--vl-mega-bg-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"
+                      style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');"
                     {% endif %}
                   >
                     {%- assign rendered_any_panel = false -%}
