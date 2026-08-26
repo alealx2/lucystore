@@ -11,6 +11,8 @@ Custom Main Product Section
   {%- assign gallery_media = product.media -%}
 {%- endif -%}
 
+{{ 'custom-main-product.css' | asset_url | stylesheet_tag }}
+
 {%- capture section_background_style -%}
   background-color: {{ section.settings.bg_color }};
   {% if section.settings.bg_image != blank %}
@@ -51,14 +53,26 @@ Custom Main Product Section
                   aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
                 >
                   <div class="via-pdp-thumb__inner">
-                    {{
-                      media.preview_image
-                      | image_url: width: 360
-                      | image_tag:
-                        loading: 'lazy',
-                        sizes: '120px',
-                        widths: '120, 180, 240, 360'
-                    }}
+                    {%- if forloop.first -%}
+                      {{
+                        media.preview_image
+                        | image_url: width: 360
+                        | image_tag:
+                          loading: 'eager',
+                          fetchpriority: 'high',
+                          sizes: '120px',
+                          widths: '120, 180, 240, 360'
+                      }}
+                    {%- else -%}
+                      {{
+                        media.preview_image
+                        | image_url: width: 360
+                        | image_tag:
+                          loading: 'lazy',
+                          sizes: '120px',
+                          widths: '120, 180, 240, 360'
+                      }}
+                    {%- endif -%}
                   </div>
                 </button>
               {%- endfor -%}
@@ -97,15 +111,28 @@ Custom Main Product Section
                   class="via-pdp-main-slide{% if forloop.first %} is-active{% endif %}"
                   data-index="{{ forloop.index0 }}"
                 >
-                  {{
-                    media.preview_image
-                    | image_url: width: 1946
-                    | image_tag:
-                      loading: 'lazy',
-                      sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
-                      widths: '600, 900, 1200, 1500, 1946',
-                      class: 'via-pdp-main-image'
-                  }}
+                  {%- if forloop.first -%}
+                    {{
+                      media.preview_image
+                      | image_url: width: 1946
+                      | image_tag:
+                        loading: 'eager',
+                        fetchpriority: 'high',
+                        sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
+                        widths: '600, 900, 1200, 1500, 1946',
+                        class: 'via-pdp-main-image'
+                    }}
+                  {%- else -%}
+                    {{
+                      media.preview_image
+                      | image_url: width: 1946
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
+                        widths: '600, 900, 1200, 1500, 1946',
+                        class: 'via-pdp-main-image'
+                    }}
+                  {%- endif -%}
                 </div>
               {%- endfor -%}
             </div>
@@ -258,8 +285,6 @@ Custom Main Product Section
       </div>
     </div>
   </div>
-
-  {{ 'custom-main-product.css' | asset_url | stylesheet_tag }}
 
   <style>
     .via-pdp-main.via-pdp-main--{{ section.id }} {

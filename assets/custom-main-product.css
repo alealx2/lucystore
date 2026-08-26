@@ -1,3 +1,14 @@
+/* PDP first-paint stability: reserve gallery geometry before images decode. */
+.via-pdp-main__gallery,
+.via-pdp-gallery-main,
+.via-pdp-main-frame {
+  min-width: 0;
+}
+
+.via-pdp-main-image {
+  display: block;
+}
+
 .button{
     border-radius: 8px;
     color: #FFFFFF;  
