@@ -299,76 +299,99 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktopMQ = window.matchMedia('(min-width: 990px) and (hover: hover) and (pointer: fine)');
   const CLOSE_DELAY = 650;
   const OPEN_DELAY = 170;
-  const CLOSE_ANIMATION = 820;
+  const CLOSE_ANIMATION = 400;
   const ACTIVE_CLASS = 'via-luci-mega-active';
   const TRANSITION_CLASS = 'via-luci-mega-transitioning';
 
+  const root = document.documentElement;
   const header = document.querySelector('.header-wrapper');
   const detailsList = Array.from(document.querySelectorAll('header-menu details.mega-menu'));
+  const closingTimers = new WeakMap();
   if (!detailsList.length) return;
 
+  const isHome = () => root.classList.contains('is-home') || document.body.classList.contains('is-home');
   const getOpenMenu = () => detailsList.find((details) => details.hasAttribute('open'));
 
+  function clearClosingAnimation(details) {
+    const timer = closingTimers.get(details);
+    if (timer) window.clearTimeout(timer);
+    closingTimers.delete(details);
+  }
+
+  /*
+   * Home is the only page where the header is transparent at scroll 0.
+   * Keep its background driven by ONE state only: via-luci-force-solid.
+   * No inline background styles are written, so fast open/close reverses the
+   * same CSS transition instead of restarting from competing style sources.
+   */
   function syncHeaderState() {
-    const isHome = document.documentElement.classList.contains('is-home') || document.body.classList.contains('is-home');
     const openMenu = getOpenMenu();
-    const hasVisibleOpenMega = Boolean(openMenu && !openMenu.classList.contains('via-luci-is-closing'));
+    const visuallyOpen = Boolean(openMenu && !openMenu.classList.contains('via-luci-is-closing'));
 
-    // Overlay/header bg must fade at the same time as the mega menu.
-    // During close animation the details remains [open], but visually it is closing.
-    document.body.classList.toggle(ACTIVE_CLASS, hasVisibleOpenMega && desktopMQ.matches);
+    document.body.classList.toggle(ACTIVE_CLASS, visuallyOpen && desktopMQ.matches);
 
-    if (!header) return;
+    if (!header || !isHome()) return;
 
-    if (hasVisibleOpenMega || !isHome || window.scrollY > 0) {
-      header.classList.add('via-luci-force-solid');
-      header.style.backgroundColor = '#000000';
-    } else {
-      header.classList.remove('via-luci-force-solid');
-      header.style.backgroundColor = 'transparent';
+    const atTop = window.scrollY <= 8 && !document.querySelector('.section-header.scrolled-past-header');
+    header.classList.toggle('via-luci-force-solid', visuallyOpen || !atTop);
+  }
+
+  function finishClose(details) {
+    if (!details.classList.contains('via-luci-is-closing')) return;
+    details.removeAttribute('open');
+    details.classList.remove('via-luci-is-closing');
+    closingTimers.delete(details);
+
+    if (!detailsList.some((item) => item.classList.contains('via-luci-is-closing'))) {
+      document.body.classList.remove(TRANSITION_CLASS);
     }
+    syncHeaderState();
+  }
+
+  function closeDetails(details) {
+    if (!details || !details.hasAttribute('open') || details.classList.contains('via-luci-is-closing')) return;
+
+    clearClosingAnimation(details);
+    const summary = details.querySelector('summary');
+    if (summary) summary.setAttribute('aria-expanded', 'false');
+
+    /* Same frame = header black->transparent and mega opacity 1->0 together. */
+    details.classList.add('via-luci-is-closing');
+    document.body.classList.add(TRANSITION_CLASS);
+    syncHeaderState();
+
+    const timer = window.setTimeout(() => finishClose(details), CLOSE_ANIMATION);
+    closingTimers.set(details, timer);
   }
 
   function closeAll(except) {
     detailsList.forEach((details) => {
       if (details !== except) closeDetails(details);
     });
-    window.requestAnimationFrame(syncHeaderState);
   }
 
   function openDetails(details) {
     if (!desktopMQ.matches) return;
-    closeAll(details);
+
+    /* Cancel an in-flight close before changing any visual state. This is the
+       important anti-blink path when Shop is re-entered very quickly. */
+    clearClosingAnimation(details);
     details.classList.remove('via-luci-is-closing');
-    document.body.classList.remove(TRANSITION_CLASS);
+
+    closeAll(details);
     details.setAttribute('open', '');
     const summary = details.querySelector('summary');
     if (summary) summary.setAttribute('aria-expanded', 'true');
 
     const firstTab = details.querySelector('.optionB__tabs-link[data-has-panel="true"]');
     const hasActivePanel = details.querySelector('.optionB__panel.is-active');
-    if (firstTab && !hasActivePanel) firstTab.dispatchEvent(new Event('via-luci:activate-tab', { bubbles: true }));
+    if (firstTab && !hasActivePanel) {
+      firstTab.dispatchEvent(new Event('via-luci:activate-tab', { bubbles: true }));
+    }
 
-    syncHeaderState();
-  }
-
-  function closeDetails(details) {
-    if (!details || !details.hasAttribute('open')) return;
-    const summary = details.querySelector('summary');
-    if (summary) summary.setAttribute('aria-expanded', 'false');
-
-    details.classList.add('via-luci-is-closing');
-    document.body.classList.add(TRANSITION_CLASS);
-    syncHeaderState();
-    window.setTimeout(() => {
-      if (details.classList.contains('via-luci-is-closing')) {
-        details.removeAttribute('open');
-        details.classList.remove('via-luci-is-closing');
-        document.body.classList.remove(TRANSITION_CLASS);
-        syncHeaderState();
-      }
-    }, CLOSE_ANIMATION);
-
+    /* Remove the closing guard and enter the active state together. CSS can
+       smoothly reverse a close animation without a transparent/black flash. */
+    document.body.classList.remove(TRANSITION_CLASS);
     syncHeaderState();
   }
 
@@ -410,10 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const scheduleClose = (event) => {
       if (!desktopMQ.matches) return;
-
-      // Mantiene abierto el mega menu mientras el hover siga dentro del
-      // encabezado, el summary activo o el propio mega menu. Solo cierra
-      // cuando el cursor abandona esa zona segura o sale del viewport/DOM.
       const nextTarget = event && (event.relatedTarget || event.toElement);
       if (isInsideSafeMegaZone(nextTarget)) {
         clearCloseTimer();
@@ -469,7 +488,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     details.addEventListener('focusout', () => {
-      //no cerrar por cambio de foco en desktop; solo por salida real del DOM.
       if (!desktopMQ.matches) return;
       clearCloseTimer();
     });
@@ -477,8 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
     details.addEventListener('toggle', syncHeaderState);
   });
 
-  //en desktop no cerramos el mega menú por click fuera ni por zonas del viewport.
-  // El cierre ocurre únicamente cuando el cursor abandona completamente el DOM/viewport.
   document.addEventListener('pointerleave', (event) => {
     if (!desktopMQ.matches) return;
     const nextTarget = event.relatedTarget || event.toElement;
@@ -503,16 +519,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   desktopMQ.addEventListener('change', () => {
     if (!desktopMQ.matches) {
-      document.body.classList.remove(ACTIVE_CLASS);
-      document.body.classList.remove(TRANSITION_CLASS);
-      closeAll();
+      document.body.classList.remove(ACTIVE_CLASS, TRANSITION_CLASS);
+      detailsList.forEach((details) => {
+        clearClosingAnimation(details);
+        details.classList.remove('via-luci-is-closing');
+      });
     }
     syncHeaderState();
   });
 
   syncHeaderState();
 });
-
 
 // V16 scroll lock
 let __vlScrollY=0;
@@ -538,7 +555,7 @@ function unlockViaLuciScroll(){
 }
 document.addEventListener('DOMContentLoaded',()=>{
  const obs=new MutationObserver(()=>{
-   if(document.body.classList.contains('via-luci-mega-active')) lockViaLuciScroll();
+   if(document.body.classList.contains('via-luci-mega-active') || document.body.classList.contains('via-luci-mega-transitioning')) lockViaLuciScroll();
    else unlockViaLuciScroll();
  });
  obs.observe(document.body,{attributes:true,attributeFilter:['class']});
