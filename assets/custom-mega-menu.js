@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (panel.dataset.expandingInit === 'true') return;
         panel.dataset.expandingInit = 'true';
 
+        // Establish the accordion's initial geometry while it is still visually hidden.
+        // This prevents Season/Collection cards from sliding horizontally into place
+        // when the panel first opens, so their entrance matches By Category.
+        panel.classList.add('via-luci-expanding-initializing');
+
         var featured = panel.querySelector('.megamenu-pb__featured--expanding, .megamenu-pb__featured');
         if (!featured) return;
 
@@ -41,38 +46,77 @@ document.addEventListener('DOMContentLoaded', function () {
         featured.classList.add('has-active');
 
         function setActive(idx) {
-            idx = parseInt(idx, 10);
-            if (isNaN(idx)) return;
+            idx = String(parseInt(idx, 10));
+            if (idx === 'NaN') return;
 
-            cards.forEach(function (card, i) {
-            var on = i === idx;
+            // Match by the explicit data-card-index instead of NodeList position.
+            // This keeps Season perfectly synchronized even if a menu item/card
+            // is omitted or Shopify returns links in a slightly different shape.
+            cards.forEach(function (card) {
+            var on = card.getAttribute('data-card-index') === idx;
             card.classList.toggle('is-expanded', on);
             card.classList.toggle('is-active',  on);
             });
 
-            links.forEach(function (link, i) {
-            link.classList.toggle('is-active', i === idx);
+            links.forEach(function (link) {
+            link.classList.toggle('is-active', link.getAttribute('data-card-index') === idx);
             });
         }
 
         var cardHoverTimer = null;
+        var hoverDelay = 230;
+        var nav = panel.querySelector('.megamenu-pb__nav');
+
         function scheduleActive(idx) {
             clearTimeout(cardHoverTimer);
-            cardHoverTimer = setTimeout(function () { setActive(idx); }, 230);
+            cardHoverTimer = setTimeout(function () { setActive(idx); }, hoverDelay);
         }
 
-        setActive(0);
+        function activateNow(idx) {
+            clearTimeout(cardHoverTimer);
+            cardHoverTimer = null;
+            setActive(idx);
+        }
 
-        links.forEach(function (link) {
-            var idx = link.getAttribute('data-card-index');
-            link.addEventListener('mouseenter', function () { scheduleActive(idx); });
-            link.addEventListener('focus',      function () { setActive(idx); });
+        var firstIndex = cards[0] ? cards[0].getAttribute('data-card-index') : '0';
+        setActive(firstIndex);
+
+        // Force the initial expanded/collapsed layout to be committed without animation.
+        // The class is removed only after the panel has been painted in its final geometry.
+        void panel.offsetWidth;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                panel.classList.remove('via-luci-expanding-initializing');
+            });
         });
 
-        cards.forEach(function (card) {
-            var idx = card.getAttribute('data-card-index');
-            card.addEventListener('mouseenter', function () { scheduleActive(idx); });
-            card.addEventListener('focus',      function () { setActive(idx); });
+        // Season and Collection intentionally share EXACTLY the same interaction
+        // path. Delegation also makes the hover reliable when moving quickly
+        // across the text, its <span>, or whitespace inside the nav link.
+        if (nav) {
+            nav.addEventListener('mouseover', function (event) {
+                var link = event.target.closest('.megamenu-pb__link[data-card-index]');
+                if (!link || !nav.contains(link)) return;
+                scheduleActive(link.getAttribute('data-card-index'));
+            });
+
+            nav.addEventListener('focusin', function (event) {
+                var link = event.target.closest('.megamenu-pb__link[data-card-index]');
+                if (!link || !nav.contains(link)) return;
+                activateNow(link.getAttribute('data-card-index'));
+            });
+        }
+
+        featured.addEventListener('mouseover', function (event) {
+            var card = event.target.closest('.megamenu-pb__card[data-card-index]');
+            if (!card || !featured.contains(card)) return;
+            scheduleActive(card.getAttribute('data-card-index'));
+        });
+
+        featured.addEventListener('focusin', function (event) {
+            var card = event.target.closest('.megamenu-pb__card[data-card-index]');
+            if (!card || !featured.contains(card)) return;
+            activateNow(card.getAttribute('data-card-index'));
         });
         }
 
