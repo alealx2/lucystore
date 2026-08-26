@@ -1,3 +1,14 @@
+/* PDP first-paint stability: reserve gallery geometry before images decode. */
+.via-pdp-main__gallery,
+.via-pdp-gallery-main,
+.via-pdp-main-frame {
+  min-width: 0;
+}
+
+.via-pdp-main-image {
+  display: block;
+}
+
 .button{
     border-radius: 8px;
     color: #FFFFFF;  
@@ -178,6 +189,74 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* VIA LUCI gallery loading state */
+.via-pdp-gallery-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 160ms ease, visibility 0s linear 160ms;
+}
+
+.via-pdp-main__gallery.is-image-loading .via-pdp-gallery-loader {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 120ms ease, visibility 0s linear 0s;
+}
+
+.via-pdp-gallery-loader__mark {
+    color: #161F3A;
+    font-family: Lato, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .28em;
+    line-height: 1;
+}
+
+.via-pdp-gallery-loader__line {
+    position: relative;
+    width: 92px;
+    height: 1px;
+    overflow: hidden;
+    background: rgba(22, 31, 58, .16);
+}
+
+.via-pdp-gallery-loader__line::after {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 42%;
+    background: #161F3A;
+    animation: via-pdp-loader-line 900ms cubic-bezier(.65, 0, .35, 1) infinite;
+}
+
+@keyframes via-pdp-loader-line {
+    0% { transform: translateX(-120%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(260%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .via-pdp-gallery-loader,
+    .via-pdp-gallery-loader__line::after {
+        transition: none;
+        animation: none;
+    }
+
+    .via-pdp-gallery-loader__line::after {
+        width: 100%;
+        opacity: .55;
+    }
 }
 
 .via-pdp-main-slide {

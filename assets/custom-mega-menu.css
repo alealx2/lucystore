@@ -1242,3 +1242,40 @@ html.is-home .header-wrapper.onload-header .main-logo { display: none !important
     animation: none !important;
   }
 }
+
+/* ===== VIA LUCI V22 — Home-only header/mega anti-blink sync =====
+   Home at scroll 0 is the only transparent-header state in the site.
+   The solid header and mega panel reverse the exact same 400ms transition. */
+@media (min-width: 990px) and (hover: hover) and (pointer: fine) {
+  html.is-home {
+    --vl-home-mega-sync-duration: 400ms;
+  }
+
+  html.is-home .header-wrapper,
+  html.is-home .header-wrapper.onload-header,
+  html.is-home .header-wrapper.via-luci-force-solid,
+  html.is-home header-menu details.mega-menu .mega-menu__content,
+  html.is-home header-menu details.mega-menu[open]:not(.via-luci-is-closing) .mega-menu__content,
+  html.is-home header-menu details.mega-menu.via-luci-is-closing .mega-menu__content,
+  html.is-home body.via-luci-mega-active::before,
+  html.is-home body.via-luci-mega-transitioning::before {
+    transition-duration: var(--vl-home-mega-sync-duration) !important;
+    transition-timing-function: var(--vl-motion-ease, cubic-bezier(.22, 1, .36, 1)) !important;
+  }
+
+  /* At Home top the header is transparent unless the mega is actually visible.
+     During close, force-solid is removed immediately, so header + mega fade out together. */
+  html.is-home .section-header:not(.scrolled-past-header)
+  .header-wrapper.header-wrapper--transparent.via-luci-force-solid,
+  html.is-home .header-wrapper.onload-header.via-luci-force-solid {
+    background: #000 !important;
+    background-color: #000 !important;
+  }
+
+  html.is-home .section-header:not(.scrolled-past-header)
+  .header-wrapper.header-wrapper--transparent:not(.via-luci-force-solid),
+  html.is-home .header-wrapper.onload-header:not(.via-luci-force-solid) {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+}

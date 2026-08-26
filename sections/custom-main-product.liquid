@@ -11,6 +11,8 @@ Custom Main Product Section
   {%- assign gallery_media = product.media -%}
 {%- endif -%}
 
+{{ 'custom-main-product.css' | asset_url | stylesheet_tag }}
+
 {%- capture section_background_style -%}
   background-color: {{ section.settings.bg_color }};
   {% if section.settings.bg_image != blank %}
@@ -51,14 +53,26 @@ Custom Main Product Section
                   aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
                 >
                   <div class="via-pdp-thumb__inner">
-                    {{
-                      media.preview_image
-                      | image_url: width: 360
-                      | image_tag:
-                        loading: 'lazy',
-                        sizes: '120px',
-                        widths: '120, 180, 240, 360'
-                    }}
+                    {%- if forloop.first -%}
+                      {{
+                        media.preview_image
+                        | image_url: width: 360
+                        | image_tag:
+                          loading: 'eager',
+                          fetchpriority: 'high',
+                          sizes: '120px',
+                          widths: '120, 180, 240, 360'
+                      }}
+                    {%- else -%}
+                      {{
+                        media.preview_image
+                        | image_url: width: 360
+                        | image_tag:
+                          loading: 'lazy',
+                          sizes: '120px',
+                          widths: '120, 180, 240, 360'
+                      }}
+                    {%- endif -%}
                   </div>
                 </button>
               {%- endfor -%}
@@ -92,20 +106,37 @@ Custom Main Product Section
             </button>
 
             <div class="via-pdp-main-frame">
+              <div class="via-pdp-gallery-loader" aria-hidden="true">
+                <span class="via-pdp-gallery-loader__mark">VIA LUCI</span>
+                <span class="via-pdp-gallery-loader__line"></span>
+              </div>
               {%- for media in gallery_media -%}
                 <div
                   class="via-pdp-main-slide{% if forloop.first %} is-active{% endif %}"
                   data-index="{{ forloop.index0 }}"
                 >
-                  {{
-                    media.preview_image
-                    | image_url: width: 1946
-                    | image_tag:
-                      loading: 'lazy',
-                      sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
-                      widths: '600, 900, 1200, 1500, 1946',
-                      class: 'via-pdp-main-image'
-                  }}
+                  {%- if forloop.first -%}
+                    {{
+                      media.preview_image
+                      | image_url: width: 1946
+                      | image_tag:
+                        loading: 'eager',
+                        fetchpriority: 'high',
+                        sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
+                        widths: '600, 900, 1200, 1500, 1946',
+                        class: 'via-pdp-main-image'
+                    }}
+                  {%- else -%}
+                    {{
+                      media.preview_image
+                      | image_url: width: 1946
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
+                        widths: '600, 900, 1200, 1500, 1946',
+                        class: 'via-pdp-main-image'
+                    }}
+                  {%- endif -%}
                 </div>
               {%- endfor -%}
             </div>
@@ -259,8 +290,6 @@ Custom Main Product Section
     </div>
   </div>
 
-  {{ 'custom-main-product.css' | asset_url | stylesheet_tag }}
-
   <style>
     .via-pdp-main.via-pdp-main--{{ section.id }} {
     position: relative;
@@ -317,16 +346,66 @@ Custom Main Product Section
       if (!slides.length || !thumbs.length) return;
 
       var currentIndex = 0;
+      var loader = gallery.querySelector('.via-pdp-gallery-loader');
+      var loadToken = 0;
+
+      function setGalleryLoading(isLoading) {
+        gallery.classList.toggle('is-image-loading', isLoading);
+        if (loader) loader.setAttribute('aria-hidden', isLoading ? 'false' : 'true');
+      }
+
+      function waitForImage(img, token) {
+        if (!img) {
+          if (token === loadToken) setGalleryLoading(false);
+          return;
+        }
+
+        function done() {
+          if (token !== loadToken) return;
+          // One paint keeps the transition from flashing between old/new media.
+          requestAnimationFrame(function() {
+            setGalleryLoading(false);
+          });
+        }
+
+        if (img.complete && img.naturalWidth > 0) {
+          if (typeof img.decode === 'function') {
+            img.decode().then(done).catch(done);
+          } else {
+            done();
+          }
+          return;
+        }
+
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+      }
+
+      function preloadSlide(index) {
+        var slide = Array.prototype.find.call(slides, function(item) {
+          return parseInt(item.getAttribute('data-index'), 10) === index;
+        });
+        if (!slide) return;
+        var img = slide.querySelector('img');
+        if (img && img.loading === 'lazy') img.loading = 'eager';
+      }
 
       function showSlide(index) {
         var max = slides.length - 1;
         if (index < 0) index = max;
         if (index > max) index = 0;
+        if (index === currentIndex) return;
+
         currentIndex = index;
+        var token = ++loadToken;
+        var targetSlide = null;
+
+        setGalleryLoading(true);
 
         slides.forEach(function(slide) {
           if (parseInt(slide.getAttribute('data-index'), 10) === index) {
             slide.classList.add('is-active');
+            targetSlide = slide;
           } else {
             slide.classList.remove('is-active');
           }
@@ -340,6 +419,10 @@ Custom Main Product Section
             thumb.classList.remove('is-active');
           }
         });
+
+        var targetImage = targetSlide ? targetSlide.querySelector('img') : null;
+        if (targetImage && targetImage.loading === 'lazy') targetImage.loading = 'eager';
+        waitForImage(targetImage, token);
       }
 
     function scrollThumbIntoView(thumb) {
@@ -368,6 +451,14 @@ Custom Main Product Section
     }
 
       thumbs.forEach(function(thumb) {
+        thumb.addEventListener('mouseenter', function() {
+          preloadSlide(parseInt(thumb.getAttribute('data-index'), 10));
+        }, { passive: true });
+
+        thumb.addEventListener('focus', function() {
+          preloadSlide(parseInt(thumb.getAttribute('data-index'), 10));
+        });
+
         thumb.addEventListener('click', function() {
           var idx = parseInt(thumb.getAttribute('data-index'), 10);
           showSlide(idx);
