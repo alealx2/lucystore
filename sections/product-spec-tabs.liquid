@@ -1,7 +1,15 @@
+{%- assign is_tree = false -%}
+{%- if section.settings.tree_collection != blank -%}
+  {%- for product_collection in product.collections -%}
+    {%- if product_collection.id == section.settings.tree_collection.id -%}{%- assign is_tree = true -%}{%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 {%- assign has_specs = false -%}
 {%- for block in section.blocks -%}
   {%- for i in (1..6) -%}
     {%- assign value_key = 'item_' | append: i | append: '_value' -%}
+    {%- assign scope_key = 'item_' | append: i | append: '_scope' -%}
+    {%- if block.settings[scope_key] == 'tree' and is_tree == false -%}{%- continue -%}{%- endif -%}
     {%- if block.settings[value_key] != blank -%}{%- assign has_specs = true -%}{%- endif -%}
   {%- endfor -%}
 {%- endfor -%}
@@ -154,7 +162,9 @@
           {%- assign has_values = false -%}
           {%- for i in (1..6) -%}
             {%- assign value_key = 'item_' | append: i | append: '_value' -%}
-            {%- if block.settings[value_key] != blank -%}{%- assign has_values = true -%}{%- endif -%}
+            {%- assign scope_key = 'item_' | append: i | append: '_scope' -%}
+    {%- if block.settings[scope_key] == 'tree' and is_tree == false -%}{%- continue -%}{%- endif -%}
+    {%- if block.settings[value_key] != blank -%}{%- assign has_values = true -%}{%- endif -%}
           {%- endfor -%}
           {%- if block.type == 'tab' and has_values -%}
             <button
@@ -181,7 +191,9 @@
           {%- assign has_values = false -%}
           {%- for i in (1..6) -%}
             {%- assign value_key = 'item_' | append: i | append: '_value' -%}
-            {%- if block.settings[value_key] != blank -%}{%- assign has_values = true -%}{%- endif -%}
+            {%- assign scope_key = 'item_' | append: i | append: '_scope' -%}
+    {%- if block.settings[scope_key] == 'tree' and is_tree == false -%}{%- continue -%}{%- endif -%}
+    {%- if block.settings[value_key] != blank -%}{%- assign has_values = true -%}{%- endif -%}
           {%- endfor -%}
           {%- if block.type == 'tab' and has_values -%}
             <div
@@ -198,6 +210,8 @@
                   {%- capture key_value -%}item_{{ i }}_value{%- endcapture -%}
                   {%- capture key_icon  -%}item_{{ i }}_icon{%- endcapture -%}
 
+                  {%- assign scope_key = 'item_' | append: i | append: '_scope' -%}
+                  {%- if block.settings[scope_key] == 'tree' and is_tree == false -%}{%- continue -%}{%- endif -%}
                   {%- assign label = block.settings[key_label] -%}
                   {%- assign value = block.settings[key_value] -%}
                   {%- assign icon  = block.settings[key_icon]  -%}
@@ -273,6 +287,11 @@
   "class": "section",
   "settings": [
     {
+      "type": "collection",
+      "id": "tree_collection",
+      "label": "Collection for tree-specific attributes"
+    },
+    {
       "type": "header",
       "content": "Layout"
     },
@@ -304,7 +323,6 @@
       "label": "Tabs separator border",
       "default": "#d6c9b7"
     },
-
     {
       "type": "header",
       "content": "Tabs"
@@ -331,7 +349,6 @@
       "label": "Inactive tab color",
       "default": "#9b8f7f"
     },
-
     {
       "type": "header",
       "content": "Items"
@@ -368,7 +385,6 @@
       "label": "Item value color",
       "default": "#4b4b4b"
     },
-
     {
       "type": "header",
       "content": "Padding"
@@ -405,8 +421,10 @@
           "label": "Tab title",
           "default": "Description"
         },
-
-        { "type": "header", "content": "Item 1" },
+        {
+          "type": "header",
+          "content": "Item 1"
+        },
         {
           "type": "image_picker",
           "id": "item_1_icon",
@@ -423,8 +441,10 @@
           "id": "item_1_value",
           "label": "Item 1 value (connect metafield via dynamic source)"
         },
-
-        { "type": "header", "content": "Item 2" },
+        {
+          "type": "header",
+          "content": "Item 2"
+        },
         {
           "type": "image_picker",
           "id": "item_2_icon",
@@ -440,8 +460,10 @@
           "id": "item_2_value",
           "label": "Item 2 value (connect metafield via dynamic source)"
         },
-
-        { "type": "header", "content": "Item 3" },
+        {
+          "type": "header",
+          "content": "Item 3"
+        },
         {
           "type": "image_picker",
           "id": "item_3_icon",
@@ -457,8 +479,10 @@
           "id": "item_3_value",
           "label": "Item 3 value (connect metafield via dynamic source)"
         },
-
-        { "type": "header", "content": "Item 4" },
+        {
+          "type": "header",
+          "content": "Item 4"
+        },
         {
           "type": "image_picker",
           "id": "item_4_icon",
@@ -474,8 +498,10 @@
           "id": "item_4_value",
           "label": "Item 4 value (connect metafield via dynamic source)"
         },
-
-        { "type": "header", "content": "Item 5" },
+        {
+          "type": "header",
+          "content": "Item 5"
+        },
         {
           "type": "image_picker",
           "id": "item_5_icon",
@@ -491,8 +517,10 @@
           "id": "item_5_value",
           "label": "Item 5 value (connect metafield via dynamic source)"
         },
-
-        { "type": "header", "content": "Item 6" },
+        {
+          "type": "header",
+          "content": "Item 6"
+        },
         {
           "type": "image_picker",
           "id": "item_6_icon",
@@ -507,6 +535,102 @@
           "type": "text",
           "id": "item_6_value",
           "label": "Item 6 value (connect metafield via dynamic source)"
+        },
+        {
+          "type": "select",
+          "id": "item_1_scope",
+          "label": "Item 1 applies to",
+          "options": [
+            {
+              "value": "all",
+              "label": "All products"
+            },
+            {
+              "value": "tree",
+              "label": "Tree collection only"
+            }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "select",
+          "id": "item_2_scope",
+          "label": "Item 2 applies to",
+          "options": [
+            {
+              "value": "all",
+              "label": "All products"
+            },
+            {
+              "value": "tree",
+              "label": "Tree collection only"
+            }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "select",
+          "id": "item_3_scope",
+          "label": "Item 3 applies to",
+          "options": [
+            {
+              "value": "all",
+              "label": "All products"
+            },
+            {
+              "value": "tree",
+              "label": "Tree collection only"
+            }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "select",
+          "id": "item_4_scope",
+          "label": "Item 4 applies to",
+          "options": [
+            {
+              "value": "all",
+              "label": "All products"
+            },
+            {
+              "value": "tree",
+              "label": "Tree collection only"
+            }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "select",
+          "id": "item_5_scope",
+          "label": "Item 5 applies to",
+          "options": [
+            {
+              "value": "all",
+              "label": "All products"
+            },
+            {
+              "value": "tree",
+              "label": "Tree collection only"
+            }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "select",
+          "id": "item_6_scope",
+          "label": "Item 6 applies to",
+          "options": [
+            {
+              "value": "all",
+              "label": "All products"
+            },
+            {
+              "value": "tree",
+              "label": "Tree collection only"
+            }
+          ],
+          "default": "all"
         }
       ]
     }
@@ -515,8 +639,12 @@
     {
       "name": "Product tabs (metafields)",
       "blocks": [
-        { "type": "tab" },
-        { "type": "tab" }
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        }
       ]
     }
   ]

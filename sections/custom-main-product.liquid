@@ -359,6 +359,16 @@ Custom Main Product Section
       var root = document.getElementById('CustomProductMain-' + sectionId);
       if (!root) return;
 
+      var variantForm = root.querySelector('.via-pdp-variants');
+      if (variantForm) {
+        variantForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var url = new URL(window.location.href);
+          url.searchParams.set('variant', variantForm.querySelector('[name="variant"]').value);
+          window.location.assign(url.toString());
+        });
+      }
+
       var gallery = root.querySelector('.via-pdp-main__gallery');
       if (!gallery) return;
 

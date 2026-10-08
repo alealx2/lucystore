@@ -19,6 +19,9 @@
 
   <div class="banner-text-inner banner-text-inner--{{ section.settings.text_align | default: 'center' }}">
     <div class="page-width banner-text-content">
+      {% if section.settings.show_page_heading and page != blank %}
+        <h1 class="visually-hidden">{{ page.title | escape }}</h1>
+      {% endif %}
       {% if section.settings.main_label != blank %}
         <div
           class="label-title"
@@ -326,6 +329,12 @@
 {
   "name": "Custom Banner Text",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_page_heading",
+      "label": "Include accessible page title (H1)",
+      "default": false
+    },
     {
       "type": "image_picker",
       "id": "bg_image",

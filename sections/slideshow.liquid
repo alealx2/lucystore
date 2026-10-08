@@ -154,15 +154,21 @@
               </div>
             {%- endif -%}
 
-            {%- if block.settings.button_label != blank and block.settings.link != blank and block.settings.link != "#" -%}
+            {%- liquid
+              assign show_button = block.settings.lucy_style_enabled
+              if block.settings.link != blank and block.settings.link != '#'
+                assign show_button = true
+              endif
+            -%}
+            {%- if block.settings.button_label != blank and show_button -%}
               <div class="banner__buttons{% if block.settings.lucy_style_enabled %} banner__buttons--lucy{% endif %}">
                 {%- if block.settings.lucy_style_enabled -%}
 
                   <a
-                    {% if block.settings.link %}
+                    {% if block.settings.link != blank and block.settings.link != '#' %}
                       href="{{ block.settings.link }}"
                     {% else %}
-                      role="link" aria-disabled="true"
+                      href="#" data-scroll-target=".customtabs"
                     {% endif %}
                     class="lucy-btn lucy-btn--magic lucy-btn--trail"
                   >

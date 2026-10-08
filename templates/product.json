@@ -51,7 +51,10 @@
             "item_5_value": "{{ product.metafields.custom.light_color.value }}",
             "item_6_icon": "shopify://shop_images/icopallete.png",
             "item_6_label": "Style",
-            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}"
+            "item_6_value": "{{ product.metafields.custom.tree_color_style.value }}",
+            "item_1_scope": "tree",
+            "item_2_scope": "tree",
+            "item_6_scope": "tree"
           }
         }
       },
@@ -72,7 +75,8 @@
         "item_label_color": "#1e2430",
         "item_value_color": "#4b4b4b",
         "padding_top": 40,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "tree_collection": "trees"
       }
     },
     "custom_product_icons_NWKHPE": {

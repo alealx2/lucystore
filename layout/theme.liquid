@@ -24,6 +24,9 @@
       assign seo_title = seo_title | append: ' – ' | append: shop.name
     endunless
     assign seo_description = page_description
+    if request.page_type == 'product'
+      assign seo_description = product.metafields.global.description_tag.value | default: product.description | strip_html
+    endif
     if seo_description == blank
       case request.page_type
         when 'product'
@@ -729,7 +732,7 @@
 
       // Arrow btn go to next section
       document.addEventListener('click', function (e) {
-        const trigger = e.target.closest('.lucy-scroll');
+        const trigger = e.target.closest('[data-scroll-target]');
         if (!trigger) return;
 
         const selector = trigger.getAttribute('data-scroll-target');

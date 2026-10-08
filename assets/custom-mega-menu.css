@@ -979,9 +979,8 @@ transform: translateY(0);
 
   body.via-luci-mega-active header-menu details.mega-menu[open] > summary > span,
   body.via-luci-mega-transitioning header-menu details.mega-menu[open] > summary > span{
-    text-decoration: underline !important;
-    text-decoration-thickness: 0.12rem !important;
-    text-underline-offset: 0.28rem !important;
+    /* The label's ::after in via-luci-polish-v21.css draws the only underline. */
+    text-decoration: none !important;
   }
 
 
