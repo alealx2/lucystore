@@ -16,123 +16,33 @@
   {%- endunless -%}
 
   {%- liquid
-    assign seo_title = blank
-    assign seo_description = blank
-
-    # =========================
-    # HOME
-    # =========================
-    if template.name == 'index'
-      assign seo_title = 'Via Luci. Premium Lighting for Holidays and Home'
-      assign seo_description = 'Via Luci creates premium holiday and year-round lighting that transforms spaces into unforgettable memories. Discover beautifully crafted trees, décor and lighting designed to elevate your home with elegance.'
+    assign seo_title = page_title | default: shop.name
+    if current_page != 1
+      assign seo_title = seo_title | append: ' – Page ' | append: current_page
     endif
-
-    # =========================
-    # PAGES (by handle - reales)
-    # =========================
-    if request.page_type == 'page' and page != blank
-      case page.handle
-        when 'about'
-          assign seo_title = 'About Via Luci. Craftsmanship and the Art of Lighting'
-          assign seo_description = 'Learn the story behind Via Luci. A brand dedicated to craftsmanship, innovation and lighting that inspires meaningful memories and beautiful spaces.'
-
-        when 'contact', 'contact-us'
-          assign seo_title = 'Contact Via Luci. Customer Support and Guidance'
-          assign seo_description = 'Contact Via Luci for support, product guidance and expert lighting help. We are here to assist you in creating beautiful illuminated spaces.'
-
-        when 'faqs'
-          assign seo_title = 'Via Luci FAQs. Product and Lighting Information'
-          assign seo_description = 'Find answers about Via Luci products, lighting, Christmas trees and ordering. Helpful information for a seamless experience.'
-
-        when 'return-and-exchanges', 'returns', 'returns-warranty', 'warranty-returns', 'warranty-information'
-          assign seo_title = 'Returns and Warranty. Via Luci Quality Assurance'
-          assign seo_description = 'Learn about Via Luci’s return and warranty policies. Quality assurance designed for confidence and peace of mind.'
-
-        when 'installation-guides'
-          assign seo_title = 'Installation Guides. How to Set Up Via Luci Lighting'
-          assign seo_description = 'Easy step by step installation guides for Via Luci lighting and décor. Clear instructions for creating flawless results at home.'
-      endcase
-    endif
-
-    # =========================
-    # COLLECTIONS (by handle - reales)
-    # =========================
-    if request.page_type == 'collection' and collection != blank
-      case collection.handle
-        # SHOP / ALL PRODUCTS
-        when 'all', 'via-luci', 'frontpage'
-          assign seo_title = 'Shop Via Luci. Premium Lighting, Trees and Décor'
-          assign seo_description = 'Explore Via Luci’s full collection of premium lighting, Christmas trees and décor crafted for elegance, longevity and unforgettable moments.'
-
-        # CHRISTMAS TREES COLLECTION (handle real: trees)
-        when 'trees'
-          assign seo_title = 'Premium Artificial Christmas Trees. Via Luci'
-          assign seo_description = 'Shop lifelike premium Christmas trees designed for realism, brilliance and durability. Create unforgettable holiday moments with Via Luci.'
-
-        # CHRISTMAS LIGHTING COLLECTION (handle real: lights; + christmas-interior opcional)
-        when 'lights', 'christmas-interior'
-          assign seo_title = 'Christmas Lighting Collection. Elegant LED Designs'
-          assign seo_description = 'Discover high quality Christmas lighting crafted for beauty, durability and magical displays. Elevate your holiday season with premium LED designs from Via Luci.'
-
-        # CHRISTMAS EXTERIOR COLLECTION
-        when 'christmas-exterior'
-          assign seo_title = 'Exterior Christmas Lighting and Décor. Via Luci'
-          assign seo_description = 'Transform your home exterior with premium holiday lighting built for brilliance and long lasting performance. Create an unforgettable outdoor experience.'
-
-        # KING PINE SPARKLE
-        when 'king-pine-sparkle'
-          assign seo_title = 'King Pine Sparkle Collection. Lifelike Premium Trees'
-          assign seo_description = 'Experience the King Pine Sparkle collection with realistic branches, warm lighting and elegant craftsmanship designed for timeless holiday beauty.'
-
-        # ROYAL NOBLE SPARKLE
-        when 'royal-noble-sparkle'
-          assign seo_title = 'Royal Noble Sparkle Collection. Elegant Holiday Trees'
-          assign seo_description = 'Explore the Royal Noble Sparkle collection featuring refined silhouettes and premium integrated lighting made to inspire beautiful holiday memories.'
-
-        # NOBLE EMPRESS SPARKLE (handle real: nobel-empress-sparkle)
-        when 'nobel-empress-sparkle'
-          assign seo_title = 'Noble Empress Sparkle Collection. Luxury Holiday Trees'
-          assign seo_description = 'Discover the Noble Empress Sparkle collection. Full luxurious shapes and elegant lighting designed for a premium holiday experience.'
-      endcase
-    endif
-
-    # =========================
-    # PRODUCTS (template dynamic)
-    # =========================
-    if request.page_type == 'product' and product != blank
-      assign seo_title = product.title | append: '. Premium Holiday and Home Décor by Via Luci'
-      assign seo_description = 'Premium ' | append: product.title | append: ' crafted with quality materials and elegant design. A perfect addition to elevate your home décor and create unforgettable moments.'
-    endif
-
-    # =========================
-    # FALLBACKS (never empty)
-    # =========================
-    if seo_title == blank
-      assign seo_title = page_title
-      if current_tags
-        assign seo_title = seo_title | append: ' – tagged "' | append: current_tags | join: ', ' | append: '"'
-      endif
-      if current_page != 1
-        assign seo_title = seo_title | append: ' – Page ' | append: current_page
-      endif
-      unless seo_title contains shop.name
-        assign seo_title = seo_title | append: ' – ' | append: shop.name
-      endunless
-    endif
-
+    unless seo_title contains shop.name
+      assign seo_title = seo_title | append: ' – ' | append: shop.name
+    endunless
+    assign seo_description = page_description
     if seo_description == blank
-      if page_description != blank
-        assign seo_description = page_description
-      else
-        assign seo_description = 'Via Luci creates premium holiday and year-round lighting that transforms spaces into unforgettable memories. Discover beautifully crafted décor and lighting designed to elevate your home.'
-      endif
+      case request.page_type
+        when 'product'
+          assign seo_description = product.description | strip_html
+        when 'collection'
+          assign seo_description = collection.description | strip_html
+        when 'page'
+          assign seo_description = page.content | strip_html
+        when 'article'
+          assign seo_description = article.excerpt_or_content | strip_html
+      endcase
     endif
+    assign seo_description = seo_description | default: shop.description | strip_html | strip_newlines | strip
   -%}
-
   <title>{{ seo_title | strip | escape }}</title>
-  <meta name="description" content="{{ seo_description | strip | truncate: 155, '' | escape }}">
-
-  {% render 'meta-tags' %}
+  {%- if seo_description != blank -%}
+    <meta name="description" content="{{ seo_description | escape }}">
+  {%- endif -%}
+  {% render 'meta-tags', seo_title: seo_title, seo_description: seo_description %}
   {{ content_for_header }}
 
   <style>
@@ -897,7 +807,6 @@
       </div>
     </div>
 
-  {{ 'via-luci-polish-v21.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'via-luci-polish-v21.js' | asset_url }}" defer="defer"></script>
 </body>
 </html>

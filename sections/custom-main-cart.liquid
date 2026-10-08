@@ -476,7 +476,7 @@
                   data-cart-qty-change="minus"
                   data-line="{{ forloop.index }}"
                   data-current="{{ item.quantity }}"
-                  aria-label="{{ 'sections.cart.reduce_quantity' | t | default: 'Reduce quantity' }}"
+                  aria-label="{{ 'products.product.quantity.decrease' | t: product: item.product.title }}"
                 >
                   &minus;
                 </button>
@@ -489,7 +489,7 @@
                   data-cart-qty-change="plus"
                   data-line="{{ forloop.index }}"
                   data-current="{{ item.quantity }}"
-                  aria-label="{{ 'sections.cart.increase_quantity' | t | default: 'Increase quantity' }}"
+                  aria-label="{{ 'products.product.quantity.increase' | t: product: item.product.title }}"
                 >
                   +
                 </button>

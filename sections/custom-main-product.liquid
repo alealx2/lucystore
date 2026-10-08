@@ -6,12 +6,14 @@ Custom Main Product Section
 
 {% endcomment %}
 
+{%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign gallery_media = product.media | where: 'media_type', 'image' -%}
 {%- if gallery_media.size == 0 -%}
   {%- assign gallery_media = product.media -%}
 {%- endif -%}
 
 {{ 'custom-main-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 {%- capture section_background_style -%}
   background-color: {{ section.settings.bg_color }};
@@ -46,6 +48,7 @@ Custom Main Product Section
 
             <div class="via-pdp-gallery-thumbs" data-scroll-step="{{ section.settings.thumb_scroll_step }}">
               {%- for media in gallery_media -%}
+                {%- assign media_alt = media.alt | strip_html | strip_newlines -%}
                 <button
                   type="button"
                   class="via-pdp-thumb{% if forloop.first %} is-active{% endif %}"
@@ -58,6 +61,7 @@ Custom Main Product Section
                         media.preview_image
                         | image_url: width: 360
                         | image_tag:
+                          alt: media_alt,
                           loading: 'eager',
                           fetchpriority: 'high',
                           sizes: '120px',
@@ -68,6 +72,7 @@ Custom Main Product Section
                         media.preview_image
                         | image_url: width: 360
                         | image_tag:
+                          alt: media_alt,
                           loading: 'lazy',
                           sizes: '120px',
                           widths: '120, 180, 240, 360'
@@ -111,6 +116,7 @@ Custom Main Product Section
                 <span class="via-pdp-gallery-loader__line"></span>
               </div>
               {%- for media in gallery_media -%}
+                {%- assign media_alt = media.alt | strip_html | strip_newlines -%}
                 <div
                   class="via-pdp-main-slide{% if forloop.first %} is-active{% endif %}"
                   data-index="{{ forloop.index0 }}"
@@ -120,6 +126,7 @@ Custom Main Product Section
                       media.preview_image
                       | image_url: width: 1946
                       | image_tag:
+                          alt: media_alt,
                         loading: 'eager',
                         fetchpriority: 'high',
                         sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
@@ -131,6 +138,7 @@ Custom Main Product Section
                       media.preview_image
                       | image_url: width: 1946
                       | image_tag:
+                          alt: media_alt,
                         loading: 'lazy',
                         sizes: '(min-width: 1200px) 780px, (min-width: 750px) 70vw, 100vw',
                         widths: '600, 900, 1200, 1500, 1946',
@@ -167,27 +175,41 @@ Custom Main Product Section
         </div>
 
         <div class="via-pdp-price">
-          {%- if product.compare_at_price > product.price -%}
+          {%- if current_variant.compare_at_price > current_variant.price -%}
             <span class="via-pdp-price__compare">
-              {{ product.compare_at_price | money }}
+              {{ current_variant.compare_at_price | money }}
             </span>       
           {%- endif -%}
             <span class="via-pdp-price__current">
-              {{ product.price | money }}
+              {{ current_variant.price | money }}
             </span>     
-          {%- if product.compare_at_price > product.price -%}
+          {%- if current_variant.compare_at_price > current_variant.price -%}
             <span class="via-pdp-price__badge">
               {{ 'products.product.on_sale' | t }}
             </span>
           {%- endif -%}
         </div>
   
+        {%- unless product.has_only_default_variant -%}
+          <form action="{{ product.url }}" method="get" class="via-pdp-variants">
+            <label for="Variant-{{ section.id }}">{{ 'products.product.product_variants' | t }}</label>
+            <select id="Variant-{{ section.id }}" name="variant">
+              {%- for variant in product.variants -%}
+                <option value="{{ variant.id }}"{% if variant.id == current_variant.id %} selected{% endif %}>
+                  {{ variant.title | escape }} — {{ variant.price | money | strip_html }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+            <button type="submit" class="button">{{ 'products.product.choose_options' | t }}</button>
+          </form>
+        {%- endunless -%}
+
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
-        <product-form class="via-pdp-form" data-section-id="{{ section.id }}">
+        <div class="via-pdp-form" data-section-id="{{ section.id }}">
           <div id="Quantity-Form-{{ section.id }}"
               class="product-form__input product-form__quantity"
-              {{ block.shopify_attributes }}>
+              >
               
             {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
 
@@ -225,7 +247,6 @@ Custom Main Product Section
 
               <div class="add-to-cart">
                 {%- render 'buy-buttons',
-                  block: block,
                   product: product,
                   product_form_id: product_form_id,
                   section_id: section.id,
@@ -234,7 +255,7 @@ Custom Main Product Section
               </div>
             </div>
 
-            <share-button id="Share-{{ section.id }}" class="share-button quick-add-hidden" {{ block.shopify_attributes }}>
+            <share-button id="Share-{{ section.id }}" class="share-button quick-add-hidden" >
               <button class="share-button__button hidden">
                 <span class="svg-wrapper">{{ 'icon-share.svg' | inline_asset_content }}</span>
                 Share
@@ -251,7 +272,7 @@ Custom Main Product Section
                       type="text"
                       class="field__input"
                       id="ShareUrl-{{ section.id }}"
-                      value="{{ share_link }}"
+                      value="{{ request.origin }}{{ current_variant.url }}"
                       placeholder="{{ 'general.share.share_url' | t }}"
                       onclick="this.select();"
                       readonly
@@ -274,7 +295,7 @@ Custom Main Product Section
               </details>
             </share-button>
           </div>
-        </product-form>
+        </div>
 
 
         <div class="product-tabs">
@@ -596,6 +617,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 {% endjavascript %}
 
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
 
 {% schema %}
 {

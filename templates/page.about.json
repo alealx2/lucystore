@@ -11,10 +11,11 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "disabled": true,
+      "disabled": false,
       "settings": {
         "padding_top": 28,
-        "padding_bottom": 28
+        "padding_bottom": 28,
+        "show_content": false
       }
     },
     "banner_with_text_cfNpan": {

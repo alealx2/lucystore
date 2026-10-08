@@ -85,7 +85,7 @@
                     {{ block.settings.text }}
                   </div>
                 {%- when 'button' -%}
-                  {%- if block.settings.button_label != blank -%}
+                  {%- if block.settings.button_label != blank and block.settings.button_link != blank and block.settings.button_link != "#" -%}
                     <a
                       {% if block.settings.button_link == blank %}
                         role="link" aria-disabled="true"

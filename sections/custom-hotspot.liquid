@@ -33,6 +33,7 @@
     <div class="hs__canvas">
       <div class="hs__media">
         {%- assign desktop_image = section.settings.main_image -%}
+        {%- assign hotspot_alt = desktop_image.alt | default: section.settings.alt_text | strip_html | strip_newlines -%}
         {%- assign mobile_image = section.settings.main_image_mobile | default: desktop_image -%}
 
         {% if desktop_image != blank or mobile_image != blank %}
@@ -43,10 +44,11 @@
                 class: 'hs__img hs__img--desktop',
                 sizes: '100vw',
                 widths: '750,1100,1500,2000,2400',
-                alt: section.settings.alt_text | default: section.settings.sec_title | escape
+                alt: hotspot_alt
             }}
           {%- endif -%}
 
+          {%- assign mobile_hotspot_alt = mobile_image.alt | default: section.settings.alt_text | strip_html | strip_newlines -%}
           {%- if mobile_image != blank -%}
             {{ mobile_image
               | image_url: width: 1600
@@ -54,7 +56,7 @@
                 class: 'hs__img hs__img--mobile',
                 sizes: '100vw',
                 widths: '750,1100,1500',
-                alt: section.settings.alt_text | default: section.settings.sec_title | escape
+                alt: mobile_hotspot_alt
             }}
           {%- endif -%}
         {% else %}
@@ -115,7 +117,7 @@
 
           <div class="hs-panel__main">
             <div class="hs-panel__thumb-wrap">
-              <img class="hs-panel__thumb" src="" alt="">
+              <img class="hs-panel__thumb" src="" width="80" height="80" alt="">
             </div>
 
             <div class="hs-panel__meta">

@@ -55,14 +55,14 @@
               </div>
             {%- when 'button' -%}
               <div
-                class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_link != blank and block.settings.button_link != "#" and block.settings.button_label_2 != blank and block.settings.button_link_2 != blank and block.settings.button_link_2 != "#" %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                 {{ block.shopify_attributes }}
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
                   style="--animation-order: {{ forloop.index }};"
                 {% endif %}
               >
-                {%- if block.settings.button_label != blank -%}
+                {%- if block.settings.button_label != blank and block.settings.button_link != blank and block.settings.button_link != "#" -%}
                   <a
                     {% if block.settings.button_link == blank %}
                       role="link" aria-disabled="true"
@@ -74,7 +74,7 @@
                     {{- block.settings.button_label | escape -}}
                   </a>
                 {%- endif -%}
-                {%- if block.settings.button_label_2 != blank -%}
+                {%- if block.settings.button_label_2 != blank and block.settings.button_link_2 != blank and block.settings.button_link_2 != "#" -%}
                   <a
                     {% if block.settings.button_link_2 == blank %}
                       role="link" aria-disabled="true"

@@ -70,7 +70,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
           assign link_url = blank
           if b.link_type == 'product' and b.product_ref != blank
             assign link_url = b.product_ref.url
-          elsif b.link_type == 'custom' and b.link_url != blank
+          elsif b.link_type == 'custom' and b.link_url != blank and link_url != "#" and b.link_url != "#"
             assign link_url = b.link_url
           endif
 
@@ -89,13 +89,17 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
           endif
 
           assign download_href = b.download_url
-          if download_href == blank or download_href == "#" and b.image != blank
-            assign download_href = b.image | image_url: width: 2400
+          if download_href == blank or download_href == "#"
+            assign download_href = blank
+            if b.image != blank
+              assign download_href = b.image | image_url: width: 2400
+            endif
           endif
 
 
         -%}
 
+        {%- assign card_alt = b.image.alt | strip_html | strip_newlines -%}
         {%- capture card -%}
           <div
             class="pgrid__card color-{{ section.settings.color_scheme }}"
@@ -138,13 +142,13 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
                 {%- endif -%}
               {%- else -%}
                 {% if b.image != blank %}
-                  {{ b.image | image_url: width: 1800 | image_tag: loading: 'lazy', class: 'pgrid__img', sizes: '(min-width: 1200px) 600px, (min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1600', alt: b.title | escape }}
+                  {{ b.image | image_url: width: 1800 | image_tag: loading: 'lazy', class: 'pgrid__img', sizes: '(min-width: 1200px) 600px, (min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1600', alt: card_alt }}
                 {% else %}
                   <div class="pgrid__color" style="background: {{ b.bg_color }}"></div>
                 {% endif %}
               {%- endif -%}
 
-              {%- if b.pinterest_url != blank -%}
+              {%- if b.pinterest_url != blank and b.pinterest_url != "#" -%}
                 <a
                   href="{{ b.pinterest_url }}"
                   class="pgrid__pin"
@@ -156,9 +160,9 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
                 </a>
               {%- endif -%}
 
-              {%- if b.share_url != blank or download_href != blank or b.visit_link  != blank -%}
+              {%- if b.share_url != blank and b.share_url != "#" or download_href != blank and download_href != "#" or b.visit_link  != blank -%}
                 <div class="pgrid__mini">
-                 {% if b.visit_link != blank %}
+                 {% if b.visit_link != blank and b.visit_link != "#" %}
                     <a
                       href="{{ b.visit_link }}"
                       class="pgrid__mini-btn pgrid__mini-btn--visit"
@@ -169,7 +173,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
                       <span class="pgrid__mini-label">Visit Link</span>
                     </a>
                   {% endif %}                  
-                  {% if b.share_url != blank %}
+                  {% if b.share_url != blank and b.share_url != "#" %}
                     <a
                       href="{{ b.share_url }}"
                       class="pgrid__mini-btn pgrid__mini-btn--share"
@@ -180,7 +184,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
                       <span class="pgrid__mini-label">Share</span>
                     </a>
                   {% endif %}
-                  {% if download_href != blank %}
+                  {% if download_href != blank and download_href != "#" %}
                     <a
                       href="{{ download_href }}"
                       class="pgrid__mini-btn pgrid__mini-btn--download js-pgrid-download"
@@ -219,7 +223,7 @@ Pinterest Grid 3+2 – OS 2.0 Section (Dawn compatible)
 
                 {%- if show_actions and b.action_view_more or b.action_add_enable and p != blank and v != blank -%}
                   <div class="pgrid__actions">
-                    {%- if b.action_view_more and link_url != blank -%}
+                    {%- if b.action_view_more and link_url != blank and link_url != "#" -%}
                       <a
                         class="pgrid__btn pgrid__btn--solid"
                         href="{{ link_url }}"

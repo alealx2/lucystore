@@ -80,6 +80,7 @@
                 {%- if block.settings.menu != blank -%}
                   <ul class="footer-block__details-content list-unstyled">
                     {%- for link in block.settings.menu.links -%}
+                      {%- if link.url == blank or link.url == "#" -%}{%- continue -%}{%- endif -%}
                       <li>
                         <a href="{{ link.url }}"
                           class="link link--text list-menu__item list-menu__item--link footer-menu__link{% if link.active %} list-menu__item--active{% endif %}">
@@ -128,7 +129,7 @@
                         srcset="{{ block.settings.image | image_url: width: block.settings.image_width }},
                                 {{ block.settings.image | image_url: width: image_size_2x }} 2x"
                         src="{{ block.settings.image | image_url: width: 760 }}"
-                        alt="{{ block.settings.image.alt | escape }}"
+                        alt="{{ block.settings.image.alt  | strip_html | strip_newlines | escape }}"
                         loading="lazy"
                         width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
                     </div>
@@ -146,7 +147,7 @@
                         srcset="{{ block.settings.image | image_url: width: block.settings.image_width }},
                                 {{ block.settings.image | image_url: width: _w2x }} 2x"
                         src="{{ block.settings.image | image_url: width: 760 }}"
-                        alt="{{ block.settings.image.alt | escape }}"
+                        alt="{{ block.settings.image.alt  | strip_html | strip_newlines | escape }}"
                         loading="lazy"
                         width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
                     </div>

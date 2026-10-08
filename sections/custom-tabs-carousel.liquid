@@ -202,7 +202,7 @@ Carousel Tabs – Section (Dawn / OS 2.0)
                   </div>
                 {% elsif b.bg_type == 'image' and b.bg_image != blank %}
                   <div class="tc-item__media-wrapper">
-                    {%- assign _alt1 = b.bg_image_alt | default: 'image' -%}
+                    {%- assign _alt1 = b.bg_image.alt | default: b.bg_image_alt | strip_html | strip_newlines -%}
                     {{ b.bg_image
                       | image_url: width: 1200
                       | image_tag:
@@ -227,7 +227,7 @@ Carousel Tabs – Section (Dawn / OS 2.0)
                       {{ b.rich_text }}
                     </div>
                   {% endif %}
-                  {% if b.button_label != blank and b.button_link != blank %}
+                  {% if b.button_label != blank and b.button_link != blank and b.button_link != "#" %}
                     <a
                       class="tc-item__btn"
                       href="{{ b.button_link }}"
@@ -318,7 +318,7 @@ Carousel Tabs – Section (Dawn / OS 2.0)
                     </div>
                   {% elsif image != blank %}
                     <div class="tc-item__media-wrapper">
-                      {%- assign _altN = image_alt | default: 'image' -%}
+                      {%- assign _altN = image.alt | default: image_alt | strip_html | strip_newlines -%}
                       {{ image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'tc-item__media-img', alt: _altN }}
                     </div>
                   {% endif %}
@@ -337,7 +337,7 @@ Carousel Tabs – Section (Dawn / OS 2.0)
                         {{ item_text }}
                       </div>
                     {% endif %}
-                    {% if item_btn_label != blank and item_btn_link != blank %}
+                    {% if item_btn_label != blank and item_btn_link != blank and item_btn_link != "#" %}
                       <a
                         class="tc-item__btn"
                         href="{{ item_btn_link }}"

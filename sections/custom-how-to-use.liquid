@@ -69,7 +69,7 @@
           {% elsif media_val.media_type contains 'image' %}
             <img
               src="{{ media_val | image_url: width: 1200 }}"
-              alt="{{ product.title | escape }}"
+              alt="{{ media_val.alt | strip_html | strip_newlines | escape }}"
               class="howto__image"
               loading="lazy"
               width="{{ media_val.width }}" height="{{ media_val.height }}"
@@ -139,7 +139,7 @@
           {% elsif media_val.media_type contains 'image' %}
             <img
               src="{{ media_val | image_url: width: 1200 }}"
-              alt="{{ product.title | escape }}"
+              alt="{{ media_val.alt | strip_html | strip_newlines | escape }}"
               class="howto__image"
               loading="lazy"
               width="{{ media_val.width }}" height="{{ media_val.height }}"

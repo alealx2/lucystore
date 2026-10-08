@@ -11,10 +11,11 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "disabled": true,
+      "disabled": false,
       "settings": {
         "padding_top": 28,
-        "padding_bottom": 28
+        "padding_bottom": 28,
+        "show_content": false
       }
     },
     "rich_text_wqGPFk": {
@@ -39,7 +40,8 @@
         "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
-      }
+      },
+      "disabled": true
     },
     "collapsible_content_WQKthj": {
       "type": "collapsible-content",

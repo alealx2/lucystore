@@ -41,7 +41,7 @@
                     width="{{ icon_image.width }}"
                     height="{{ icon_image.height }}"
                     loading="lazy"
-                    alt="{{ block.settings.label | escape }}"
+                    alt="{{ block.settings.label  | strip_html | strip_newlines | escape }}"
                   >
                 {% endif %}
                 {% if block.settings.label != blank %}

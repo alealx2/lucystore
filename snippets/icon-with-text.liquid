@@ -48,7 +48,7 @@
         <img
           src="{{ block.settings.image_1 | image_url }}"
           {% if block.settings.image_1.alt != blank %}
-            alt="{{ block.settings.image_1.alt | escape }}"
+            alt="{{ block.settings.image_1.alt  | strip_html | strip_newlines | escape }}"
           {% else %}
             role="presentation"
           {% endif %}
@@ -70,7 +70,7 @@
         <img
           src="{{ block.settings.image_2 | image_url }}"
           {% if block.settings.image_2.alt != blank %}
-            alt="{{ block.settings.image_2.alt | escape }}"
+            alt="{{ block.settings.image_2.alt  | strip_html | strip_newlines | escape }}"
           {% else %}
             role="presentation"
           {% endif %}
@@ -92,7 +92,7 @@
         <img
           src="{{ block.settings.image_3 | image_url }}"
           {% if block.settings.image_3.alt != blank %}
-            alt="{{ block.settings.image_3.alt | escape }}"
+            alt="{{ block.settings.image_3.alt  | strip_html | strip_newlines | escape }}"
           {% else %}
             role="presentation"
           {% endif %}

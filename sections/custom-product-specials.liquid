@@ -38,7 +38,7 @@
                 <img
                     class="specials__img"
                     src="{{ media | image_url: width: 1600 }}"
-                    alt="{{ title | default: product.title | escape }}"
+                    alt="{{ media.alt | strip_html | strip_newlines | escape }}"
                     loading="lazy"
                     width="{{ media.width }}"
                     height="{{ media.height }}"

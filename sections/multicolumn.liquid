@@ -35,7 +35,7 @@
         <h2 class="title inline-richtext {{ section.settings.heading_size }}">
           {{ section.settings.title }}
         </h2>
-        {%- if section.settings.button_label != blank and show_mobile_slider -%}
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank and section.settings.button_link != "#" and show_mobile_slider -%}
           <a href="{{ section.settings.button_link }}" class="link underlined-link large-up-hide">
             {{- section.settings.button_label | escape -}}
           </a>
@@ -174,7 +174,7 @@
       {%- endif -%}
     </slider-component>
     <div class="center{% if show_mobile_slider %} small-hide medium-hide{% endif %}">
-      {%- if section.settings.button_label != blank -%}
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank and section.settings.button_link != "#" -%}
         <a
           class="button button--primary"
           {% if section.settings.button_link == blank %}

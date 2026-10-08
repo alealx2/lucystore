@@ -105,17 +105,18 @@
                   assign fetch_priority = 'high'
                 endif
               -%}
+              {%- assign slide_alt = block.settings.image.alt | default: block.settings.image_alt | strip_html | strip_newlines -%}
               {%- if forloop.first -%}
                 {{
                   block.settings.image
                   | image_url: width: 3840
-                  | image_tag: alt: block.settings.image_alt | default: 'image', height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+                  | image_tag: alt: slide_alt, height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
                 }}
               {%- else -%}
                 {{
                   block.settings.image
                   | image_url: width: 3840
-                  | image_tag: alt: block.settings.image_alt | default: 'image', loading: 'lazy', height: height, sizes: sizes, widths: widths
+                  | image_tag: alt: slide_alt, loading: 'lazy', height: height, sizes: sizes, widths: widths
                 }}
               {%- endif -%}
             {%- else -%}
@@ -153,7 +154,7 @@
               </div>
             {%- endif -%}
 
-            {%- if block.settings.button_label != blank -%}
+            {%- if block.settings.button_label != blank and block.settings.link != blank and block.settings.link != "#" -%}
               <div class="banner__buttons{% if block.settings.lucy_style_enabled %} banner__buttons--lucy{% endif %}">
                 {%- if block.settings.lucy_style_enabled -%}
 
@@ -180,7 +181,7 @@
                   >
                     <img
                       src="{{ 'double-arrow.png' | asset_url }}"
-                      alt="{{ block.settings.scroll_arrow_alt | default: 'image' | escape }}"
+                      alt="{{ block.settings.scroll_arrow_alt | default: 'image'  | strip_html | strip_newlines | escape }}"
                       height="60"
                       width="60"
                     />

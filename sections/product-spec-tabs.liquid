@@ -1,3 +1,11 @@
+{%- assign has_specs = false -%}
+{%- for block in section.blocks -%}
+  {%- for i in (1..6) -%}
+    {%- assign value_key = 'item_' | append: i | append: '_value' -%}
+    {%- if block.settings[value_key] != blank -%}{%- assign has_specs = true -%}{%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if has_specs -%}
 <section
   id="ProductTabs-{{ section.id }}"
   class="product-spec-tabs section-{{ section.id }}-padding"
@@ -84,7 +92,7 @@
 
     @media (max-width: 750px) {
       .product-spec-tabs__items{
-        grid-template-columns: repeat(3, minmax(0, 1fr));      
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -139,33 +147,46 @@
   <div class="product-spec-tabs__inner">
     {%- if section.blocks.size > 0 -%}
 
+      {%- assign first_visible_tab = true -%}
       <!-- NAV -->
       <div class="product-spec-tabs__nav" role="tablist" aria-label="Product details">
         {%- for block in section.blocks -%}
-          {%- if block.type == 'tab' -%}
+          {%- assign has_values = false -%}
+          {%- for i in (1..6) -%}
+            {%- assign value_key = 'item_' | append: i | append: '_value' -%}
+            {%- if block.settings[value_key] != blank -%}{%- assign has_values = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if block.type == 'tab' and has_values -%}
             <button
               type="button"
               class="product-spec-tabs__tab-button"
               role="tab"
               id="ProductTabs-Tab-{{ block.id }}"
               aria-controls="ProductTabs-Panel-{{ block.id }}"
-              aria-selected="{{ forloop.first }}"
+              aria-selected="{{ first_visible_tab }}"
               data-tab-trigger="{{ block.id }}"
               {{ block.shopify_attributes }}
             >
               {{ block.settings.tab_title | escape }}
             </button>
+            {%- assign first_visible_tab = false -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
 
+      {%- assign first_visible_tab = true -%}
       <!-- PANELS -->
       <div class="product-spec-tabs__panels">
         {%- for block in section.blocks -%}
-          {%- if block.type == 'tab' -%}
+          {%- assign has_values = false -%}
+          {%- for i in (1..6) -%}
+            {%- assign value_key = 'item_' | append: i | append: '_value' -%}
+            {%- if block.settings[value_key] != blank -%}{%- assign has_values = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if block.type == 'tab' and has_values -%}
             <div
               id="ProductTabs-Panel-{{ block.id }}"
-              class="product-spec-tabs__panel{% if forloop.first %} is-active{% endif %}"
+              class="product-spec-tabs__panel{% if first_visible_tab %} is-active{% endif %}"
               role="tabpanel"
               aria-labelledby="ProductTabs-Tab-{{ block.id }}"
               data-tab-panel="{{ block.id }}"
@@ -181,11 +202,11 @@
                   {%- assign value = block.settings[key_value] -%}
                   {%- assign icon  = block.settings[key_icon]  -%}
 
-                  {%- if label != blank or value != blank -%}
+                  {%- if value != blank -%}
                     <div class="product-spec-tabs__item">
                       {%- if icon != blank -%}
                         <div class="product-spec-tabs__item-icon">
-                          <img src="{{ icon | img_url: '50x50' }}" alt="">
+                          <img src="{{ icon | image_url: width: 50 }}" width="22" height="22" alt="">
                         </div>
                       {%- endif -%}
 
@@ -206,6 +227,7 @@
                 {%- endfor -%}
               </div>
             </div>
+            {%- assign first_visible_tab = false -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
@@ -241,6 +263,8 @@
     })();
   </script>
 </section>
+
+{%- endif -%}
 
 {% schema %}
 {

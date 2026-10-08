@@ -149,7 +149,7 @@
                                               loading: 'lazy',
                                               widths: '160,240,320',
                                               sizes: '120px',
-                                              alt: col.title | escape
+                                              alt: col.image.alt
                                             }}
                                           {%- else -%}
                                             <span class="megamenu-cat__thumb-placeholder" aria-hidden="true"></span>
@@ -184,7 +184,7 @@
                                               loading: 'lazy',
                                               widths: '600,900,1200',
                                               sizes: '(min-width: 1200px) 60vw, 100vw',
-                                              alt: col.title | escape
+                                              alt: col.image.alt
                                             }}
                                           {%- endif -%}
                                         </div>
@@ -284,7 +284,7 @@
                                               loading: 'lazy',
                                               sizes: '(min-width: 1200px) 26vw, 70vw',
                                               widths: '480,720,920',
-                                              alt: col.title | escape
+                                              alt: col.image.alt
                                             }}
                                           {%- endif -%}
                                         </div>
