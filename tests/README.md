@@ -33,3 +33,5 @@ La regresión del hero espera un MP4 de prueba en `/tmp/lucystore-qa-flower.mp4`
 Los scripts de configuración restauran sus archivos en `finally` y al recibir SIGINT/SIGTERM. No ejecutar esas dos suites simultáneamente ni editar sus archivos de configuración durante la prueba. Si el proceso se mata forzosamente, revisar y restaurar la configuración antes de subir el tema.
 
 Las pruebas con perfiles de dispositivo son emulaciones, no pruebas en teléfonos físicos. El proxy local introduce diferencias de caché y red; Lighthouse sobre este proxy no equivale a métricas de producción.
+
+Hotspot viewport follow-up (26 October): `NODE_PATH=/Users/aleal/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules node tests/hotspot-viewport.cjs` checks six seasonal pages in Chromium and WebKit at four viewport sizes, cover-coordinate alignment, no horizontal overflow and panel interaction. This replaces the earlier requirement to display the complete composition within 82svh.

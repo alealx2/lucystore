@@ -2,6 +2,7 @@
   Hotspots Product Map + Panel + Modal Product
 {% endcomment %}
 {{ 'custom-hotspot.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'hotspot-viewport.js' | asset_url }}" defer="defer"></script>
 <style>
   /* VIA LUCI hotspot critical no-flash: product UI must never paint before JS interaction. */
   [data-hs-panel][aria-hidden="true"],
@@ -33,7 +34,7 @@
   </div>
 
   <div class="custom-width">
-    <div class="hs__canvas" style="--hs-image-ratio: {{ section.settings.main_image.aspect_ratio | default: 1 }};">
+    <div class="hs__canvas">
       <div class="hs__media">
         {%- assign desktop_image = section.settings.main_image -%}
         {%- assign hotspot_alt = desktop_image.alt | default: section.settings.alt_text | strip_html | strip_newlines -%}
@@ -42,11 +43,11 @@
         {% if desktop_image != blank or mobile_image != blank %}
           {%- if desktop_image != blank -%}
             {{ desktop_image
-              | image_url: width: 2400
+              | image_url: width: 3200
               | image_tag:
                 class: 'hs__img hs__img--desktop',
-                sizes: '(min-width: 750px) 50vw, 100vw',
-                widths: '500,750,1100,1500,2000,2400',
+                sizes: '100vw',
+                widths: '500,750,1100,1500,2000,2560,3200',
                 alt: hotspot_alt
             }}
           {%- endif -%}
@@ -95,6 +96,8 @@
           type="button"
           aria-label="{{ b.hotspot_label | default: 'View product' }}"
           style="top:{{ b.top_position }}%; left:{{ b.left_position }}%;"
+          data-hs-x="{{ b.left_position }}"
+          data-hs-y="{{ b.top_position }}"
           data-title="{{ b.title_override | default: p.title | default: 'Product' | escape }}"
           data-price="{% if price != blank %}{{ price | money | strip_html | escape }}{% endif %}"
           data-compare="{% if compare != blank and compare > price %}{{ compare | money | strip_html | escape }}{% endif %}"

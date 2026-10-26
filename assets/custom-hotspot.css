@@ -743,12 +743,29 @@ border-color:#161F3A;
   transition-timing-function:var(--vl-motion-ease) !important;
 }
 
-/* Fit the entire seasonal composition to one desktop viewport. The canvas
-   scales with the image so percentage hotspot coordinates stay aligned. */
-@media (min-width: 750px) {
-  .hs__canvas {
-    max-width: min(100%, calc(min(82svh, 900px) * var(--hs-image-ratio, 1)));
-    margin-inline: auto;
-  }
-  .hs__img--desktop { width: 100%; height: auto; }
+/* Fill the first screen below the header, preserving the image proportions.
+   hotspot-viewport.js maps product coordinates through the same cover crop. */
+.hs > .custom-width {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
+.hs .hs__canvas {
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  height: calc(100svh - var(--hs-viewport-offset, var(--header-height, 0px)));
+  margin: 0;
+}
+.hs .hs__media {
+  width: 100%;
+  height: 100%;
+}
+.hs .hs__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.hs .hs__placeholder { height: 100%; }

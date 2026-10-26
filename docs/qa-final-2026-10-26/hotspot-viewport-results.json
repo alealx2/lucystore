@@ -1,0 +1,1538 @@
+[
+  {
+    "engine": "chromium",
+    "slug": "christmas-exterior",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.009722222222308119
+      },
+      {
+        "visible": true,
+        "error": 0.014097222222176242
+      },
+      {
+        "visible": true,
+        "error": 0.014097222222176242
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-interior",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": false,
+        "error": 0.012500000000045475
+      },
+      {
+        "visible": false,
+        "error": 0.012500000000045475
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "halloween",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.012499999999931788
+      },
+      {
+        "visible": true,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "harvest",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.014057731434377274
+      },
+      {
+        "visible": false,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "patriotic",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.014057731434377274
+      },
+      {
+        "visible": false,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "everyday",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.014057731434377274
+      },
+      {
+        "visible": false,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-exterior",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.0062499999999090505
+      },
+      {
+        "visible": true,
+        "error": 0.0062499999999090505
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-interior",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": false,
+        "error": 0.012882003395816355
+      },
+      {
+        "visible": false,
+        "error": 0.01162988115436292
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "halloween",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.008125000000063665
+      },
+      {
+        "visible": true,
+        "error": 0.0062499999999090505
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "harvest",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000136424
+      },
+      {
+        "visible": false,
+        "error": 0.010535350966506485
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "patriotic",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000136424
+      },
+      {
+        "visible": false,
+        "error": 0.010535350966506485
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "everyday",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000136424
+      },
+      {
+        "visible": false,
+        "error": 0.010535350966506485
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-exterior",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.109375,
+      "bottom": 844
+    },
+    "img": {
+      "width": 390,
+      "height": 781.109375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.000937500000077307
+      },
+      {
+        "visible": true,
+        "error": 0.0017187499999806732
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-interior",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.109375,
+      "bottom": 844
+    },
+    "img": {
+      "width": 390,
+      "height": 781.109375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.010213744588725149
+      },
+      {
+        "visible": true,
+        "error": 0.010579004328974406
+      },
+      {
+        "visible": true,
+        "error": 0.010579004328974406
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "halloween",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.109375,
+      "bottom": 844
+    },
+    "img": {
+      "width": 390,
+      "height": 781.109375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.004007847533671338
+      },
+      {
+        "visible": true,
+        "error": 0.004007847533671338
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "harvest",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.109375,
+      "bottom": 844
+    },
+    "img": {
+      "width": 390,
+      "height": 781.109375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.0029166666666355923
+      },
+      {
+        "visible": true,
+        "error": 0.0029166666666355923
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "patriotic",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.109375,
+      "bottom": 844
+    },
+    "img": {
+      "width": 390,
+      "height": 781.109375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.0029166666666355923
+      },
+      {
+        "visible": true,
+        "error": 0.0029166666666355923
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "everyday",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.109375,
+      "bottom": 844
+    },
+    "img": {
+      "width": 390,
+      "height": 781.109375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.0029166666666355923
+      },
+      {
+        "visible": true,
+        "error": 0.0029166666666355923
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-exterior",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.014077970297023512
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.007487623762358453
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "christmas-interior",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.013437500000009095
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "halloween",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.008307926829274948
+      },
+      {
+        "visible": true,
+        "error": 0.01210365853660278
+      },
+      {
+        "visible": true,
+        "error": 0.01210365853660278
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "harvest",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.006041666666646961
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "patriotic",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.006041666666646961
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "slug": "everyday",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.006041666666646961
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-exterior",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.009722222222308119
+      },
+      {
+        "visible": true,
+        "error": 0.014097222222176242
+      },
+      {
+        "visible": true,
+        "error": 0.014097222222176242
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-interior",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": false,
+        "error": 0.012500000000045475
+      },
+      {
+        "visible": false,
+        "error": 0.012500000000045475
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "halloween",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.012499999999931788
+      },
+      {
+        "visible": true,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "harvest",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.014057731434377274
+      },
+      {
+        "visible": false,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "patriotic",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.014057731434377274
+      },
+      {
+        "visible": false,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "everyday",
+    "width": 1440,
+    "height": 900,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1440,
+      "height": 811,
+      "bottom": 900
+    },
+    "img": {
+      "width": 1440,
+      "height": 811
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.014057731434377274
+      },
+      {
+        "visible": false,
+        "error": 0.012499999999931788
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-exterior",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.0062499999999090505
+      },
+      {
+        "visible": true,
+        "error": 0.0062499999999090505
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-interior",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": false,
+        "error": 0.012882003395816355
+      },
+      {
+        "visible": false,
+        "error": 0.01162988115436292
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "halloween",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0
+      },
+      {
+        "visible": true,
+        "error": 0.008125000000063665
+      },
+      {
+        "visible": true,
+        "error": 0.0062499999999090505
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "harvest",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000136424
+      },
+      {
+        "visible": false,
+        "error": 0.010535350966506485
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "patriotic",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000136424
+      },
+      {
+        "visible": false,
+        "error": 0.010535350966506485
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "everyday",
+    "width": 1920,
+    "height": 1080,
+    "canvas": {
+      "x": 0,
+      "y": 89,
+      "width": 1920,
+      "height": 991,
+      "bottom": 1080
+    },
+    "img": {
+      "width": 1920,
+      "height": 991
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 1.1368683772161603e-13
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000136424
+      },
+      {
+        "visible": false,
+        "error": 0.010535350966506485
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-exterior",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.09375,
+      "bottom": 843.984375
+    },
+    "img": {
+      "width": 390,
+      "height": 781.09375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.010488013698591203
+      },
+      {
+        "visible": true,
+        "error": 0.01348458904101335
+      },
+      {
+        "visible": true,
+        "error": 0.014062499999994316
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-interior",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.09375,
+      "bottom": 843.984375
+    },
+    "img": {
+      "width": 390,
+      "height": 781.09375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.011093073593059444
+      },
+      {
+        "visible": true,
+        "error": 0.009875541125524023
+      },
+      {
+        "visible": true,
+        "error": 0.014062500000051159
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "halloween",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.09375,
+      "bottom": 843.984375
+    },
+    "img": {
+      "width": 390,
+      "height": 781.09375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.005535313901305017
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000022737
+      },
+      {
+        "visible": true,
+        "error": 0.014062499999994316
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "harvest",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.09375,
+      "bottom": 843.984375
+    },
+    "img": {
+      "width": 390,
+      "height": 781.09375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.005208333333371229
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000022737
+      },
+      {
+        "visible": true,
+        "error": 0.014062499999994316
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "patriotic",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.09375,
+      "bottom": 843.984375
+    },
+    "img": {
+      "width": 390,
+      "height": 781.09375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.005208333333371229
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000022737
+      },
+      {
+        "visible": true,
+        "error": 0.014062499999994316
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "everyday",
+    "width": 390,
+    "height": 844,
+    "canvas": {
+      "x": 0,
+      "y": 62.890625,
+      "width": 390,
+      "height": 781.09375,
+      "bottom": 843.984375
+    },
+    "img": {
+      "width": 390,
+      "height": 781.09375
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.005208333333371229
+      },
+      {
+        "visible": true,
+        "error": 0.006250000000022737
+      },
+      {
+        "visible": true,
+        "error": 0.014062499999994316
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-exterior",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.014077970297023512
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.007487623762358453
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "christmas-interior",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.013437500000009095
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "halloween",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.008307926829274948
+      },
+      {
+        "visible": true,
+        "error": 0.01210365853660278
+      },
+      {
+        "visible": true,
+        "error": 0.01210365853660278
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "harvest",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.006041666666646961
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "patriotic",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.006041666666646961
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "slug": "everyday",
+    "width": 360,
+    "height": 656,
+    "canvas": {
+      "x": 0,
+      "y": 59.109375,
+      "width": 360,
+      "height": 596.890625,
+      "bottom": 656
+    },
+    "img": {
+      "width": 360,
+      "height": 596.890625
+    },
+    "overflow": false,
+    "points": [
+      {
+        "visible": true,
+        "error": 0.0078125
+      },
+      {
+        "visible": true,
+        "error": 0.010312499999997726
+      },
+      {
+        "visible": true,
+        "error": 0.006041666666646961
+      }
+    ]
+  }
+]
