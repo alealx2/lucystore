@@ -36,8 +36,33 @@
   <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
 {%- endif -%}
 
-{%- if settings.social_twitter_link != blank and settings.social_twitter_link != "#" -%}
-  <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
+{%- liquid
+  assign twitter_url = settings.social_twitter_link | strip | remove: 'https://' | remove: 'http://'
+  assign twitter_url = twitter_url | split: '?' | first | split: '#' | first
+  assign twitter_parts = twitter_url | split: '/'
+  assign twitter_domain = twitter_parts.first | downcase | remove: 'www.'
+  assign twitter_handle = twitter_parts[1]
+  assign valid_twitter = false
+  if twitter_domain == 'x.com' or twitter_domain == 'twitter.com'
+    if twitter_parts.size == 2 and twitter_handle.size > 0 and twitter_handle.size <= 15
+      assign invalid_chars = twitter_handle | downcase | remove: '_'
+      assign allowed_chars = 'abcdefghijklmnopqrstuvwxyz0123456789' | split: ''
+      for char in allowed_chars
+        assign invalid_chars = invalid_chars | remove: char
+      endfor
+      if invalid_chars == blank
+        assign valid_twitter = true
+      endif
+      assign reserved_paths = 'home,intent,share,search,explore,settings,messages,compose,i' | split: ','
+      assign normalized_handle = twitter_handle | downcase
+      if reserved_paths contains normalized_handle
+        assign valid_twitter = false
+      endif
+    endif
+  endif
+-%}
+{%- if valid_twitter -%}
+  <meta name="twitter:site" content="@{{ twitter_handle | escape }}">
 {%- endif -%}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ social_title | strip | escape }}">

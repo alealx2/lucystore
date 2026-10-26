@@ -40,7 +40,8 @@
         "main_label_size_mobile": 14,
         "main_title_size_mobile": 28,
         "bottom_title_size_mobile": 18,
-        "items_gap": 30
+        "items_gap": 30,
+        "use_page_content": true
       }
     }
   },

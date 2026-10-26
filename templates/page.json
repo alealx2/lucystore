@@ -11,10 +11,11 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "disabled": true,
+      "disabled": false,
       "settings": {
         "padding_top": 32,
-        "padding_bottom": 4
+        "padding_bottom": 4,
+        "show_content": true
       }
     },
     "custom_text_section_RzeXAn": {
@@ -41,7 +42,8 @@
         "main_title_size_mobile": 28,
         "bottom_title_size_mobile": 18,
         "items_gap": 30
-      }
+      },
+      "disabled": true
     }
   },
   "order": [

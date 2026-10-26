@@ -494,3 +494,25 @@ slideshow-component:not(.page-width) .slider-buttons {
     gap:8px;
   }
 }
+/* Keep hidden media controls hidden even where legacy layout rules use flex. */
+.slideshow__play-pause[hidden] { display: none !important; }
+.slideshow__controls--bottom .slider-counter,
+.slideshow__controls--bottom .slider-counter__link--numbers {
+  color: #fff;
+  text-shadow: 0 1px 3px #000;
+}
+.slideshow__controls--bottom .slider-counter__link--dots .dot {
+  border-color: #fff;
+}
+.slideshow__controls--bottom .slider-counter__link--active.slider-counter__link--dots .dot {
+  background-color: #fff !important;
+}
+.slideshow__controls--bottom .slideshow__autoplay,
+.slideshow__controls--bottom .slideshow__autoplay path {
+  color: #fff;
+  fill: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  slideshow-component .slider { scroll-behavior: auto; }
+  slideshow-component .lucy-scroll { animation: none; }
+}

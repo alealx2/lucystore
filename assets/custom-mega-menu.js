@@ -307,6 +307,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('.header-wrapper');
   const detailsList = Array.from(document.querySelectorAll('header-menu details.mega-menu'));
   const closingTimers = new WeakMap();
+  const cancelPending = new WeakMap();
+  let restoringFocus = false;
+  const escapeClosed = new WeakSet();
   if (!detailsList.length) return;
 
   const isHome = () => root.classList.contains('is-home') || document.body.classList.contains('is-home');
@@ -371,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function openDetails(details) {
-    if (!desktopMQ.matches) return;
+    if (!desktopMQ.matches || restoringFocus || escapeClosed.has(details)) return;
 
     /* Cancel an in-flight close before changing any visual state. This is the
        important anti-blink path when Shop is re-entered very quickly. */
@@ -415,8 +418,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    cancelPending.set(details, () => { clearOpenTimer(); clearCloseTimer(); });
+
     const scheduleOpen = () => {
-      if (!desktopMQ.matches) return;
+      if (!desktopMQ.matches || escapeClosed.has(details)) return;
       clearCloseTimer();
       clearOpenTimer();
       openTimer = setTimeout(() => openDetails(details), OPEN_DELAY);
@@ -449,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     details.addEventListener('pointerenter', scheduleOpen);
-    details.addEventListener('pointerleave', scheduleClose);
+    details.addEventListener('pointerleave', (event) => { escapeClosed.delete(details); scheduleClose(event); });
 
     if (summary) {
       summary.addEventListener('pointerenter', scheduleOpen);
@@ -457,6 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
       summary.addEventListener('click', (event) => {
         if (!desktopMQ.matches) return;
         event.preventDefault();
+        escapeClosed.delete(details);
         openDetails(details);
       });
     }
@@ -488,6 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     details.addEventListener('focusout', () => {
+      escapeClosed.delete(details);
       if (!desktopMQ.matches) return;
       clearCloseTimer();
     });
@@ -510,10 +517,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (openMenu) closeDetails(openMenu);
   });
 
-  document.addEventListener('keydown', (event) => {
+  // Capture before Dawn's keyup focus handler can reopen the same summary.
+  function escapeMenu(event) {
     if (!desktopMQ.matches || event.key !== 'Escape') return;
-    closeAll();
-  });
+    const menu = getOpenMenu();
+    if (!menu && !document.body.classList.contains(ACTIVE_CLASS)) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    detailsList.forEach((details) => {
+      escapeClosed.add(details);
+      cancelPending.get(details)?.();
+      clearClosingAnimation(details);
+      details.removeAttribute('open');
+      details.classList.remove('via-luci-is-closing');
+      details.querySelector('summary')?.setAttribute('aria-expanded', 'false');
+    });
+    document.body.classList.remove(ACTIVE_CLASS, TRANSITION_CLASS);
+    unlockViaLuciScroll();
+    syncHeaderState();
+    restoringFocus = true;
+    menu?.querySelector('summary')?.focus({ preventScroll: true });
+    restoringFocus = false;
+  }
+  document.addEventListener('keydown', escapeMenu, true);
 
   window.addEventListener('scroll', syncHeaderState, { passive: true });
 

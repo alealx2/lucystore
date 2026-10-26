@@ -1,0 +1,960 @@
+{
+  "base": "http://127.0.0.1:9293",
+  "results": [
+    {
+      "name": "QA01 real image hero initializes",
+      "status": "pass",
+      "detail": {
+        "slides": 3,
+        "motion": "boolean",
+        "page": 1
+      }
+    },
+    {
+      "name": "QA08 counter and manual navigation",
+      "status": "pass",
+      "detail": "1 → 2 → 1"
+    },
+    {
+      "name": "QA04 QA07 menu Escape and focus",
+      "status": "pass",
+      "detail": {
+        "open": false,
+        "locked": false,
+        "overlay": false,
+        "focus": "SUMMARY"
+      }
+    },
+    {
+      "name": "QA06 track-your-order",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Track your order"
+        ],
+        "text": ".section-template--21332710817971__main-padding {\n    padding-top: 24px;\n    padding-bottom: 3px;\n  }\n\n  @media screen and (min-width: 750px) {\n    .section-template--21332710817971__main-padding {\n      padding-top: 32px;\n      padding-bottom: 4px;\n    }\n  }\n\n  \n    Track your order\n  \n  \n  \n    Once your order ships, you will receive a shipping confirmation email with your tracking link. You can use that link at any time to see the latest delivery status. If you have not yet received a shipping confirmation, your order is still being prepared.\nIf you need assistance, please contact us and our team will be happy to help.",
+        "rte": "Once your order ships, you will receive a shipping confirmation email with your tracking link. You can use that link at any time to see the latest delivery status. If you have not yet received a shipping confirmation, your order is still being prepared.\nIf you need assistance, please contact us and our team will be happy to help."
+      }
+    },
+    {
+      "name": "QA06 return-and-exchanges",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Return and exchanges"
+        ],
+        "text": ".section-template--21332710817971__main-padding {\n    padding-top: 24px;\n    padding-bottom: 3px;\n  }\n\n  @media screen and (min-width: 750px) {\n    .section-template--21332710817971__main-padding {\n      padding-top: 32px;\n      padding-bottom: 4px;\n    }\n  }\n\n  \n    Return and exchanges",
+        "rte": ""
+      }
+    },
+    {
+      "name": "QA06 contact-us",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Contact us"
+        ],
+        "text": ".section-template--21332711538867__main-padding {\n    padding-top: 27px;\n    padding-bottom: 27px;\n  }\n\n  @media screen and (min-width: 750px) {\n    .section-template--21332711538867__main-padding {\n      padding-top: 36px;\n      padding-bottom: 36px;\n    }\n  }\n\n  \n    Contact us\n  \n  \n  \n    \n  \n  \n\n\n\n\n\n\n\n\n  \n  \n    \n      \n    \n    \n  \n\n  \n    \n      \n          \n            \n              Get in touch\n            \n          \n\n          \n            \n              We’dlove to hear from you.\n            \n          \n\n          \n            \n              Send us a message and we’ll get back to you as soon as possible.\n            \n          \n\n              \n                \n                  First Name\n                \n                \n              \n\n              \n                \n                  Last Name\n                \n                \n              \n\n              \n                \n                  Email *\n                \n                \n\n              \n                \n                  Phone Number (Optional)\n                \n                \n              \n\n              \n                \n                  Message\n                \n                \n              \n            \n\n            \n              \n                Send message\n              \n            \n          \n            \n\n            \n              ×\n\n              CONTACT\n\n              \n                Message received.\n              \n\n              \n                Thank you for reaching out. Our team will review your message and respond within one business day.\n              \n\n              \n                Continue\n              \n            \n          \n\n\n          \n        \n          \n\n          \n            \n              Our team reviews every message and typically responds within one business day.\n            \n          \n\n          \n            \n\n            \n\n            \n          \n        \n      \n    \n  \n\n  \n  document.addEventListener('DOMContentLoaded', () => {\n    const phone",
+        "rte": ""
+      }
+    },
+    {
+      "name": "QA06 warranty-information",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Warranty information"
+        ],
+        "text": "Warranty information\n      \n\n      \n\n      \n\n    \n  \n\n\n\n\n    \n    .custom-text-section {\n    height: 100%;\n    display: flex;\n    position: relative;\n    width: 100%;\n    background-size: cover;\n    background-position: center;\n    background-repeat: no-repeat;\n    overflow: hidden;\n    z-index: 0;\n    }\n\n    .custom-overlay {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    z-index: 1;\n    pointer-events: none;\n    display: block !important;\n    }\n\n    .custom-text-inner {\n    position: relative;\n    z-index: 2;\n    max-width: 1200px;\n    margin: auto;\n    text-align: center;\n    }\n\n    .banner-items-row {\n    display: flex;\n    justify-content: space-between;\n    margin-top: 40px;\n    flex-wrap: wrap;\n    padding-top: 20px;\n    padding-bottom: 20px;\n    }\n\n    .banner-item {\n    flex: 1 1 calc(25% - 20px);\n    min-width: 200px;\n    display: flex;\n    flex-direction: column;\n    gap: 0;\n    }\n    .item-title{\n      line-height: 1.2;\n      font-weight: bold;\n    }\n    .item-title p, .item-label p, .item-desc p{ margin: 0;}\n    .item-label p{\n      width: 52%;\n    }\n  .main-title p, .bottom-text p{\n    margin-top: 0px;\n    line-height: 1.1;\n  }\n\n  .custom-text-inner--left .label-title,\n  .custom-text-inner--left .main-title,\n  .custom-text-inner--left .bottom-text {\n    text-align: left;\n  }\n\n  .custom-text-inner--center .label-title,\n  .custom-text-inner--center .main-title,\n  .custom-text-inner--center .bottom-text {\n    text-align: center;\n  }\n\n  .custom-text-inner--right .label-title,\n  .custom-text-inner--right .main-title,\n  .custom-text-inner--right .bottom-text {\n    text-align: right;\n  }\n\n  .banner-item-align-left  { text-align: left; }\n  .banner-item-align-center{ text-align: center; }\n  .banner-item-align-right { text-align: right; }\n\n  @media (max-width: 768px) {\n      .label-title  { font-size: 14px !important; }\n      .main-title   { font-size: 28px !important; }\n      .bottom-text  { font-size: 18px !important; }           "
+      }
+    },
+    {
+      "name": "Isolated cart add and remove",
+      "status": "pass",
+      "detail": "Added and rendered Cascade in an isolated browser cart; test line removed in finally"
+    },
+    {
+      "name": "QA02 QA03 christmas-exterior at 1280",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Exterior"
+        ],
+        "width": 1280,
+        "height": 720.203125,
+        "ratio": 1.7777777777777777,
+        "renderRatio": 1.7772763760223895,
+        "canvas": {
+          "x": 0,
+          "y": 141.890625,
+          "w": 1280,
+          "h": 720.203125
+        },
+        "points": [
+          {
+            "x": 512,
+            "y": 501.984375
+          },
+          {
+            "x": 742.390625,
+            "y": 617.21875
+          },
+          {
+            "x": 742.390625,
+            "y": 293.125
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-interior at 1280",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Interior"
+        ],
+        "width": 415.328125,
+        "height": 737.984375,
+        "ratio": 0.5626007522837184,
+        "renderRatio": 0.5627871525057695,
+        "canvas": {
+          "x": 432.328125,
+          "y": 141.890625,
+          "w": 415.328125,
+          "h": 737.984375
+        },
+        "points": [
+          {
+            "x": 598.453125,
+            "y": 510.875
+          },
+          {
+            "x": 673.203125,
+            "y": 628.953125
+          },
+          {
+            "x": 673.203125,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 halloween at 1280",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Halloween"
+        ],
+        "width": 1280,
+        "height": 732.15625,
+        "ratio": 1.7486338797814207,
+        "renderRatio": 1.748260702548124,
+        "canvas": {
+          "x": 0,
+          "y": 141.890625,
+          "w": 1280,
+          "h": 732.15625
+        },
+        "points": [
+          {
+            "x": 512,
+            "y": 507.96875
+          },
+          {
+            "x": 742.390625,
+            "y": 625.109375
+          },
+          {
+            "x": 742.390625,
+            "y": 295.640625
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 harvest at 1280",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Harvest"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.666412213740458,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 394,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 590.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 679.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 679.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 patriotic at 1280",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Patriotic"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.666412213740458,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 394,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 590.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 679.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 679.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 everyday at 1280",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Everyday"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.666412213740458,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 394,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 590.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 679.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 679.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-exterior at 1440",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Exterior"
+        ],
+        "width": 1312,
+        "height": 738.203125,
+        "ratio": 1.7777777777777777,
+        "renderRatio": 1.7772886019684622,
+        "canvas": {
+          "x": 64,
+          "y": 141.890625,
+          "w": 1312,
+          "h": 738.203125
+        },
+        "points": [
+          {
+            "x": 588.796875,
+            "y": 510.984375
+          },
+          {
+            "x": 824.953125,
+            "y": 629.09375
+          },
+          {
+            "x": 824.953125,
+            "y": 296.90625
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-interior at 1440",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Interior"
+        ],
+        "width": 415.328125,
+        "height": 737.984375,
+        "ratio": 0.562559694364852,
+        "renderRatio": 0.5627871525057695,
+        "canvas": {
+          "x": 512.328125,
+          "y": 141.890625,
+          "w": 415.328125,
+          "h": 737.984375
+        },
+        "points": [
+          {
+            "x": 678.453125,
+            "y": 510.875
+          },
+          {
+            "x": 753.203125,
+            "y": 628.953125
+          },
+          {
+            "x": 753.203125,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 halloween at 1440",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Halloween"
+        ],
+        "width": 1289.8125,
+        "height": 737.765625,
+        "ratio": 1.7496962332928312,
+        "renderRatio": 1.7482686320604868,
+        "canvas": {
+          "x": 75.09375,
+          "y": 141.890625,
+          "w": 1289.8125,
+          "h": 737.765625
+        },
+        "points": [
+          {
+            "x": 591.015625,
+            "y": 510.765625
+          },
+          {
+            "x": 823.171875,
+            "y": 628.8125
+          },
+          {
+            "x": 823.171875,
+            "y": 296.8125
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 harvest at 1440",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Harvest"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.6668928086838535,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 474,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 670.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 759.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 759.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 patriotic at 1440",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Patriotic"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.6668928086838535,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 474,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 670.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 759.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 759.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 everyday at 1440",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Everyday"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.6668928086838535,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 474,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 670.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 759.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 759.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-exterior at 1920",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Exterior"
+        ],
+        "width": 1312,
+        "height": 738,
+        "ratio": 1.7777777777777777,
+        "renderRatio": 1.7777777777777777,
+        "canvas": {
+          "x": 304,
+          "y": 141.890625,
+          "w": 1312,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 828.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 1064.953125,
+            "y": 628.96875
+          },
+          {
+            "x": 1064.953125,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-interior at 1920",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Interior"
+        ],
+        "width": 415.328125,
+        "height": 737.984375,
+        "ratio": 0.562559694364852,
+        "renderRatio": 0.5627871525057695,
+        "canvas": {
+          "x": 752.328125,
+          "y": 141.890625,
+          "w": 415.328125,
+          "h": 737.984375
+        },
+        "points": [
+          {
+            "x": 918.453125,
+            "y": 510.875
+          },
+          {
+            "x": 993.203125,
+            "y": 628.953125
+          },
+          {
+            "x": 993.203125,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 halloween at 1920",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Halloween"
+        ],
+        "width": 1289.8125,
+        "height": 737.765625,
+        "ratio": 1.7486338797814207,
+        "renderRatio": 1.7482686320604868,
+        "canvas": {
+          "x": 315.09375,
+          "y": 141.890625,
+          "w": 1289.8125,
+          "h": 737.765625
+        },
+        "points": [
+          {
+            "x": 831.015625,
+            "y": 510.765625
+          },
+          {
+            "x": 1063.171875,
+            "y": 628.8125
+          },
+          {
+            "x": 1063.171875,
+            "y": 296.8125
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 harvest at 1920",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Harvest"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.6668928086838535,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 714,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 910.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 999.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 999.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 patriotic at 1920",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Patriotic"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.6668928086838535,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 714,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 910.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 999.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 999.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 everyday at 1920",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Everyday"
+        ],
+        "width": 492,
+        "height": 738,
+        "ratio": 0.6668928086838535,
+        "renderRatio": 0.6666666666666666,
+        "canvas": {
+          "x": 714,
+          "y": 141.890625,
+          "w": 492,
+          "h": 738
+        },
+        "points": [
+          {
+            "x": 910.796875,
+            "y": 510.890625
+          },
+          {
+            "x": 999.359375,
+            "y": 628.96875
+          },
+          {
+            "x": 999.359375,
+            "y": 296.859375
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-exterior at 360",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Exterior"
+        ],
+        "width": 360,
+        "height": 656,
+        "ratio": 1.7821782178217822,
+        "renderRatio": 0.5487804878048781,
+        "canvas": {
+          "x": 0,
+          "y": 93.796875,
+          "w": 360,
+          "h": 656
+        },
+        "points": [
+          {
+            "x": 144,
+            "y": 421.796875
+          },
+          {
+            "x": 208.796875,
+            "y": 526.75
+          },
+          {
+            "x": 208.796875,
+            "y": 231.546875
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 christmas-interior at 360",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Christmas Interior"
+        ],
+        "width": 360,
+        "height": 656,
+        "ratio": 0.5633802816901409,
+        "renderRatio": 0.5487804878048781,
+        "canvas": {
+          "x": 0,
+          "y": 93.796875,
+          "w": 360,
+          "h": 656
+        },
+        "points": [
+          {
+            "x": 144,
+            "y": 421.796875
+          },
+          {
+            "x": 208.796875,
+            "y": 526.75
+          },
+          {
+            "x": 208.796875,
+            "y": 231.546875
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 halloween at 360",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Halloween"
+        ],
+        "width": 360,
+        "height": 656,
+        "ratio": 1.7560975609756098,
+        "renderRatio": 0.5487804878048781,
+        "canvas": {
+          "x": 0,
+          "y": 93.796875,
+          "w": 360,
+          "h": 656
+        },
+        "points": [
+          {
+            "x": 144,
+            "y": 421.796875
+          },
+          {
+            "x": 208.796875,
+            "y": 526.75
+          },
+          {
+            "x": 208.796875,
+            "y": 231.546875
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 harvest at 360",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Harvest"
+        ],
+        "width": 360,
+        "height": 656,
+        "ratio": 0.6666666666666666,
+        "renderRatio": 0.5487804878048781,
+        "canvas": {
+          "x": 0,
+          "y": 93.796875,
+          "w": 360,
+          "h": 656
+        },
+        "points": [
+          {
+            "x": 144,
+            "y": 421.796875
+          },
+          {
+            "x": 208.796875,
+            "y": 526.75
+          },
+          {
+            "x": 208.796875,
+            "y": 231.546875
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 patriotic at 360",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Patriotic"
+        ],
+        "width": 360,
+        "height": 656,
+        "ratio": 0.6666666666666666,
+        "renderRatio": 0.5487804878048781,
+        "canvas": {
+          "x": 0,
+          "y": 93.796875,
+          "w": 360,
+          "h": 656
+        },
+        "points": [
+          {
+            "x": 144,
+            "y": 421.796875
+          },
+          {
+            "x": 208.796875,
+            "y": 526.75
+          },
+          {
+            "x": 208.796875,
+            "y": 231.546875
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "QA02 QA03 everyday at 360",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Everyday"
+        ],
+        "width": 360,
+        "height": 656,
+        "ratio": 0.6666666666666666,
+        "renderRatio": 0.5487804878048781,
+        "canvas": {
+          "x": 0,
+          "y": 93.796875,
+          "w": 360,
+          "h": 656
+        },
+        "points": [
+          {
+            "x": 144,
+            "y": 421.796875
+          },
+          {
+            "x": 208.796875,
+            "y": 526.75
+          },
+          {
+            "x": 208.796875,
+            "y": 231.546875
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "Hotspot product panel and modal Escape",
+      "status": "pass",
+      "detail": "open panel → product modal → Escape"
+    },
+    {
+      "name": "Product structured data and gallery",
+      "status": "pass",
+      "detail": {
+        "h1": [
+          "Cascade Light"
+        ],
+        "schemas": [
+          {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "name": "VIA LUCI",
+            "logo": "https://mcyuvw-rf.myshopify.com/cdn/shop/files/logo_horizontal.png?v=1764270584&width=500",
+            "sameAs": [
+              "https://www.facebook.com/ViaLuciLights#",
+              "https://www.pinterest.com/vialucilights",
+              "https://www.instagram.com/via.luci/",
+              "https://www.tiktok.com/@vialuci1"
+            ],
+            "url": "https://mcyuvw-rf.myshopify.com"
+          },
+          {
+            "@context": "http://schema.org/",
+            "@id": "/products/cascade-light#product",
+            "@type": "ProductGroup",
+            "brand": {
+              "@type": "Brand",
+              "name": "My Store"
+            },
+            "category": "Light Ropes & Strings",
+            "description": "",
+            "hasVariant": [
+              {
+                "@id": "/products/cascade-light?variant=45393512366259#variant",
+                "@type": "Product",
+                "image": "https://mcyuvw-rf.myshopify.com/cdn/shop/files/CascadeLight-01.jpg?v=1774969609&width=1920",
+                "name": "Cascade Light - Multicolor",
+                "offers": {
+                  "@id": "/products/cascade-light?variant=45393512366259#offer",
+                  "@type": "Offer",
+                  "availability": "http://schema.org/OutOfStock",
+                  "price": "50.00",
+                  "priceCurrency": "USD",
+                  "url": "https://vialuci.com/products/cascade-light?variant=45393512366259"
+                },
+                "sku": "7702335"
+              }
+            ],
+            "name": "Cascade Light",
+            "productGroupID": "8466263638195",
+            "url": "https://vialuci.com/products/cascade-light"
+          }
+        ],
+        "canonical": "https://vialuci.com/products/cascade-light"
+      }
+    },
+    {
+      "name": "Search route",
+      "status": "pass",
+      "detail": "Search results\nSearch\nSeason\n−\nSeason\nChristmas\n(1)\nChristmas (1 product)\nPrice Range\n+\nLocation\n+\nIn Stock\n+\nBundle\n+\nHeight\n+\nShape\n+\nColor/Style\n+\nSold out\nCascade Light\nRegular price\n$50.00 USD"
+    }
+  ],
+  "errors": []
+}

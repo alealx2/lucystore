@@ -14,6 +14,7 @@
   }
 {%- endstyle -%}
 
+<div class="color-{{ section.settings.color_scheme }} gradient">
 <div class="page-width page-width--narrow section-{{ section.id }}-padding">
   <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     {{ page.title | escape }}
@@ -25,12 +26,15 @@
   {% endif %}
 </div>
 
+</div>
+
 {% schema %}
 {
   "name": "t:sections.main-page.name",
   "tag": "section",
   "class": "section",
   "settings": [
+    {"type":"color_scheme", "id":"color_scheme", "label":"Color scheme", "default":"scheme-1"},
     {"type": "checkbox", "id": "show_content", "label": "Show page content", "default": true},
     {
       "type": "header",

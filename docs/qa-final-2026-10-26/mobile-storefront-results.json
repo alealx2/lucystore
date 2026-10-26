@@ -1,0 +1,185 @@
+[
+  {
+    "name": "Seasons android christmas-exterior",
+    "status": "pass",
+    "detail": {
+      "height": 839,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons android christmas-interior",
+    "status": "pass",
+    "detail": {
+      "height": 839,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons android halloween",
+    "status": "pass",
+    "detail": {
+      "height": 839,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons android harvest",
+    "status": "pass",
+    "detail": {
+      "height": 839,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons android patriotic",
+    "status": "pass",
+    "detail": {
+      "height": 839,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons android everyday",
+    "status": "pass",
+    "detail": {
+      "height": 839,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Navigation android",
+    "status": "pass",
+    "detail": {
+      "errors": []
+    }
+  },
+  {
+    "name": "Seasons iphone-webkit christmas-exterior",
+    "status": "pass",
+    "detail": {
+      "height": 664,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons iphone-webkit christmas-interior",
+    "status": "pass",
+    "detail": {
+      "height": 664,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons iphone-webkit halloween",
+    "status": "pass",
+    "detail": {
+      "height": 664,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons iphone-webkit harvest",
+    "status": "pass",
+    "detail": {
+      "height": 664,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons iphone-webkit patriotic",
+    "status": "pass",
+    "detail": {
+      "height": 664,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons iphone-webkit everyday",
+    "status": "pass",
+    "detail": {
+      "height": 664,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Navigation iphone-webkit",
+    "status": "pass",
+    "detail": {
+      "errors": [
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy."
+      ]
+    }
+  },
+  {
+    "name": "Seasons desktop-webkit christmas-exterior",
+    "status": "pass",
+    "detail": {
+      "height": 738,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons desktop-webkit christmas-interior",
+    "status": "pass",
+    "detail": {
+      "height": 737.890625,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons desktop-webkit halloween",
+    "status": "pass",
+    "detail": {
+      "height": 737.875,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons desktop-webkit harvest",
+    "status": "pass",
+    "detail": {
+      "height": 738,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons desktop-webkit patriotic",
+    "status": "pass",
+    "detail": {
+      "height": 738,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Seasons desktop-webkit everyday",
+    "status": "pass",
+    "detail": {
+      "height": 738,
+      "overflow": false
+    }
+  },
+  {
+    "name": "Navigation desktop-webkit",
+    "status": "pass",
+    "detail": {
+      "errors": [
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "TypeError: Load failed",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy.",
+        "Cross-origin script load denied by Cross-Origin Resource Sharing policy."
+      ]
+    }
+  }
+]

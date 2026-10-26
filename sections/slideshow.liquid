@@ -56,6 +56,7 @@
       <div
         class="slideshow__slide grid__item grid--1-col slider__slide"
         id="Slide-{{ section.id }}-{{ forloop.index }}"
+        data-video-autoplay="{{ block.settings.video_autoplay }}"
         data-has-video="{% if block.settings.media_type == 'video' %}true{% else %}false{% endif %}"
         {{ block.shopify_attributes }}
         role="group"
@@ -70,22 +71,31 @@
               {{ block.settings.video_file | video_tag:
                   image_size: '800x',
                   class: 'banner-video-bg',
-                  autoplay: block.settings.video_autoplay,
+                  autoplay: false,
                   loop: block.settings.video_loop,
                   muted: block.settings.video_muted,
                   controls: block.settings.video_controls,
-                  playsinline: true }}
+                  playsinline: true,
+                  preload: 'metadata' }}
             {%- elsif block.settings.external_video != blank -%}
-              {{ block.settings.external_video | external_video_tag: class: 'banner-video-bg', loading: 'lazy' }}
+              {%- if block.settings.external_video.type == 'youtube' -%}
+                {%- capture hero_external_src -%}https://www.youtube.com/embed/{{ block.settings.external_video.id }}?enablejsapi=1&playsinline=1&mute=1&controls={% if block.settings.video_controls %}1{% else %}0{% endif %}&loop={% if block.settings.video_loop %}1{% else %}0{% endif %}&playlist={{ block.settings.external_video.id }}{%- endcapture -%}
+              {%- else -%}
+                {%- capture hero_external_src -%}https://player.vimeo.com/video/{{ block.settings.external_video.id }}?api=1&playsinline=1&muted=1&controls={% if block.settings.video_controls %}1{% else %}0{% endif %}&loop={% if block.settings.video_loop %}1{% else %}0{% endif %}{%- endcapture -%}
+              {%- endif -%}
+              <iframe class="banner-video-bg"
+                data-video-src="{{ hero_external_src | escape }}"
+                title="{{ block.settings.heading | strip_html | default: 'Slideshow video' | escape }}"
+                allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
             {%- elsif block.settings.video_mp4_url != blank -%}
               <video class="banner-video-bg"
                 {% if block.settings.video_muted %}muted{% endif %}
                 {% if block.settings.video_loop %}loop{% endif %}
-                {% if block.settings.video_autoplay %}autoplay{% endif %}
+                preload="metadata"
                 playsinline
                 {% if block.settings.video_controls %}controls{% endif %}
               >
-                <source src="{{ block.settings.video_mp4_url }}" type="video/mp4">
+                <source src="{{ block.settings.video_mp4_url | escape }}" type="video/mp4">
               </video>
             {%- endif -%}
           {%- else -%}
@@ -241,10 +251,10 @@
     <div class="slideshow__controls slideshow__controls--bottom slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
       <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}{% if section.settings.slider_visual == 'counter' or section.settings.slider_visual == 'numbers' %} caption{% endif %}">
         {%- if section.settings.slider_visual == 'counter' -%}
-          {% comment %} <span class="slider-counter--current">1</span>
+          <span class="slider-counter--current">1</span>
           <span aria-hidden="true"> / </span>
           <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-          <span class="slider-counter--total">{{ section.blocks.size }}</span> {% endcomment %}
+          <span class="slider-counter--total">{{ section.blocks.size }}</span>
         {%- else -%}
           <div class="slideshow__control-wrapper">
             {%- for block in section.blocks -%}
@@ -264,7 +274,13 @@
         {%- endif -%}
       </div>
 
-      <div class="slideshow__play-pause">
+      {% if section.settings.auto_rotate %}
+        <button type="button" class="slideshow__autoplay slider-button" aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}" aria-pressed="true">
+          <span class="svg-wrapper">{{ 'icon-pause.svg' | inline_asset_content }}</span>
+          <span class="svg-wrapper">{{ 'icon-play.svg' | inline_asset_content }}</span>
+        </button>
+      {% endif %}
+      <div class="slideshow__play-pause" hidden>
         <button type="button" class="slider-circle-btn slider-circle-btn--play" aria-label="{{ 'sections.slideshow.play_slideshow' | t }}">
           <span class="svg-wrapper">
             {{- 'icon-play.svg' | inline_asset_content -}}
@@ -278,6 +294,12 @@
       </div>
     </div>
   {%- endif -%}
+  {% if section.blocks.size == 1 and section.blocks.first.settings.media_type == 'video' %}
+    <div class="slideshow__play-pause">
+      <button type="button" class="slider-circle-btn slider-circle-btn--play" aria-label="{{ 'sections.slideshow.play_slideshow' | t }}">{{ 'icon-play.svg' | inline_asset_content }}</button>
+      <button type="button" class="slider-circle-btn slider-circle-btn--pause" aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}">{{ 'icon-pause.svg' | inline_asset_content }}</button>
+    </div>
+  {% endif %}
 </slideshow-component>
 
 {%- if request.design_mode -%}
@@ -823,153 +845,6 @@
   });
 })();
 </script>
-
-<script>
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var slider = document.querySelector('#Slider-{{ section.id }}');
-    if (!slider) return;
-
-    var root = slider.closest('slideshow-component') || slider.parentElement;
-    if (!root) return;
-
-    var playPauseWrapper = root.querySelector('.slideshow__play-pause');
-    if (!playPauseWrapper) return;
-
-    var playBtn = playPauseWrapper.querySelector('.slider-circle-btn--play');
-    var pauseBtn = playPauseWrapper.querySelector('.slider-circle-btn--pause');
-
-    var slides = slider.querySelectorAll('.slideshow__slide');
-    var hasAnyVideo = false;
-
-    slides.forEach(function (slide) {
-      var video = slide.querySelector('video.banner-video-bg');
-      if (video) {
-        slide.dataset.hasVideo = 'true';
-        hasAnyVideo = true;
-      } else {
-        slide.dataset.hasVideo = slide.dataset.hasVideo || 'false';
-      }
-    });
-
-    if (!hasAnyVideo) {
-      playPauseWrapper.style.display = 'none';
-      return;
-    }
-
-    function getActiveSlide() {
-      var active = null;
-      slides.forEach(function (slide) {
-        var hidden = slide.getAttribute('aria-hidden');
-        if (hidden === 'false' || hidden === null) {
-          active = slide;
-        }
-      });
-      return active;
-    }
-
-    function getCurrentVideo() {
-      var active = getActiveSlide();
-      if (!active || active.dataset.hasVideo !== 'true') return null;
-      return active.querySelector('video.banner-video-bg');
-    }
-
-    function refreshControlsVisibility() {
-      var active = getActiveSlide();
-      var hasVideo = active && active.dataset.hasVideo === 'true';
-      playPauseWrapper.style.display = hasVideo ? 'flex' : 'none';
-    }
-
-    if (playBtn) {
-      playBtn.addEventListener('click', function () {
-        var video = getCurrentVideo();
-        if (video && video.play) {
-          try { video.play(); } catch(e) {}
-        }
-      });
-    }
-
-    if (pauseBtn) {
-      pauseBtn.addEventListener('click', function () {
-        var video = getCurrentVideo();
-        if (video && video.pause) {
-          try { video.pause(); } catch(e) {}
-        }
-      });
-    }
-
-    root.addEventListener('click', function (evt) {
-      var el = evt.target.closest('.slider-button, .slider-counter__link');
-      if (!el) return;
-      setTimeout(refreshControlsVisibility, 150);
-    });
-
-    var observer = new MutationObserver(function () {
-      refreshControlsVisibility();
-    });
-    observer.observe(slider, { attributes:true, subtree:true, attributeFilter:['aria-hidden', 'class'] });
-
-    refreshControlsVisibility();
-  });
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var slider = document.querySelector('#Slider-{{ section.id }}');
-    if (!slider) return;
-
-    var root = slider.closest('slideshow-component') || slider.parentElement;
-    if (!root) return;
-
-    var slides = Array.from(slider.querySelectorAll('.slideshow__slide'));
-    if (!slides.length) return;
-
-    var dots = Array.from(root.querySelectorAll('.slider-counter__link'));
-    function activeIndex() {
-      for (var i = 0; i < slides.length; i++) {
-        var hidden = slides[i].getAttribute('aria-hidden');
-        if (hidden === 'false' || hidden === null) return i;
-      }
-      var w = slider.clientWidth || 1;
-      return Math.round((slider.scrollLeft || 0) / w);
-    }
-
-    function goTo(index) {
-      index = Math.max(0, Math.min(slides.length - 1, index));
-      if (dots[index]) {
-        dots[index].click(); 
-        return;
-      }
-      slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-    }
-
-    var prevBtn = root.querySelector('.slider-button[name="previous"][aria-controls="Slider-{{ section.id }}"]');
-    var nextBtn = root.querySelector('.slider-button[name="next"][aria-controls="Slider-{{ section.id }}"]');
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', function (e) {
-        var i = activeIndex();
-        if (i >= slides.length - 1) {
-          e.preventDefault();
-          e.stopPropagation();
-          goTo(0);
-        }
-      }, true);
-    }
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', function (e) {
-        var i = activeIndex();
-        if (i <= 0) {
-          e.preventDefault();
-          e.stopPropagation();
-          goTo(slides.length - 1);
-        }
-      }, true);
-    }
-  });
-</script>
-
 
 {% schema %}
 {

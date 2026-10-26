@@ -952,13 +952,11 @@ transform: translateY(0);
     background: var(--vl-overlay-bg) !important;
     opacity: 0 !important;
     pointer-events: none !important;
-    -webkit-backdrop-filter: blur(8px) saturate(0.95) !important;
-    backdrop-filter: blur(8px) saturate(0.95) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
     transition:
-      opacity var(--vl-mega-duration) var(--vl-mega-ease),
-      -webkit-backdrop-filter var(--vl-mega-duration) var(--vl-mega-ease),
-      backdrop-filter var(--vl-mega-duration) var(--vl-mega-ease) !important;
-    will-change: opacity, backdrop-filter !important;
+      opacity var(--vl-mega-duration) var(--vl-mega-ease) !important;
+    will-change: opacity !important;
   }
 
   body.via-luci-mega-active::before{
@@ -1213,8 +1211,8 @@ html.is-home .header-wrapper.onload-header .main-logo { display: none !important
   body.via-luci-mega-active::before,
   body.via-luci-mega-transitioning::before {
     background: var(--vl-overlay-bg) !important;
-    -webkit-backdrop-filter: blur(3px) saturate(.98) !important;
-    backdrop-filter: blur(3px) saturate(.98) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   header-menu details.mega-menu .mega-menu__content {

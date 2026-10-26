@@ -1,0 +1,287 @@
+[
+  {
+    "name": "QA01 Shopify rendered image/external desktop",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [],
+      "frames": [
+        {
+          "src": "https://player.vimeo.com/video/?api=1&playsinline=1&muted=1&controls=0&loop=1&autoplay=1&mute=1",
+          "loaded": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/external android",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [],
+      "frames": [
+        {
+          "src": "https://player.vimeo.com/video/?api=1&playsinline=1&muted=1&controls=0&loop=1&autoplay=1&mute=1",
+          "loaded": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/external iphone-webkit",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [],
+      "frames": [
+        {
+          "src": "https://player.vimeo.com/video/?api=1&playsinline=1&muted=1&controls=0&loop=1&autoplay=1&mute=1",
+          "loaded": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/uploaded desktop",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.158662
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/uploaded android",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.227507
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/uploaded iphone-webkit",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.0867712082699388
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered uploaded/uploaded desktop",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": true,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 3.112609
+        },
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.136799
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered uploaded/uploaded android",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": true,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 3.010271
+        },
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.245235
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered uploaded/uploaded iphone-webkit",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": true,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 2.8467457503548905
+        },
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.2807555423051056
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/direct desktop",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.154726
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/direct android",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.231109
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered image/direct iphone-webkit",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 0.5694263325440648
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered direct/direct desktop",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": true,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 2.606289
+        },
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.194668
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered direct/direct android",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": true,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 2.589399
+        },
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.255809
+        }
+      ],
+      "frames": []
+    }
+  },
+  {
+    "name": "QA01 Shopify rendered direct/direct iphone-webkit",
+    "status": "pass",
+    "detail": {
+      "page": 2,
+      "offers": null,
+      "videos": [
+        {
+          "paused": true,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 1.9973307923920987
+        },
+        {
+          "paused": false,
+          "ready": 4,
+          "muted": true,
+          "currentTime": 0.9404833334752811
+        }
+      ],
+      "frames": []
+    }
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "QA05 https://twitter.com/example",
+    "status": "pass",
+    "detail": "@example"
+  },
+  {
+    "name": "QA05 https://x.com/example/",
+    "status": "pass",
+    "detail": "@example"
+  },
+  {
+    "name": "QA05 https://www.x.com/Example_123/?ref=qa#bio",
+    "status": "pass",
+    "detail": "@Example_123"
+  },
+  {
+    "name": "QA05 https://TWITTER.COM/example?lang=en",
+    "status": "pass",
+    "detail": "@example"
+  },
+  {
+    "name": "QA05 empty",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA05 #",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA05 https://x.com/",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA05 https://x.com/invalid-handle",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA05 https://evilx.com/example",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA05 https://x.com/example/status/123",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA05 https://x.com/share",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "name": "QA06 real resource content and updates",
+    "status": "pass",
+    "detail": "Resource body updates without template changes"
+  }
+]

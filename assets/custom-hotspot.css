@@ -741,3 +741,13 @@ border-color:#161F3A;
   transition-duration:var(--vl-motion-duration) !important;
   transition-timing-function:var(--vl-motion-ease) !important;
 }
+
+/* Fit the entire seasonal composition to one desktop viewport. The canvas
+   scales with the image so percentage hotspot coordinates stay aligned. */
+@media (min-width: 750px) {
+  .hs__canvas {
+    max-width: min(100%, calc(min(82svh, 900px) * var(--hs-image-ratio, 1)));
+    margin-inline: auto;
+  }
+  .hs__img--desktop { width: 100%; height: auto; }
+}

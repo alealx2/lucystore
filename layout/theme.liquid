@@ -471,6 +471,14 @@
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       const DESKTOP_MQ = window.matchMedia('(min-width: 750px)');
       let snapDesktopEnabled = DESKTOP_MQ.matches;
+      // Mobile initialization calls disableDesktopSnap immediately.
+      let wheelAcc = 0;
+      let wheelDir = 0;
+      let wheelLock = false;
+      let wheelResetTimer = 0;
+      let rafId = 0;
+      let animating = false;
+      let animCancel = false;
 
       function enableSnapMode() {
         root.classList.remove('no-snap');
@@ -496,10 +504,6 @@
 
       if (!snapDesktopEnabled) disableDesktopSnap();
 
-      document.addEventListener('click', (e) => {
-        const btn = e.target.closest('button, a');
-        if (btn) btn.blur();
-      });
 
       function headerOffset() {
         return header ? Math.round(header.getBoundingClientRect().height) : 0;
@@ -592,10 +596,6 @@
       }
 
       // ======= Animation =======
-      let rafId = 0;
-      let animating = false;
-      let animCancel = false;
-
       function easeInOutCubic(t) {
         return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
       }
@@ -643,11 +643,6 @@
         const clampedIdx = Math.max(0, Math.min(targets.length - 1, idx));
         animateTo(targets[clampedIdx].y, duration);
       }
-
-      let wheelAcc = 0;
-      let wheelDir = 0;
-      let wheelLock = false;
-      let wheelResetTimer = 0;
 
       // movement settings
       const TRIGGER = 120;       // trackball 

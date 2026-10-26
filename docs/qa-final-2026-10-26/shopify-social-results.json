@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://x.com/Example_QA/?ref=test#profile",
+    "expected": "@Example_QA",
+    "rendered": "@Example_QA",
+    "status": "pass"
+  },
+  {
+    "url": "https://twitter.com/Example_QA/",
+    "expected": "@Example_QA",
+    "rendered": "@Example_QA",
+    "status": "pass"
+  },
+  {
+    "url": "https://x.com/invalid-name",
+    "expected": "",
+    "rendered": "",
+    "status": "pass"
+  },
+  {
+    "url": "",
+    "expected": "",
+    "rendered": "",
+    "status": "pass"
+  }
+]

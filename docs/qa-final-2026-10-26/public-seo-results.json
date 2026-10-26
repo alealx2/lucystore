@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-26",
+  "storefront": {
+    "url": "https://vialuci.com/",
+    "http": 200,
+    "redirectedToPassword": false,
+    "changedByThisTask": false
+  },
+  "sitemap": {
+    "url": "https://vialuci.com/sitemap.xml",
+    "http": 200,
+    "xmlRoot": "{http://www.sitemaps.org/schemas/sitemap/0.9}sitemapindex"
+  },
+  "robots": {
+    "http": 200,
+    "sitemapDirective": "Sitemap: https://vialuci.com/sitemap.xml"
+  },
+  "childSitemaps": [
+    {
+      "index": 0,
+      "http": 200,
+      "root": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "pageUrlCount": 1,
+      "imageCount": 0,
+      "sample": [
+        "https://vialuci.com/agents.md"
+      ],
+      "hasQADraft": false,
+      "invalidPageDomain": [],
+      "previewURLs": []
+    },
+    {
+      "index": 1,
+      "http": 200,
+      "root": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "pageUrlCount": 62,
+      "imageCount": 61,
+      "sample": [
+        "https://vialuci.com/",
+        "https://vialuci.com/products/christmas-star",
+        "https://vialuci.com/products/halloween-pumpkin"
+      ],
+      "hasQADraft": false,
+      "invalidPageDomain": [],
+      "previewURLs": []
+    },
+    {
+      "index": 2,
+      "http": 200,
+      "root": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "pageUrlCount": 18,
+      "imageCount": 0,
+      "sample": [
+        "https://vialuci.com/pages/contact",
+        "https://vialuci.com/pages/data-sharing-opt-out",
+        "https://vialuci.com/pages/iluminations"
+      ],
+      "hasQADraft": false,
+      "invalidPageDomain": [],
+      "previewURLs": []
+    },
+    {
+      "index": 3,
+      "http": 200,
+      "root": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "pageUrlCount": 28,
+      "imageCount": 27,
+      "sample": [
+        "https://vialuci.com/collections/frontpage",
+        "https://vialuci.com/collections/christmas-exterior",
+        "https://vialuci.com/collections/christmas-interior"
+      ],
+      "hasQADraft": false,
+      "invalidPageDomain": [],
+      "previewURLs": []
+    },
+    {
+      "index": 4,
+      "http": 200,
+      "root": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "pageUrlCount": 1,
+      "imageCount": 0,
+      "sample": [
+        "https://vialuci.com/blogs/news"
+      ],
+      "hasQADraft": false,
+      "invalidPageDomain": [],
+      "previewURLs": []
+    }
+  ]
+}
