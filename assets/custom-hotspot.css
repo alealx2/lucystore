@@ -10,6 +10,7 @@ width: 25px;
 color: #ffffff;
 }
 .hs__title{
+display:none;
 margin:0 0 .35rem;
 font-size:clamp(24px,3vw,38px);
 text-align:center;
