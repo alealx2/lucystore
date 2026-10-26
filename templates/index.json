@@ -42,10 +42,74 @@
             "text_alignment_mobile": "center",
             "color_scheme": "scheme-4"
           }
+        },
+        "slide_VkkTVy": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/SECTION1__Image_003_by_season_halloween.png",
+            "image_alt": "Image",
+            "external_video": "",
+            "video_mp4_url": "",
+            "video_autoplay": false,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "image_overlay_opacity": 50,
+            "overlay_color": "#242833",
+            "heading": "Center your celebration with a <strong>beautifully lit tree</strong> crafted for brilliance and realism.",
+            "bold_text_color": "#ba745f",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "GO Now",
+            "link": "#",
+            "button_style_secondary": false,
+            "lucy_style_enabled": true,
+            "scroll_arrow_alt": "Scroll down",
+            "show_text_box": false,
+            "box_opacity": 10,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-4"
+          }
+        },
+        "slide_6EAWtG": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Casa_Exterior_luz_detalle-min.png",
+            "image_alt": "Image",
+            "external_video": "",
+            "video_mp4_url": "",
+            "video_autoplay": false,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "image_overlay_opacity": 60,
+            "overlay_color": "#242833",
+            "heading": "Center your celebration with a <strong>beautifully lit tree</strong> crafted for brilliance and realism.",
+            "bold_text_color": "#ba745f",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "CELEBRATE",
+            "link": "#",
+            "button_style_secondary": false,
+            "lucy_style_enabled": true,
+            "scroll_arrow_alt": "Scroll down",
+            "show_text_box": false,
+            "box_opacity": 10,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-4"
+          }
         }
       },
       "block_order": [
-        "slide_CC9RyP"
+        "slide_CC9RyP",
+        "slide_VkkTVy",
+        "slide_6EAWtG"
       ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
