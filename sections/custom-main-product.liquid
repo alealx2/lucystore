@@ -193,6 +193,7 @@ Custom Main Product Section
         {%- unless product.has_only_default_variant -%}
           <form action="{{ product.url }}" method="get" class="via-pdp-variants">
             <label for="Variant-{{ section.id }}">{{ 'products.product.product_variants' | t }}</label>
+            <div class="via-pdp-variants__select">
             <select id="Variant-{{ section.id }}" name="variant">
               {%- for variant in product.variants -%}
                 <option value="{{ variant.id }}"{% if variant.id == current_variant.id %} selected{% endif %}>
@@ -200,6 +201,8 @@ Custom Main Product Section
                 </option>
               {%- endfor -%}
             </select>
+            <span class="via-pdp-variants__caret" aria-hidden="true">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </div>
             <button type="submit" class="button">{{ 'products.product.choose_options' | t }}</button>
           </form>
         {%- endunless -%}
@@ -361,10 +364,15 @@ Custom Main Product Section
 
       var variantForm = root.querySelector('.via-pdp-variants');
       if (variantForm) {
+        variantForm.querySelector('button[type="submit"]').hidden = true;
+        variantForm.querySelector('select').addEventListener('change', function() {
+          variantForm.requestSubmit();
+        });
         variantForm.addEventListener('submit', function(event) {
           event.preventDefault();
           var url = new URL(window.location.href);
           url.searchParams.set('variant', variantForm.querySelector('[name="variant"]').value);
+          root.querySelectorAll('.add-to-cart button[type="submit"]').forEach(function(button) { button.disabled = true; });
           window.location.assign(url.toString());
         });
       }
